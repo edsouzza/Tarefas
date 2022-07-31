@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="161">
+        <file>
+            <url>src/visao/F_USUARIOS.java</url>
+            <bookmark id="105">
+                <name/>
+                <line>682</line>
+                <key/>
+            </bookmark>
+            <bookmark id="55">
+                <name/>
+                <line>821</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/biblioteca/MetodosPublicos.java</url>
+            <bookmark id="110">
+                <name/>
+                <line>143</line>
+                <key/>
+            </bookmark>
+            <bookmark id="104">
+                <name/>
+                <line>308</line>
+                <key/>
+            </bookmark>
+            <bookmark id="161">
+                <name/>
+                <line>892</line>
+                <key/>
+            </bookmark>
+            <bookmark id="25">
+                <name/>
+                <line>1185</line>
+                <key/>
+            </bookmark>
+            <bookmark id="26">
+                <name/>
+                <line>1227</line>
+                <key/>
+            </bookmark>
+            <bookmark id="88">
+                <name/>
+                <line>1355</line>
+                <key/>
+            </bookmark>
+            <bookmark id="65">
+                <name/>
+                <line>2032</line>
+                <key/>
+            </bookmark>
+            <bookmark id="69">
+                <name/>
+                <line>2055</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_TAREFAS.java</url>
+            <bookmark id="39">
+                <name/>
+                <line>997</line>
+                <key/>
+            </bookmark>
+            <bookmark id="37">
+                <name/>
+                <line>1035</line>
+                <key/>
+            </bookmark>
+            <bookmark id="38">
+                <name/>
+                <line>1100</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_PATRIMONIOS.java</url>
+            <bookmark id="109">
+                <name/>
+                <line>131</line>
+                <key/>
+            </bookmark>
+            <bookmark id="158">
+                <name/>
+                <line>959</line>
+                <key/>
+            </bookmark>
+            <bookmark id="157">
+                <name/>
+                <line>974</line>
+                <key/>
+            </bookmark>
+            <bookmark id="148">
+                <name/>
+                <line>981</line>
+                <key/>
+            </bookmark>
+            <bookmark id="149">
+                <name/>
+                <line>981</line>
+                <key/>
+            </bookmark>
+            <bookmark id="151">
+                <name/>
+                <line>981</line>
+                <key/>
+            </bookmark>
+            <bookmark id="153">
+                <name/>
+                <line>1645</line>
+                <key/>
+            </bookmark>
+            <bookmark id="136">
+                <name/>
+                <line>1742</line>
+                <key/>
+            </bookmark>
+            <bookmark id="155">
+                <name/>
+                <line>1797</line>
+                <key/>
+            </bookmark>
+            <bookmark id="152">
+                <name/>
+                <line>2141</line>
+                <key/>
+            </bookmark>
+            <bookmark id="154">
+                <name/>
+                <line>2141</line>
+                <key/>
+            </bookmark>
+            <bookmark id="156">
+                <name/>
+                <line>3102</line>
+                <key/>
+            </bookmark>
+            <bookmark id="140">
+                <name/>
+                <line>3241</line>
+                <key/>
+            </bookmark>
+            <bookmark id="138">
+                <name/>
+                <line>3324</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/Dao/DAOSecao.java</url>
+            <bookmark id="19">
+                <name/>
+                <line>286</line>
+                <key/>
+            </bookmark>
+            <bookmark id="85">
+                <name/>
+                <line>388</line>
+                <key/>
+            </bookmark>
+            <bookmark id="87">
+                <name/>
+                <line>434</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_LOGIN.java</url>
+            <bookmark id="125">
+                <name/>
+                <line>349</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_LISTACLIENTESATIVOS.java</url>
+            <bookmark id="64">
+                <name/>
+                <line>335</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_PRINCIPAL.java</url>
+            <bookmark id="30">
+                <name/>
+                <line>896</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_CONSIMPRESSORAS.java</url>
+            <bookmark id="42">
+                <name/>
+                <line>1157</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_REATIVARSECAO.java</url>
+            <bookmark id="86">
+                <name/>
+                <line>199</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_PATRIMOMOVEL.java</url>
+            <bookmark id="58">
+                <name/>
+                <line>688</line>
+                <key/>
+            </bookmark>
+            <bookmark id="60">
+                <name/>
+                <line>717</line>
+                <key/>
+            </bookmark>
+            <bookmark id="93">
+                <name/>
+                <line>874</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_MEMOITENSTRANSFERIDOS.java</url>
+            <bookmark id="133">
+                <name/>
+                <line>470</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_CONSNOMESTACOESDISPONIVEIS.java</url>
+            <bookmark id="124">
+                <name/>
+                <line>195</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_CLIENTES.java</url>
+            <bookmark id="83">
+                <name/>
+                <line>690</line>
+                <key/>
+            </bookmark>
+            <bookmark id="84">
+                <name/>
+                <line>807</line>
+                <key/>
+            </bookmark>
+            <bookmark id="89">
+                <name/>
+                <line>843</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_APOIO.java</url>
+            <bookmark id="141">
+                <name/>
+                <line>48</line>
+                <key/>
+            </bookmark>
+            <bookmark id="142">
+                <name/>
+                <line>545</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_MODELOS.java</url>
+            <bookmark id="160">
+                <name/>
+                <line>409</line>
+                <key/>
+            </bookmark>
+            <bookmark id="159">
+                <name/>
+                <line>517</line>
+                <key/>
+            </bookmark>
+            <bookmark id="44">
+                <name/>
+                <line>668</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_REATIVARCLIENTES.java</url>
+            <bookmark id="106">
+                <name/>
+                <line>747</line>
+                <key/>
+            </bookmark>
+            <bookmark id="23">
+                <name/>
+                <line>881</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_MEMOTRANSFERIDOS.java</url>
+            <bookmark id="126">
+                <name/>
+                <line>262</line>
+                <key/>
+            </bookmark>
+            <bookmark id="127">
+                <name/>
+                <line>276</line>
+                <key/>
+            </bookmark>
+            <bookmark id="62">
+                <name/>
+                <line>335</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_LISTAPATRIMONIOS.java</url>
+            <bookmark id="63">
+                <name/>
+                <line>227</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_CLIENTESVIRTUAIS.java</url>
+            <bookmark id="90">
+                <name/>
+                <line>428</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_IMPRESSORASCONTRATO.java</url>
+            <bookmark id="36">
+                <name/>
+                <line>639</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_DESPACHOS.java</url>
+            <bookmark id="24">
+                <name/>
+                <line>602</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_TIPOS.java</url>
+            <bookmark id="147">
+                <name/>
+                <line>800</line>
+                <key/>
+            </bookmark>
+            <bookmark id="145">
+                <name/>
+                <line>833</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/Dao/DAOPatrimonio.java</url>
+            <bookmark id="143">
+                <name/>
+                <line>136</line>
+                <key/>
+            </bookmark>
+            <bookmark id="100">
+                <name/>
+                <line>353</line>
+                <key/>
+            </bookmark>
+            <bookmark id="135">
+                <name/>
+                <line>726</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_CONSIPSDISPONIVEIS.java</url>
+            <bookmark id="2">
+                <name/>
+                <line>53</line>
+                <key/>
+            </bookmark>
+            <bookmark id="14">
+                <name/>
+                <line>177</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/biblioteca/MetodosPublicos.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_MEMOITENSTRANSFERIDOS.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/Dao/DAOPatriTransferido.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/relatorios/GerarRelatorios.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/modelo/PatriTransferido.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/controle/CtrlPatriItenstransferido.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/modelo/PatriTensTransferido.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LISTAPATRIMONIOS.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/Dao/DAOPatriTensTransferido.java</file>
+            <file>file:/D:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
+        </group>
+    </open-files>
+</project-private>
