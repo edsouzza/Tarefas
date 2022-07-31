@@ -152,7 +152,6 @@ public class F_LOGIN extends javax.swing.JFrame
         });
 
         txtSenha.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        txtSenha.setText("123");
         txtSenha.setToolTipText("");
         txtSenha.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
