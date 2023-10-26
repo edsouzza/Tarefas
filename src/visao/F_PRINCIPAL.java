@@ -1118,8 +1118,10 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSaidaEmLoteTXTActionPerformed
 
     private void mnuGerenciarNomesEstacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerenciarNomesEstacoesActionPerformed
-        F_EDITARESTACOES frm = new F_EDITARESTACOES();
-        frm.setVisible(true); 
+        if(umabiblio.permissaoLiberada()){  
+            F_EDITARESTACOES frm = new F_EDITARESTACOES();
+            frm.setVisible(true); 
+        }        
     }//GEN-LAST:event_mnuGerenciarNomesEstacoesActionPerformed
 
     /**
