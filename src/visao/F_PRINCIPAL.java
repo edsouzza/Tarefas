@@ -56,8 +56,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         lblNOMESERVIDOR.setFont(new Font("TimesRoman",Font.BOLD,12)); 
         
         gerenciadorDeMenus();  
-        
-        
+                
         
     }
     
@@ -69,6 +68,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
            menuReativacoes.setVisible(false);
            menutipodocumentos.setVisible(false);
            menugerarnumdocto.setVisible(false);           
+           mnuGerenciarNomesEstacoes.setVisible(false);           
        }  
        if(nivelAcessoUsuario == 3){  
             menuclientesvirtuais.setVisible(false);
