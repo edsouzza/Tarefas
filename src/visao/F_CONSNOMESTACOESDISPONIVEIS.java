@@ -80,8 +80,6 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         jTabelaESTACOES = new javax.swing.JTable();
         btnUtilizados = new javax.swing.JButton();
         txtNOMESTACAO = new javax.swing.JTextField();
-        btnIndisponibilizar = new javax.swing.JButton();
-        btnDisponibilizar = new javax.swing.JButton();
 
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -142,7 +140,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         lblTITULO.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTITULO.setText("PRÓXIMO NOME DE ESTAÇÃO DE");
         panelPrincipal.add(lblTITULO);
-        lblTITULO.setBounds(10, 90, 820, 14);
+        lblTITULO.setBounds(10, 60, 820, 14);
 
         jTabelaESTACOES.setAutoCreateRowSorter(true);
         jTabelaESTACOES.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -156,7 +154,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         jScrollPane3.setViewportView(jTabelaESTACOES);
 
         panelPrincipal.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 150, 820, 420);
+        jScrollPane3.setBounds(10, 120, 820, 450);
 
         btnUtilizados.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnUtilizados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif"))); // NOI18N
@@ -175,32 +173,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         txtNOMESTACAO.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNOMESTACAO.setForeground(new java.awt.Color(51, 51, 255));
         panelPrincipal.add(txtNOMESTACAO);
-        txtNOMESTACAO.setBounds(10, 110, 820, 30);
-
-        btnIndisponibilizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnIndisponibilizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Cancelar.gif"))); // NOI18N
-        btnIndisponibilizar.setText("Indisponibilizar");
-        btnIndisponibilizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnIndisponibilizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIndisponibilizarActionPerformed(evt);
-            }
-        });
-        panelPrincipal.add(btnIndisponibilizar);
-        btnIndisponibilizar.setBounds(10, 50, 250, 33);
-
-        btnDisponibilizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnDisponibilizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        btnDisponibilizar.setText("Disponibilizar");
-        btnDisponibilizar.setAlignmentY(0.0F);
-        btnDisponibilizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnDisponibilizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDisponibilizarActionPerformed(evt);
-            }
-        });
-        panelPrincipal.add(btnDisponibilizar);
-        btnDisponibilizar.setBounds(10, 50, 290, 33);
+        txtNOMESTACAO.setBounds(10, 80, 820, 30);
 
         getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 830, 570));
 
@@ -226,8 +199,6 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         lblTITULO.setText("SELECIONE UM DEPARTAMENTO ACIMA E DEFINA UMA CONSULTA ATRAVÉS DOS BOTÕES DE PESQUISA");        
         titulo = "SELECIONE UM DEPARTAMENTO PARA CONSULTAR NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO";        
         this.setTitle(titulo);  
-        btnIndisponibilizar.setVisible(false);
-        btnDisponibilizar.setVisible(false);
         PreencherTabelaESTACOES(sqlVazia);
         
     }    
@@ -430,48 +401,14 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         }  
     }
     
-    
-    private void btnIndisponibilizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndisponibilizarActionPerformed
-        //metodo Indisponibilizar estação que não deveria esta aparecendo na lista  
-        
-        if (umMetodo.ConfirmouOperacao("Confirma o desejo indisponibilizar o nome da estação?", "Indisponibilizando o nome da estação")){
-            indisponibilizarStatusNomeEstacaoPeloCodigo(codigoEstacao);
-            umMetodo.indisponibilizarStatusNomeEstacaoTMP(snomestacao);
-            JOptionPane.showMessageDialog(null, "O nome de estação foi indisponibilizado com sucesso!"); 
-        }                 
-        btnLimparPesquisaActionPerformed(null);                
-        btnDisponibilizar.setVisible(false);
-        btnIndisponibilizar.setVisible(false);
-        
-    }//GEN-LAST:event_btnIndisponibilizarActionPerformed
- 
+     
     private void jTabelaESTACOESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaESTACOESMouseClicked
         snomestacao =  ((String) jTabelaESTACOES.getValueAt(jTabelaESTACOES.getSelectedRow(), 1)); 
         //JOptionPane.showMessageDialog(null, snomestacao);
         codigoEstacao = buscarCodigoEstacaoPeloNome("tblnomestacao", snomestacao);
-        //JOptionPane.showMessageDialog(null, "O codigo é : "+ codigoEstacao);
-        if(disponivel)
-        {            
-            btnIndisponibilizar.setVisible(true);
-        }else{
-            btnDisponibilizar.setVisible(true); 
-            
-        }       
+        //JOptionPane.showMessageDialog(null, "O codigo é : "+ codigoEstacao);       
         
     }//GEN-LAST:event_jTabelaESTACOESMouseClicked
-
-    private void btnDisponibilizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponibilizarActionPerformed
-        //metodo Indisponibilizar estação que não deveria esta aparecendo na lista  
-        
-        if (umMetodo.ConfirmouOperacao("Confirma o desejo disponibilizar o nome da estação?", "Disponibilizando o nome da estação")){
-            DisponibilizarStatusNomeEstacaoPeloCodigo(codigoEstacao);
-            umMetodo.DisponibilizarStatusNomeEstacaoTMP(snomestacao);
-            JOptionPane.showMessageDialog(null, "O nome de estação foi disponibilizado com sucesso!"); 
-        }                 
-        btnLimparPesquisaActionPerformed(null);                
-        btnDisponibilizar.setVisible(false);
-        btnIndisponibilizar.setVisible(false);
-    }//GEN-LAST:event_btnDisponibilizarActionPerformed
          
     public void PreencherTabelaESTACOES(String sql) {
         conexao.conectar();
@@ -559,9 +496,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnDisponibilizar;
     public javax.swing.JButton btnDisponiveis;
-    public javax.swing.JButton btnIndisponibilizar;
     public javax.swing.JButton btnLimparPesquisa;
     public javax.swing.JButton btnSair;
     public javax.swing.JButton btnUtilizados;
