@@ -15,10 +15,11 @@ import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-public class F_GERARTXT extends javax.swing.JDialog {
+public class F_GERARTXTENTRADA extends javax.swing.JDialog {
     MetodosPublicos   umMetodo    = new MetodosPublicos();
     Biblioteca        umaBiblio   = new Biblioteca();
     GerarTXT          objGerarTXT = new GerarTXT();
@@ -28,7 +29,7 @@ public class F_GERARTXT extends javax.swing.JDialog {
     int iTipoid, codItem = 0;
     Boolean metodoPADRAOINIFIM,inserindo = false;    
     
-    public F_GERARTXT(java.awt.Frame parent, boolean modal) {
+    public F_GERARTXTENTRADA(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         Leitura();
@@ -75,7 +76,7 @@ public class F_GERARTXT extends javax.swing.JDialog {
         txtMODELO = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        cmbSTATUS = new javax.swing.JComboBox<String>();
+        cmbSTATUS = new javax.swing.JComboBox<>();
         btnGerarTXT = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
@@ -134,10 +135,23 @@ public class F_GERARTXT extends javax.swing.JDialog {
 
         cmbSTATUS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbSTATUS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NAO", "SIM" }));
+        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NAO", "SIM" }));
         cmbSTATUS.setSelectedIndex(-1);
         cmbSTATUS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbSTATUS.setEnabled(false);
+
+        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSERIE, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
@@ -213,18 +227,6 @@ public class F_GERARTXT extends javax.swing.JDialog {
                             .addComponent(jLabel1))
                         .addGap(56, 56, 56))))
         );
-        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSERIE, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -355,7 +357,7 @@ public class F_GERARTXT extends javax.swing.JDialog {
         txtSECAO.setText("INFORMATICA");
         sTipo  = txtTIPO.getText();
         limpar();      
-    }        
+    }            
         
     private void addItensAoTXT()
     {  
@@ -447,18 +449,42 @@ public class F_GERARTXT extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnNovoActionPerformed
 
+    public Boolean duplicidadenaSerie(String sSerie, ArrayList aListSeries){  
+        if(!aListSeries.contains(sSerie)){            
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     private void btnADDAOTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDAOTXTActionPerformed
-        if(txtSERIE.getText().equals("") || txtCHAPA.getText().equals(""))
+        String umaSerie = txtSERIE.getText();
+        String umaChapa = txtCHAPA.getText();
+        
+        if(umaSerie.equals("") || umaChapa.equals(""))
         {
             JOptionPane.showMessageDialog(null, "O campo [Série] é de preenchimento obrigatório!", "Campo obrigatório vazio!", 2);
             txtSERIE.requestFocus();
         }else{            
             //Limpando a lista pois quando adicionamos novo item ela é prenchida novamento com todos os registros já preenchidos, se não limpar haverá duplucidades
             //lstListaCampos.clear();     
-            addItensAoTXT();     
-            txtCHAPA.setText("");   
-            btnSair.setEnabled(false);
-            btnRemoverItem.setEnabled(true);
+                        
+            lstAuxiliar.add(umaSerie);
+            for (int i = 0; i < lstAuxiliar.size(); i++) {
+                System.out.println(lstAuxiliar.get(i));
+            }
+            
+            if(!duplicidadenaSerie(umaSerie,lstAuxiliar)){
+                addItensAoTXT();     
+                txtCHAPA.setText("");   
+                btnSair.setEnabled(false);
+                btnRemoverItem.setEnabled(true);
+            }else{
+                JOptionPane.showMessageDialog(null, "Esta série já foi adicionada a este arquivo!", "Duplicidade na inclusão da série!", 2);
+                txtSERIE.requestFocus();
+            }
+            
+            
         }
         
     }//GEN-LAST:event_btnADDAOTXTActionPerformed
@@ -515,14 +541,18 @@ public class F_GERARTXT extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(F_GERARTXT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(F_GERARTXTENTRADA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(F_GERARTXT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(F_GERARTXTENTRADA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(F_GERARTXT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(F_GERARTXTENTRADA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(F_GERARTXT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(F_GERARTXTENTRADA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -531,7 +561,7 @@ public class F_GERARTXT extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                F_GERARTXT dialog = new F_GERARTXT(new javax.swing.JFrame(), true);
+                F_GERARTXTENTRADA dialog = new F_GERARTXTENTRADA(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
