@@ -24,6 +24,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
     Biblioteca        umaBiblio   = new Biblioteca();
     GerarTXT          objGerarTXT = new GerarTXT();
     DefaultListModel  model       = new DefaultListModel();
+   
     
     String sTipo, sChapa, sSerie, sEstacao  = "";
     int iTipoid, codItem = 0;
@@ -76,7 +77,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         txtMODELO = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        cmbSTATUS = new javax.swing.JComboBox<>();
+        cmbSTATUS = new javax.swing.JComboBox<String>();
         btnGerarTXT = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
@@ -135,23 +136,10 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
 
         cmbSTATUS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbSTATUS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NAO", "SIM" }));
+        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NAO", "SIM" }));
         cmbSTATUS.setSelectedIndex(-1);
         cmbSTATUS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbSTATUS.setEnabled(false);
-
-        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSERIE, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
@@ -162,33 +150,35 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtSECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbSTATUS, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)))
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(txtTIPO, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMODELO)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtSECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                        .addGap(45, 45, 45)
-                                        .addComponent(jLabel1)
-                                        .addGap(295, 295, 295)
-                                        .addComponent(jLabel2))
-                                    .addComponent(jLabel7))
+                                    .addComponent(cmbSTATUS, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8)))
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addGap(297, 297, 297)
+                                .addComponent(jLabel7)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addComponent(txtSERIE, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel4)
+                        .addGap(290, 290, 290)
+                        .addComponent(jLabel1)
+                        .addGap(295, 295, 295)
+                        .addComponent(jLabel2)
+                        .addGap(0, 306, Short.MAX_VALUE))
+                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtTIPO)
+                            .addComponent(txtSERIE, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtMODELO, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jBoxPesquisar1Layout.setVerticalGroup(
@@ -197,13 +187,12 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
                 .addGap(16, 16, 16)
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTIPO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMODELO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtMODELO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTIPO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
@@ -227,6 +216,18 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
                             .addComponent(jLabel1))
                         .addGap(56, 56, 56))))
         );
+        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSERIE, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -368,12 +369,15 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         
         //adicionando item na lista    
         String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N";
+                      
         String item  = dados;           
         model.addElement(item);
         lstITENS.setModel(model);
                
         txtSERIE.setText("");
-        txtSERIE.requestFocus();    
+        txtSERIE.requestFocus(); 
+        this.setTitle("TOTAL DE ÍTENS INSERIDOS : "+String.valueOf(lstAuxiliar.size()));
+   
     }    
     
     private void btnGerarTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTXTActionPerformed
@@ -387,7 +391,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
        btnLimparActionPerformed(null);           
        cmbSTATUS.setEnabled(false);
        inserindo=false;
-      
+       this.setTitle("GERAR ARQUIVO TXT A PARTIR DE UMA SQL");
       
     }//GEN-LAST:event_btnGerarTXTActionPerformed
 
@@ -408,7 +412,10 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         cmbSTATUS.setSelectedIndex(-1);
         lstListaCampos.clear();
         model.clear();
-        inserindo=false;        
+        inserindo=false;  
+        lstAuxiliar.clear();
+        this.setTitle("GERAR ARQUIVO TXT A PARTIR DE UMA SQL");        
+        
     }
     
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -448,45 +455,35 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         model.clear();
         
     }//GEN-LAST:event_btnNovoActionPerformed
-
-    public Boolean duplicidadenaSerie(String sSerie, ArrayList aListSeries){  
-        if(!aListSeries.contains(sSerie)){            
-            return true;
-        }else{
-            return false;
-        }
-    }
     
     private void btnADDAOTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDAOTXTActionPerformed
         String umaSerie = txtSERIE.getText();
         String umaChapa = txtCHAPA.getText();
+        Boolean added = false;
         
         if(umaSerie.equals("") || umaChapa.equals(""))
         {
             JOptionPane.showMessageDialog(null, "O campo [Série] é de preenchimento obrigatório!", "Campo obrigatório vazio!", 2);
             txtSERIE.requestFocus();
-        }else{            
-            //Limpando a lista pois quando adicionamos novo item ela é prenchida novamento com todos os registros já preenchidos, se não limpar haverá duplucidades
-            //lstListaCampos.clear();     
-                        
-            lstAuxiliar.add(umaSerie);
-            for (int i = 0; i < lstAuxiliar.size(); i++) {
-                System.out.println(lstAuxiliar.get(i));
+        }else{      
+             
+            for (int i = 0; i < lstAuxiliar.size(); i++) {                
+                if(umaSerie.equals(lstAuxiliar.get(i))){
+                    JOptionPane.showMessageDialog(null, "Esta série já foi adicionada ao arquivoTXT!", "Duplicidade na inclusão da série!", 2);
+                    txtCHAPA.setText("");
+                    txtSERIE.setText("");
+                    txtSERIE.requestFocus();
+                    added = true;
+                }
             }
-            
-            if(!duplicidadenaSerie(umaSerie,lstAuxiliar)){
+            if(!added){
+                lstAuxiliar.add(umaSerie);      
                 addItensAoTXT();     
                 txtCHAPA.setText("");   
                 btnSair.setEnabled(false);
                 btnRemoverItem.setEnabled(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "Esta série já foi adicionada a este arquivo!", "Duplicidade na inclusão da série!", 2);
-                txtSERIE.requestFocus();
-            }
-            
-            
-        }
-        
+            }            
+        }        
     }//GEN-LAST:event_btnADDAOTXTActionPerformed
 
     private void txtSERIEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSERIEKeyPressed
@@ -514,6 +511,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         btnRemoverItem.setEnabled(false);
         btnADDAOTXT.setEnabled(false);
         txtSERIE.requestFocus();
+        this.setTitle("TOTAL DE ÍTENS INSERIDOS : "+String.valueOf(lstAuxiliar.size()-1));
     }
     
     private void btnRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverItemActionPerformed
@@ -521,7 +519,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRemoverItemActionPerformed
 
     private void lstITENSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstITENSMouseClicked
-        codItem = lstITENS.getSelectedIndex();        
+        codItem = lstITENS.getSelectedIndex();         
     }//GEN-LAST:event_lstITENSMouseClicked
 
     /**
