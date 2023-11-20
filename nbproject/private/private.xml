@@ -80,7 +80,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_GERARTXTENTRADA.java</file>
+            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
+            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/conexao/ConnConexao.java</file>
+            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/biblioteca/GetIPServidor.java</file>
+            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
         </group>
     </open-files>
 </project-private>
