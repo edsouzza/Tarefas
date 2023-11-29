@@ -72,8 +72,10 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
        }  
        if(nivelAcessoUsuario == 3){  
             menuclientesvirtuais.setVisible(false);
+            menuPatriLotes.setVisible(false);
         }else{
            menuclientesvirtuais.setVisible(true);
+           menuPatriLotes.setVisible(true);
        }
     }
        
@@ -196,6 +198,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(lblNOMESERVIDOR, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
@@ -215,8 +220,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_gravar.jpg"))); // NOI18N
         menuCadastro.setText("Cadastros");
@@ -324,6 +327,11 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menuPatriLotes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
         menuPatriLotes.setText("PATRIMONIOS EM LOTE");
         menuPatriLotes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuPatriLotes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPatriLotesActionPerformed(evt);
+            }
+        });
 
         menuEntradaEmLoteTXT.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         menuEntradaEmLoteTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_reverter.gif"))); // NOI18N
@@ -1100,6 +1108,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_menuclientesvirtuaisActionPerformed
 
     private void menuEntradaEmLoteTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEntradaEmLoteTXTActionPerformed
+    if(umabiblio.permissaoLiberada()){  
         if(umMetodo.ConfirmouOperacao("Atenção, tenha  em  mente que para gerar o arquivo TXT e cadastrar os equipamentos em lote é necessário ter o \nMODELO dos mesmos cadastrados. Você  já  cadastrou os modelos dos equipamentos  para  prosseguimento?", "Cadastro de equipamentos em lote"))
         {
              F_CADPATRIMONIOSVIATXT frm = new F_CADPATRIMONIOSVIATXT();
@@ -1110,11 +1119,14 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             F_MODELOS frm = new F_MODELOS();
             frm.setVisible(true); 
         }
+        }
     }//GEN-LAST:event_menuEntradaEmLoteTXTActionPerformed
 
     private void menuSaidaEmLoteTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaidaEmLoteTXTActionPerformed
+    if(umabiblio.permissaoLiberada()){  
         F_GERARTXTENVIO frm = new F_GERARTXTENVIO(this,true);
         frm.setVisible(true);     
+    }
     }//GEN-LAST:event_menuSaidaEmLoteTXTActionPerformed
 
     private void mnuGerenciarNomesEstacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerenciarNomesEstacoesActionPerformed
@@ -1123,6 +1135,12 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             frm.setVisible(true); 
         }        
     }//GEN-LAST:event_mnuGerenciarNomesEstacoesActionPerformed
+
+    private void menuPatriLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPatriLotesActionPerformed
+        if(umabiblio.permissaoLiberada()){  
+            
+        }
+    }//GEN-LAST:event_menuPatriLotesActionPerformed
 
     /**
      * @param args the command line arguments
