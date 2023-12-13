@@ -46,9 +46,9 @@ public class GerarTXT {
             //JOptionPane.showMessageDialog(rootPane, "Qde de itens na lista = "+lstAuxiliar.size()); 
             
             for(String itens : lista){
-                if(gravarNoArquivo(caminhoArq,itens))
+                if(gravarNoArquivo(caminhoArq, itens))
                 {
-                    contador =1;
+                    contador = 1;
                 }
             }   
             if(contador == 1){

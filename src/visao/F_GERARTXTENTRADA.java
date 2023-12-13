@@ -15,7 +15,6 @@ import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -175,10 +174,10 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
                             .addComponent(txtSERIE, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMODELO)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtMODELO, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jBoxPesquisar1Layout.setVerticalGroup(
@@ -364,8 +363,15 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
     {  
         sChapa   = txtCHAPA.getText();
         sSerie   = txtSERIE.getText();
-        sEstacao = "PGMCGGMC000";
+        
+        //VERIFICAR SE NÃO FOR MICRO OU NOTEBOOK ENTRAR COM O TIPO 1/19    
         iTipoid  = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
+        
+        if ((iTipoid == 1) || (iTipoid == 19)){
+            sEstacao = "PGMCGGMC000";
+        }else{
+            sEstacao = sTipo;
+        }
         
         //adicionando item na lista    
         String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N";
@@ -375,6 +381,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         lstITENS.setModel(model);
                
         txtSERIE.setText("");
+        txtCHAPA.setText("");
         txtSERIE.requestFocus(); 
         this.setTitle("TOTAL DE ÍTENS INSERIDOS : "+String.valueOf(lstAuxiliar.size()));
    
@@ -382,12 +389,15 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
     
     private void btnGerarTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTXTActionPerformed
        //Metodo MANUAL inserido a série inteira
+       lstAuxiliar.clear(); //limpando as series adicionadas para verificação de duplicidade e inserindo a string completa com todos os dados
+       
        for(int i = 0; i < model.size(); i++)
        {
             lstAuxiliar.add(model.get(i).toString());
        }
        
-       objGerarTXT.gerarTXTDELISTA(lstAuxiliar);          
+       objGerarTXT.gerarTXTDELISTA(lstAuxiliar);     
+       
        btnLimparActionPerformed(null);           
        cmbSTATUS.setEnabled(false);
        inserindo=false;
@@ -457,33 +467,21 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNovoActionPerformed
     
     private void btnADDAOTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDAOTXTActionPerformed
-        String umaSerie = txtSERIE.getText();
-        String umaChapa = txtCHAPA.getText();
-        Boolean added = false;
         
-        if(umaSerie.equals("") || umaChapa.equals(""))
-        {
-            JOptionPane.showMessageDialog(null, "O campo [Série] é de preenchimento obrigatório!", "Campo obrigatório vazio!", 2);
-            txtSERIE.requestFocus();
-        }else{      
+        String umaSerie = txtSERIE.getText();
+        
+        //verificando se existe duplicidade na digitação da serie
+        if(lstAuxiliar.contains(umaSerie)){
+            JOptionPane.showMessageDialog(null, "A série [" +umaSerie+ "] já foi adicionada ao arquivoTXT!", "Duplicidade na inclusão da série!", 2);
+        }else{
+            lstAuxiliar.add(umaSerie);
+            addItensAoTXT();
+        }
+               
+        txtCHAPA.setText("");
+        txtSERIE.setText("");
+        txtSERIE.requestFocus();                
              
-            for (int i = 0; i < lstAuxiliar.size(); i++) {                
-                if(umaSerie.equals(lstAuxiliar.get(i))){
-                    JOptionPane.showMessageDialog(null, "Esta série já foi adicionada ao arquivoTXT!", "Duplicidade na inclusão da série!", 2);
-                    txtCHAPA.setText("");
-                    txtSERIE.setText("");
-                    txtSERIE.requestFocus();
-                    added = true;
-                }
-            }
-            if(!added){
-                lstAuxiliar.add(umaSerie);      
-                addItensAoTXT();     
-                txtCHAPA.setText("");   
-                btnSair.setEnabled(false);
-                btnRemoverItem.setEnabled(true);
-            }            
-        }        
     }//GEN-LAST:event_btnADDAOTXTActionPerformed
 
     private void txtSERIEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSERIEKeyPressed
@@ -519,7 +517,8 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRemoverItemActionPerformed
 
     private void lstITENSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstITENSMouseClicked
-        codItem = lstITENS.getSelectedIndex();         
+        codItem = lstITENS.getSelectedIndex();  
+        btnRemoverItem.setEnabled(true);
     }//GEN-LAST:event_lstITENSMouseClicked
 
     /**
