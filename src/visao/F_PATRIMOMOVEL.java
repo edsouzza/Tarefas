@@ -55,7 +55,7 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
         Leitura();
         setResizable(false);   //desabilitando o redimencionamento da tela        
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar
-        this.setTitle(umabiblio.mostrarTituloDoFormulario());
+        this.setTitle(umabiblio.mostrarTituloDoFormularioPatrimoveis());
         //configuracoes dos edits   
         umabiblio.configurarCamposTextos(txtPESQUISA);
         umabiblio.configurarCamposTextos(txtCODIGO);
@@ -737,34 +737,45 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSERIALKeyPressed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        //JOptionPane.showMessageDialog(rootPane, filtrouSecao);
-        if(filtrouSecao){        
-            //imprimir apenas os patrimonios da seção filtrada
+        
+        if (clicouInativos){
+           //imprimir apenas os patrimoveis inativados
             GerarRelatorios objRel = new GerarRelatorios();
             try {
-                nomeRelatorio = "relpatrimovelsecaoselecionada"; 
-                objRel.imprimirPatrimoniosFiltrados("relatorio/"+nomeRelatorio+".jasper", cmbSecao.getSelectedItem().toString() ,tabela);
+                nomeRelatorio = "relpatrimoveisInativos"; 
+                objRel.imprimirPatrimoniosInativos("relatorio/"+nomeRelatorio+".jasper", tabela);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-            }      
-        }else{
-            if (clicouNaTabela && !filtrouSecao){
-                //imprimir o patrimonio que foi selecionado tendo o codigo como parametro
-                int codigoSelecionado = Integer.parseInt(txtCODIGO.getText());
-                nomeRelatorio = "relpatrimovelselecionado";                
+            }          
+        }
+        else{        
+                if(filtrouSecao){        
+                //imprimir apenas os patrimonios da seção filtrada
                 GerarRelatorios objRel = new GerarRelatorios();
                 try {
-                    objRel.imprimirPatrimonioSelecionado("relatorio/"+nomeRelatorio+".jasper",codigoSelecionado,tabela);
+                    nomeRelatorio = "relpatrimovelsecaoselecionada"; 
+                    objRel.imprimirPatrimoniosFiltrados("relatorio/"+nomeRelatorio+".jasper", cmbSecao.getSelectedItem().toString() ,tabela);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-                }   
-            } else {
-                //imprimir todos os patrimonios cadastrados
-                nomeRelatorio = "relpatrimoniosmoveis";  
-                F_IMPRESSAO frm = new F_IMPRESSAO();
-                frm.setVisible(true);
-            }
-            
+                }      
+        }else{
+                if (clicouNaTabela && !filtrouSecao){
+                    //imprimir o patrimonio que foi selecionado tendo o codigo como parametro
+                    int codigoSelecionado = Integer.parseInt(txtCODIGO.getText());
+                    nomeRelatorio = "relpatrimovelselecionado";                
+                    GerarRelatorios objRel = new GerarRelatorios();
+                    try {
+                        objRel.imprimirPatrimonioSelecionado("relatorio/"+nomeRelatorio+".jasper",codigoSelecionado,tabela);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+                    }   
+                } else {
+                    //imprimir todos os patrimonios cadastrados
+                    nomeRelatorio = "relpatrimoniosmoveis";  
+                    F_IMPRESSAO frm = new F_IMPRESSAO();
+                    frm.setVisible(true);
+                }      
+            }                
         }
         btnVoltar.setEnabled(true);
         btnImprimir.setEnabled(false);
@@ -921,8 +932,8 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnFiltrarPorSecaoActionPerformed
 
-    private void GerarExcel(){
-       /*retorna todos os campos da tabela ideal quando tiver chaves estrangeiras na tabela você passa a SQL completa dos dados
+    private void GerarExcelAtivos(){
+        /*retorna todos os campos da tabela ideal quando tiver chaves estrangeiras na tabela você passa a SQL completa dos dados
          importante salientar que não podem haver dados nulos ou vazios campos selecionados dos registros */
         nomeSecao   = cmbSecao.getSelectedItem().toString();
         int idSecao = umabiblio.buscarCodigoSecao(nomeSecao);
@@ -949,25 +960,75 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Não há dados disponíveis na tabela para exportacao, operação cancelada!", "Erro Fatal, verifique a SQL!", 2);
         }
-        umGravarLog.gravarLog("impressao de relatorio : "+umMetodo.retornaNomeTabela(tabela)); 
+        umGravarLog.gravarLog("impressao de relatorio ativos: "+umMetodo.retornaNomeTabela(tabela)); 
+    }
+    
+    
+    private void GerarExcelInativos(){
+       /*retorna todos os campos da tabela ideal quando tiver chaves estrangeiras na tabela você passa a SQL completa dos dados
+         importante salientar que não podem haver dados nulos ou vazios campos selecionados dos registros */
+        nomeSecao   = cmbSecao.getSelectedItem().toString();
+        int idSecao = umabiblio.buscarCodigoSecao(nomeSecao);
+        
+        GerarExcelPatrimonios excel = new GerarExcelPatrimonios();     
+
+        sql =   "select p.codigo, s.nome as secao, m.modelo, p.serial, p.chapa, p.obs " +
+                "from tblpatrimovel p, tblsecoes s, tblmodelos m " +
+                "where " +
+                "p.modeloid = m.codigo " +
+                "and " +
+                "p.secaoid=s.codigo " +
+                "and " +
+                "p.secaoid= "+idSecao+ "and " +
+                "p.status='INATIVO' " +
+                "ORDER BY m.modelo";        
+                
+        lstListaCampos.clear();   
+        umMetodo.preencherArrayListComCampos(lstListaCampos, sql);
+        
+        ArrayList<Object[]> dataList = excel.getListaDados(sql);        
+        if (dataList != null && dataList.size() > 0) {
+            excel.doExportar(dataList);
+        } else {
+            JOptionPane.showMessageDialog(null, "Não há dados disponíveis na tabela para exportacao, operação cancelada!", "Erro Fatal, verifique a SQL!", 2);
+        }
+        umGravarLog.gravarLog("impressao de relatorio inativos : "+umMetodo.retornaNomeTabela(tabela)); 
     }
     
     private void btnGerarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarExcelActionPerformed
         totalRegs=0;
-        int indiceSecaoSelecionada = cmbSecao.getSelectedIndex();      
-        if(indiceSecaoSelecionada == -1)
-        {
-             JOptionPane.showMessageDialog(null, "Escolha uma seção acima para gerar o relatório!", "Seção não selecionada", 2);
-             btnVoltar.setEnabled(true);
-             btnVoltar.setText("Voltar");
-             cmbSecao.setEnabled(false);
-             btnFiltrarPorSecao.setEnabled(false);
-             btnGerarExcel.setEnabled(false);
-             btnImprimir.setEnabled(false);             
-             filtrouSecao=false;
+        int indiceSecaoSelecionada = cmbSecao.getSelectedIndex();  
+        
+        if(!clicouInativos){
+            if(indiceSecaoSelecionada == -1)
+            {
+                 JOptionPane.showMessageDialog(null, "Escolha uma seção acima para gerar o relatório!", "Seção não selecionada", 2);
+                 btnVoltar.setEnabled(true);
+                 btnVoltar.setText("Voltar");
+                 cmbSecao.setEnabled(false);
+                 btnFiltrarPorSecao.setEnabled(false);
+                 btnGerarExcel.setEnabled(false);
+                 btnImprimir.setEnabled(false);             
+                 filtrouSecao=false;
+            }else{
+                GerarExcelAtivos();
+            }       
         }else{
-            GerarExcel();
-        }       
+            if(indiceSecaoSelecionada == -1)
+            {
+                 JOptionPane.showMessageDialog(null, "Escolha uma seção acima para gerar o relatório!", "Seção não selecionada", 2);
+                 btnVoltar.setEnabled(true);
+                 btnVoltar.setText("Voltar");
+                 cmbSecao.setEnabled(false);
+                 btnFiltrarPorSecao.setEnabled(false);
+                 btnGerarExcel.setEnabled(false);
+                 btnImprimir.setEnabled(false);             
+                 filtrouSecao=false;
+            }else{
+                GerarExcelInativos();
+            }       
+        }
+       
         
     }//GEN-LAST:event_btnGerarExcelActionPerformed
 
@@ -1011,10 +1072,9 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
         if (jTabbedPane2.getSelectedIndex() == 1) {
             umabiblio.limparTodosCampos(jBoxDados);
             btnFiltrarPorSecao.setEnabled(false);
-            btnGerarExcel.setEnabled(false);
-            btnImprimir.setEnabled(false);
+            btnImprimir.setEnabled(true);
             btnEditar.setEnabled(false);
-            cmbSecao.setEnabled(false);
+            btnVoltar.setEnabled(true);   
             cmbSecao.setSelectedIndex(-1);
             cmbStatus.setEnabled(false);
             cmbStatus.setSelectedIndex(-1);
@@ -1229,7 +1289,7 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
         txtDESCRICAO.requestFocus();
 
         //mostrando o titulo com qde de registros cadastrados
-        this.setTitle(umabiblio.mostrarTituloDoFormulario());
+        //this.setTitle(umabiblio.mostrarTituloDoFormularioPatrimoveis());
 
         //habilitando a pesquisa  e preenchendo a tabela se tiver registros
         c = jBoxPesquisar.getComponents();
@@ -1278,7 +1338,7 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
         }
 
         //mostrando o titulo com qde de registros cadastrados
-        this.setTitle(umabiblio.mostrarTituloDoFormulario());
+        //this.setTitle(umabiblio.mostrarTituloDoFormularioPatrimoveis());
 
         //populando a combo de seções somente com seções que estão com patrimonios cadastrados
         String sqlcmb="select distinct s.nome as secao from tblpatrimovel p, tblsecoes s where p.secaoid=s.codigo order by secao";

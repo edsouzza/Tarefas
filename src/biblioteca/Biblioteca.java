@@ -148,11 +148,29 @@ public class Biblioteca
             conexao.desconectar();
         }                 
     }
+    public int qdePatrimovelRegistrosINATIVOS(String tabela)
+    {        
+        conexao.conectar();
+        sql = "select count(codigo) as total from "+tabela+" where status='INATIVO'";
+        conexao.ExecutarPesquisaSQL(sql);            
+        try {
+            if (conexao.rs.next())
+               return conexao.rs.getInt("total");
+            else
+                return 0; 
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao executar a pesquisa! "+ex);
+            return 0;
+        }finally{
+            conexao.desconectar();
+        }                 
+    }
     public String mostrarTituloDoFormulario()
     {
         int qdeRegsATIVOS   = qdeRegistrosATIVOS(tabela);
         int qdeRegsINATIVOS = qdeRegistrosINATIVOS(tabela);
-        int qdeRegs       = qdeRegistros(tabela);   
+        int qdeRegs         = qdeRegistros(tabela);   
         //substring retira o TBL da palavra
         
         String nomeTabela = tabela.substring(3);
@@ -169,8 +187,30 @@ public class Biblioteca
            return "Gerenciamento de " + nomeTabela +" com "+qdeRegs+" registro(s) cadastrado(s) e "+qdeRegsATIVOS+" "+sStatus+""; 
         }else{
            return "Gerenciamento de " + nomeTabela +" com "+qdeRegs+" registros cadastrados e "+qdeRegsINATIVOS+" "+sStatus+""; 
+        }        
+    }
+    public String mostrarTituloDoFormularioPatrimoveis()
+    {
+        int qdeRegsATIVOS   = qdeRegistrosATIVOS(tabela);
+        int qdeRegsINATIVOS = qdePatrimovelRegistrosINATIVOS(tabela);
+        int qdeRegs         = qdeRegistros(tabela);   
+        //substring retira o TBL da palavra
+        
+        String nomeTabela = tabela.substring(3);
+        nomeTabela        = nomeTabela.toLowerCase();  
+        String sStatus;
+        
+        if(qdeRegsINATIVOS == 1){
+            sStatus = "inativo";
+        }else{
+            sStatus = "inativos";
         }
         
+        if(qdeRegsATIVOS == 1){
+           return "Gerenciamento de " + nomeTabela +" com "+qdeRegs+" registro(s) cadastrado(s) e "+qdeRegsATIVOS+" "+sStatus+""; 
+        }else{
+           return "Gerenciamento de " + nomeTabela +" com "+qdeRegs+" registros cadastrados e "+qdeRegsINATIVOS+" "+sStatus+""; 
+        }        
     }
     public String mostrarTituloDoFormularioParaInativos()
     {

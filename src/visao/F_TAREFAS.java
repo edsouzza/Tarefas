@@ -50,6 +50,8 @@ public class F_TAREFAS extends javax.swing.JFrame {
     String tarefa,situacao,nomeCli,nomesecao  = null;    
     int codigo,idClienteRegSel,ind  = 0; 
     boolean gravando,filtrandoFechadas,novatarefa;  //controla no botão gravar entre gravar novo registro e gravar alteração de um registro
+    
+    String sqlVazia     = "select * from tbltarefas where codigo = 0";
     String sqlABERTA    = "select t.*, c.nome as cliente, c.codigo, c.secaoid, s.codigo, s.nome as secao from tblclientes c, tbltarefas t, tblsecoes s "
                         + "where c.codigo = t.clienteid and c.secaoid = s.codigo  and t.status = 'ABERTA' order by t.dtabertura desc"; 
                              
@@ -880,6 +882,8 @@ public class F_TAREFAS extends javax.swing.JFrame {
             gravando = true;
             cmbStatus.setSelectedIndex(0);
             txtCODIGO.setText(String.valueOf(umabiblio.mostrarProximoCodigo(tabela)));     
+            PreencherTabelaABERTA(sqlVazia);
+            PreencherTabelaCONCLUIDA(sqlVazia);
             
             novatarefa=true;            
             if(novatarefa){
