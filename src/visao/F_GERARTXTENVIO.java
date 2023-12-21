@@ -233,20 +233,6 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
 
         jLabel5.setText("SERIE / CHAPA");
 
-        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
         jBoxPesquisar1Layout.setHorizontalGroup(
@@ -318,6 +304,19 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                 .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -544,6 +543,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         btnRemoverItem.setEnabled(false);
         txtORIGEM.setText("");
         txtMEMORANDO.setText("");
+        txtMENSAGEM.setText("");
         txtDESTINO.setText("");
         txtCHAPA.setText("");
         txtPESQUISA.setText("");      
@@ -624,9 +624,11 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
             if(umMetodo.temDuplicidadeDeCadastroNoMemorando("TBLITENSMEMOTRANSFERIDOS", "serie", txtPESQUISA.getText(),"numemo",txtMEMORANDO.getText() ))               
             {
                 JOptionPane.showMessageDialog(null, "Ops esse equipamento já foi incluído nesse Memorando!", "Duplicidade de entrada!", 2); 
+                btnADDAOTXT.setEnabled(false);
                 txtCHAPA.setText("");
                 txtPESQUISA.setText("");
                 txtPESQUISA.requestFocus();
+                btnGerarTXT.setEnabled(true);   
             }
         }        
         
@@ -697,6 +699,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         umModPatrimonio.setSecaoid(Integer.valueOf(sSecaoid));
         umModPatrimonio.setClienteid(Integer.valueOf(sClienteid));
         umModPatrimonio.setStatus(sStatus);    
+        umModPatrimonio.setDatainativacao(dataDia);
         
         umModPatrimonio.setMotivo(Motivobd+"\n"+sdf.format(dataDia)+" : Transferido de "+sOrigem+" para "+sDestino+" atraves do Memorando n. "+sMemorando+"."); 
         umModPatrimonio.setObservacoes(Obsbd+"\n"+sdf.format(dataDia)+" : Transferido de "+sOrigem+" para "+sDestino+" atraves do Memorando n. "+sMemorando+".");
@@ -748,7 +751,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Erro ao tentar ler o arquivo!");
             }
             if (contador > 0) {
-                JOptionPane.showMessageDialog(null, "Todos os patrimônios foram encaminhados com sucesso para "+sDestino+"!", "Encaminhados com Sucesso para "+sDestino+"!", 2);                
+                JOptionPane.showMessageDialog(null, "Todos os patrimônios foram encaminhados com sucesso para "+sDestino+"!", "Encaminhados com sucesso para "+sDestino+"!", 2);                
             } else if (contador == 0) {                
                 JOptionPane.showMessageDialog(null, "ERRO  no  cadastro  de  alguns registros, possíveis  causas :  Problemas  na  leitura do arquivo TXT\nou  duplicidade  em   algum   número  de   série   inserido,  confira  os   dados  do  TXT  selecionado!", "ERRO no cadastro!", 2);                                
             }

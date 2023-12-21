@@ -15,6 +15,7 @@ import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
 import static biblioteca.VariaveisPublicas.salvandoLote;
 import static biblioteca.VariaveisPublicas.dataDoDia;
+import static biblioteca.VariaveisPublicas.reativando;
 import controle.ControleGravarLog;
 import controle.CtrlPatrimonio;
 import java.text.DateFormat;
@@ -36,6 +37,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
     Date dataDia                                 = dataDoDia; 
         
     String sChapa, sSerie, sTipoid, sSecaoid, sClienteid, sModeloid, sDeptoid, sNomeEquipamento, sContrato, sObs, caminhoTXT, linha, observacaoCadLote, novaObservacao = "";  
+    boolean reativandoTXT;
     int contador,cont,iCodigo =0;    
 
     public F_CADPATRIMONIOSVIATXT() 
@@ -73,6 +75,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         btnGerarObsAdicional = new javax.swing.JButton();
         btnGerarArquivoTXT = new javax.swing.JButton();
         btnLerTXT = new javax.swing.JButton();
+        btnReativar = new javax.swing.JButton();
 
         setTitle("Cadastro de Patrimônios em Lote através da leitura de um arquivo TXT");
         setResizable(false);
@@ -111,7 +114,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnLimpar);
-        btnLimpar.setBounds(240, 580, 220, 45);
+        btnLimpar.setBounds(230, 580, 170, 45);
 
         btnGerarObsAdicional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnGerarObsAdicional.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
@@ -123,7 +126,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnGerarObsAdicional);
-        btnGerarObsAdicional.setBounds(470, 580, 220, 45);
+        btnGerarObsAdicional.setBounds(400, 580, 170, 45);
 
         btnGerarArquivoTXT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnGerarArquivoTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -147,7 +150,19 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnLerTXT);
-        btnLerTXT.setBounds(700, 580, 200, 45);
+        btnLerTXT.setBounds(740, 580, 170, 45);
+
+        btnReativar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnReativar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_reverter.gif"))); // NOI18N
+        btnReativar.setText("Ler TXT e Reativar");
+        btnReativar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReativar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReativarActionPerformed(evt);
+            }
+        });
+        panelPrincipal.add(btnReativar);
+        btnReativar.setBounds(570, 580, 170, 45);
 
         getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 650));
 
@@ -209,7 +224,11 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 //                                       
 //                    System.out.println("====================================================================================================================");
 //                    
-                    gravarDados();
+                    if(!reativandoTXT){                        
+                        gravarDados();
+                    }else{
+                        gravarReativacao();
+                    }
                                        
                     //lendo a proxima linha
                     linha = lerBuf.readLine();
@@ -233,14 +252,21 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao tentar ler o arquivo!");
             }
-            if (contador > 0) {
-                JOptionPane.showMessageDialog(null, "Todos os patrimônios válidos foram cadastrados com sucesso!", "Cadastrado com Sucesso!", 2);
-                btnLimpar.setEnabled(true);
-            } else if (contador == 0) {                
-                JOptionPane.showMessageDialog(null, "ERRO  no  cadastro  de  alguns registros, possíveis  causas :  Problemas  na  leitura do arquivo TXT\nou  duplicidade  em   algum   número  de   série   inserido,  confira  os   dados  do  TXT  selecionado!", "ERRO no cadastro!", 2);
-                btnLimpar.setEnabled(true);
-                btnLerTXT.setEnabled(false);
-            }
+                if(!reativandoTXT){
+                    if (contador > 0) {
+                        JOptionPane.showMessageDialog(null, "Todos os patrimônios válidos foram cadastrados com sucesso!", "Cadastrado com Sucesso!", 2);
+                        btnLimpar.setEnabled(true);
+                    } else if (contador == 0) {                
+                        JOptionPane.showMessageDialog(null, "ERRO  no  cadastro  de  alguns registros, possíveis  causas :  Problemas  na  leitura do arquivo TXT\nou  duplicidade  em   algum   número  de   série   inserido,  confira  os   dados  do  TXT  selecionado!", "ERRO no cadastro!", 2);
+                        btnLimpar.setEnabled(true);
+                        btnLerTXT.setEnabled(false);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Todos os patrimônios foram reativados com sucesso!", "Reativados com Sucesso!", 2);
+                    btnReativar.setEnabled(false);
+                    btnGerarArquivoTXT.setEnabled(true);
+                    txtDESCRICAO.setText("");
+                }
         }else{               
             btnGerarArquivoTXT.setEnabled(false);
             btnGerarObsAdicional.setEnabled(false);
@@ -277,13 +303,11 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 
         //gravando no banco de dados, antes verifica se o rf já esta cadastrado e não grava se isso acontecer
         if (umMetodo.temDuplicidadeDeCadastro("tblpatrimonios", "serie", sSerie)) {
-            JOptionPane.showMessageDialog(null,"Erro : Patrimônio Serie "+sSerie+" já esta cadastrado e seu código é : "+iCodigo+"","Duplicidade : Série "+sSerie+"",2);
-            //btnLimparActionPerformed(null);
+            JOptionPane.showMessageDialog(null,"Erro : Patrimônio Serie "+sSerie+" já esta cadastrado e seu código é : "+iCodigo+"","Duplicidade : Série "+sSerie+"",2);            
             contador = 0;
         } else {
             if (umControlePatrimonio.salvarPatrimonio(umModPatrimonio)) {
                 contador = 1;
-
                 String sTipo = umMetodo.getStringPassandoCodigo("tbltipos", "tipo", Integer.parseInt(sTipoid));
                 //PEGAR O NOME DO TIPO PELO ID E ACRESCENTAR AQUI
                 umGravarLog.gravarLog("cadastro de um(a) "+sTipo+" serie "+umModPatrimonio.getSerie());
@@ -291,6 +315,33 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         }
         btnLerTXT.setEnabled(false);   
         btnGerarObsAdicional.setEnabled(false);
+    }
+    private void gravarReativacao()
+    {
+        umModPatrimonio.setSerie(sSerie);
+        iCodigo = umMetodo.getCodigoPassandoString("tblpatrimonios", "serie", sSerie);
+        
+        String motivoAtual = umMetodo.getStringPassandoCodigo("tblPatrimonios", "motivo", iCodigo);
+        String obsAtual    = umMetodo.getStringPassandoCodigo("tblPatrimonios", "observacoes", iCodigo);
+        String mensagem    = " : Equipamentos recebidos na CGGM/INFO e reativados atraves de TXT.";
+        
+        String novoMOtivo = motivoAtual+("\n"+sdf.format(dataDia)+mensagem);
+        String novaObs    = obsAtual+("\n"+sdf.format(dataDia)+mensagem);
+        
+        umModPatrimonio.setMotivo(novoMOtivo);         
+        umModPatrimonio.setObservacoes(novaObs);         
+        umModPatrimonio.setStatus("ATIVO");                          
+               
+        if (umControlePatrimonio.reativarInativadoPelaSerie(umModPatrimonio)) {            
+
+            String sTipo = umMetodo.getStringPassandoCodigo("tbltipos", "tipo", Integer.parseInt(sTipoid));
+            //PEGAR O NOME DO TIPO PELO ID E ACRESCENTAR AQUI
+            umGravarLog.gravarLog("reativacao de um(a) "+sTipo+" serie "+umModPatrimonio.getSerie());
+        }
+       
+        btnLerTXT.setEnabled(false);   
+        btnGerarObsAdicional.setEnabled(false);
+        
     }
                       
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -301,6 +352,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         //faz a leitura do arquivo TXT e cadastra os equipamentos registrados nele
         LexTXT();  
         btnGerarArquivoTXT.setEnabled(false);
+        btnReativar.setEnabled(false);
         btnLimpar.setText("Voltar");
     }//GEN-LAST:event_btnLerTXTActionPerformed
 
@@ -345,6 +397,15 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         frm.setVisible(true);     
         
     }//GEN-LAST:event_btnGerarArquivoTXTActionPerformed
+
+    private void btnReativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReativarActionPerformed
+        //faz a leitura do arquivo TXT e reativa os equipamentos registrados nele
+        reativandoTXT = true;
+        reativando = true;
+        LexTXT();  
+        btnGerarArquivoTXT.setEnabled(false);
+        btnLimpar.setText("Voltar");
+    }//GEN-LAST:event_btnReativarActionPerformed
           
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -352,6 +413,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
     public javax.swing.JButton btnGerarObsAdicional;
     public javax.swing.JButton btnLerTXT;
     public javax.swing.JButton btnLimpar;
+    public javax.swing.JButton btnReativar;
     public javax.swing.JButton btnSair;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelPrincipal;

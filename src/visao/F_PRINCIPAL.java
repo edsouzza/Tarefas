@@ -111,7 +111,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menuSaidaEmLoteTXT = new javax.swing.JMenuItem();
         menutipodocumentos = new javax.swing.JMenuItem();
         menugerarnumdocto = new javax.swing.JMenuItem();
-        menupatrideptos = new javax.swing.JMenuItem();
         menuclientesvirtuais = new javax.swing.JMenuItem();
         menuConsultas = new javax.swing.JMenu();
         menuLogs = new javax.swing.JMenuItem();
@@ -198,9 +197,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(lblNOMESERVIDOR, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
@@ -220,6 +216,8 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_gravar.jpg"))); // NOI18N
         menuCadastro.setText("Cadastros");
@@ -378,17 +376,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuCadastro.add(menugerarnumdocto);
-
-        menupatrideptos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        menupatrideptos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/patrimonios.png"))); // NOI18N
-        menupatrideptos.setText("PATRIMONIOS DEPARTAMENTOS");
-        menupatrideptos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menupatrideptos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menupatrideptosActionPerformed(evt);
-            }
-        });
-        menuCadastro.add(menupatrideptos);
 
         menuclientesvirtuais.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.CTRL_MASK));
         menuclientesvirtuais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Livro.gif"))); // NOI18N
@@ -1093,12 +1080,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
          }  
     }//GEN-LAST:event_mnuImprimirMemosTransferenciaActionPerformed
 
-    private void menupatrideptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menupatrideptosActionPerformed
-        tabela = "TBLPATRIDEPTOS";     
-        F_PATRIDEPTOS frm = new F_PATRIDEPTOS(); 
-        frm.setVisible(true); 
-    }//GEN-LAST:event_menupatrideptosActionPerformed
-
     private void menuclientesvirtuaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuclientesvirtuaisActionPerformed
         if(umabiblio.permissaoLiberada()){  
             tabela = "TBLCLIENTESVIRTUAIS";     
@@ -1214,7 +1195,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuUSUARIOS;
     private javax.swing.JMenuItem menuclientesvirtuais;
     private javax.swing.JMenuItem menugerarnumdocto;
-    private javax.swing.JMenuItem menupatrideptos;
     private javax.swing.JMenuItem menupatrimoniosmoveis;
     private javax.swing.JMenuItem menutipodocumentos;
     private javax.swing.JMenuItem mnuApoio;

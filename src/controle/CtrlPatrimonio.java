@@ -26,9 +26,15 @@ public class CtrlPatrimonio
         JOptionPane.showMessageDialog(null,"Os dados foram atualizados com sucesso!"); 
         return new DAOPatrimonio().AtualizarPatrimonioDAO(umPatrimonio);
     }
+    
     public boolean AtualizarPatrimoniosEncaminhados(Patrimonio umPatrimonio) 
     {        
         return new DAOPatrimonio().AtualizarPatrimoniosEncaminhadosDAO(umPatrimonio);
+    }
+    
+    public boolean reativarInativadoPelaSerie(Patrimonio umPatrimonio) 
+    {        
+        return new DAOPatrimonio().reativarInativadoPelaSerieDAO(umPatrimonio);
     }
     
     public boolean ExcluirPatrimonio(int pCodigo) 

@@ -208,15 +208,16 @@ public class DAOPatrimonio {
         conexao.conectar();
         try
         {
-            sql = "UPDATE tblpatrimonios SET estacao=?, secaoid=?, clienteid=?, status=?, motivo=?, observacoes=?  WHERE codigo=?";
+            sql = "UPDATE tblpatrimonios SET estacao=?, secaoid=?, clienteid=?, status=?, motivo=?, datainativacao=?, observacoes=?  WHERE codigo=?";
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
             pst.setString(1, umPatrimonio.getEstacao());
             pst.setInt(2, umPatrimonio.getSecaoid());
             pst.setInt(3, umPatrimonio.getClienteid());
             pst.setString(4, umPatrimonio.getStatus());
             pst.setString(5, umPatrimonio.getMotivo());
-            pst.setString(6, umPatrimonio.getObservacoes());
-            pst.setInt(7, umPatrimonio.getCodigo());
+            pst.setDate(6, new java.sql.Date(dataDoDia.getTime())); 
+            pst.setString(7, umPatrimonio.getObservacoes());
+            pst.setInt(8, umPatrimonio.getCodigo());
             pst.executeUpdate();
             pst.close();  
             return true;
@@ -633,6 +634,29 @@ public class DAOPatrimonio {
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
             pst.setDate(1, new java.sql.Date(dataDoDia.getTime())); 
             pst.setInt(2, umPatrimonio.getCodigo());            
+            pst.executeUpdate();
+            pst.close();  
+            return true;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível atualizar o registro, \n "+e+" , o sql passado foi \n"+sql);  
+            return false;
+        }finally{
+            conexao.desconectar();
+        }
+        
+    }
+    public boolean reativarInativadoPelaSerieDAO(Patrimonio umPatrimonio) 
+    {
+        conexao.conectar();
+        try
+        {
+            sql = "UPDATE tblpatrimonios SET status=?, datainativacao=?, observacoes=?, motivo=? WHERE serie=?";                           
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, umPatrimonio.getStatus());             
+            pst.setNull(2, java.sql.Types.DATE); 
+            pst.setString(3, umPatrimonio.getObservacoes()); 
+            pst.setString(4, umPatrimonio.getMotivo()); 
+            pst.setString(5, umPatrimonio.getSerie());            
             pst.executeUpdate();
             pst.close();  
             return true;
