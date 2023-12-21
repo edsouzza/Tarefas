@@ -198,6 +198,7 @@
               <Image iconType="3" name="/images/btn_reverter.gif"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Ler TXT e Reativar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Utilize o mesmo TXT de entrada se existir"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Cursor em Forma de M&#xe3;o"/>
             </Property>

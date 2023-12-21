@@ -155,6 +155,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         btnReativar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnReativar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_reverter.gif"))); // NOI18N
         btnReativar.setText("Ler TXT e Reativar");
+        btnReativar.setToolTipText("Utilize o mesmo TXT de entrada se existir");
         btnReativar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReativar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
