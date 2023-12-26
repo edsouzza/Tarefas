@@ -8,6 +8,7 @@ import biblioteca.ModeloTabela;
 import controle.CtrlPatrimovel;
 import controle.ControleListaPatrimovel;
 import Dao.DAOPatriMovel;
+import biblioteca.CampoLimitadoEmQdeLetrasMaiNumeros;
 import biblioteca.MetodosPublicos;
 import static biblioteca.VariaveisPublicas.TipoModelo;
 import static biblioteca.VariaveisPublicas.cadastrando;
@@ -82,6 +83,7 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
         jTabelaATIVOS.setFont(new Font("Arial", Font.BOLD, 12));
         jTabelaINATIVOS.setFont(new Font("Arial", Font.BOLD, 12));
         txtOBS.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        txtOBS.setDocument(new CampoLimitadoEmQdeLetrasMaiNumeros(50));
         txtCODIGO.setForeground(Color.red);
 
     }
@@ -227,7 +229,7 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("OBSERVAÇÕES");
+        jLabel9.setText("OBSERVAÇÕES 50 CARACTERES");
 
         jLabel6.setText("SEÇÃO");
 
@@ -274,7 +276,6 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
                     .addComponent(txtOBS)
                     .addGroup(jBoxDadosLayout.createSequentialGroup()
                         .addGroup(jBoxDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
                             .addGroup(jBoxDadosLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -304,7 +305,8 @@ public class F_PATRIMOMOVEL extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnFiltrarPorSecao)))
+                        .addComponent(btnFiltrarPorSecao))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
         );
         jBoxDadosLayout.setVerticalGroup(
