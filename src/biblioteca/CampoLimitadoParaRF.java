@@ -1,5 +1,6 @@
 package biblioteca;
 //Limita a digitação dentro de jTextField somente com 10 caracteres
+//EX de uso : txtPESQUISA.setDocument(new CampoLimitadoParaRF()); */
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

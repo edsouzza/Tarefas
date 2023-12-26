@@ -1,5 +1,6 @@
 package biblioteca;
 //Limita a digitação dentro de jTextField conforme qde desejada
+//EX de uso : txtPESQUISA.setDocument(new CampoLimitadoParaRFSomenteNumeros()); */
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

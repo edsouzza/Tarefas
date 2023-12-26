@@ -8,6 +8,7 @@ public class CampoTxtLimitadoPorQdeCaracteresLowerCase extends PlainDocument {
     //Limita a digitação de caracteres em um JTextArea também como JTextField em (Maiusculas/Minusculas)
     /*Limita a digitação dentro de jTextField com a qde de caracteres determinada pelo programador informada atraves de parametro 
       USO : txtDESTINO.setDocument(new CampoLimitadoParaDigitacao(40)) */
+    
     private int iMaxLength;
     public CampoTxtLimitadoPorQdeCaracteresLowerCase(int maxlen) {
         super();

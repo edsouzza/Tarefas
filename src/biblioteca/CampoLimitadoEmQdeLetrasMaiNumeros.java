@@ -1,5 +1,6 @@
 package biblioteca;
-//Limita a digitação dentro de jTextField somente com 10 caracteres ou o que o programador informar com parametro
+//Limita a digitação dentro de jTextField somente com 10 caracteres ou o que o programador informar com parametro.
+//EX de uso : txtDESTINO.setDocument(new CampoLimitadoEmQdeLetrasMaiNumeros(40)) 
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

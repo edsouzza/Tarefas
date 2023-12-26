@@ -1,5 +1,6 @@
 package biblioteca;
 //Limita a digitação dentro de jTextField somente com numeros
+//EX de uso : txtDESTINO.setDocument(new CampoLimitadoParaCHAPA(40)) 
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
