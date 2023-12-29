@@ -56,7 +56,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     
     String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";       
-    String sqlPatriDEPTOS  = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";      
+    //String sqlPatriDEPTOS  = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";      
     String sqlVazia        = "SELECT codigo FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo < 1";  
     String observacao, numemoinicial;
     int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;
@@ -427,40 +427,18 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                 umGravarLog.gravarLog("cadastro do memo de transferencia de patrimonios "+numMemoTransferido);
             }
             
-            if(!umMetodo.temUnidadesParaEnvio() && !umMetodo.temUnidadesParaDevolucao() && patriDeptos == true){
-            
-                JOptionPane.showMessageDialog(null, "Patrimônios Departamentos com status ENCERRADO para emissão do Memorando não encontrado!", "Sem patrimônios encerrados!", 2);
-                btnCancelarActionPerformed(null);  
-                
-            }else if((umMetodo.temUnidadesParaEnvio() || umMetodo.temUnidadesParaDevolucao() && patriDeptos == true)){
-                        
-                //ABRE ALISTA DE PATRIMONIOS ( PATRIDEPTOS ) COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO
-                F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
-                frmPatrimonios.setVisible(true);
-                btnImprimir.setEnabled(true);        
-                
-            }else if(patriDeptos == false){
-                        
-                //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS
-                F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
-                frmPatrimonios.setVisible(true);
-                btnImprimir.setEnabled(true);   
-                
-            }
+            //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS
+            F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
+            frmPatrimonios.setVisible(true);
+            btnImprimir.setEnabled(true);        
             
         }else{
             
             JOptionPane.showMessageDialog(null, "Entre primeiro com um número de Memorando para continuar!","Atenção número do Memorando inválido!",2);
             btnAdicionar.setEnabled(false);
             txtNUMEMO.requestFocus();
-        }   
-        
-        if(!patriDeptos){
-           PreencherTabela(sqlPatriCGGM);  
-        }else{           
-           PreencherTabela(sqlPatriDEPTOS); 
-           
-        }
+        }                   
+           PreencherTabela(sqlPatriCGGM);         
                 
         btnSair.setEnabled(false);   
         btnExcluirItem.setEnabled(false);
@@ -583,11 +561,9 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                     //Tudo Ok por aqui...
                     btnAdicionar.setEnabled(true);
                 }
-                if(!patriDeptos){
-                    PreencherTabela(sqlPatriCGGM);       
-                }else{
-                    PreencherTabela(sqlPatriDEPTOS);      
-                }
+                
+                PreencherTabela(sqlPatriCGGM);       
+                
             }
         }else{
             btnAdicionar.setEnabled(true);
