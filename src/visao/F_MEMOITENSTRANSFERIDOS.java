@@ -93,7 +93,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         umabiblio.configurarBotoes(btnExcluirItem);
         umabiblio.configurarBotoes(btnImprimir);
         umabiblio.configurarBotoes(btnSair);
-        umabiblio.configurarBotoes(btnSelecionarDestino);
                
         //cofigurações das tabelas
         jTabela.setFont(new Font("TimesRoman",Font.BOLD,12));
@@ -132,7 +131,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         txtORIGEM = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        btnSelecionarDestino = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2147483647, 860));
@@ -248,17 +246,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(51, 51, 255));
         jLabel8.setText("ORIGEM");
 
-        btnSelecionarDestino.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
-        btnSelecionarDestino.setText("Destino Patrimonios Deptos");
-        btnSelecionarDestino.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnSelecionarDestino.setEnabled(false);
-        btnSelecionarDestino.setPreferredSize(new java.awt.Dimension(77, 25));
-        btnSelecionarDestino.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelecionarDestinoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -271,6 +258,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,44 +269,38 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtORIGEM)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel4)
+                            .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSelecionarDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4))
+                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(txtOBSERVACAO)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
+                        .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSelecionarDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -337,19 +319,16 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1048, 808));
+        setSize(new java.awt.Dimension(1040, 804));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
             
@@ -364,7 +343,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         btnAdicionar.setEnabled(false);
         btnImprimir.setEnabled(false);
         btnExcluirItem.setEnabled(false);
-        btnSelecionarDestino.setEnabled(false);
         txtORIGEM.setEditable(true);
         txtDESTINO.setEditable(true);
         txtOBSERVACAO.setEditable(true);        
@@ -474,9 +452,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         btnAdicionar.setEnabled(true);
         btnCancelar.setEnabled(true);
         lstListaGenerica.clear();
-        patriDeptos=false;
-        btnSelecionarDestino.setEnabled(false);
-        
+        patriDeptos=false;        
     }//GEN-LAST:event_txtDESTINOKeyPressed
         
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -578,10 +554,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtDESTINO.requestFocus();            
         }
-        if(controlenaveg==1){
-             btnSelecionarDestino.setEnabled(true);
-             txtDESTINO.setEditable(false);             
-        }
+       
         btnSair.setEnabled(false);   
     }//GEN-LAST:event_txtORIGEMKeyPressed
 
@@ -592,32 +565,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private void txtDESTINOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDESTINOMouseClicked
         txtDESTINO.selectAll();
     }//GEN-LAST:event_txtDESTINOMouseClicked
-
-    private void btnSelecionarDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarDestinoActionPerformed
-        destinoMemorando = "";
-        patriDeptos=true;
-        
-        if(umMetodo.temUnidadesParaEnvio() || umMetodo.temUnidadesParaDevolucao()){
-            if(mostrouForm == false){
-                                
-                F_LISTADEPTOSMEMORANDO frm = new F_LISTADEPTOSMEMORANDO(this,true);
-                frm.setVisible(true);  
-                
-                mostrouForm = true;
-                btnAdicionar.setEnabled(true);
-                txtORIGEM.setEditable(false);
-                txtDESTINO.setEditable(false);
-                txtOBSERVACAO.requestFocus();
-            }
-        }else{
-             JOptionPane.showMessageDialog(null, "Ops, não temos patrimônios de departamentos disponíveis para emissão de memorando no momento!", "Sem patrimônios para encaminhamento!", 2);
-             btnCancelarActionPerformed(null);             
-        }
-        txtDESTINO.setText(destinoMemorando);
-        btnSelecionarDestino.setEnabled(false);
-        btnCancelar.setEnabled(true);
-
-    }//GEN-LAST:event_btnSelecionarDestinoActionPerformed
 
     private void txtORIGEMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtORIGEMFocusLost
         if(txtORIGEM.getText().equals("CGGM")){
@@ -690,7 +637,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluirItem;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnSair;
-    private javax.swing.JButton btnSelecionarDestino;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

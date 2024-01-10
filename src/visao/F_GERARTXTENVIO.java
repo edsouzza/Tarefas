@@ -59,7 +59,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     Date dataDia                                                = dataDoDia; 
     
     String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes,sObsMemo, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem  = "";
-    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont = 0;
+    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens = 0;
     Boolean metodoPADRAOINIFIM,inserindo,inseriuItem = false;   
     String[] getDados;
     
@@ -401,7 +401,6 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         btnEnviarDados.setText("Ler TXT Enviar");
         btnEnviarDados.setToolTipText("");
         btnEnviarDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEnviarDados.setEnabled(false);
         btnEnviarDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarDadosActionPerformed(evt);
@@ -494,8 +493,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         sMotivo      = dataDoDia+" : Transferido de "+sOrigem+" para "+sDestino+" através do Memorando "+sMemorando+"";
         sObservacoes = dataDoDia+" : Transferido de "+sOrigem+" para "+sDestino+" através do Memorando "+sMemorando+"";
         
-        //adicionando item na lista    
-        String dados = sCodigo+";" +sEstacao+";"+sSecaoid+";"+sClienteid+";"+sStatus; 
+        //adicionando item na lista   sMemorando  
+        String dados = sCodigo+";"+sEstacao+";"+sSecaoid+";"+sClienteid+";"+sMemorando+";"+sOrigem+";"+sDestino+";"+sSerie+";"+sStatus; 
         String item  = dados;           
         model.addElement(item);
         lstITENS.setModel(model);
@@ -550,7 +549,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         txtOBSERVACAO.setText("");      
         lstListaCampos.clear();
         model.clear();
-        inserindo=false;        
+        inserindo=false;    
+        qdeItens=0;
     }
     
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -582,6 +582,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         btnNovo.setEnabled(false);        
         btnLimpar.setEnabled(true);
         btnGerarTXT.setEnabled(false);
+        btnEnviarDados.setEnabled(false);
         valorItem=0;
         lstAuxiliar.clear();
         model.clear();
@@ -601,10 +602,11 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         }else{       
             addItensAoTXT();     
             txtCHAPA.setText("");   
-            btnSair.setEnabled(false);             
+            btnSair.setEnabled(false);  
+            qdeItens++;
         }
         inseriuItem = true;
-        btnGerarTXT.setEnabled(true);   
+        //btnGerarTXT.setEnabled(true);   
 
         //Grava itens no banco com status PROCESSANDO
         gravarItensNoBanco();
@@ -621,15 +623,45 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
             buscarNumeroChapaSerie();
             btnADDAOTXT.setEnabled(true);
             txtMENSAGEM.setText("Clique no botão ADD ao TXT para adicionar este equipamento ao memorando");
-            if(umMetodo.temDuplicidadeDeCadastroNoMemorando("TBLITENSMEMOTRANSFERIDOS", "serie", txtPESQUISA.getText(),"numemo",txtMEMORANDO.getText() ))               
+            String numSerie = txtPESQUISA.getText();
+            
+            int codItem = umMetodo.retornaCodigo("TBLPATRIMONIOS", "serie", txtPESQUISA.getText());
+            if(!umMetodo.statusRegistroInativo(codItem, "TBLPATRIMONIOS"))
             {
-                JOptionPane.showMessageDialog(null, "Ops esse equipamento já foi incluído nesse Memorando!", "Duplicidade de entrada!", 2); 
-                btnADDAOTXT.setEnabled(false);
-                txtCHAPA.setText("");
-                txtPESQUISA.setText("");
-                txtPESQUISA.requestFocus();
-                btnGerarTXT.setEnabled(true);   
+                
+                if(umMetodo.temDuplicidadeDeCadastroNoMemorando("TBLITENSMEMOTRANSFERIDOS", "serie", txtPESQUISA.getText(),"numemo",txtMEMORANDO.getText() ))               
+                {
+                    JOptionPane.showMessageDialog(null, "Ops o equipamento com série "+numSerie+" já foi incluído nesse Memorando!", "Duplicidade de entrada!", 2); 
+                    btnADDAOTXT.setEnabled(false);
+                    txtCHAPA.setText("");
+                    txtPESQUISA.setText("");
+                    txtPESQUISA.requestFocus();
+                    btnGerarTXT.setEnabled(false);
+                    
+                   //somente se a lista tiver pelo menos uma entrada senao => false
+                   if(qdeItens == 0){
+                        btnGerarTXT.setEnabled(false);    
+                    }else{
+                        btnGerarTXT.setEnabled(true);    
+                   }            
+                }else{
+                    btnGerarTXT.setEnabled(true);
+                }
+             }else{
+                    JOptionPane.showMessageDialog(null, "Ops o equipamento com série "+numSerie+" encontra-se INATIVADO no momento!", "Equipamento Inativo!", 2); 
+                    btnADDAOTXT.setEnabled(false);
+                    txtCHAPA.setText("");
+                    txtPESQUISA.setText("");
+                    txtPESQUISA.requestFocus();
+                    btnGerarTXT.setEnabled(false);
+                     //somente se a lista tiver pelo menos uma entrada senao => false
+                   if(qdeItens == 0){
+                       btnGerarTXT.setEnabled(false);
+                   }else{
+                       btnGerarTXT.setEnabled(true);    
+                   }                        
             }
+           
         }        
         
     }//GEN-LAST:event_txtPESQUISAKeyPressed
@@ -690,7 +722,9 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
 
     private void atualizarStatusEquipamentos()
     {        
-        //setando os valores no objeto do modelo  
+        //setando os valores no objeto do modelo
+        
+        codPatr = Integer.valueOf(sCodigo);
         String Motivobd = umMetodo.getStringPassandoCodigo("tblpatrimonios", "motivo", codPatr);
         String Obsbd    = umMetodo.getStringPassandoCodigo("tblpatrimonios", "observacoes", codPatr);
         
@@ -739,7 +773,11 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                     sEstacao            = linha.split(";")[1];
                     sSecaoid            = linha.split(";")[2];
                     sClienteid          = linha.split(";")[3];
-                    sStatus             = linha.split(";")[4];
+                    sMemorando          = linha.split(";")[4];
+                    sOrigem             = linha.split(";")[5];
+                    sDestino            = linha.split(";")[6];
+                    sSerie              = linha.split(";")[7];
+                    sStatus             = linha.split(";")[8];
                   
                     //Grava as alterações dos equipamentos a respeito do encaminhamento
                     atualizarStatusEquipamentos();
@@ -813,6 +851,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                 {
                     umModPatriTransferido.setObservacao("Obs : "+umMetodo.primeiraLetraMaiuscula(sMemoobservacao));
                 }else{
+                    //se já tiver Cadastro inicial
                     umModPatriTransferido.setObservacao(" ");
                 }
                 
@@ -886,6 +925,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
 
     private void txtPESQUISAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyReleased
         btnGerarTXT.setEnabled(false);
+        btnEnviarDados.setEnabled(false);
     }//GEN-LAST:event_txtPESQUISAKeyReleased
 
     private void txtCHAPAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCHAPAKeyPressed

@@ -1284,6 +1284,7 @@ private void disponibilizarIPImpressoraTransferida(){
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         umaBiblio.limparTodosCampos(rootPane);
+        
         if (!umaBiblio.tabelaVazia(tabela)) {
             PreencherTabelaATIVOS(sqlDefaultATIVOS);
             btnImprimir.setEnabled(true);
@@ -1292,10 +1293,13 @@ private void disponibilizarIPImpressoraTransferida(){
             btnImprimir.setEnabled(false);
             btnPesquisar.setEnabled(false);
         }
+        
         if(jTabbedPane2.getSelectedIndex() == 1){
             jTabbedPane2.setSelectedIndex(0);
             clicouInativos=false;
+            txtPESQUISA.setEnabled(true);
         }
+        
         HabilitarConsulta();  
         txtPESQUISA.setEnabled(true);
         txtSERIE.setEditable(false);
@@ -1387,7 +1391,7 @@ private void disponibilizarIPImpressoraTransferida(){
         alterandonomestacao = false;
         
         JOptionPane.showMessageDialog(null, "Os nome da estação não foi alterado!", "Operação cancelada pelo usuário!", 2);
-        
+        txtPESQUISA.setEnabled(true);
     }    
     
     private void PreencherComboFILTRARPORSECAO()
