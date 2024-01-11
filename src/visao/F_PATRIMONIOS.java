@@ -69,6 +69,8 @@ import java.awt.Font;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -124,7 +126,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
     ControleListaPatrimonios umCtrLista          = new ControleListaPatrimonios();
     
     String descricaoDeReativacao,motivoReativacao,patrimonio, situacao, nomeCli, nomeTipo, nomeESTACAOOLD, numIPOLD, STATUSIPOLD, nomeClienteOLD, motivoInativacao, estacao, obs, serie, chapa, paramPesquisa, paramPesqCod, paramPesqIP, nomeColuna, nomeEstacao, nomeEstacaoAtual, ip, observacaoDeInativacao, tipo, contrato, nomestacaoCad, nomeInicial, nomeFinal, motivo, nomeSecao,novaObservacao,deContrato  = null; 
-    int cont,ipesqPorCod,ipesqPorIP,codEstacaoParaEditar,codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo,deptoid, tipoid, controleMostraDescricao, idCodigoIPDisponivel, idCodigoEstacaoDisponivel, codPatrimonio,codTipoid = 0;
+    int cont,ipesqPorCod,ipesqPorIP,codEstacaoParaEditar,codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo,deptoid, tipoid, controleMostraDescricao, idCodigoIPDisponivel, idCodigoEstacaoDisponivel, codPatrimonio,codTipoid, contClick = 0;
     boolean entrouNovaObs, selecionouTipo,escolheuModelo,reativando,gravando,transferindo,semIP, temIP, alterouIP, alterouEstacao, editando, cadastrando, flagImprimiu, listouClientesParaEdicao, alterouStatus, bEncontrou, clicouNaTabela, filtrou, naoMicro, clicouInativos, filtrouClicou, selecionouItem,estacaoRecebeuDisponivel;      
     String sqlDefaultATIVOS   = "select p.*, c.nome as cliente, s.nome as secao, t.*, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status = 'ATIVO' ORDER BY p.codigo desc";
     String sqlDefaultINATIVOS = "select p.*, c.nome as cliente, s.nome as secao, t.*, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status = 'INATIVO' ORDER BY p.datainativacao desc";
@@ -222,15 +224,15 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtSERIE = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        cmbSTATUS = new javax.swing.JComboBox<>();
+        cmbSTATUS = new javax.swing.JComboBox<String>();
         btnFILTRAR = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtCODIGO = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        cmbFILTRAPORTIPO = new javax.swing.JComboBox<>();
+        cmbFILTRAPORTIPO = new javax.swing.JComboBox<String>();
         txtCHAPA = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        cmbFILTRARPORSECAO = new javax.swing.JComboBox<>();
+        cmbFILTRARPORSECAO = new javax.swing.JComboBox<String>();
         txtCLIENTE = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtESTACAO = new javax.swing.JTextField();
@@ -239,7 +241,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
         txtIP = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        cmbMODELOS = new javax.swing.JComboBox<>();
+        cmbMODELOS = new javax.swing.JComboBox<String>();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtOBSERVACOES = new javax.swing.JTextArea();
         txtTIPO = new javax.swing.JTextField();
@@ -401,7 +403,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
         jLabel2.setText("CONTRATO");
 
         cmbSTATUS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "INATIVO" }));
+        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ATIVO", "INATIVO" }));
         cmbSTATUS.setSelectedIndex(-1);
         cmbSTATUS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbSTATUS.setEnabled(false);
@@ -435,7 +437,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
 
         cmbFILTRAPORTIPO.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         cmbFILTRAPORTIPO.setForeground(new java.awt.Color(51, 51, 255));
-        cmbFILTRAPORTIPO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<ESCOLHA  TIPO>", "MICRO", "MONITOR", "IMPRESSORA" }));
+        cmbFILTRAPORTIPO.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<ESCOLHA  TIPO>", "MICRO", "MONITOR", "IMPRESSORA" }));
         cmbFILTRAPORTIPO.setToolTipText("Escolha um tipo para filtrar");
         cmbFILTRAPORTIPO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbFILTRAPORTIPO.addItemListener(new java.awt.event.ItemListener() {
@@ -459,9 +461,19 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
 
         cmbFILTRARPORSECAO.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         cmbFILTRARPORSECAO.setForeground(new java.awt.Color(51, 51, 255));
-        cmbFILTRARPORSECAO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<ESCOLHA A SEÇÃO>" }));
+        cmbFILTRARPORSECAO.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<ESCOLHA A SEÇÃO>" }));
         cmbFILTRARPORSECAO.setToolTipText("Escolha uma seção para filtrar");
         cmbFILTRARPORSECAO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbFILTRARPORSECAO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbFILTRARPORSECAOMouseClicked(evt);
+            }
+        });
+        cmbFILTRARPORSECAO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFILTRARPORSECAOActionPerformed(evt);
+            }
+        });
 
         txtCLIENTE.setEditable(false);
         txtCLIENTE.setForeground(new java.awt.Color(51, 51, 255));
@@ -521,9 +533,6 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
             }
         });
         txtIP.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtIPKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtIPKeyReleased(evt);
             }
@@ -535,7 +544,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
 
         cmbMODELOS.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         cmbMODELOS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbMODELOS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<ESCOLHA O MODELO>", " " }));
+        cmbMODELOS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<ESCOLHA O MODELO>", " " }));
         cmbMODELOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbMODELOS.setEnabled(false);
         cmbMODELOS.addItemListener(new java.awt.event.ItemListener() {
@@ -1197,7 +1206,7 @@ private void disponibilizarIPImpressoraTransferida(){
         if( indiceTipo == -1  && indiceSecao == -1 && !clicouInativos)
         {
                 //imprime todos os patrimonios cadastrados pois não filtrou seção ou tipo
-                if (umaBiblio.ConfirmouOperacao("Confirma a impressão de todos os patrimônios cadastrados e ativos?", "Impressão Geral")){
+                if (umaBiblio.ConfirmouOperacao("Confirma a impressão de todos os patrimônios cadastrados e ativos?", "Impressão de Ativos")){
                         GerarRelatorios objRel = new GerarRelatorios();
                         try {
                             objRel.imprimirTodosPatrimonios("relatorio/relpatrimonios.jasper",tabela);
@@ -1207,12 +1216,14 @@ private void disponibilizarIPImpressoraTransferida(){
                 }
         }if(clicouInativos && indiceTipo == -1  && indiceSecao == -1){
             //imprime todos os patrimonios INATIVOS pois não filtrou seção ou tipo
-            GerarRelatorios objRel = new GerarRelatorios();
-            try {
-                objRel.imprimirPatrimoniosInativos("relatorio/relpatrimoniosinativos.jasper",tabela);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-            }         
+            if (umaBiblio.ConfirmouOperacao("Confirma a impressão de todos os patrimônios cadastrados e inativos?", "Impressão de Inativos")){
+                GerarRelatorios objRel = new GerarRelatorios();
+                try {
+                    objRel.imprimirPatrimoniosInativos("relatorio/relpatrimoniosinativos.jasper",tabela);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+                }   
+            }
         }if(clicouNaTabela && !filtrou){
             //imprimir o registro selecionado na tabela sem filtrar
             GerarRelatorios objRel = new GerarRelatorios();
@@ -1270,10 +1281,19 @@ private void disponibilizarIPImpressoraTransferida(){
                 JOptionPane.showMessageDialog(null, "Erro ao gerar relatório do tipo selecionado!\n"+e);                
             }               
         } 
-       btnVoltar.setEnabled(true);
-       btnExcel.setEnabled(false); 
-       btnPesquisar.setEnabled(false); 
-       btnImprimir.setEnabled(false); 
+
+        btnImprimir.setEnabled(true);  
+        btnVoltar.setEnabled(true);
+        btnNovo.setEnabled(false);
+        btnCadSemRede.setEnabled(false);        
+        txtPESQUISA.setEnabled(false);
+        btnExcel.setEnabled(false);
+        btnPesquisar.setEnabled(false);
+        btnGravar.setEnabled(false);
+        txtNUMESTACAO.setEnabled(false);
+        btnHistorico.setEnabled(false);
+        LblPesquisaPorCod.setEnabled(false);
+        DesabilitarConsulta();    
     }
     
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -1285,12 +1305,16 @@ private void disponibilizarIPImpressoraTransferida(){
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         umaBiblio.limparTodosCampos(rootPane);
         
+        jTabbedPane2.setSelectedIndex(0);  
+        Leitura();
+        txtPESQUISA.setEnabled(true);
+        txtPESQUISA.requestFocus();
+        cmbMODELOS.setSelectedIndex(-1);
+        
+    
         if (!umaBiblio.tabelaVazia(tabela)) {
-            PreencherTabelaATIVOS(sqlDefaultATIVOS);
-            btnImprimir.setEnabled(true);
-            btnPesquisar.setEnabled(true);
+            PreencherTabelaATIVOS(sqlDefaultATIVOS);  
         }else{
-            btnImprimir.setEnabled(false);
             btnPesquisar.setEnabled(false);
         }
         
@@ -1298,50 +1322,55 @@ private void disponibilizarIPImpressoraTransferida(){
             jTabbedPane2.setSelectedIndex(0);
             clicouInativos=false;
             txtPESQUISA.setEnabled(true);
+            btnVoltar.setEnabled(false);
+            btnVoltar.setText("Voltar");
+//            JOptionPane.showMessageDialog(rootPane, "CLICOU NO BOTAO VOLTAR");
         }
-        
-        HabilitarConsulta();  
-        txtPESQUISA.setEnabled(true);
-        txtSERIE.setEditable(false);
-        txtOBSERVACOES.setEditable(false);
-        txtIP.setEditable(false);
-        txtIP.setEnabled(true);
-        txtCHAPA.setEditable(false);
-        txtESTACAO.setEditable(false);
-        txtESTACAO.setEnabled(true);
-        txtCODIGO.setEditable(false);
-        btnEditar.setEnabled(false);
-        btnNovo.setEnabled(true);
-        btnCadSemRede.setEnabled(true);
-        btnExcel.setEnabled(true);
-        btnVoltar.setEnabled(false);
-        btnVoltar.setText("Voltar");
-        btnVoltar.setToolTipText("Cancelar");
-        btnGravar.setText("Gravar");        
-        btnGravar.setEnabled(false);
-        btnHistorico.setEnabled(false);
-        btnPesquisar.setEnabled(true);
-        btnGerarObsAdicional.setEnabled(false);
-        btnSair.setEnabled(true);
-        btnLISTARCLIENTESPARAEDITAR.setEnabled(false);
-        cmbFILTRAPORTIPO.setEnabled(true);
-        cmbFILTRARPORSECAO.setEnabled(true);       
-        cmbMODELOS.setEnabled(false);
-        cmbSTATUS.removeAllItems();
-        cmbSTATUS.setEnabled(false);
-        cmbFILTRARPORSECAO.setSelectedIndex(-1);
-        cmbFILTRAPORTIPO.setSelectedIndex(-1);
-        btnFILTRAR.setEnabled(true);
-        txtTIPO.setEnabled(true);
-        txtTIPO.setEditable(false);
-        txtCODIGO.requestFocus();
-        txtOBSERVACOES.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        LblPesquisaPorCod.setEnabled(true);        
-        
+     
+//        
+//        HabilitarConsulta();  
+//        txtPESQUISA.setEnabled(true);
+//        txtSERIE.setEditable(false);
+//        txtOBSERVACOES.setEditable(false);
+//        txtIP.setEditable(false);
+//        txtIP.setEnabled(true);
+//        txtCHAPA.setEditable(false);
+//        txtESTACAO.setEditable(false);
+//        txtESTACAO.setEnabled(true);
+//        txtCODIGO.setEditable(false);
+//        btnEditar.setEnabled(false);
+//        btnNovo.setEnabled(true);
+//        btnCadSemRede.setEnabled(true);
+//        btnExcel.setEnabled(true);
+//        btnVoltar.setEnabled(false);
+//        btnVoltar.setText("Voltar");
+//        btnVoltar.setToolTipText("Cancelar");
+//        btnGravar.setText("Gravar");        
+//        btnGravar.setEnabled(false);
+//        btnHistorico.setEnabled(false);
+//        btnPesquisar.setEnabled(true);
+//        btnGerarObsAdicional.setEnabled(false);
+//        btnSair.setEnabled(true);
+//        btnLISTARCLIENTESPARAEDITAR.setEnabled(false);
+//        cmbFILTRAPORTIPO.setEnabled(true);
+//        cmbFILTRARPORSECAO.setEnabled(true);       
+//        cmbMODELOS.setEnabled(false);
+//        cmbSTATUS.removeAllItems();
+//        cmbSTATUS.setEnabled(false);
+//        cmbFILTRARPORSECAO.setSelectedIndex(-1);
+//        cmbFILTRAPORTIPO.setSelectedIndex(-1);
+//        btnFILTRAR.setEnabled(true);
+//        txtTIPO.setEnabled(true);
+//        txtTIPO.setEditable(false);
+//        txtCODIGO.requestFocus();
+//        txtOBSERVACOES.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+//        LblPesquisaPorCod.setEnabled(true);        
+//        
         cadastrando                 = false;
         listouClientesParaEdicao    = false;
         userInformatica             = false;    
         editando                    = false;
+        clicouInativos              = false;    
         clicouNaTabela              = false;
         selecionouTipo              = false;
         filtrouClicou               = false;
@@ -1446,6 +1475,7 @@ private void disponibilizarIPImpressoraTransferida(){
         umaBiblio.limparTodosCampos(rootPane);  //LIMPA TODOS OS EDITS 
         PreencherComboFILTRARPORSECAO();
         PreencherComboFILTRARPORTIPO();
+        btnCadSemRede.setEnabled(true);
         btnNovo.setEnabled(true);
         btnGravar.setEnabled(false);
         btnVoltar.setEnabled(false);
@@ -1467,8 +1497,10 @@ private void disponibilizarIPImpressoraTransferida(){
         txtTIPO.setEnabled(true);
         txtTIPO.setEditable(false);
         LblPesquisaPorCod.setEnabled(true);
+        cont=0;
 
     }
+    
     public void HabilitarConsulta() {
         cmbFILTRARPORSECAO.setEnabled(true);
         cmbFILTRAPORTIPO.setEnabled(true);
@@ -2191,7 +2223,7 @@ private void gravarEdicaoRegistro()
     }//GEN-LAST:event_txtCODIGOFocusGained
 
     private void cmbSTATUSItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSTATUSItemStateChanged
-        alterouStatus = true;
+        alterouStatus = true;        
     }//GEN-LAST:event_cmbSTATUSItemStateChanged
     
     private void selecionarPrimeiroRegistro(){
@@ -2386,9 +2418,7 @@ private void gravarEdicaoRegistro()
                         + "and p.tipoid=t.codigo and p.clienteid=c.codigo and p.status = 'ATIVO' and t.tipo= '" + nomeTipo + "'");
 
                 btnNovo.setEnabled(false);
-                btnExcel.setEnabled(false);
-                btnVoltar.setText("Limpar");
-                btnVoltar.setToolTipText("Limpar Pesquisa");
+                btnExcel.setEnabled(false);                
                 this.setTitle("Total de registros retornados pela pesquisa = "+totalRegs);  //passando o total de registros para o titulo
                 selecionouTipo  = true;
                 flagImprimiu    = true;                
@@ -2406,12 +2436,6 @@ private void gravarEdicaoRegistro()
                 }                      
             }
 
-            btnVoltar.setEnabled(true);
-            btnVoltar.setToolTipText("Limpar pesquisa");
-            btnPesquisar.setEnabled(false);        
-            btnCadSemRede.setEnabled(false);        
-            
-
             //libera o botao de impressao somente se selecionar o tipo e a seção
             if( totalRegs > 0 ){
                 btnImprimir.setEnabled(true);
@@ -2428,11 +2452,17 @@ private void gravarEdicaoRegistro()
             if(totalRegs==0){
                 btnVoltarActionPerformed(null);
                 btnFILTRAR.setEnabled(true);
-                btnVoltar.setEnabled(true);
-                btnVoltar.setText("Voltar");
+                
             }
         }
-        filtrou  = true;        
+        filtrou  = true;      
+        cmbFILTRARPORSECAO.setEnabled(false);
+        cmbFILTRAPORTIPO.setEnabled(false);
+        btnFILTRAR.setEnabled(false);
+        btnVoltar.setEnabled(true);
+        btnVoltar.setText("Voltar");
+        btnPesquisar.setEnabled(false);        
+        btnCadSemRede.setEnabled(false);        
         
     }//GEN-LAST:event_btnFILTRARActionPerformed
 
@@ -2443,14 +2473,17 @@ private void gravarEdicaoRegistro()
             DesabilitarConsulta();   
             umaBiblio.limparTodosCampos(rootPane);
             btnEditar.setEnabled(false);
-            btnVoltar.setEnabled(false);
+            btnVoltar.setEnabled(true);
+            btnImprimir.setEnabled(true);
             btnNovo.setEnabled(false);            
             btnExcel.setEnabled(false);
-            btnCadSemRede.setEnabled(false);
-            cmbFILTRARPORSECAO.setSelectedIndex(-1);
+            txtPESQUISA.setEnabled(false);
             txtPESQUISA.setText(null);
-            clicouInativos=true;
-           
+            btnHistorico.setEnabled(false);
+            btnCadSemRede.setEnabled(false);
+            cmbFILTRARPORSECAO.setSelectedIndex(-1);            
+            clicouInativos=true;            
+            
             if(filtrou){
                 btnImprimir.setEnabled(false);
                 btnVoltar.setText("Voltar");
@@ -2914,7 +2947,7 @@ private void gravarEdicaoRegistro()
         F_CONSHISTORICO frm = new F_CONSHISTORICO(new JFrame(),true);
         frm.setVisible(true); 
         
-        btnHistorico.setEnabled(false);
+        //btnHistorico.setEnabled(false);
         btnVoltar.setEnabled(true);
     }//GEN-LAST:event_btnHistoricoActionPerformed
        
@@ -3067,6 +3100,18 @@ private void gravarEdicaoRegistro()
         filtrou=true;
         cmbFILTRARPORSECAO.setSelectedItem(nomeSecao);
         btnImprimir.setEnabled(true);  
+        btnVoltar.setEnabled(true);
+        btnNovo.setEnabled(false);
+        btnCadSemRede.setEnabled(false);
+        btnImprimir.setEnabled(false);
+        txtPESQUISA.setEnabled(false);
+        btnExcel.setEnabled(false);
+        btnPesquisar.setEnabled(false);
+        btnGravar.setEnabled(false);
+        txtNUMESTACAO.setEnabled(false);
+        btnHistorico.setEnabled(true);
+        LblPesquisaPorCod.setEnabled(false);
+        DesabilitarConsulta();    
         
     }
     
@@ -3082,14 +3127,14 @@ private void gravarEdicaoRegistro()
     }//GEN-LAST:event_txtPESQUISAKeyPressed
 
     private void txtPESQUISAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPESQUISAFocusGained
-        cmbFILTRAPORTIPO.setEnabled(false);
-        cmbFILTRARPORSECAO.setEnabled(false);
-        btnFILTRAR.setEnabled(false);
-        btnImprimir.setEnabled(false);
-        btnExcel.setEnabled(false);
-        btnPesquisar.setEnabled(false);
-        btnNovo.setEnabled(false);
-        btnVoltar.setEnabled(true);
+//        cmbFILTRAPORTIPO.setEnabled(false);
+//        cmbFILTRARPORSECAO.setEnabled(false);
+//        btnFILTRAR.setEnabled(false);
+//        btnImprimir.setEnabled(false);
+//        btnExcel.setEnabled(false);
+//        btnPesquisar.setEnabled(false);
+//        btnNovo.setEnabled(false);
+//        btnVoltar.setEnabled(true);
     }//GEN-LAST:event_txtPESQUISAFocusGained
 
     private void txtPESQUISAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPESQUISAMouseClicked
@@ -3150,7 +3195,9 @@ private void gravarEdicaoRegistro()
         btnVoltar.setEnabled(true);
         btnNovo.setEnabled(false);
         btnCadSemRede.setEnabled(false);
-        btnImprimir.setEnabled(true);
+        btnImprimir.setEnabled(false);
+        txtPESQUISA.setEnabled(false);
+        btnExcel.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnGravar.setEnabled(false);
         txtNUMESTACAO.setEnabled(false);
@@ -3186,6 +3233,9 @@ private void gravarEdicaoRegistro()
         btnHistorico.setEnabled(true);
         btnVoltar.setEnabled(true);
         txtNUMESTACAO.setEnabled(false);
+        txtPESQUISA.setEnabled(false);
+        btnExcel.setEnabled(false);
+        btnImprimir.setEnabled(false);
         txtIP.setEnabled(true);
         txtIP.setEditable(false);
         txtTIPO.setEnabled(true);
@@ -3499,21 +3549,32 @@ private void gravarEdicaoRegistro()
         LblPesquisaPorCod.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));        
     }//GEN-LAST:event_LblPesquisaPorCodMouseMoved
 
-    private void txtIPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIPKeyPressed
-//        if(!umMetodo.tipoTemIP(txtTIPO.getText()))
-//        {
-//            JOptionPane.showMessageDialog(null, "Este tipo de equipamento não aceita cadastro de IP!","Valor digitado não é válido!",2);
-//            txtIP.setText("0");
-//            txtCHAPA.requestFocus();
-//        }
-    }//GEN-LAST:event_txtIPKeyPressed
-
     private void txtCHAPAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCHAPAFocusLost
         if(txtCHAPA.getText().equals(""))
         {
            txtCHAPA.setText("009"+umMetodo.gerarNumeroAleatorio());
         }
     }//GEN-LAST:event_txtCHAPAFocusLost
+
+    private void cmbFILTRARPORSECAOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFILTRARPORSECAOActionPerformed
+        itemSelecionadoNaComboPorSecao();          
+    }//GEN-LAST:event_cmbFILTRARPORSECAOActionPerformed
+     
+    private void itemSelecionadoNaComboPorSecao(){
+        if(cont == 1){            
+            btnCadSemRede.setEnabled(false);
+            btnNovo.setEnabled(false);
+            btnPesquisar.setEnabled(false);
+            btnHistorico.setEnabled(false);
+            btnExcel.setEnabled(false);
+            btnImprimir.setEnabled(false);
+            cont = 0;
+        }
+    }
+    
+    private void cmbFILTRARPORSECAOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbFILTRARPORSECAOMouseClicked
+        cont = 1;
+    }//GEN-LAST:event_cmbFILTRARPORSECAOMouseClicked
         
     private void mostrarDescricao(int idMod){
         //Mostrando a descricao vinda da tabela de modelos
