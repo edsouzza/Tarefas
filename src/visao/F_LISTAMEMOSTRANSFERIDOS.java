@@ -7,6 +7,7 @@ import biblioteca.SomenteNumeros;
 import biblioteca.TudoMaiusculas;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.numemoParaEditarObs;
+import static biblioteca.VariaveisPublicas.numemoParaImprimir;
 import conexao.ConnConexao;
 import java.awt.Color;
 import java.awt.Font;
@@ -273,7 +274,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
         //AO CLICAR EM UM REGISTRO DA TABELA MOSTRAR OS DADOS NOS EDITS
         icodigo              = (int)jTabela.getValueAt(jTabela.getSelectedRow(), 0);
-        numemo               = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 1);
+        numemoParaImprimir   = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 1);
         numemoParaEditarObs  = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 1);
         
         btnImprimir          .setEnabled(true);
@@ -290,10 +291,10 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         {  
             if (umabiblio.ConfirmouOperacao("Confirma a exclusão do memorando selecionado?", "Exclusão de memorando"))
             {        
-                if (umCtrlPatriTranferido.excluirMemoTransferido(numemo))
+                if (umCtrlPatriTranferido.excluirMemoTransferido(numemoParaImprimir))
                 {                
                     //esta exclusao devera afetar as duas tabelas TBLMEMOSTRANSFERIDOS | TBLITENSMEMOTRANSFERIDOS             
-                    umCtrlPatrItemTranferido.excluirItensDoMemoSelecionado(numemo);
+                    umCtrlPatrItemTranferido.excluirItensDoMemoSelecionado(numemoParaImprimir);
                     JOptionPane.showMessageDialog(null, "O memorando selecionado foi excluído e seus ítens reativados com sucesso!","Exclusão de memorando!",1);
                     PreencherTabela(sqlDinamica);                 
                 }            
@@ -327,15 +328,12 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
                     
-        GerarRelatorios objRel = new GerarRelatorios();
-        try {
-            objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relimprimirmemodetransferidos.jasper", numemo);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-        }          
+       F_ESCOLHAIMPRESSAO frm = new F_ESCOLHAIMPRESSAO();
+       frm.setVisible(true);
               
-        umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemo);
+        umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir);
         Leitura();
+        
     }//GEN-LAST:event_btnImprimirActionPerformed
     
     public void limparCampos() {

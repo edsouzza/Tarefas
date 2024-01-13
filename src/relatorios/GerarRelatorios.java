@@ -400,14 +400,14 @@ public class GerarRelatorios
         viewer.setVisible(true);        
         conexao.close();        
     } 
-    public void imprimirPatrimoniosTransferidos(String caminho) throws JRException,Exception
+    public void imprimirPatrimoniosTransferidos(String caminho, String pParam) throws JRException,Exception
     {                    
         //exibindo o relatorio
         HashMap filtro = new HashMap();         
                         
         ImageIcon gto = new ImageIcon(getClass().getResource("/images/cabecalho.png"));
         filtro.put("CABECALHO", gto.getImage());
-        
+        filtro.put("numemo", pParam);
         JasperPrint impressao = JasperFillManager.fillReport( caminho, filtro, conexao );
         JasperViewer viewer   = new JasperViewer( impressao , false );
         viewer.setTitle("Relatório de Patrimônios Transferidos");
@@ -423,8 +423,7 @@ public class GerarRelatorios
                         
         ImageIcon gto = new ImageIcon(getClass().getResource("/images/cabecalho.png"));
         filtro.put("CABECALHO", gto.getImage());
-        filtro.put("numemo", pParam);
-        
+        filtro.put("numemo", pParam);        
         JasperPrint impressao = JasperFillManager.fillReport( caminho, filtro, conexao );
         JasperViewer viewer   = new JasperViewer( impressao , false );
         viewer.setTitle("Relatório de Patrimônios Transferidos pelo Número do Memorando");

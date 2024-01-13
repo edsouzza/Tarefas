@@ -462,13 +462,13 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                 
         GerarRelatorios objRel = new GerarRelatorios();
         try {
-            objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper");
+            objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numMemoTransferido);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }    
         
         //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
-        umMetodo.atualizarStatusParaTransferidos();
+        umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
         
         /*Preciso passar um array lista de strings com os codigos e transforma-los em integer para passar como parametro do metodo 
         e asssim atualizar todos os registros incluidos no memorando*/        

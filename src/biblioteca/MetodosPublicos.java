@@ -17,6 +17,7 @@ import static biblioteca.VariaveisPublicas.idUsuarioInativado;
 import static biblioteca.VariaveisPublicas.anoVigente;
 import static biblioteca.VariaveisPublicas.contador;
 import static biblioteca.VariaveisPublicas.lstListaStringsAuxiliar;
+import static biblioteca.VariaveisPublicas.controlaNumemo;
 import static biblioteca.VariaveisPublicas.isUsuario;
 import conexao.ConnConexao;
 import java.awt.Component;
@@ -508,15 +509,35 @@ public class MetodosPublicos {
         }
     }  
     
-    public void atualizarStatusParaTransferidos() 
+    public void atualizarStatusParaTransferidos(String numemo) 
     {
         conexao.conectar();
         try 
         {
-            sql = "UPDATE TBLITENSMEMOTRANSFERIDOS SET status=? WHERE status=?";
+            sql = "UPDATE TBLITENSMEMOTRANSFERIDOS SET status=? WHERE status=? AND numemo=?";
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
             pst.setString(1, "TRANSFERIDO");           
             pst.setString(2, "PROCESSANDO");    
+            pst.setString(3, numemo);    
+            pst.executeUpdate(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de inserção sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+    }  
+    
+    public void atualizarStatusDosMemosParaTransferidos(String numemo) 
+    {
+        conexao.conectar();
+        try 
+        {
+            sql = "UPDATE TBLMEMOSTRANSFERIDOS SET status=? WHERE status=? AND numemo=?";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, "TRANSFERIDO");           
+            pst.setString(2, "PROCESSANDO");  
+            pst.setString(3, numemo);   
             pst.executeUpdate(); 
             
         } catch (Exception e) {
@@ -3025,7 +3046,8 @@ public class MetodosPublicos {
         int proximoMemo;
         
         //identificar qual o numero do último memorando cadastrado pesquisando no BD gerando valor para variavel valorCampo abaixo ex: 10/2018
-        String valorCampo = getValorCampoUltimoCodigo("TBLITENSMEMOTRANSFERIDOS", "numemo", "status");
+        //String valorCampo = getValorCampoUltimoCodigo("TBLITENSMEMOTRANSFERIDOS", "numemo", "status");
+        String valorCampo = getValorCampoUltimoCodigo("TBLMEMOSTRANSFERIDOS", "numemo", "status");
         
         //agora temos que pegar apenas o numero 10 acima e convetê-lo para int ou seja precisamos de qualquer valor antes da barra        
         //Posição do caracter ( / ) barra na string
@@ -3035,7 +3057,10 @@ public class MetodosPublicos {
         String svalorUltimoRegistro = valorCampo.substring(0, pos);
         
         //variavel int ultimoMemo recebe o numero 10 que vem antes da barra como inteiro para prosseguimento
-        int ultimoMemo = Integer.valueOf(svalorUltimoRegistro);        
+        int ultimoMemo = Integer.valueOf(svalorUltimoRegistro); 
+        
+        //incrementa a variavel que controla os numeros de memorandos
+        controlaNumemo = ultimoMemo;
         
         //Identificando o ano do ultimo memo cadastrado para comparar com o ano vigente - split gera um vetor a partir da separacao da / ou seja 10/2018 gera [10,2018] sendo indice 0 = 10 e indice 1 = 2018
         String[]anoDoUltimoMemo = valorCampo.split("/");         

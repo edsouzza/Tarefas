@@ -3104,7 +3104,6 @@ private void gravarEdicaoRegistro()
         btnNovo.setEnabled(false);
         btnCadSemRede.setEnabled(false);
         btnImprimir.setEnabled(false);
-        txtPESQUISA.setEnabled(false);
         btnExcel.setEnabled(false);
         btnPesquisar.setEnabled(false);
         btnGravar.setEnabled(false);
