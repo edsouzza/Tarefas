@@ -47,7 +47,7 @@ public class GerarNumDespachos {
         String ano = String.valueOf(umMetodo.retornaAnoVigente());  
         
         //identificar qual o numero do último despacho cadastrado pesquisando no BD gerando valor para variavel valorCampo abaixo ex: 10/2018
-        String valorCampo = umMetodo.getValorCampoUltimoCodigo("TBLNUMDESPACHOS", "numdespacho", "status");
+        String valorCampo = umMetodo.getValorCampoUltimoCodigo("TBLNUMDESPACHOS", "numdespacho");
         
         //agora temos que pegar apenas o numero 10 acima e convetê-lo para int ou seja precisamos de qualquer valor antes da barra        
         //Posição do caracter ( / ) barra na string

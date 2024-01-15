@@ -1236,11 +1236,13 @@ public class MetodosPublicos {
 
     }
     
-     public String getValorCampoUltimoCodigo(String tabela, String campo, String campoAgrupado) {                  
+     //public String getValorCampoUltimoCodigo(String tabela, String campo, String campoAgrupado) {                  
+     public String getValorCampoUltimoCodigo(String tabela, String campo) {                  
         conn = conexao.conectar();      
         try
         {  
-            sql = "Select "+campo+" From "+tabela+" Where codigo In (Select Max(codigo) From "+tabela+" Group By "+campoAgrupado+")";                       
+            //sql = "Select "+campo+" From "+tabela+" Where codigo In (Select Max(codigo) From "+tabela+" Group By "+campoAgrupado+")";                       
+            sql = "Select "+campo+" From "+tabela+" Where codigo In (Select Max(codigo) From "+tabela+")";                       
             conexao.ExecutarPesquisaSQL(sql); 
             if(conexao.rs.next()){
                return conexao.rs.getString(campo); 
@@ -1453,6 +1455,26 @@ public class MetodosPublicos {
         //retorna uma String como(valorRetorno) do codigo passado como parametro da tabela entrada
         conn = conexao.conectar();
         sql = "select * FROM " + tabela + " WHERE codigo = '" + codigo + "'";
+        conexao.ExecutarPesquisaSQL(sql);
+        try {
+            if (conexao.rs.next()){
+                return conexao.rs.getString(valorRetorno);
+            }else{
+                return null;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar encontrar uma string passando um valor de código! " + ex);
+            return null;
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
+    public String getStringPassandoString(String tabela, String valorRetorno, String campoComparacao, String valorComparacao) {
+        //retorna uma String como(valorRetorno) passando uma string como parametro
+        conn = conexao.conectar();
+        sql = "select " + valorRetorno + " FROM " + tabela + " WHERE " + campoComparacao + " = '" + valorComparacao + "'";
+        //JOptionPane.showMessageDialog(null, sql);
         conexao.ExecutarPesquisaSQL(sql);
         try {
             if (conexao.rs.next()){
@@ -2910,6 +2932,25 @@ public class MetodosPublicos {
         }      
     }
     
+    public Boolean itemEnviadoAtravesDeOutroMemorando(String sSerie){        
+        conexao.conectar();        
+        try {
+            sql = "SELECT serie, numemo FROM TBLITENSMEMOTRANSFERIDOS WHERE serie ='"+sSerie+"' AND status='PROCESSANDO'";               
+            //JOptionPane.showMessageDialog(null, sql);
+            conexao.ExecutarPesquisaSQL(sql);
+            if ((conexao.rs.next())) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar verificar se existe duplicidade de cadastro na tabela "+tabela+"" + ex);
+            return false;
+        } finally {
+            conexao.desconectar();
+        }      
+    }
+    
     public String gerarRangeNomeEstacaoPeloDepto(String nomeDepto){
             
         conexao.conectar();
@@ -3046,8 +3087,8 @@ public class MetodosPublicos {
         int proximoMemo;
         
         //identificar qual o numero do último memorando cadastrado pesquisando no BD gerando valor para variavel valorCampo abaixo ex: 10/2018
-        //String valorCampo = getValorCampoUltimoCodigo("TBLITENSMEMOTRANSFERIDOS", "numemo", "status");
-        String valorCampo = getValorCampoUltimoCodigo("TBLMEMOSTRANSFERIDOS", "numemo", "status");
+        //String valorCampo = getValorCampoUltimoCodigo("TBLITENSMEMOTRANSFERIDOS", "numemo"
+        String valorCampo = getValorCampoUltimoCodigo("TBLMEMOSTRANSFERIDOS", "numemo");
         
         //agora temos que pegar apenas o numero 10 acima e convetê-lo para int ou seja precisamos de qualquer valor antes da barra        
         //Posição do caracter ( / ) barra na string
