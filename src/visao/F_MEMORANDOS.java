@@ -533,6 +533,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         pesquisando = true;
         btnLimparPesquisa.setEnabled(true);
         btnPesquisar.setEnabled(false);
+        btnNovo.setEnabled(false);
     }//GEN-LAST:event_btnPesquisarActionPerformed
     private void filtrarPorDigitacao()   
     {
