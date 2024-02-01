@@ -370,53 +370,51 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         btnCancelarActionPerformed(null);
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
-   
+        
+    private void gravarMemorando(){
+        //GRAVA O CABECALHO DO MEMORANDO NA TABELA
+        
+        //GERANDO NUMERO DO MEMO COM O ANO VIGENTE
+        numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
+        origemTransferidos     = txtORIGEM.getText();
+        destinoTransferidos    = txtDESTINO.getText();
+        observacao             = txtOBSERVACAO.getText();
+
+        /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
+          Nao deixar salvar quando clicado mais de uma vez / So gravar a primeira vez que clicar*/            
+        if(!umMetodo.temDuplicidadeDeCadastro("TBLMEMOSTRANSFERIDOS", "numemo", numMemoTransferido))
+        {
+            umModPatriTransferido.setNumemo(numMemoTransferido);
+
+            if(!observacao.equals(null) && !observacao.equals(""))
+            {
+                umModPatriTransferido.setObservacao("Obs : "+umMetodo.primeiraLetraMaiuscula(observacao));
+            }else{
+                umModPatriTransferido.setObservacao(" ");
+            }
+
+            umModPatriTransferido.setStatus("TRANSFERIDO");
+            umModPatriTransferido.setIdusuario(codigoUsuario);
+            umCtrlPatriTranferido.salvarPatriTransferido(umModPatriTransferido); 
+            umGravarLog.gravarLog("cadastro do memo de transferencia de patrimonios "+numMemoTransferido);
+        }        
+        
+    }
    
     private void AdicionarPatrimoniosAoMemorando(){                  
         
         /*QDO CLICA NO BOTAO ADICIONAR ABRE-SE A LISTA DE PATRIMONIOS E AO ESCOLHER UM ITEM O MESMO É INCLUIDO NA TBLITENSMEMOTRANSFERIDOS COM STATUS 
-          PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/
-                
-        //SE O NUMERO DO MEMORANDO ESTIVER PREENCHIDO - NOSSO CABEÇALHO
-        if(!txtNUMEMO.getText().isEmpty() || !txtORIGEM.getText().isEmpty() || !txtDESTINO.getText().isEmpty()){
-            
-            //GERANDO NUMERO DO MEMO COM O ANO VIGENTE
-            numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
-            origemTransferidos     = txtORIGEM.getText();
-            destinoTransferidos    = txtDESTINO.getText();
-            observacao             = txtOBSERVACAO.getText();
-            
-            /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
-              Nao deixar salvar quando clicado mais de uma vez / So gravar a primeira vez que clicar*/            
-            if(!umMetodo.temDuplicidadeDeCadastro("TBLMEMOSTRANSFERIDOS", "numemo", numMemoTransferido))
-            {
-                umModPatriTransferido.setNumemo(numMemoTransferido);
-                
-                if(!observacao.equals(null) && !observacao.equals(""))
-                {
-                    umModPatriTransferido.setObservacao("Obs : "+umMetodo.primeiraLetraMaiuscula(observacao));
-                }else{
-                    umModPatriTransferido.setObservacao(" ");
-                }
-                
-                umModPatriTransferido.setStatus("TRANSFERIDO");
-                umModPatriTransferido.setIdusuario(codigoUsuario);
-                umCtrlPatriTranferido.salvarPatriTransferido(umModPatriTransferido); 
-                umGravarLog.gravarLog("cadastro do memo de transferencia de patrimonios "+numMemoTransferido);
-            }
-            
-            //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS
-            F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
-            frmPatrimonios.setVisible(true);
-            btnImprimir.setEnabled(true);        
-            
-        }else{
-            
-            JOptionPane.showMessageDialog(null, "Entre primeiro com um número de Memorando para continuar!","Atenção número do Memorando inválido!",2);
-            btnAdicionar.setEnabled(false);
-            txtNUMEMO.requestFocus();
-        }                   
-           PreencherTabela(sqlPatriCGGM);         
+          PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/                             
+        numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
+        origemTransferidos     = txtORIGEM.getText();;
+        destinoTransferidos    = txtDESTINO.getText();;            
+
+        //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS
+        F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
+        frmPatrimonios.setVisible(true);
+        btnImprimir.setEnabled(true);       
+        
+        PreencherTabela(sqlPatriCGGM);         
                 
         btnSair.setEnabled(false);   
         btnExcluirItem.setEnabled(false);
@@ -427,7 +425,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         
-       AdicionarPatrimoniosAoMemorando();
+       AdicionarPatrimoniosAoMemorando();           
         
     }//GEN-LAST:event_btnAdicionarActionPerformed
         
@@ -458,7 +456,8 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         /*IMPRIMINDO RELATORIO DOS PATRIMONIOS TRANSFERIDOS VERIFICANDO SE O ARQUIVO EXISTE RETORNA TRUE/FALSE
         System.out.println(new File("relatorio/relmemotransferidos.jasper").exists()); */
         txtDESTINO.requestFocus(); //devolvendo o foco ao txtDESTINO logo apos a emissao do relatorio caso queira fazer outro memorando
-        
+     
+        gravarMemorando();
         
         //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
         umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
