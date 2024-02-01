@@ -420,8 +420,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                 
         btnSair.setEnabled(false);   
         btnExcluirItem.setEnabled(false);
-        btnCancelar.setEnabled(true);    
-        txtOBSERVACAO.setEditable(false);
+        btnCancelar.setEnabled(true);            
         controlenaveg=0;
                 
     }
@@ -459,6 +458,10 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         /*IMPRIMINDO RELATORIO DOS PATRIMONIOS TRANSFERIDOS VERIFICANDO SE O ARQUIVO EXISTE RETORNA TRUE/FALSE
         System.out.println(new File("relatorio/relmemotransferidos.jasper").exists()); */
         txtDESTINO.requestFocus(); //devolvendo o foco ao txtDESTINO logo apos a emissao do relatorio caso queira fazer outro memorando
+        
+        
+        //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
+        umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
                 
         GerarRelatorios objRel = new GerarRelatorios();
         try {
@@ -467,9 +470,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }    
         
-        //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
-        umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
-        
+                
         /*Preciso passar um array lista de strings com os codigos e transforma-los em integer para passar como parametro do metodo 
         e asssim atualizar todos os registros incluidos no memorando*/        
                 
