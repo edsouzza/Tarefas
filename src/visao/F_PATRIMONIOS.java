@@ -1490,6 +1490,7 @@ private void disponibilizarIPImpressoraTransferida(){
         txtCODIGO.setEditable(false);
         txtSERIE.setEditable(false);
         txtOBSERVACOES.setEditable(false);
+        txtPESQUISA.setEnabled(true);
         cmbFILTRARPORSECAO.setSelectedIndex(-1);
         cmbFILTRAPORTIPO.setSelectedIndex(-1);
         txtIP.setEnabled(true);

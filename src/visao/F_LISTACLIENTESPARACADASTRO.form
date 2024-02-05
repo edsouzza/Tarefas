@@ -93,6 +93,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextField" name="txtPESQUISA">
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtPESQUISAMouseClicked"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPESQUISAKeyPressed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPESQUISAKeyReleased"/>
           </Events>

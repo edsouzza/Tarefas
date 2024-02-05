@@ -76,6 +76,11 @@ public class F_LISTACLIENTESPARACADASTRO extends javax.swing.JDialog {
         jBoxPesquisar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jBoxPesquisar.setName("panelDados"); // NOI18N
 
+        txtPESQUISA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtPESQUISAMouseClicked(evt);
+            }
+        });
         txtPESQUISA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPESQUISAKeyPressed(evt);
@@ -277,6 +282,10 @@ public class F_LISTACLIENTESPARACADASTRO extends javax.swing.JDialog {
         }
         btnLimparPesquisa.setEnabled(true);
     }//GEN-LAST:event_txtPESQUISAKeyPressed
+
+    private void txtPESQUISAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPESQUISAMouseClicked
+        txtPESQUISA.selectAll();
+    }//GEN-LAST:event_txtPESQUISAMouseClicked
 
     public void PreencherTabela(String sql) {
         conexao.conectar();
