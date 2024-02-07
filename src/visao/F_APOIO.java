@@ -95,6 +95,7 @@ public class F_APOIO extends javax.swing.JDialog
         btnTransferirParaCGGM = new javax.swing.JButton();
         btnCadastroClientesSemUsuario = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         lblTITULO = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -229,15 +230,23 @@ public class F_APOIO extends javax.swing.JDialog
 
         jTabbedPane1.addTab("ABA1", jPanel2);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel1.setText("  ATUALIZADO EM 6/FEV/24 EM CASA");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 961, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 651, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 608, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("ABA2", jPanel3);
@@ -784,6 +793,7 @@ public class F_APOIO extends javax.swing.JDialog
     private javax.swing.JButton btnPopularTblNomestacaoTMP;
     private javax.swing.JButton btnSair;
     public javax.swing.JButton btnTransferirParaCGGM;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
