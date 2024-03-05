@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="25">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="28">
         <file>
             <url>src/biblioteca/MetodosPublicos.java</url>
+            <bookmark id="26">
+                <name/>
+                <line>422</line>
+                <key/>
+            </bookmark>
             <bookmark id="3">
                 <name/>
-                <line>660</line>
+                <line>679</line>
                 <key/>
             </bookmark>
             <bookmark id="25">
                 <name/>
-                <line>3100</line>
+                <line>3119</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_EDITARESTACOES.java</url>
+            <bookmark id="27">
+                <name/>
+                <line>215</line>
+                <key/>
+            </bookmark>
+            <bookmark id="28">
+                <name/>
+                <line>221</line>
                 <key/>
             </bookmark>
         </file>
@@ -90,14 +108,6 @@
             </bookmark>
         </file>
         <file>
-            <url>src/Dao/DAOPatrimonio.java</url>
-            <bookmark id="14">
-                <name/>
-                <line>160</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/visao/F_CLIENTES.java</url>
             <bookmark id="2">
                 <name/>
@@ -113,12 +123,23 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>src/Dao/DAOPatrimonio.java</url>
+            <bookmark id="14">
+                <name/>
+                <line>160</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_APOIO.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/conexao/ConnConexao.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/biblioteca/GetIPServidor.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/biblioteca/MetodosPublicos.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PATRIMONIOS.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_EDITARESTACOES.java</file>
         </group>
     </open-files>
 </project-private>

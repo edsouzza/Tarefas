@@ -212,11 +212,17 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnDisponibilizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponibilizarActionPerformed
-       if (umMetodo.ConfirmouOperacao("Confirma o desejo disponibilizar "+snomestacao+" mesmo sabendo que este nome já esta em uso?", "Disponibilizando o nome da estação")){
+        //Verificar se existe na TBLPATRIMONIOS e informar que este nome não pode ser disponibilizado
+        if(umMetodo.EstacaoAtivaEmPatrimonios(snomestacao))
+        {
+            JOptionPane.showMessageDialog(null, "A estação "+snomestacao+" encontra em uso no momento e não pode ser disponibilizada! \nSe   necessário   faça  uma  transferência  para  CGGM  para  liberar  o  nome  para  uso!", "Estação em uso!",2); 
+            //JOptionPane.showMessageDialog(null, "Escolha uma seção ou um tipo ao lado para filtrar!", "Seção ou tipo não selecionado", 2);
+        }else{
             umMetodo.disponibilizarStatusNomeEstacao(snomestacao);
             JOptionPane.showMessageDialog(null, snomestacao+" foi disponibilizado com sucesso!"); 
-            PreencherTabelaESTACOES(sqlEstacoes);    
-        }                   
+            PreencherTabelaESTACOES(sqlEstacoes);  
+        }
+              
     }//GEN-LAST:event_btnDisponibilizarActionPerformed
 
     private void btnDisponiveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponiveisActionPerformed

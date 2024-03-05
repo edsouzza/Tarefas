@@ -416,6 +416,25 @@ public class MetodosPublicos {
         }
     }
     
+     public boolean EstacaoAtivaEmPatrimonios(String sNome) {
+        //Verifica se nome de estação esta ativa na TBLPATRIMONIOS
+        conn = conexao.conectar();
+        try {
+            sql = "SELECT * FROM tblpatrimonios WHERE estacao = '"+sNome+"' and status = 'ATIVO'";
+            conexao.ExecutarPesquisaSQL(sql);  
+            if (conexao.rs.next()){   
+                return true;                
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar verificar se tem encerrados na tabela, \n" + e + ", o sql passado foi \n" + sql);
+            return false;
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
     public boolean EInativoPorCodigo(String tabela, int pCod) {
         conn = conexao.conectar();
         try {
