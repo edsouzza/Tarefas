@@ -215,7 +215,7 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
         //Verificar se existe na TBLPATRIMONIOS e informar que este nome não pode ser disponibilizado
         if(umMetodo.EstacaoAtivaEmPatrimonios(snomestacao))
         {
-            JOptionPane.showMessageDialog(null, "A estação "+snomestacao+" encontra em uso no momento e não pode ser disponibilizada! \nSe   necessário   faça  uma  transferência  para  CGGM  para  liberar  o  nome  para  uso!", "Estação em uso!",2); 
+            JOptionPane.showMessageDialog(null, "A estação "+snomestacao+" encontra em uso no momento e não pode ser disponibilizada! \nSe   necessário  faça   uma  transferência  para  CGGM  para  liberar  o  nome  para  uso!", "Estação em uso!",2); 
             //JOptionPane.showMessageDialog(null, "Escolha uma seção ou um tipo ao lado para filtrar!", "Seção ou tipo não selecionado", 2);
         }else{
             umMetodo.disponibilizarStatusNomeEstacao(snomestacao);

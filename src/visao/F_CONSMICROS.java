@@ -208,7 +208,7 @@ public class F_CONSMICROS extends javax.swing.JFrame {
 
         jLabel5.setText("IP");
 
-        jLabel11.setText("SEÇÃO");
+        jLabel11.setText("USUÁRIO");
 
         cmbMODELOS.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         cmbMODELOS.setForeground(new java.awt.Color(51, 51, 255));

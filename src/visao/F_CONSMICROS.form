@@ -302,7 +302,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
-            <Property name="text" type="java.lang.String" value="SE&#xc7;&#xc3;O"/>
+            <Property name="text" type="java.lang.String" value="USU&#xc1;RIO"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmbMODELOS">

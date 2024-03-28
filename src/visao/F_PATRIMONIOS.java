@@ -1282,17 +1282,17 @@ private void disponibilizarIPImpressoraTransferida(){
             }               
         } 
 
-        btnImprimir.setEnabled(true);  
-        btnVoltar.setEnabled(true);
-        btnNovo.setEnabled(false);
-        btnCadSemRede.setEnabled(false);        
-        txtPESQUISA.setEnabled(false);
-        btnExcel.setEnabled(false);
-        btnPesquisar.setEnabled(false);
-        btnGravar.setEnabled(false);
-        txtNUMESTACAO.setEnabled(false);
-        btnHistorico.setEnabled(false);
-        LblPesquisaPorCod.setEnabled(false);
+        btnImprimir         .setEnabled(true);  
+        btnVoltar           .setEnabled(true);
+        btnNovo             .setEnabled(false);
+        btnCadSemRede       .setEnabled(false);        
+        txtPESQUISA         .setEnabled(false);
+        btnExcel            .setEnabled(false);
+        btnPesquisar        .setEnabled(false);
+        btnGravar           .setEnabled(false);
+        txtNUMESTACAO       .setEnabled(false);
+        btnHistorico        .setEnabled(false);
+        LblPesquisaPorCod   .setEnabled(false);
         DesabilitarConsulta();    
     }
     
@@ -2457,13 +2457,13 @@ private void gravarEdicaoRegistro()
             }
         }
         filtrou  = true;      
-        cmbFILTRARPORSECAO.setEnabled(false);
-        cmbFILTRAPORTIPO.setEnabled(false);
-        btnFILTRAR.setEnabled(false);
-        btnVoltar.setEnabled(true);
-        btnVoltar.setText("Voltar");
-        btnPesquisar.setEnabled(false);        
-        btnCadSemRede.setEnabled(false);        
+        cmbFILTRARPORSECAO  .setEnabled(false);
+        cmbFILTRAPORTIPO    .setEnabled(false);
+        btnFILTRAR          .setEnabled(false);
+        btnVoltar           .setEnabled(true);
+        btnVoltar           .setText("Voltar");
+        btnPesquisar        .setEnabled(false);        
+        btnCadSemRede       .setEnabled(false);        
         
     }//GEN-LAST:event_btnFILTRARActionPerformed
 
