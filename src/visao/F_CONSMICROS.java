@@ -1045,7 +1045,7 @@ public class F_CONSMICROS extends javax.swing.JFrame {
             jTabelaINATIVOS.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna 
             jTabelaINATIVOS.getColumnModel().getColumn(5).setPreferredWidth(130);  //define o tamanho da coluna
             jTabelaINATIVOS.getColumnModel().getColumn(5).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabelaINATIVOS.getColumnModel().getColumn(6).setPreferredWidth(80);  //define o tamanho da coluna
+            jTabelaINATIVOS.getColumnModel().getColumn(6).setPreferredWidth(60);  //define o tamanho da coluna
             jTabelaINATIVOS.getColumnModel().getColumn(6).setResizable(false);    //nao será possivel redimencionar a coluna 
 
 
