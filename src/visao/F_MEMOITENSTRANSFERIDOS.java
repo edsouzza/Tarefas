@@ -9,7 +9,6 @@ import biblioteca.MetodosPublicos;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.destinoTransferidos;
-import static biblioteca.VariaveisPublicas.destinoMemorando;
 import static biblioteca.VariaveisPublicas.controlenaveg;
 import static biblioteca.VariaveisPublicas.patriDeptos;
 import static biblioteca.VariaveisPublicas.anoVigente;
@@ -55,8 +54,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     DAOPatriTensTransferido        umDAOPatriItens              = new DAOPatriTensTransferido();
     
     
-    String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";       
-    //String sqlPatriDEPTOS  = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";      
+    String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";        
     String sqlVazia        = "SELECT codigo FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo < 1";  
     String observacao, numemoinicial;
     int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;
@@ -350,7 +348,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         txtDESTINO.setEditable(true);        
         numMemoTransferido = "";
         mostrouForm = false;
-        patriDeptos=false;
         valorItem = 0;
         controlenaveg = 0;
         lstListaInteiros.clear();
@@ -579,11 +576,8 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         conexao.conectar();
         ArrayList dados = new ArrayList();
         //para receber os dados das colunas(exibe os titulos das colunas)
-        if(!patriDeptos){
-            Colunas = new String[]{"Ítem", "Descrição", "Série", "Chapa"};
-        }else{
-            Colunas = new String[]{"Ítem", "Descrição", "Série", "Chapa"};
-        }
+        Colunas = new String[]{"Ítem", "Descrição", "Série", "Chapa"};
+        
         try {
             conexao.ExecutarPesquisaSQL(sql);
             
@@ -596,15 +590,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                         conexao.rs.getString("chapa")
                     });
                 };
-            }else{
-                while (conexao.rs.next()) {
-                        dados.add(new Object[]{
-                        conexao.rs.getInt("item"),
-                        conexao.rs.getString("modelo"),
-                        conexao.rs.getString("serie"),
-                        conexao.rs.getString("chapa")
-                    });
-                };        
             }
             
             ModeloTabela modelo = new ModeloTabela(dados, Colunas);

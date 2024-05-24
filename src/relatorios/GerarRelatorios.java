@@ -410,7 +410,7 @@ public class GerarRelatorios
         filtro.put("numemo", pParam);
         JasperPrint impressao = JasperFillManager.fillReport( caminho, filtro, conexao );
         JasperViewer viewer   = new JasperViewer( impressao , false );
-        viewer.setTitle("Relatório de Patrimônios Transferidos");
+        viewer.setTitle("Relatório de Patrimônios Transferidos e/ou Devolvidos");
         viewer.setZoomRatio(new Float(0.7956));  //ajustando o relatorio na pagina
         viewer.setVisible(true);        
         conexao.close();        
