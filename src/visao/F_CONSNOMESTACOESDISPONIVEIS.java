@@ -321,6 +321,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
             btnDisponiveis.setEnabled(false); 
             btnUtilizados.setEnabled(false);
          }
+         
     }//GEN-LAST:event_cmbFILTRARPORDEPTOItemStateChanged
 
     private void btnUtilizadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtilizadosActionPerformed

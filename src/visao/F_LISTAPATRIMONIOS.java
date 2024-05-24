@@ -22,6 +22,7 @@ import static biblioteca.VariaveisPublicas.lstListaStrings;
 import static biblioteca.VariaveisPublicas.valorItem;
 import static biblioteca.VariaveisPublicas.nomeEstacaoTransferida;
 import static biblioteca.VariaveisPublicas.patriDeptos;
+import static biblioteca.VariaveisPublicas.patriDevolucao;
 import controle.ControleGravarLog;
 import controle.CtrlPatriDepto;
 import controle.CtrlPatrimonio;
@@ -53,13 +54,8 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         
     int icodigo, codModelo, tipoid = 0;
     String serieClicada, serieRetornada;
-    String sqlPatriCGGM          = "SELECT p.*, t.*, m.* FROM tblpatrimonios p, tbltipos t, tblmodelos m WHERE p.tipoid = t.codigo AND p.modeloid = m.codigo AND p.status = 'ATIVO' ORDER BY m.modelo, p.codigo";
-    
-    //String sqlPatriDEPTOSENVIO   = "SELECT p.codigo,t.tipo,p.serie,p.chapa,p.origem,p.status FROM tblpatrideptos p,tbltipos t WHERE p.tipoid = t.codigo AND (p.status = 'ENVIADO') AND (p.memodevolucao = 'N') AND p.destino='"+destinoTransferidos+"' ORDER BY t.tipo,p.codigo";
-    String sqlPatriDEPTOSENVIO   = "SELECT p.*, t.*, m.* FROM tblpatrideptos p, tbltipos t, tblmodelos m WHERE m.codigo=p.modeloid AND p.tipoid = t.codigo AND (p.status = 'ENVIADO') AND (p.memodevolucao = 'N') AND p.destino='"+destinoTransferidos+"' ORDER BY t.tipo,p.codigo";
-    
-    //String sqlPatriDEPTOSDEVOL   = "SELECT p.codigo,t.tipo,p.serie,p.chapa,p.origem,p.status FROM tblpatrideptos p,tbltipos t WHERE p.tipoid = t.codigo AND (p.status = 'ENCERRADO') AND (p.memodevolucao = 'N') AND p.origem='"+destinoTransferidos+"' ORDER BY t.tipo,p.codigo";
-    String sqlPatriDEPTOSDEVOL   = "SELECT p.*, t.*, m.* FROM tblpatrideptos p, tbltipos t, tblmodelos m WHERE m.codigo=p.modeloid AND p.tipoid = t.codigo AND (p.status = 'ENCERRADO') AND (p.memodevolucao = 'N') AND p.destino='"+destinoTransferidos+"' ORDER BY t.tipo,p.codigo";
+    String sqlPatriCGGM   = "SELECT p.*, t.*, m.* FROM tblpatrimonios p, tbltipos t, tblmodelos m WHERE p.tipoid = t.codigo AND p.modeloid = m.codigo AND p.status = 'ATIVO' ORDER BY m.modelo, p.codigo";    
+    String sqlDevolucao   = "SELECT p.*, t.*, m.* FROM tblpatrimonios p, tbltipos t, tblmodelos m WHERE m.codigo=p.modeloid AND p.tipoid = t.codigo AND (p.status = 'INATIVO') ORDER BY t.tipo,p.codigo";
     
     String codigo, modelo, serie, chapa, numemo, origem, destino, status, tipo;
     String[] Colunas;
@@ -77,11 +73,7 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         txtPESQUISA.setForeground(Color.red);
         jTabela.setFont(new Font("Arial", Font.BOLD, 12));
         
-        if(!patriDeptos){
-            this.setTitle("Selecione um Patrimônio CGGM!");       
-        }else{
-            this.setTitle("Selecione os patrimônios a serem devolvidos as sua unidades de origem!");
-        }
+        this.setTitle("Selecione um Patrimônio CGGM!");              
 
         mostrarPatrimonios();
 
@@ -187,14 +179,10 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
     {      
         //MOSTRA TODOS OS PATRIMONIOS CADASTRADOS 
         //JOptionPane.showMessageDialog(rootPane, patriDeptos);
-        if(!patriDeptos){
+        if(!patriDevolucao){
            PreencherTabela(sqlPatriCGGM);  
         }else{         
-           if(enviando) {
-               PreencherTabela(sqlPatriDEPTOSENVIO);  
-           }else{
-                PreencherTabela(sqlPatriDEPTOSDEVOL);  
-           }           
+           PreencherTabela(sqlDevolucao); 
         }                
     }
 
@@ -204,7 +192,7 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
 
     private void filtrarPorDigitacao(String pPesq) {
         //filtro pela serie, chapa ou modelo
-        if(!patriDeptos){
+        if(!patriDevolucao){
             
             String filtrarPatriCGGM     = "SELECT p.*, m.*, t.* FROM tblpatrimonios p, tblmodelos m, tbltipos t "
                                         + "WHERE p.tipoid = t.codigo AND p.modeloid = m.codigo AND (p.serie like '%" + pPesq + "%' OR p.chapa like '%" + pPesq + "%' OR m.modelo "
@@ -212,11 +200,12 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         
             PreencherTabela(filtrarPatriCGGM);  
         }else{
-            
-            String filtrarPatriDEPTOS   = "SELECT p.*, t.*, m.* FROM tblpatrideptos p, tblmodelos m, tbltipos t WHERE (serie like '%" + pPesq + "%' OR chapa like '%" + pPesq + "%' OR tipo like '%" + pPesq + "%') "
-                                        + "AND (p.status = 'ENVIAR' OR p.status = 'ENVIADO') AND p.tipoid =  t.codigo AND m.codigo=p.modeloid ORDER BY t.tipo";               
+                                    
+            String filtrarPatriDEVOLUCAO     = "SELECT p.*, m.*, t.* FROM tblpatrimonios p, tblmodelos m, tbltipos t "
+                                             + "WHERE p.tipoid = t.codigo AND p.modeloid = m.codigo AND (p.serie like '%" + pPesq + "%' OR p.chapa like '%" + pPesq + "%' OR m.modelo "
+                                             + "like '%" + pPesq + "%') AND p.status = 'INATIVO'";  
                     
-            PreencherTabela(filtrarPatriDEPTOS);  
+            PreencherTabela(filtrarPatriDEVOLUCAO);  
         }
       
     }
@@ -227,14 +216,10 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         txtPESQUISA.setEnabled(true);
         btnLimparPesquisa.setEnabled(false);
         txtPESQUISA.requestFocus();    
-        if(!patriDeptos){
+        if(!patriDevolucao){
            PreencherTabela(sqlPatriCGGM);  
         }else{           
-           if(enviando) {
-               PreencherTabela(sqlPatriDEPTOSENVIO);  
-           }else{
-                PreencherTabela(sqlPatriDEPTOSDEVOL);  
-           }            
+           PreencherTabela(sqlDevolucao);    
         }
         mostrarPatrimonios();                        
                  
@@ -246,7 +231,7 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         numemo          = numMemoTransferido;
         origem          = origemTransferidos;
         destino         = destinoTransferidos;
-        status          = "PROCESSANDO";        
+        status          = "PROCESSANDO";                  
                        
         //SETANDO OS VALORES NO MODELO PARA GRAVAR
         objModPatriTemTransferido.setItem(valorItem);
@@ -270,67 +255,32 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         //JOptionPane.showMessageDialog(null, "PATRIDEPTOS : "+patriDeptos);   
         valorItem++;
         
-        //Ao clicar na linha desejada obtem-se a serie do equipamento, setando-a no objeto, com o objeto setado faço a pesquisa e obtenho o patrimonio com todos os seus dados
-        if(!patriDeptos){  
-            serieClicada = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 2); 
-        }else{
-            serieClicada = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 3); 
-        }       
-        
-        //NAO PATRIDEPTOS       
-        if(!patriDeptos){        
-            //setando a serie do equipamento para pesquisa de NAO PATRIDEPTOS
-            objModPatrimonio.setSerie(serieClicada);      
+        serieClicada = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 2);    
+            
+        //setando a serie do equipamento para pesquisa de NAO PATRIDEPTOS
+        objModPatrimonio.setSerie(serieClicada);      
 
-            //obtendo o patrimonio com todos os dados
-            ctrlPatrimonio.pesquisarPatrimonio(objModPatrimonio); 
+        //obtendo o patrimonio com todos os dados
+        ctrlPatrimonio.pesquisarPatrimonio(objModPatrimonio); 
 
-            //pegando o retorno da funcao/pesquisa e setando nas variaveis globais  
-            codigoPatrimonio            = objModPatrimonio.getCodigo();     
-            serieRetornada              = objModPatrimonio.getSerie();
-            tipoid                      = objModPatrimonio.getTipoid();
-            chapa                       = objModPatrimonio.getChapa();
-            nomeEstacaoTransferida      = objModPatrimonio.getEstacao();
-            codModelo                   = objModPatrimonio.getModeloid();         
+        //pegando o retorno da funcao/pesquisa e setando nas variaveis globais  
+        codigoPatrimonio            = objModPatrimonio.getCodigo();     
+        serieRetornada              = objModPatrimonio.getSerie();
+        tipoid                      = objModPatrimonio.getTipoid();
+        chapa                       = objModPatrimonio.getChapa();
+        nomeEstacaoTransferida      = objModPatrimonio.getEstacao();
+        codModelo                   = objModPatrimonio.getModeloid();         
 
-            //inserindo os dados para atualização dos registros em uma lista           
-            lstListaGenerica.add(String.valueOf(codigoPatrimonio));
-            lstListaStrings.add(String.valueOf(nomeEstacaoTransferida));      
+        //inserindo os dados para atualização dos registros em uma lista           
+        lstListaGenerica.add(String.valueOf(codigoPatrimonio));
+        lstListaStrings.add(String.valueOf(nomeEstacaoTransferida));      
             
 //            System.out.println("A serie clicada foi : "+serieClicada);
 //            System.out.println(codigoPatrimonio);
 //            System.out.println(serieRetornada);
 //            System.out.println(tipoid);
-//            System.out.println(chapa);
-                        
-        }else{
-            //setando a serie do equipamento para pesquisa de PATRIDEPTOS
-            umModPatrDepto.setSerie(serieClicada);   
-                        
-            //obtendo o patrimonio com todos os dados
-            ctrlPatriDepto.pesquisarPatriDepto(umModPatrDepto); 
-
-            //pegando o retorno da funcao/pesquisa e setando nas variaveis globais  
-            codigoPatrimonio            = umModPatrDepto.getCodigo();     
-            serieRetornada              = umModPatrDepto.getSerie();
-            tipoid                      = umModPatrDepto.getTipoid();
-            chapa                       = umModPatrDepto.getChapa();   
-            codModelo                   = umModPatrDepto.getModeloid();   
+//            System.out.println(chapa);            
             
-            //inserindo os dados para atualização dos registros em uma lista nesse caso usarei para atualizar o campo devolvido para S          
-            lstListaInteiros.add(umModPatrDepto.getCodigo());
-            
-//            System.out.println(codigoPatrimonio);
-//            System.out.println(serieRetornada);
-//            System.out.println(tipoid);
-//            System.out.println(chapa);
-            
-//            for(int i=0; i<lstListaGenerica.size();i++){
-//                 System.out.println(lstListaGenerica.toString());
-//            }
-                        
-        }
-      
         //O metodo de gravação será startado depois de gerar o relatório se cancelar nada acontece       
         //JOptionPane.showMessageDialog(rootPane, "codigo :"+codigoPatrimonio+"\n"+"serie :"+serie+"\n"+"chapa :"+chapa+"\n" );       
                

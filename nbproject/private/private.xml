@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="28">
         <file>
-            <url>src/visao/F_EDITARESTACOES.java</url>
-            <bookmark id="27">
-                <name/>
-                <line>215</line>
-                <key/>
-            </bookmark>
-            <bookmark id="28">
-                <name/>
-                <line>221</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/biblioteca/MetodosPublicos.java</url>
             <bookmark id="26">
                 <name/>
@@ -29,6 +16,19 @@
             <bookmark id="25">
                 <name/>
                 <line>3119</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_EDITARESTACOES.java</url>
+            <bookmark id="27">
+                <name/>
+                <line>215</line>
+                <key/>
+            </bookmark>
+            <bookmark id="28">
+                <name/>
+                <line>221</line>
                 <key/>
             </bookmark>
         </file>
@@ -79,6 +79,14 @@
             </bookmark>
         </file>
         <file>
+            <url>src/visao/F_CONSNOMESTACOESDISPONIVEIS.java</url>
+            <bookmark id="18">
+                <name/>
+                <line>225</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>src/visao/F_PATRIMONIOS.java</url>
             <bookmark id="23">
                 <name/>
@@ -92,26 +100,10 @@
             </bookmark>
         </file>
         <file>
-            <url>src/visao/F_CONSNOMESTACOESDISPONIVEIS.java</url>
-            <bookmark id="18">
-                <name/>
-                <line>225</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/visao/F_LOGIN.java</url>
             <bookmark id="1">
                 <name/>
                 <line>367</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/Dao/DAOPatrimonio.java</url>
-            <bookmark id="14">
-                <name/>
-                <line>160</line>
                 <key/>
             </bookmark>
         </file>
@@ -131,8 +123,23 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>src/Dao/DAOPatrimonio.java</url>
+            <bookmark id="14">
+                <name/>
+                <line>161</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LISTAPATRIMONIOS.java</file>
+        </group>
+>>>>>>> ff4848fb4561a0dcf9f95e43412fa12c7a6bd922
     </open-files>
 </project-private>

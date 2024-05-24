@@ -2529,8 +2529,7 @@ private void gravarEdicaoRegistro()
         }else{
             F_LISTACLIENTESATIVOS frm2 = new F_LISTACLIENTESATIVOS(new JFrame(),true);
             frm2.setVisible(true);  
-        }
-        
+        }        
         txtCLIENTE.setText(nomeCliente);
         txtRF.setText(rfCliente);        
         cmbFILTRARPORSECAO.setEnabled(false);    
@@ -2545,9 +2544,7 @@ private void gravarEdicaoRegistro()
                     definirNomestacao();
                 }
             }
-        }
-        
-        
+        }               
         
         txtCLIENTE.setText(nomeCliente);
         txtCHAPA.requestFocus();           

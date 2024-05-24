@@ -11,6 +11,7 @@ import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import static biblioteca.VariaveisPublicas.codigoCliente;
 import static biblioteca.VariaveisPublicas.lstListaStrings;
 import static biblioteca.VariaveisPublicas.origemPatrTransferido;
+import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -928,6 +929,19 @@ public class DAOPatrimonio {
             }           
     }
     
+    public void ReativarPatrimonioPeloMemorandoDAO(String pNumemo){
+        //SE NAO FOR CPU        
+        int totalregs = lstListaGenerica.size();
+        
+        for(int i=0; i<totalregs;i++)
+        {
+            int pCod       = Integer.valueOf(lstListaGenerica.get(i));        
+            //System.out.println("dado : "+pCod);    
+            gravarUpdateMemosRecebimento(pCod,pNumemo);
+        }
+        /*DAR ENTRADA DOS PATRIMONIOS NA CGGM/INFO secaoid = 30 clienteid = 202  deptoid = 6 => Se for micro estacao = PGMCGGMC000 => */
+    }        
+         
     public void InativarPatrimonioPeloMemorandoDAO(String pNumemo){
         //SE NAO FOR CPU        
         int totalregs = lstListaGenerica.size();
@@ -939,9 +953,107 @@ public class DAOPatrimonio {
             gravarUpdateMemos(pCod,pNumemo);
         }
         
-    }        
+    }     
+    
+
+    public void gravarUpdateMemosRecebimento(int pCod, String numemo){
+        //Grava atualizacao do equipamento transferido pelo codigo
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataDia  = dataDoDia;
+        String status, motivo, obs, ip, destino, estacao ="";
+        origemPatrTransferido   = getSecaoEquipamento(pCod);
+        int codigoSecao         = 0;   
+        int codTipoEquipto      = 0;
+        int deptoid             = 6;
+        String nomeTipoEquipto  = "";               
+        
+        if(Emicro(pCod))
+        {
+            //PARA MICROS  
+            destino = destinoTransferidos;            
+           
+            codigoSecao    = 30;
+            codigoCliente  = 202; 
+            status         = "ATIVO"; 
+            estacao        = "PGMCGGMC000";
+                 
             
-    public void gravarUpdateMemos(int pCod, String numemo){
+            disponibilizarNomesEstacoesDoMemorando(); 
+                              
+            ip                      = "0"; 
+            motivo = getMotivos(pCod)+"\n"+df.format(dataDia)+" : Reativado por motivo de Devolucao por "+origemTransferidos+" atraves do memorando "+numemo+".";  
+            obs    = getObs(pCod)+"\n"+df.format(dataDia)+" : Devolvido por "+origemTransferidos+" atraves do memorando "+numemo+".";            
+                       
+            try
+            {
+                conexao.conectar();
+                sql = "UPDATE tblpatrimonios SET estacao=?, ip=?, secaoid=?, clienteid=?, deptoid=?, status=?, motivo=?, observacoes=? WHERE tipoid=1 AND codigo=?";
+
+                PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+                pst.setString(1, estacao);   
+                pst.setString(2, ip);   
+                pst.setInt(3, codigoSecao);     
+                pst.setInt(4, codigoCliente);  
+                pst.setInt(5, deptoid);  
+                pst.setString(6, status);   
+                pst.setString(7, motivo);   
+                pst.setString(8, obs);               
+                pst.setInt(9, pCod);               
+                pst.executeUpdate();
+                pst.close(); 
+
+                //return true;
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,"Não foi possível atualizar o registro, \n "+e+" , o sql passado foi \n"+sql); 
+            }finally{
+                conexao.desconectar();
+                //return false;
+            }              
+        }else{   //PARA NÃO MICROS TIPO SCANNER / MONITOR / IMPRESSORA                     
+            
+            codTipoEquipto  = getCodTipo(pCod); //retorna o codigo do tipo de equipamento  ex : 1
+            nomeTipoEquipto = getNomeTipoEquipto(codTipoEquipto); //retorna o nome do tipo de equipamento ex : MICRO
+            
+            destino = destinoTransferidos;            
+            
+            codigoSecao    = 30;
+            codigoCliente  = 202; 
+            status         = "ATIVO";           
+            estacao        = nomeTipoEquipto;
+            ip             = "0";    
+            motivo = getMotivos(pCod)+"\n"+df.format(dataDia)+" : Reativado por motivo de Devolucao por "+origemTransferidos+" atraves do memorando "+numemo+".";  
+            obs    = getObs(pCod)+"\n"+df.format(dataDia)+" : Devolvido por "+origemTransferidos+" atraves do memorando "+numemo+".";                 
+                       
+            try
+            {
+                conexao.conectar();
+                sql = "UPDATE tblpatrimonios SET estacao=?, ip=?, secaoid=?, clienteid=?, deptoid=?, status=?, motivo=?, observacoes=? WHERE tipoid<>1 AND codigo=?";
+
+                PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+                pst.setString(1, estacao);
+                pst.setString(2, ip);  
+                pst.setInt(3, codigoSecao); 
+                pst.setInt(4, codigoCliente);  
+                pst.setInt(5, deptoid);  
+                pst.setString(6, status);   
+                pst.setString(7, motivo);   
+                pst.setString(8, obs);               
+                pst.setInt(9, pCod);               
+                pst.executeUpdate();
+                pst.close(); 
+
+                //return true;
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,"Não foi possível atualizar o registro, \n "+e+" , o sql passado foi \n"+sql); 
+            }finally{
+                conexao.desconectar();
+                //return false;
+            }     
+        }
+    }                         
+
+
+public void gravarUpdateMemos(int pCod, String numemo){
         //Grava atualizacao do equipamento transferido pelo codigo
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date dataDia  = dataDoDia;

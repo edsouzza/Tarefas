@@ -131,6 +131,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menuImpressoes = new javax.swing.JMenu();
         mnuEtiquetasIndividuais = new javax.swing.JMenuItem();
         mnuEtiquetasColetivas = new javax.swing.JMenuItem();
+        mnuMemoDevolucao = new javax.swing.JMenuItem();
         mnuMemoTransferencia = new javax.swing.JMenuItem();
         mnuImprimirMemosTransferencia = new javax.swing.JMenuItem();
         mnuTarefas = new javax.swing.JMenu();
@@ -575,6 +576,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuImpressoes.add(mnuEtiquetasColetivas);
+
+        mnuMemoDevolucao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuMemoDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/computador.png"))); // NOI18N
+        mnuMemoDevolucao.setText("Gerar Memo Recebimento");
+        mnuMemoDevolucao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuMemoDevolucao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMemoDevolucaoActionPerformed(evt);
+            }
+        });
+        menuImpressoes.add(mnuMemoDevolucao);
 
         mnuMemoTransferencia.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.CTRL_MASK));
         mnuMemoTransferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_blocoNotas.gif"))); // NOI18N
@@ -1037,10 +1049,11 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuMudarBancoActionPerformed
 
     private void mnuMemoTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMemoTransferenciaActionPerformed
-        //chama F_LISTAOPCOES PARA DEFINIR INICIALMENTE QUAL TABELA SERA UTILIZADA PATRIMONIOS DA CGGM OU PATRIMONIOS DOS DEPTOS        
+              
         tabela = "TBLITENSMEMOTRANSFERIDOS";   
         F_MEMOITENSTRANSFERIDOS frm = new F_MEMOITENSTRANSFERIDOS();
         frm.setVisible(true);             
+        
     }//GEN-LAST:event_mnuMemoTransferenciaActionPerformed
 
     private void mnuApoioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuApoioActionPerformed
@@ -1122,6 +1135,13 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_menuPatriLotesActionPerformed
+
+    private void mnuMemoDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMemoDevolucaoActionPerformed
+              
+        tabela = "TBLITENSMEMOTRANSFERIDOS";   
+        F_MEMOITENSRECEBIDOS frm = new F_MEMOITENSRECEBIDOS();
+        frm.setVisible(true); 
+    }//GEN-LAST:event_mnuMemoDevolucaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1213,6 +1233,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuImprimirMemosTransferencia;
     private javax.swing.JMenu mnuLOGOFF;
     private javax.swing.JMenu mnuMEMORANDOS;
+    private javax.swing.JMenuItem mnuMemoDevolucao;
     private javax.swing.JMenuItem mnuMemoTransferencia;
     private javax.swing.JMenuItem mnuMudarBanco;
     private javax.swing.JMenuItem mnuReativarCliente;
