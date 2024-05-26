@@ -378,35 +378,11 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
             conexao.desconectar();
         }
     }  
-    
-    public int buscarCodigoEstacaoPeloNome(String tabela,String nome)
-    {
-        //retorna o codigo do nome passado como parametro
-        conexao.conectar();      
-        sql = "SELECT codigo FROM tblnomestacao WHERE nomestacao = '"+nome+"'";  
         
-        //JOptionPane.showMessageDialog(null, sql);
-        conexao.ExecutarPesquisaSQL(sql);            
-        try {
-            if(conexao.rs.next()){
-                return conexao.rs.getInt("codigo");
-            }else{
-                return 0;
-            }            
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possível buscar o código pelo nome passado!"+ex);
-            return 0;
-        }finally{
-            conexao.desconectar();
-        }  
-    }
-    
      
     private void jTabelaESTACOESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaESTACOESMouseClicked
         snomestacao =  ((String) jTabelaESTACOES.getValueAt(jTabelaESTACOES.getSelectedRow(), 1)); 
-        //JOptionPane.showMessageDialog(null, snomestacao);
-        codigoEstacao = buscarCodigoEstacaoPeloNome("tblnomestacao", snomestacao);
+        codigoEstacao = umMetodo.buscarCodigoEstacaoPeloNome("tblnomestacao", "nomestacao",snomestacao);
         //JOptionPane.showMessageDialog(null, "O codigo é : "+ codigoEstacao);       
         
     }//GEN-LAST:event_jTabelaESTACOESMouseClicked

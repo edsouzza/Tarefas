@@ -119,8 +119,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuConsInformacoes = new javax.swing.JMenuItem();
         mnuCONSIPSIMPRESSORAS = new javax.swing.JMenuItem();
         mnuCONSMICROS = new javax.swing.JMenuItem();
-        mnuConsultarEstacoesDisponiveis = new javax.swing.JMenuItem();
         mnuGerenciarNomesEstacoes = new javax.swing.JMenuItem();
+        mnuConsultarEstacoesDisponiveis = new javax.swing.JMenuItem();
+        mnuGerarNomestacoes = new javax.swing.JMenuItem();
         menuEDICOES = new javax.swing.JMenu();
         menuEditarModeloPatrimonio = new javax.swing.JMenuItem();
         menuReativacoes = new javax.swing.JMenu();
@@ -394,6 +395,11 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menuConsultas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
         menuConsultas.setText("Consultas");
         menuConsultas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuConsultasActionPerformed(evt);
+            }
+        });
 
         menuLogs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         menuLogs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_blocoNotas.gif"))); // NOI18N
@@ -461,6 +467,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuConsultas.add(mnuCONSMICROS);
 
+        mnuGerenciarNomesEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGerenciarNomesEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
+        mnuGerenciarNomesEstacoes.setText("GERENCIAMENTO DOS NOMES DE ESTAÇÕES");
+        mnuGerenciarNomesEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuGerenciarNomesEstacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuGerenciarNomesEstacoesActionPerformed(evt);
+            }
+        });
+        menuConsultas.add(mnuGerenciarNomesEstacoes);
+
         mnuConsultarEstacoesDisponiveis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.CTRL_MASK));
         mnuConsultarEstacoesDisponiveis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/patrimonios.png"))); // NOI18N
         mnuConsultarEstacoesDisponiveis.setText("NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO");
@@ -472,16 +489,16 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuConsultas.add(mnuConsultarEstacoesDisponiveis);
 
-        mnuGerenciarNomesEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        mnuGerenciarNomesEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
-        mnuGerenciarNomesEstacoes.setText("GERENCIAMENTO DOS NOMES DE ESTAÇÕES");
-        mnuGerenciarNomesEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        mnuGerenciarNomesEstacoes.addActionListener(new java.awt.event.ActionListener() {
+        mnuGerarNomestacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGerarNomestacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/monitor.png"))); // NOI18N
+        mnuGerarNomestacoes.setText("GERAR NOMES DE ESTAÇÕES PARA CADASTRO");
+        mnuGerarNomestacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuGerarNomestacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuGerenciarNomesEstacoesActionPerformed(evt);
+                mnuGerarNomestacoesActionPerformed(evt);
             }
         });
-        menuConsultas.add(mnuGerenciarNomesEstacoes);
+        menuConsultas.add(mnuGerarNomestacoes);
 
         jMenuBar1.add(menuConsultas);
 
@@ -1143,6 +1160,15 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         frm.setVisible(true); 
     }//GEN-LAST:event_mnuMemoDevolucaoActionPerformed
 
+    private void mnuGerarNomestacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerarNomestacoesActionPerformed
+        F_GERARNOMESTACOES frm = new F_GERARNOMESTACOES();
+        frm.setVisible(true); 
+    }//GEN-LAST:event_mnuGerarNomestacoesActionPerformed
+
+    private void menuConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConsultasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuConsultasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1228,6 +1254,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuDocumentacao;
     private javax.swing.JMenuItem mnuEtiquetasColetivas;
     private javax.swing.JMenuItem mnuEtiquetasIndividuais;
+    private javax.swing.JMenuItem mnuGerarNomestacoes;
     private javax.swing.JMenuItem mnuGerenciarNomesEstacoes;
     private javax.swing.JMenuItem mnuIPServidor;
     private javax.swing.JMenuItem mnuImprimirMemosTransferencia;

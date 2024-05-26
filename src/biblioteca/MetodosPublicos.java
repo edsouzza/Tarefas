@@ -3240,5 +3240,28 @@ public class MetodosPublicos {
         }
         conexao.desconectar();
     }
+    
+    public int buscarCodigoEstacaoPeloNome(String tabela,String paramCampo,String paramValue)
+    {
+        //retorna o codigo do nome passado como parametro
+        conexao.conectar();      
+        sql = "SELECT codigo FROM "+tabela+" WHERE "+paramCampo+" = '"+paramValue+"'";  
+        
+        //JOptionPane.showMessageDialog(null, sql);
+        conexao.ExecutarPesquisaSQL(sql);            
+        try {
+            if(conexao.rs.next()){
+                return conexao.rs.getInt("codigo");
+            }else{
+                return 0;
+            }            
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível buscar o código pelo nome passado!"+ex);
+            return 0;
+        }finally{
+            conexao.desconectar();
+        }  
+    }
                 
 }

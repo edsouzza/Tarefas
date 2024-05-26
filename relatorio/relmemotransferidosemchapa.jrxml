@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2024-01-12T17:24:09 -->
+<!-- 2024-05-25T10:45:12 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relimprimirmemodetransferidos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c53ebc6-760c-4afc-b2c0-43ee711e05ca">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="connSYSTAREFAS.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -102,22 +102,7 @@ Senhor(a) Responsável
 				<textFieldExpression><![CDATA[$F{DATACAD}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="106" width="226" height="20" uuid="8538cd9e-f7fc-42e7-97fd-f2d546a2a2d0">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ORIGEM}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="58" y="106" width="52" height="20" uuid="3cb1b729-661c-44a3-b63f-886514ad109f">
+				<reportElement x="58" y="106" width="272" height="20" uuid="3cb1b729-661c-44a3-b63f-886514ad109f">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>

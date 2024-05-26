@@ -19,9 +19,14 @@ public class CtrlNomeEstacao
         return new DAONomeEstacao().atualizarStatusPeloNomeDaEstacaoDAO(pEstacao);
     }    
    
-    public boolean excluirNomeEstacao(NomeEstacao pEstacao) 
+    public boolean excluirNomeEstacao(int pCodigo) 
     {
-        return new DAONomeEstacao().excluirNomeEstacaoDao(pEstacao);
+        return new DAONomeEstacao().excluirNomeEstacaoDao(pCodigo);
     }   
+    
+    public NomeEstacao pesquisarNomeEstacao(NomeEstacao pNomeEstacao) 
+    {
+        return new DAONomeEstacao().pesquisarNomeEstacaoDAO(pNomeEstacao);
+    }  
     
 }

@@ -83,24 +83,8 @@ public class DAONomeEstacao {
         }
         
     }    
-           
-    public boolean excluirNomeEstacaoDao(NomeEstacao pEstacao) 
-    {
-        try
-        {            
-            conexao.conectar();            
-            sql = "DELETE FROM tblnomestacao WHERE codigo = "+pEstacao.getCodigo();     
-            conexao.ExecutarAtualizacaoSQL(sql);      
-            return true;
-            
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Não foi possível excluir o registro, \n"+e+", o sql passado foi \n"+sql);
-            return false;
-       } finally {
-            conexao.desconectar();
-        }        
-    } 
-    
+          
+       
     public void indisponibilizarNomeEstacao(String pEstacao)
     {        
         int codigoEst = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", pEstacao);
@@ -126,5 +110,44 @@ public class DAONomeEstacao {
         umControleNomeEstacao.salvarNomeEstacao(umModeloNomeEstacao); 
         umMetodo.indisponibilizarStatusNomeEstacaoTMP(pEstacao); //tblnomestacaotmp
     }
+    
+    public NomeEstacao pesquisarNomeEstacaoDAO(NomeEstacao pNomeEstacao) 
+    {       
+        try
+        {
+            conexao.conectar();
+            sql = "SELECT * FROM tblnomestacao WHERE codigo = '" + pNomeEstacao.getCodigo() + "'";           
+            conexao.ExecutarPesquisaSQL(sql);
+            while (conexao.rs.next()) {
+                pNomeEstacao.setCodigo(conexao.rs.getInt("codigo"));
+                pNomeEstacao.setNomestacao(conexao.rs.getString("nomeestacao"));
+                pNomeEstacao.setNumestacao(conexao.rs.getInt("numestacao"));
+                pNomeEstacao.setDepto(conexao.rs.getString("depto"));
+                pNomeEstacao.setStatus(conexao.rs.getString("status"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando sql, \n"+e+", o sql passado foi \n"+sql); 
+        } finally {
+            conexao.desconectar();
+        }
+        return pNomeEstacao;
+    }      
+    
+     public boolean excluirNomeEstacaoDao(int pCodigo) 
+    {
+        try
+        {            
+            conexao.conectar();            
+            sql = "DELETE FROM tblnomestacao WHERE codigo = "+pCodigo;     
+            conexao.ExecutarAtualizacaoSQL(sql);      
+            return true;
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o registro, \n"+e+", o sql passado foi \n"+sql);
+            return false;
+       } finally {
+            conexao.desconectar();
+        }        
+    } 
                      
 }
