@@ -14,12 +14,15 @@ import java.awt.Font;
 import javax.swing.ListSelectionModel;
 import biblioteca.MetodosPublicos;
 import static biblioteca.VariaveisPublicas.contador;
+import static biblioteca.VariaveisPublicas.nomeDepartamento;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import controle.CtrlNomeEstacao;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import modelo.NomeEstacao;
 
 
-public class F_EDITARESTACOES extends javax.swing.JDialog  {
+public class F_EDITARSTATUSNOMESTACOES extends javax.swing.JDialog  {
 
     ConnConexao        conexao                  = new ConnConexao();
     Biblioteca         umaBiblio                = new Biblioteca();
@@ -36,11 +39,11 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
     String sqlEstacoesIndisponiveis            = "SELECT * FROM tblnomestacao WHERE status = 'INDISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
     String sqlEstacoesDisponiveisPorDepto      = "SELECT * FROM tblnomestacao WHERE depto='"+nomeDepto+"' and status = 'DISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
     String sqlEstacoesIndisponiveisPorDepto    = "SELECT * FROM tblnomestacao WHERE depto='"+nomeDepto+"' and status = 'INDISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
-    //String sqlEstacoesIndisponiveisPorDepto    = "SELECT * FROM tblnomestacao WHERE depto='CGGM' and status = 'INDISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
+    String sqlVazia                            = "SELECT * FROM tblnomestacao WHERE codigo= 0";
     String sqlEstacoesPorDepto, sqlEstacoesDisponiveis;
             
 
-    public F_EDITARESTACOES() 
+    public F_EDITARSTATUSNOMESTACOES() 
     {
         initComponents();
         setResizable(false);   //desabilitando o redimencionamento da tela     
@@ -63,6 +66,19 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
             }
         });//fim addComponentListener      
         
+        // Controla o item selecionado no jcombobox
+        cmbDeptos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                // Obtém o item selecionado
+                nomeDepto = (String) cmbDeptos.getSelectedItem();   
+                
+                // Exibe o item selecionado no console
+                //System.out.println("Departamento : " + nomeDepartamento);               
+            }
+        });
+        
     }  
     
     private void popularComboDeptos()
@@ -79,8 +95,9 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
         contador  = 0; 
         btnDisponibilizar.setEnabled(false);
         btnIndisponibilizar.setEnabled(false);        
-        PreencherTabelaESTACOES(sqlEstacoes);        
-        titulo = "LISTA DE NOMES DE ESTAÇÕES CADASTRADOS POR DEPARTAMENTO";        
+        //PreencherTabelaESTACOES(sqlEstacoes);   
+        PreencherTabelaESTACOES(sqlVazia); 
+        titulo = "GERENCIANDO NOMES DE REDE PARA ESTAÇÕES";       
         this.setTitle(titulo);       
     }    
 
@@ -192,6 +209,7 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
         btnLimparFiltro.setText("Limpar");
         btnLimparFiltro.setToolTipText("Filtrar por Departamento");
         btnLimparFiltro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimparFiltro.setEnabled(false);
         btnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimparFiltroActionPerformed(evt);
@@ -227,41 +245,65 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
 
     private void btnDisponiveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponiveisActionPerformed
             
-       if(cmbDeptos.getSelectedIndex() > 0){
-            nomeDepto = cmbDeptos.getSelectedItem().toString();
+       if(cmbDeptos.getSelectedIndex() >= 0){
+                       
+            if(nomeDepto.equals("BIBLIOTECA")){
+                    titulo = "ESTAÇÕES DISPONIVEIS PARA "+nomeDepto+"/CEJUR";                   
+                    nomeDepto = "CEJUR";                   
+            }else
+            if(nomeDepto.equals("CEJUR")){
+                    titulo = "ESTAÇÕES DISPONIVEIS PARA "+nomeDepto+"/BIBLIOTECA";    
+            }else{
+                    titulo = "ESTAÇÕES DISPONIVEIS PARA "+nomeDepto;                   
+            }
+            
             sqlEstacoesDisponiveisPorDepto = "SELECT * FROM tblnomestacao WHERE depto='"+nomeDepto+"' and status = 'DISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
+            //sqlEstacoesDisponiveisPorDepto = "SELECT * FROM tblnomestacao WHERE depto='"+nomeDepto+"' and status = 'DISPONIVEL' ORDER BY numestacao";
             PreencherTabelaESTACOES(sqlEstacoesDisponiveisPorDepto);  
-            titulo = "ESTAÇÕES DISPONIVEIS DE "+nomeDepto;        
             this.setTitle(titulo);                  
        }else{    
             sqlEstacoesDisponiveis   = "SELECT * FROM tblnomestacao WHERE status = 'DISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
+            //sqlEstacoesDisponiveis   = "SELECT * FROM tblnomestacao WHERE status = 'DISPONIVEL' ORDER BY numestacao";
             PreencherTabelaESTACOES(sqlEstacoesDisponiveis);        
-            titulo = "ESTAÇÕES DISPONIVEIS";        
+            titulo = "ESTAÇÕES DISPONIVEIS PARA TODOS OS DEPARTAMENTOS";        
             this.setTitle(titulo);      
        }
-            
+       btnIndisponiveis.setEnabled(false);
+       btnDisponiveis.setEnabled(false); 
+       cmbDeptos.setEnabled(false); 
+       btnLimparFiltro.setEnabled(true);
     }//GEN-LAST:event_btnDisponiveisActionPerformed
 
     private void btnIndisponiveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndisponiveisActionPerformed
          
        if(cmbDeptos.getSelectedIndex() > 0){           
-            nomeDepto = cmbDeptos.getSelectedItem().toString();
+            //nomeDepto = cmbDeptos.getSelectedItem().toString();
+            
+            if(nomeDepto.equals("BIBLIOTECA")){
+                nomeDepto = "CEJUR";
+            }
+            
             sqlEstacoesIndisponiveisPorDepto = "SELECT * FROM tblnomestacao WHERE depto='"+nomeDepto+"' and status = 'INDISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
+            //sqlEstacoesIndisponiveisPorDepto = "SELECT * FROM tblnomestacao WHERE depto='"+nomeDepto+"' and status = 'INDISPONIVEL' ORDER BY numestacao";
             PreencherTabelaESTACOES(sqlEstacoesIndisponiveisPorDepto);  
-            titulo = "ESTAÇÕES INDISPONIVEIS DE "+nomeDepto;        
+            titulo = "ESTAÇÕES INDISPONIVEIS PARA "+nomeDepto;        
             this.setTitle(titulo);                  
        }else{
             sqlEstacoesIndisponiveis   = "SELECT * FROM tblnomestacao WHERE status = 'INDISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
+            //sqlEstacoesIndisponiveis   = "SELECT * FROM tblnomestacao WHERE status = 'INDISPONIVEL' and status = 'INDISPONIVEL' ORDER BY numestacao";
             PreencherTabelaESTACOES(sqlEstacoesIndisponiveis);        
-            titulo = "ESTAÇÕES INDISPONIVEIS";        
+            titulo = "ESTAÇÕES INDISPONIVEIS PARA TODOS OS DEPARTAMENTOS";        
             this.setTitle(titulo);      
        }
-        
+       btnDisponiveis.setEnabled(false); 
+       btnIndisponiveis.setEnabled(false);
+       cmbDeptos.setEnabled(false); 
+       btnLimparFiltro.setEnabled(true);
     }//GEN-LAST:event_btnIndisponiveisActionPerformed
 
     private void filtrarPorDepto()
     {       
-        nomeDepto = cmbDeptos.getSelectedItem().toString();
+        //nomeDepto = cmbDeptos.getSelectedItem().toString();
         sqlEstacoesPorDepto = "SELECT * FROM tblnomestacao WHERE depto='"+nomeDepto+"' and status = 'INDISPONIVEL' ORDER BY depto, RIGHT('000000000000' || nomestacao, 12)";
         PreencherTabelaESTACOES(sqlEstacoesPorDepto);       
     }       
@@ -277,10 +319,16 @@ public class F_EDITARESTACOES extends javax.swing.JDialog  {
     }//GEN-LAST:event_btnIndisponibilizarActionPerformed
 
     private void btnLimparFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparFiltroActionPerformed
-        PreencherTabelaESTACOES(sqlEstacoes); 
+        PreencherTabelaESTACOES(sqlVazia); 
+        cmbDeptos.setEnabled(true); 
         cmbDeptos.setSelectedIndex(-1); 
         btnIndisponibilizar.setEnabled(false);
         btnDisponibilizar.setEnabled(false); 
+        btnDisponiveis.setEnabled(true); 
+        btnIndisponiveis.setEnabled(true);
+        btnLimparFiltro.setEnabled(false);
+        titulo = "GERENCIANDO NOMES DE REDE PARA ESTAÇÕES";  
+        this.setTitle(titulo); 
     }//GEN-LAST:event_btnLimparFiltroActionPerformed
 
     private void jTabelaESTACOESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaESTACOESMouseClicked

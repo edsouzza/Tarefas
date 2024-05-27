@@ -61,6 +61,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }
     
     private void gerenciadorDeMenus(){        
+       //ADMINISTRADOR
        if(nivelAcessoUsuario >1)
        {
            mnuCONFIGURACOES.setVisible(false);
@@ -68,8 +69,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
            menuReativacoes.setVisible(false);
            menutipodocumentos.setVisible(false);
            menugerarnumdocto.setVisible(false);           
-           mnuGerenciarNomesEstacoes.setVisible(false);           
-       }  
+           mnuGerenciarNomesEstacoes.setVisible(false); 
+           mnuGerarNomestacoes.setVisible(false); 
+       }  //USUARIO
        if(nivelAcessoUsuario == 3){  
             menuclientesvirtuais.setVisible(false);
             menuPatriLotes.setVisible(false);
@@ -119,9 +121,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuConsInformacoes = new javax.swing.JMenuItem();
         mnuCONSIPSIMPRESSORAS = new javax.swing.JMenuItem();
         mnuCONSMICROS = new javax.swing.JMenuItem();
-        mnuGerenciarNomesEstacoes = new javax.swing.JMenuItem();
-        mnuConsultarEstacoesDisponiveis = new javax.swing.JMenuItem();
         mnuGerarNomestacoes = new javax.swing.JMenuItem();
+        mnuConsultarEstacoesDisponiveis = new javax.swing.JMenuItem();
+        mnuGerenciarNomesEstacoes = new javax.swing.JMenuItem();
         menuEDICOES = new javax.swing.JMenu();
         menuEditarModeloPatrimonio = new javax.swing.JMenuItem();
         menuReativacoes = new javax.swing.JMenu();
@@ -327,11 +329,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menuPatriLotes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
         menuPatriLotes.setText("PATRIMONIOS EM LOTE");
         menuPatriLotes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menuPatriLotes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPatriLotesActionPerformed(evt);
-            }
-        });
 
         menuEntradaEmLoteTXT.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         menuEntradaEmLoteTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_reverter.gif"))); // NOI18N
@@ -467,16 +464,16 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuConsultas.add(mnuCONSMICROS);
 
-        mnuGerenciarNomesEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        mnuGerenciarNomesEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
-        mnuGerenciarNomesEstacoes.setText("GERENCIAMENTO DOS NOMES DE ESTAÇÕES");
-        mnuGerenciarNomesEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        mnuGerenciarNomesEstacoes.addActionListener(new java.awt.event.ActionListener() {
+        mnuGerarNomestacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGerarNomestacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/monitor.png"))); // NOI18N
+        mnuGerarNomestacoes.setText("GERAR NOMES DE ESTAÇÕES PARA CADASTRO");
+        mnuGerarNomestacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuGerarNomestacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuGerenciarNomesEstacoesActionPerformed(evt);
+                mnuGerarNomestacoesActionPerformed(evt);
             }
         });
-        menuConsultas.add(mnuGerenciarNomesEstacoes);
+        menuConsultas.add(mnuGerarNomestacoes);
 
         mnuConsultarEstacoesDisponiveis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.CTRL_MASK));
         mnuConsultarEstacoesDisponiveis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/patrimonios.png"))); // NOI18N
@@ -489,16 +486,16 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuConsultas.add(mnuConsultarEstacoesDisponiveis);
 
-        mnuGerarNomestacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
-        mnuGerarNomestacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/monitor.png"))); // NOI18N
-        mnuGerarNomestacoes.setText("GERAR NOMES DE ESTAÇÕES PARA CADASTRO");
-        mnuGerarNomestacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        mnuGerarNomestacoes.addActionListener(new java.awt.event.ActionListener() {
+        mnuGerenciarNomesEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGerenciarNomesEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
+        mnuGerenciarNomesEstacoes.setText("DISPONIBILIZAR / INDISPONIBILIZAR NOMES DE ESTAÇÕES");
+        mnuGerenciarNomesEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuGerenciarNomesEstacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuGerarNomestacoesActionPerformed(evt);
+                mnuGerenciarNomesEstacoesActionPerformed(evt);
             }
         });
-        menuConsultas.add(mnuGerarNomestacoes);
+        menuConsultas.add(mnuGerenciarNomesEstacoes);
 
         jMenuBar1.add(menuConsultas);
 
@@ -1142,16 +1139,10 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
     private void mnuGerenciarNomesEstacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerenciarNomesEstacoesActionPerformed
         if(umabiblio.permissaoLiberada()){  
-            F_EDITARESTACOES frm = new F_EDITARESTACOES();
+            F_EDITARSTATUSNOMESTACOES frm = new F_EDITARSTATUSNOMESTACOES();
             frm.setVisible(true); 
         }        
     }//GEN-LAST:event_mnuGerenciarNomesEstacoesActionPerformed
-
-    private void menuPatriLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPatriLotesActionPerformed
-        if(umabiblio.permissaoLiberada()){  
-            
-        }
-    }//GEN-LAST:event_menuPatriLotesActionPerformed
 
     private void mnuMemoDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMemoDevolucaoActionPerformed
               
@@ -1161,8 +1152,10 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuMemoDevolucaoActionPerformed
 
     private void mnuGerarNomestacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerarNomestacoesActionPerformed
-        F_GERARNOMESTACOES frm = new F_GERARNOMESTACOES();
-        frm.setVisible(true); 
+        if(umabiblio.permissaoLiberada()){  
+            F_GERARNOMESTACOES frm = new F_GERARNOMESTACOES();
+            frm.setVisible(true); 
+        }
     }//GEN-LAST:event_mnuGerarNomestacoesActionPerformed
 
     private void menuConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConsultasActionPerformed

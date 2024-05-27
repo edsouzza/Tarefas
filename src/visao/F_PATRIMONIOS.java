@@ -2892,14 +2892,19 @@ private void gravarEdicaoRegistro()
     //JOptionPane.showMessageDialog(rootPane, nomeDepartamento);
     //JOptionPane.showMessageDialog(rootPane, tipo);
         
-    if(umMetodo.temNomesEstacoesDisponiveis(nomeDepartamento) || umMetodo.temNomestacaoDisponivelTMP())
-    {    
+    nomeDepartamento = umMetodo.retornaDepto(cmbFILTRARPORSECAO.getSelectedItem().toString());
+        
+    if(nomeDepartamento.equals("BIBLIOTECA")){
+          nomeDepartamento = "CEJUR";
+    }
+    //System.out.println(nomeDepartamento);
+    if(umMetodo.temNomesEstacoesDisponiveis(nomeDepartamento)){                
+       
         if( editando && (tipo.equals("MICRO") || tipo.equals("NOTEBOOK")) )
         {    
             /*Abre o formulario com a lista de nomes de estações disponiveis para uso que devera ser do tipo JDialog e Modal
             (ou seja o programa para ao abrir o form e segue qdo fechado)*/
             editandoDisponiveis   = true;
-            nomeDepartamento      = umMetodo.retornaDepto(cmbFILTRARPORSECAO.getSelectedItem().toString());
             nomestacaosubstituida = txtESTACAO.getText(); 
             
             F_LISTAESTACOESDISPONIVEIS frm = new F_LISTAESTACOESDISPONIVEIS(new JFrame(),true);
@@ -2915,7 +2920,24 @@ private void gravarEdicaoRegistro()
             txtCHAPA.requestFocus();               
         }           
               
-    }else{
+    }else if(umMetodo.temNomestacaoDisponivelTMP()){
+           /*Abre o formulario com a lista de nomes de estações disponiveis para uso que devera ser do tipo JDialog e Modal
+            (ou seja o programa para ao abrir o form e segue qdo fechado)*/
+            editandoDisponiveis   = true;
+            nomestacaosubstituida = txtESTACAO.getText(); 
+            
+            F_LISTAESTACOESDISPONIVEIS frm = new F_LISTAESTACOESDISPONIVEIS(new JFrame(),true);
+            frm.setVisible(true); 
+
+            //JOptionPane.showMessageDialog(null, nomeEstacaoAtual);
+
+            //recebe o valor da estação selecionada e seta no txtESTACAO
+            txtESTACAO.setText(frm.getNomeEstacaoSelecionada());                
+            alterouEstacao      = true;
+            alterandonomestacao = true;
+            editandoDisponiveis = false;
+            txtCHAPA.requestFocus(); 
+    }else{       
         JOptionPane.showMessageDialog(null, "Atenção não tem nenhum nome de estação disponível para "+nomeDepartamento+" no momento, efetue um novo cadastro normalmente!", "Nomes disponíveis para cadastro/alteração!", 2);                
         btnVoltarActionPerformed(null);
     }
@@ -3150,7 +3172,7 @@ private void gravarEdicaoRegistro()
         //ao clicar no TXTESTACAO abrir a tela de estações disponiveis para edição do nome de rede        
         if(editando)
         {
-            if(umMetodo.ConfirmouOperacao("Deseja mesmo alterar o nome de rede desta estação?", "Alteração do nome de rede"))
+            if(umMetodo.ConfirmouOperacao("Deseja alterar o nome de rede desta estação?", "Alteração do nome de rede"))
             {               
                 abrirListaEstacoesDisponiveis();
                 

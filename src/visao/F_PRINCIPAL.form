@@ -178,9 +178,6 @@
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuPatriLotesActionPerformed"/>
-              </Events>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="menuEntradaEmLoteTXT">
                   <Properties>
@@ -387,21 +384,21 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCONSMICROSActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuGerenciarNomesEstacoes">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuGerarNomestacoes">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+V"/>
+                  <KeyStroke key="Ctrl+F12"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/images/btn_pesquisa.gif"/>
+                  <Image iconType="3" name="/images/monitor.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="GERENCIAMENTO DOS NOMES DE ESTA&#xc7;&#xd5;ES"/>
+                <Property name="text" type="java.lang.String" value="GERAR NOMES DE ESTA&#xc7;&#xd5;ES PARA CADASTRO"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuGerenciarNomesEstacoesActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuGerarNomestacoesActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuConsultarEstacoesDisponiveis">
@@ -421,21 +418,21 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuConsultarEstacoesDisponiveisActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuGerarNomestacoes">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuGerenciarNomesEstacoes">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+F12"/>
+                  <KeyStroke key="Ctrl+V"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/images/monitor.png"/>
+                  <Image iconType="3" name="/images/btn_pesquisa.gif"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="GERAR NOMES DE ESTA&#xc7;&#xd5;ES PARA CADASTRO"/>
+                <Property name="text" type="java.lang.String" value="DISPONIBILIZAR / INDISPONIBILIZAR NOMES DE ESTA&#xc7;&#xd5;ES"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuGerarNomestacoesActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuGerenciarNomesEstacoesActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

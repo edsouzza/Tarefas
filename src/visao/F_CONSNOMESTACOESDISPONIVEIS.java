@@ -13,6 +13,8 @@ import static biblioteca.VariaveisPublicas.totalRegs;
 import controle.CtrlNomeEstacao;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,8 +33,8 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
     DAONomeEstacao     umEstacaoNomeEstacaoAO   = new DAONomeEstacao();
         
     String inicioRange, finalRange, estacaoInicial, estacaoFinal, strRange, sqlCmb, nomeSecao, nomeDepto, titulo, caminhoTXT, linha, scodigo, snomestacao,sqlPesquisaNomesUtilizados = "";  
-    String sqlDisponiveisPorTMP        = "SELECT * FROM TBLNOMESTACAOTMP WHERE STATUS='DISPONIVEL' ORDER BY NUMESTACAO";
-    String sqlVazia                    = "SELECT * FROM TBLNOMESTACAOTMP WHERE CODIGO=0";
+    String sqlDisponiveis        = "SELECT * FROM TBLNOMESTACAO WHERE STATUS='DISPONIVEL' ORDER BY NUMESTACAO";
+    String sqlVazia              = "SELECT * FROM TBLNOMESTACAO WHERE CODIGO=0";
     int codDepto, codigoEstacao;
     boolean selecionouDepto, disponivel;    
             
@@ -62,7 +64,23 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
                 setEnabled(false);
                 setEnabled(true);
             }
-        });//fim addComponentListener      
+        });//fim addComponentListener   
+        
+         // Controla o item selecionado no jcombobox
+        cmbDeptos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                // Obtém o item selecionado
+                nomeDepto = (String) cmbDeptos.getSelectedItem(); 
+                btnDisponiveis.setEnabled(true);
+                btnUtilizados.setEnabled(true);
+                btnLimparPesquisa.setEnabled(true); 
+                
+                // Exibe o item selecionado no console
+                //System.out.println("Departamento : " + nomeDepartamento);               
+            }
+        });
         
     }  
 
@@ -72,7 +90,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
 
         panelPrincipal = new javax.swing.JPanel();
         btnDisponiveis = new javax.swing.JButton();
-        cmbFILTRARPORDEPTO = new javax.swing.JComboBox<String>();
+        cmbDeptos = new javax.swing.JComboBox<String>();
         btnLimparPesquisa = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         lblTITULO = new javax.swing.JLabel();
@@ -100,18 +118,18 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         panelPrincipal.add(btnDisponiveis);
         btnDisponiveis.setBounds(450, 10, 120, 33);
 
-        cmbFILTRARPORDEPTO.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        cmbFILTRARPORDEPTO.setForeground(new java.awt.Color(51, 51, 255));
-        cmbFILTRARPORDEPTO.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<ESCOLHA A SEÇÃO>" }));
-        cmbFILTRARPORDEPTO.setToolTipText("Escolha um departamento para filtrar");
-        cmbFILTRARPORDEPTO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cmbFILTRARPORDEPTO.addItemListener(new java.awt.event.ItemListener() {
+        cmbDeptos.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        cmbDeptos.setForeground(new java.awt.Color(51, 51, 255));
+        cmbDeptos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<ESCOLHA A SEÇÃO>" }));
+        cmbDeptos.setToolTipText("Escolha um departamento para filtrar");
+        cmbDeptos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbDeptos.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbFILTRARPORDEPTOItemStateChanged(evt);
+                cmbDeptosItemStateChanged(evt);
             }
         });
-        panelPrincipal.add(cmbFILTRARPORDEPTO);
-        cmbFILTRARPORDEPTO.setBounds(10, 10, 290, 30);
+        panelPrincipal.add(cmbDeptos);
+        cmbDeptos.setBounds(10, 10, 290, 30);
 
         btnLimparPesquisa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnLimparPesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_limpar.gif"))); // NOI18N
@@ -171,7 +189,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
 
         txtNOMESTACAO.setEditable(false);
         txtNOMESTACAO.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtNOMESTACAO.setForeground(new java.awt.Color(51, 51, 255));
+        txtNOMESTACAO.setForeground(new java.awt.Color(255, 0, 0));
         panelPrincipal.add(txtNOMESTACAO);
         txtNOMESTACAO.setBounds(10, 80, 820, 30);
 
@@ -184,18 +202,18 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
     {
         //Populando o combo com os nomes dos departamentos
         sqlCmb = "select nome from tbldepartamentos where status='ATIVO' order by nome";
-        umMetodo.PreencherComboVariandoTipo(cmbFILTRARPORDEPTO, sqlCmb, "NOME");
-        nomeDepto = cmbFILTRARPORDEPTO.getSelectedItem().toString();
-        cmbFILTRARPORDEPTO.setSelectedIndex(-1); 
+        umMetodo.PreencherComboVariandoTipo(cmbDeptos, sqlCmb, "NOME");        
+        cmbDeptos.setSelectedIndex(-1); 
     }
     
     private void Leitura()
     {       
         
-        popularComboSecoes();
-        btnDisponiveis.setEnabled(false);
-        btnLimparPesquisa.setEnabled(false);        
+        popularComboSecoes();               
         contador  = 0; 
+        btnDisponiveis.setEnabled(false);
+        btnUtilizados.setEnabled(false);  
+        btnLimparPesquisa.setEnabled(false);  
         lblTITULO.setText("SELECIONE UM DEPARTAMENTO ACIMA E DEFINA UMA CONSULTA ATRAVÉS DOS BOTÕES DE PESQUISA");        
         titulo = "SELECIONE UM DEPARTAMENTO PARA CONSULTAR NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO";        
         this.setTitle(titulo);  
@@ -208,11 +226,10 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
        lblTITULO.setText("NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO");
        
        btnLimparPesquisa.setEnabled(false);
-       cmbFILTRARPORDEPTO.setEnabled(true);
-       cmbFILTRARPORDEPTO.setSelectedIndex(-1); 
+       cmbDeptos.setEnabled(true);
+       cmbDeptos.setSelectedIndex(-1); 
        txtNOMESTACAO.setText(null);
-       txtNOMESTACAO.setEditable(false);   
-       btnUtilizados.setEnabled(true);
+       txtNOMESTACAO.setEditable(false);          
        lblTITULO.setForeground(Color.blue);  
        Leitura();        
     }
@@ -248,7 +265,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
          
         btnDisponiveis.setEnabled(false);
         btnLimparPesquisa.setEnabled(true);   
-        cmbFILTRARPORDEPTO.setEnabled(false);
+        cmbDeptos.setEnabled(false);
         
         //JOptionPane.showMessageDialog(rootPane,"TOTAL DE REGISTROS ENCONTRADOS : "+ String.valueOf(totalRegs));        
         titulo = pDepto+" - TOTAL DE ESTAÇÕES/MICROS : "+totalRegs+"";          
@@ -262,37 +279,30 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
     }     
     
     public void Pesquisar(String pDepto) 
-    {              
-        //nomeDepartamento = cmbFILTRARPORDEPTO.getSelectedItem().toString();
-        
-        if(pDepto.equals("CGGM"))
-        {
-          String sqlDisponiveisPorInativacao = "SELECT * FROM TBLNOMESTACAO WHERE status='DISPONIVEL' AND Depto = '"+pDepto+"' ORDER BY numestacao";   
-          PreencherTabelaESTACOES(sqlDisponiveisPorInativacao);
-          txtNOMESTACAO.setText(umMetodo.gerarProximoNomestacao(nomeDepto)); 
-          lblTITULO.setText("NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO : "+nomeDepto);
-
-        }else{
-            //JOptionPane.showMessageDialog(null, "DEPARTAMENTO SELECIONADO : "+nomeDepto);
-            txtNOMESTACAO.setText(umMetodo.gerarProximoNomestacao(nomeDepto)); 
-            lblTITULO.setText("NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO : "+nomeDepto);
-        }                 
+    {                            
+        String sqlDisponiveisPorInativacao = "SELECT * FROM TBLNOMESTACAO WHERE status='DISPONIVEL' AND Depto = '"+pDepto+"' ORDER BY numestacao";   
+        PreencherTabelaESTACOES(sqlDisponiveisPorInativacao);
+        txtNOMESTACAO.setText(umMetodo.gerarProximoNomestacao(nomeDepto)); 
+        lblTITULO.setText("NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO : "+nomeDepto);
 
         btnLimparPesquisa.setEnabled(true);
         btnDisponiveis.setEnabled(false);
         txtNOMESTACAO.setEditable(false);
-        cmbFILTRARPORDEPTO.setEnabled(false);
+        cmbDeptos.setEnabled(false);
     }        
       
     private void btnDisponiveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponiveisActionPerformed
 
         disponivel = true;        
         lblTITULO.setForeground(Color.BLUE);  
-        btnUtilizados.setEnabled(false);
-        btnDisponiveis.setEnabled(false); 
+        btnDisponiveis.setEnabled(false);
+        btnUtilizados.setEnabled(false);   
         
-        nomeDepto = cmbFILTRARPORDEPTO.getSelectedItem().toString();        
-        codDepto  = umaBiblio.buscarCodigoGenerico("tbldepartamentos", "nome", cmbFILTRARPORDEPTO.getSelectedItem().toString());
+        if(nomeDepto.equals("BIBLIOTECA")){
+            nomeDepto = "CEJUR";
+        }
+             
+        codDepto  = umaBiblio.buscarCodigoGenerico("tbldepartamentos", "nome", nomeDepto);
         
         if(contador == 1)
         {
@@ -310,7 +320,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
        LimparPesquisa();
     }//GEN-LAST:event_btnLimparPesquisaActionPerformed
 
-    private void cmbFILTRARPORDEPTOItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbFILTRARPORDEPTOItemStateChanged
+    private void cmbDeptosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbDeptosItemStateChanged
          contador++;            
          //JOptionPane.showMessageDialog(rootPane,"VL CONTADOR : "+ String.valueOf(contador)); 
          
@@ -322,7 +332,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
             btnUtilizados.setEnabled(false);
          }
          
-    }//GEN-LAST:event_cmbFILTRARPORDEPTOItemStateChanged
+    }//GEN-LAST:event_cmbDeptosItemStateChanged
 
     private void btnUtilizadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtilizadosActionPerformed
        
@@ -330,9 +340,13 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         lblTITULO.setForeground(Color.red);  
         btnUtilizados.setEnabled(false);
         btnDisponiveis.setEnabled(false); 
-        nomeDepto = cmbFILTRARPORDEPTO.getSelectedItem().toString();
-        codDepto  = umaBiblio.buscarCodigoGenerico("tbldepartamentos", "nome", cmbFILTRARPORDEPTO.getSelectedItem().toString());
         
+        if(nomeDepto.equals("BIBLIOTECA")){
+            nomeDepto = "CEJUR";
+        }
+        
+        codDepto  = umaBiblio.buscarCodigoGenerico("tbldepartamentos", "nome", nomeDepto);
+        //JOptionPane.showMessageDialog(rootPane, "codigo do depto"+nomeDepto+"="+codDepto);
         if(contador == 1)
         {
             PesquisarUtilizados(nomeDepto);   
@@ -477,7 +491,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
     public javax.swing.JButton btnLimparPesquisa;
     public javax.swing.JButton btnSair;
     public javax.swing.JButton btnUtilizados;
-    private javax.swing.JComboBox<String> cmbFILTRARPORDEPTO;
+    private javax.swing.JComboBox<String> cmbDeptos;
     private javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JTable jTabelaESTACOES;
     private javax.swing.JLabel lblTITULO;

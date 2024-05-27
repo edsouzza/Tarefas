@@ -69,8 +69,7 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
                 txtQDE.setEnabled(true);
                 txtQDE.requestFocus();
                 // Exibe o item selecionado no console
-                //System.out.println("Departamento : " + nomeDepartamento);                
-               
+                //System.out.println("Departamento : " + nomeDepartamento);               
             }
         });
         
@@ -322,9 +321,7 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
        txtQDE.setEnabled(false);
        btnLimpar.setEnabled(true);
        btnSair.setEnabled(false);
-       
-       //Limpando todos os dados sem precisar apertar o botao limpar logo depois de gerar os nomes
-       btnLimparActionPerformed(evt);
+
        
     }//GEN-LAST:event_btnGerarNomesActionPerformed
        
@@ -366,8 +363,10 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
              }
              mostrarTodosNomesEstacoesDisponiveisPorDepto(nomeDepartamento);   
              btnTodosDisponiveisDepto.setEnabled(false);
+             cmbDeptos.setEnabled(false);
+             txtQDE.setEnabled(false);
+              btnLimpar.setEnabled(true);
         }
-        btnLimpar.setEnabled(true);
        
     }//GEN-LAST:event_btnTodosDisponiveisDeptoActionPerformed
 

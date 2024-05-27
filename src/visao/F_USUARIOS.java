@@ -549,6 +549,7 @@ public class F_USUARIOS extends javax.swing.JFrame {
             }
             PreencherTabela(sqlVazia); 
         }
+        btnReiniciarSenha.setEnabled(false);
     }//GEN-LAST:event_btnEditarActionPerformed
     
      public String MostrarSecaoSelecionada(int idSecao)
