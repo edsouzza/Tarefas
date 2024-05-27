@@ -70,7 +70,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
            menutipodocumentos.setVisible(false);
            menugerarnumdocto.setVisible(false);           
            mnuGerenciarNomesEstacoes.setVisible(false); 
-           mnuGerarNomestacoes.setVisible(false); 
+           mnuGerenciamentoNomesRede.setVisible(false); 
        }  //USUARIO
        if(nivelAcessoUsuario == 3){  
             menuclientesvirtuais.setVisible(false);
@@ -121,9 +121,11 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuConsInformacoes = new javax.swing.JMenuItem();
         mnuCONSIPSIMPRESSORAS = new javax.swing.JMenuItem();
         mnuCONSMICROS = new javax.swing.JMenuItem();
-        mnuGerarNomestacoes = new javax.swing.JMenuItem();
         mnuConsultarEstacoesDisponiveis = new javax.swing.JMenuItem();
         mnuGerenciarNomesEstacoes = new javax.swing.JMenuItem();
+        mnuGerenciamentoNomesRede = new javax.swing.JMenu();
+        mnuGerenciarAdicaoNomeEstacoes = new javax.swing.JMenuItem();
+        mnuGerenciarExclusaoNomeEstacoes = new javax.swing.JMenuItem();
         menuEDICOES = new javax.swing.JMenu();
         menuEditarModeloPatrimonio = new javax.swing.JMenuItem();
         menuReativacoes = new javax.swing.JMenu();
@@ -464,17 +466,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuConsultas.add(mnuCONSMICROS);
 
-        mnuGerarNomestacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
-        mnuGerarNomestacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/monitor.png"))); // NOI18N
-        mnuGerarNomestacoes.setText("GERAR NOMES DE ESTAÇÕES PARA CADASTRO");
-        mnuGerarNomestacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        mnuGerarNomestacoes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuGerarNomestacoesActionPerformed(evt);
-            }
-        });
-        menuConsultas.add(mnuGerarNomestacoes);
-
         mnuConsultarEstacoesDisponiveis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.CTRL_MASK));
         mnuConsultarEstacoesDisponiveis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/patrimonios.png"))); // NOI18N
         mnuConsultarEstacoesDisponiveis.setText("NOMES DE ESTAÇÕES DISPONÍVEIS PARA CADASTRO");
@@ -496,6 +487,33 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuConsultas.add(mnuGerenciarNomesEstacoes);
+
+        mnuGerenciamentoNomesRede.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/monitor.png"))); // NOI18N
+        mnuGerenciamentoNomesRede.setText("GERENCIAR INCLUSAO / EXCLUSAO DE NOMES DE REDE");
+
+        mnuGerenciarAdicaoNomeEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGerenciarAdicaoNomeEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
+        mnuGerenciarAdicaoNomeEstacoes.setText("ADICIONAR NOMES DE REDE");
+        mnuGerenciarAdicaoNomeEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuGerenciarAdicaoNomeEstacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuGerenciarAdicaoNomeEstacoesActionPerformed(evt);
+            }
+        });
+        mnuGerenciamentoNomesRede.add(mnuGerenciarAdicaoNomeEstacoes);
+
+        mnuGerenciarExclusaoNomeEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F13, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGerenciarExclusaoNomeEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Cancelar.gif"))); // NOI18N
+        mnuGerenciarExclusaoNomeEstacoes.setText("EXCLUIR NOMES DE REDE");
+        mnuGerenciarExclusaoNomeEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuGerenciarExclusaoNomeEstacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuGerenciarExclusaoNomeEstacoesActionPerformed(evt);
+            }
+        });
+        mnuGerenciamentoNomesRede.add(mnuGerenciarExclusaoNomeEstacoes);
+
+        menuConsultas.add(mnuGerenciamentoNomesRede);
 
         jMenuBar1.add(menuConsultas);
 
@@ -1149,18 +1167,26 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         tabela = "TBLITENSMEMOTRANSFERIDOS";   
         F_MEMOITENSRECEBIDOS frm = new F_MEMOITENSRECEBIDOS();
         frm.setVisible(true); 
+        
     }//GEN-LAST:event_mnuMemoDevolucaoActionPerformed
 
-    private void mnuGerarNomestacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerarNomestacoesActionPerformed
+    private void menuConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConsultasActionPerformed
+       
+    }//GEN-LAST:event_menuConsultasActionPerformed
+
+    private void mnuGerenciarAdicaoNomeEstacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerenciarAdicaoNomeEstacoesActionPerformed
         if(umabiblio.permissaoLiberada()){  
             F_GERARNOMESTACOES frm = new F_GERARNOMESTACOES();
             frm.setVisible(true); 
-        }
-    }//GEN-LAST:event_mnuGerarNomestacoesActionPerformed
+       }
+    }//GEN-LAST:event_mnuGerenciarAdicaoNomeEstacoesActionPerformed
 
-    private void menuConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConsultasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuConsultasActionPerformed
+    private void mnuGerenciarExclusaoNomeEstacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerenciarExclusaoNomeEstacoesActionPerformed
+        if(umabiblio.permissaoLiberada()){  
+            F_EXCLUSAONOMESTACOES frm = new F_EXCLUSAONOMESTACOES();
+            frm.setVisible(true); 
+        }
+    }//GEN-LAST:event_mnuGerenciarExclusaoNomeEstacoesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1247,7 +1273,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuDocumentacao;
     private javax.swing.JMenuItem mnuEtiquetasColetivas;
     private javax.swing.JMenuItem mnuEtiquetasIndividuais;
-    private javax.swing.JMenuItem mnuGerarNomestacoes;
+    private javax.swing.JMenu mnuGerenciamentoNomesRede;
+    private javax.swing.JMenuItem mnuGerenciarAdicaoNomeEstacoes;
+    private javax.swing.JMenuItem mnuGerenciarExclusaoNomeEstacoes;
     private javax.swing.JMenuItem mnuGerenciarNomesEstacoes;
     private javax.swing.JMenuItem mnuIPServidor;
     private javax.swing.JMenuItem mnuImprimirMemosTransferencia;

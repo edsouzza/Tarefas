@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 import modelo.NomeEstacao;
 
 
-public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
+public class F_EXCLUSAONOMESTACOES extends javax.swing.JDialog  {
 
     ConnConexao        conexao                  = new ConnConexao();
     Biblioteca         umaBiblio                = new Biblioteca();
@@ -36,15 +36,13 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
     int numInicial, codigoNomeEstacao;
             
 
-    public F_GERARNOMESTACOES() 
+    public F_EXCLUSAONOMESTACOES() 
     {
         initComponents();
         setResizable(false);   //desabilitando o redimencionamento da tela     
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar     
-        this.setTitle("Disponibilização de nomes de rede para cadastrar estações");
+        this.setTitle("Exclusão de nomes de rede disponíveis");
         Leitura();       
-           
-        umaBiblio.configurarBotoes(btnGerarNomes);         
         
         //cofigurações 
         jTabelaESTACOES.setFont(new Font("TimesRoman", Font.BOLD, 12));
@@ -64,9 +62,16 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Obtém o item selecionado
-                nomeDepartamento = (String) cmbDeptos.getSelectedItem();                
-                txtQDE.setEnabled(true);
-                txtQDE.requestFocus();
+                
+                nomeDepartamento = (String) cmbDeptos.getSelectedItem();  
+                if(cmbDeptos.getSelectedIndex() >= 0){
+                    
+                    if(nomeDepartamento.equals("BIBLIOTECA")){
+                        nomeDepartamento = "CEJUR";
+                    }               
+                }
+                btnFiltrarPorDepto.setEnabled(true);
+                btnExcluirPorIntervalo.setEnabled(false);
                 // Exibe o item selecionado no console
                 //System.out.println("Departamento : " + nomeDepartamento);               
             }
@@ -83,71 +88,14 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
             
     private void Leitura()
     {   
-        popularComboDeptos();        
+        popularComboDeptos();       
        
     }    
-    
-    private int getProximoNumeroEstacao(){        
-        int ultimoNome = 0;    
-        
-        if(nomeDepartamento.equals("BIBLIOTECA")){
-          nomeDepartamento = "CEJUR";
-        }
-         
-        ultimoNome = umMetodo.gerarProximoNumeroEstacao(nomeDepartamento);        
-        return ultimoNome;
-    }
-    
-     public static ArrayList<Integer> gerarArrayList(int inicio, int fim) {
-        ArrayList<Integer> lista = new ArrayList<>();
-
-        for (int i = inicio; i <= fim; i++) {
-            lista.add(i);
-        }
-        return lista;
-    }
-    
-    public ArrayList<String> gerarNomesEstacoes() {       
-        numInicial   = getProximoNumeroEstacao();
-        int numFinal     = (getProximoNumeroEstacao() + Integer.parseInt(txtQDE.getText())-1);    
-         
-        //OBTENDO A LISTA COM OS NUMEROS DE CHAPAS GERADOS E RETORNANDO EM UM ARRAYLIST  i = 140 
-        ArrayList listaNomes = new ArrayList();
-
-        ArrayList<Integer> numeros = gerarArrayList(numInicial, numFinal);
-
-        // Imprimir a ArrayList
-        for (Integer numero : numeros) {
-            //System.out.print("PGM"+nomeDepartamento+"C"+numero + "\n");
-            listaNomes.add("PGM"+nomeDepartamento+"C"+numero);
-        }
-        return listaNomes;
-    }
-    
-     private void gravarNomesNaTabela(){
-         ArrayList<String> nomesEstacoes = gerarNomesEstacoes();
-
-        // Imprime os nomes gerados
-        for (String nome : nomesEstacoes) 
-        {        
-            umModeloNomeEstacao.setNomestacao(nome);
-            umModeloNomeEstacao.setNumestacao(umMetodo.somenteDigitos(nome));
-            umModeloNomeEstacao.setDepto(nomeDepartamento);
-            umModeloNomeEstacao.setStatus("DISPONIVEL");
-            umControleNomeEstacao.salvarNomeEstacao(umModeloNomeEstacao);              
-            //System.out.print(nomesEstacoes);
-        }
-        
-    }       
-    
-    private void mostrarEstacoesAdicionadasNaTabela(int pNumeInicial, String pDepto){
-        String sqlNomesAdicionados  = "SELECT * FROM TBLNOMESTACAO WHERE numestacao >= "+pNumeInicial+" AND depto = '"+pDepto+"' AND status = 'DISPONIVEL' ORDER BY NUMESTACAO";        
-        PreencherTabelaESTACOES(sqlNomesAdicionados);
-    }
     
     private void mostrarTodosNomesEstacoesDisponiveisPorDepto(String pDepto){
         String sqlTodosNomesPorDepto  = "SELECT * FROM TBLNOMESTACAO WHERE  depto = '"+pDepto+"' AND status = 'DISPONIVEL' ORDER BY NUMESTACAO";        
         PreencherTabelaESTACOES(sqlTodosNomesPorDepto);
+        cmbDeptos.setEnabled(false); 
     }
        
     @SuppressWarnings("unchecked")
@@ -155,36 +103,22 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
     private void initComponents() {
 
         panelPrincipal = new javax.swing.JPanel();
-        btnGerarNomes = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTabelaESTACOES = new javax.swing.JTable();
         cmbDeptos = new javax.swing.JComboBox<String>();
         btnLimpar = new javax.swing.JButton();
-        txtQDE = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        btnTodosDisponiveisDepto = new javax.swing.JButton();
+        lblTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
+        btnExcluirPorIntervalo = new javax.swing.JButton();
+        btnFiltrarPorDepto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelPrincipal.setPreferredSize(new java.awt.Dimension(1024, 733));
         panelPrincipal.setLayout(null);
-
-        btnGerarNomes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnGerarNomes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        btnGerarNomes.setText("GERAR");
-        btnGerarNomes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnGerarNomes.setEnabled(false);
-        btnGerarNomes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarNomesActionPerformed(evt);
-            }
-        });
-        panelPrincipal.add(btnGerarNomes);
-        btnGerarNomes.setBounds(290, 80, 160, 40);
 
         btnSair.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sair.gif"))); // NOI18N
@@ -196,7 +130,7 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnSair);
-        btnSair.setBounds(800, 80, 110, 40);
+        btnSair.setBounds(710, 80, 200, 40);
 
         jTabelaESTACOES.setAutoCreateRowSorter(true);
         jTabelaESTACOES.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -215,10 +149,10 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
         cmbDeptos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         cmbDeptos.setForeground(new java.awt.Color(51, 51, 255));
         cmbDeptos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Departamento" }));
-        cmbDeptos.setToolTipText("Escolha um departamento para filtrar");
+        cmbDeptos.setToolTipText("");
         cmbDeptos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         panelPrincipal.add(cmbDeptos);
-        cmbDeptos.setBounds(10, 80, 180, 40);
+        cmbDeptos.setBounds(10, 80, 270, 40);
 
         btnLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -232,49 +166,15 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnLimpar);
-        btnLimpar.setBounds(630, 80, 160, 40);
+        btnLimpar.setBounds(590, 80, 110, 40);
 
-        txtQDE.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txtQDE.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtQDE.setText("0");
-        txtQDE.setEnabled(false);
-        txtQDE.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtQDEFocusGained(evt);
-            }
-        });
-        txtQDE.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtQDEMouseClicked(evt);
-            }
-        });
-        txtQDE.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtQDEKeyPressed(evt);
-            }
-        });
-        panelPrincipal.add(txtQDE);
-        txtQDE.setBounds(200, 80, 80, 40);
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 51, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ESCOLHA O DEPARTAMENTO E DIGITE A QUANTIDADE DE NOMES DESEJADA");
-        panelPrincipal.add(jLabel1);
-        jLabel1.setBounds(10, 20, 900, 14);
-
-        btnTodosDisponiveisDepto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnTodosDisponiveisDepto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
-        btnTodosDisponiveisDepto.setText("Todos Disponiveis");
-        btnTodosDisponiveisDepto.setToolTipText("");
-        btnTodosDisponiveisDepto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTodosDisponiveisDepto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTodosDisponiveisDeptoActionPerformed(evt);
-            }
-        });
-        panelPrincipal.add(btnTodosDisponiveisDepto);
-        btnTodosDisponiveisDepto.setBounds(460, 80, 160, 40);
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(153, 0, 255));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("ESCOLHA O DEPARTAMENTO E UM NOME DE REDE PARA EXCLUSÃO INDIVIDUAL");
+        panelPrincipal.add(lblTitulo);
+        lblTitulo.setBounds(10, 20, 900, 14);
+        lblTitulo.getAccessibleContext().setAccessibleName("ESCOLHA O DEPARTAMENTO PARA VISUALIZAR AS ESTACOES DISPONIVEIS PARA EXCLUSÃO");
 
         jScrollPane1.setToolTipText("");
 
@@ -283,6 +183,27 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
 
         panelPrincipal.add(jScrollPane1);
         jScrollPane1.setBounds(10, 0, 900, 60);
+
+        btnExcluirPorIntervalo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnExcluirPorIntervalo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif"))); // NOI18N
+        btnExcluirPorIntervalo.setText("Excluir Intervalo");
+        btnExcluirPorIntervalo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        panelPrincipal.add(btnExcluirPorIntervalo);
+        btnExcluirPorIntervalo.setBounds(430, 80, 150, 40);
+
+        btnFiltrarPorDepto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnFiltrarPorDepto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
+        btnFiltrarPorDepto.setText("Filtrar Depto");
+        btnFiltrarPorDepto.setToolTipText("");
+        btnFiltrarPorDepto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFiltrarPorDepto.setEnabled(false);
+        btnFiltrarPorDepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarPorDeptoActionPerformed(evt);
+            }
+        });
+        panelPrincipal.add(btnFiltrarPorDepto);
+        btnFiltrarPorDepto.setBounds(290, 80, 130, 40);
 
         getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 920, 660));
 
@@ -295,69 +216,18 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
         dispose();
         
     }//GEN-LAST:event_btnSairActionPerformed
-
-    private void btnGerarNomesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarNomesActionPerformed
-        
-       gerarNomesEstacoes(); 
-       gravarNomesNaTabela();       
-                 
-       mostrarEstacoesAdicionadasNaTabela(numInicial, nomeDepartamento);
-       
-       JOptionPane.showMessageDialog(null, "Atenção os nomes foram gerados com sucesso, e se encontram a disposição para uso!","Cadastrado com sucesso!",2);
-       
-       btnGerarNomes.setEnabled(false);
-       btnTodosDisponiveisDepto.setEnabled(false);
-       cmbDeptos.setEnabled(false);
-       txtQDE.setEnabled(false);
-       btnLimpar.setEnabled(true);
-       btnSair.setEnabled(false);
-
-       
-    }//GEN-LAST:event_btnGerarNomesActionPerformed
        
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-                
-        btnGerarNomes.setEnabled(false);         
+                   
         btnLimpar.setEnabled(false);
-        btnSair.setEnabled(true);
+        btnSair.setEnabled(true);   
+        btnFiltrarPorDepto.setEnabled(false);
+        cmbDeptos.setEnabled(true);        
         cmbDeptos.setSelectedIndex(-1);
-        cmbDeptos.setEnabled(true);
-        btnTodosDisponiveisDepto.setEnabled(true);
-        txtQDE.setEnabled(false);
-        txtQDE.setText("0");
-        
+        btnExcluirPorIntervalo.setEnabled(true);
         PreencherTabelaESTACOES(sqlVazia);
         
     }//GEN-LAST:event_btnLimparActionPerformed
-
-    private void txtQDEFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQDEFocusGained
-        txtQDE.selectAll();
-    }//GEN-LAST:event_txtQDEFocusGained
-
-    private void txtQDEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQDEKeyPressed
-        btnGerarNomes.setEnabled(true);
-        btnTodosDisponiveisDepto.setEnabled(false);
-    }//GEN-LAST:event_txtQDEKeyPressed
-
-    private void txtQDEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtQDEMouseClicked
-        txtQDE.selectAll();
-    }//GEN-LAST:event_txtQDEMouseClicked
-
-    private void btnTodosDisponiveisDeptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodosDisponiveisDeptoActionPerformed
-        if(cmbDeptos.getSelectedIndex() < 0){
-            JOptionPane.showMessageDialog(null, "Escolha um Departamento para visualizar os nomes disponíveis!", "Departamento inválido!", 2);
-        }else{
-             if(nomeDepartamento.equals("BIBLIOTECA")){
-                nomeDepartamento = "CEJUR";
-             }
-             mostrarTodosNomesEstacoesDisponiveisPorDepto(nomeDepartamento);   
-             btnTodosDisponiveisDepto.setEnabled(false);
-             cmbDeptos.setEnabled(false);
-             txtQDE.setEnabled(false);
-              btnLimpar.setEnabled(true);
-        }
-       
-    }//GEN-LAST:event_btnTodosDisponiveisDeptoActionPerformed
 
     private void jTabelaESTACOESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaESTACOESMouseClicked
         umModeloNomeEstacao.setNomestacao((String) jTabelaESTACOES.getValueAt(jTabelaESTACOES.getSelectedRow(), 1)); //pegando o nome selecionado e setando no modelo
@@ -378,6 +248,23 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
         }
         
     }//GEN-LAST:event_jTabelaESTACOESMouseClicked
+
+    private void btnFiltrarPorDeptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorDeptoActionPerformed
+        if(cmbDeptos.getSelectedIndex() < 0){
+            JOptionPane.showMessageDialog(null, "Escolha um Departamento para visualizar os nomes disponíveis!", "Departamento inválido!", 2); 
+            btnExcluirPorIntervalo.setEnabled(true);
+        }else{
+            if(nomeDepartamento.equals("BIBLIOTECA")){
+                nomeDepartamento = "CEJUR";
+            }
+            mostrarTodosNomesEstacoesDisponiveisPorDepto(nomeDepartamento);
+            btnFiltrarPorDepto.setEnabled(false);
+            cmbDeptos.setEnabled(false);
+            btnLimpar.setEnabled(true);
+            btnExcluirPorIntervalo.setEnabled(false);
+        }
+        
+    }//GEN-LAST:event_btnFiltrarPorDeptoActionPerformed
          
     public void PreencherTabelaESTACOES(String sql) {
         conexao.conectar();
@@ -426,17 +313,16 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnGerarNomes;
+    public javax.swing.JButton btnExcluirPorIntervalo;
+    public javax.swing.JButton btnFiltrarPorDepto;
     public javax.swing.JButton btnLimpar;
     public javax.swing.JButton btnSair;
-    public javax.swing.JButton btnTodosDisponiveisDepto;
     private javax.swing.JComboBox<String> cmbDeptos;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JTable jTabelaESTACOES;
     private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panelPrincipal;
-    private javax.swing.JTextField txtQDE;
     // End of variables declaration//GEN-END:variables
 }
