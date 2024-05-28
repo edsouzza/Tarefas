@@ -3070,8 +3070,7 @@ public class MetodosPublicos {
         int novoNumeroEstacao = 0;
         conexao.conectar();
         try
-        { 
-            //sql = "SELECT numestacao FROM tblnomestacao WHERE depto = '"+depto+"' AND status = 'INDISPONIVEL'";                
+        {                         
             sql = "SELECT max(numestacao) as numax FROM tblnomestacao WHERE depto = '"+depto+"' GROUP BY numestacao";
             
             conexao.ExecutarPesquisaSQL(sql);
