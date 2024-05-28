@@ -33,7 +33,7 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
     String sqlEstacoesPorDepto, sqlEstacoesDisponiveis, nomeDepto;
     String sqlVazia   = "SELECT * FROM TBLNOMESTACAO WHERE CODIGO=0";
     boolean selecionouItem;
-    int numInicial, codigoNomeEstacao;
+    int numInicial, numFinal, codigoNomeEstacao;
             
 
     public F_GERARNOMESTACOES() 
@@ -98,7 +98,8 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
         return ultimoNome;
     }
     
-     public static ArrayList<Integer> gerarArrayList(int inicio, int fim) {
+    public static ArrayList<Integer> gerarArrayList(int inicio, int fim) {
+        //Retorna uma lista de numeros inteiros que estejam entre o inicio e o fim passados
         ArrayList<Integer> lista = new ArrayList<>();
 
         for (int i = inicio; i <= fim; i++) {
@@ -109,9 +110,8 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
     
     public ArrayList<String> gerarNomesEstacoes() {       
         numInicial   = getProximoNumeroEstacao();
-        int numFinal     = (getProximoNumeroEstacao() + Integer.parseInt(txtQDE.getText())-1);    
+        numFinal = (numInicial + Integer.parseInt(txtQDE.getText())-1);    
          
-        //OBTENDO A LISTA COM OS NUMEROS DE CHAPAS GERADOS E RETORNANDO EM UM ARRAYLIST  i = 140 
         ArrayList listaNomes = new ArrayList();
 
         ArrayList<Integer> numeros = gerarArrayList(numInicial, numFinal);
@@ -202,11 +202,6 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
         jTabelaESTACOES.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jTabelaESTACOES.setToolTipText("");
         jTabelaESTACOES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTabelaESTACOES.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabelaESTACOESMouseClicked(evt);
-            }
-        });
         jScrollPane3.setViewportView(jTabelaESTACOES);
 
         panelPrincipal.add(jScrollPane3);
@@ -311,7 +306,6 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
        txtQDE.setEnabled(false);
        btnLimpar.setEnabled(true);
        btnSair.setEnabled(false);
-
        
     }//GEN-LAST:event_btnGerarNomesActionPerformed
        
@@ -358,26 +352,6 @@ public class F_GERARNOMESTACOES extends javax.swing.JDialog  {
         }
        
     }//GEN-LAST:event_btnTodosDisponiveisDeptoActionPerformed
-
-    private void jTabelaESTACOESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaESTACOESMouseClicked
-        umModeloNomeEstacao.setNomestacao((String) jTabelaESTACOES.getValueAt(jTabelaESTACOES.getSelectedRow(), 1)); //pegando o nome selecionado e setando no modelo
-        umControleNomeEstacao.pesquisarNomeEstacao(umModeloNomeEstacao);  //chamando a função e passando como parametro o nome selecinado acima
-
-        //pegando o retorno da funcao onde meu objeto ja contem todos os dados do nome da estacao, ai posso pegar o codigo ao clicar no item da tabela e posteriormente excluir
-        String nomeEstacao = umModeloNomeEstacao.getNomestacao();        
-        codigoNomeEstacao = umMetodo.buscarCodigoEstacaoPeloNome("tblnomestacao", "nomestacao",nomeEstacao);
-        
-        //JOptionPane.showMessageDialog(rootPane, "codiogo do NomeEstacao : " +codigoNomeEstacao);
-        
-        if(umMetodo.ConfirmouOperacao("Confirma o desejo de excluir o nome "+nomeEstacao+"", "Exclusão do Nome de Rede")){            
-           if(umControleNomeEstacao.excluirNomeEstacao(codigoNomeEstacao)){
-              JOptionPane.showMessageDialog(null, nomeEstacao+" foi excluido com sucesso!","Exclusao de nome de rede", 2); 
-               btnLimparActionPerformed(null);
-           }
-           mostrarTodosNomesEstacoesDisponiveisPorDepto(nomeDepartamento);              
-        }
-        
-    }//GEN-LAST:event_jTabelaESTACOESMouseClicked
          
     public void PreencherTabelaESTACOES(String sql) {
         conexao.conectar();

@@ -2,10 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
         <file>
+<<<<<<< HEAD
             <url>src/visao/F_LOGIN.java</url>
             <bookmark id="1">
                 <name/>
                 <line>367</line>
+=======
+            <url>src/visao/F_GERARNOMESTACOES.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>112</line>
+>>>>>>> feat1
                 <key/>
             </bookmark>
         </file>

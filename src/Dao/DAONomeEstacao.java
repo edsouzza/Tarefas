@@ -58,8 +58,7 @@ public class DAONomeEstacao {
             return false;
         }finally{
             conexao.desconectar();
-        }
-        
+        }        
     }    
     
     public boolean atualizarStatusPeloNomeDaEstacaoDAO(NomeEstacao pEstacao) 
@@ -82,8 +81,7 @@ public class DAONomeEstacao {
             conexao.desconectar();
         }
         
-    }    
-          
+    }              
        
     public void indisponibilizarNomeEstacao(String pEstacao)
     {        
@@ -138,7 +136,24 @@ public class DAONomeEstacao {
         try
         {            
             conexao.conectar();            
-            sql = "DELETE FROM tblnomestacao WHERE codigo = "+pCodigo;     
+            sql = "DELETE FROM tblnomestacao WHERE codigo = "+pCodigo;   
+            conexao.ExecutarAtualizacaoSQL(sql);      
+            return true;
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o registro, \n"+e+", o sql passado foi \n"+sql);
+            return false;
+       } finally {
+            conexao.desconectar();
+        }        
+    } 
+    
+    public boolean excluirNomeEstacaoIndividualDao(int pCodigo) 
+    {
+        try
+        {            
+            conexao.conectar();            
+            sql = "DELETE FROM tblnomestacao WHERE codigo = "+pCodigo+" AND status='DISPONIVEL'";   
             conexao.ExecutarAtualizacaoSQL(sql);      
             return true;
             

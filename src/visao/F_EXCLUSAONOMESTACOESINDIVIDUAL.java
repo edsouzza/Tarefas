@@ -243,7 +243,7 @@ public class F_EXCLUSAONOMESTACOESINDIVIDUAL extends javax.swing.JDialog  {
         //JOptionPane.showMessageDialog(rootPane, "codiogo do NomeEstacao : " +codigoNomeEstacao);
         
         if(umMetodo.ConfirmouOperacao("Confirma o desejo de excluir o nome "+nomeEstacao+"", "Exclusão do Nome de Rede")){            
-           if(umControleNomeEstacao.excluirNomeEstacao(codigoNomeEstacao)){
+           if(umControleNomeEstacao.excluirNomeEstacaoIndividual(codigoNomeEstacao)){
                JOptionPane.showMessageDialog(null, nomeEstacao+" foi excluido com sucesso!","Exclusao de nome de rede", 2);                
            }
            mostrarTodosNomesEstacoesDisponiveisPorDepto(nomeDepartamento);             
