@@ -1183,7 +1183,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
     private void mnuGerenciarExclusaoNomeEstacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerenciarExclusaoNomeEstacoesActionPerformed
         if(umabiblio.permissaoLiberada()){  
-            F_EXCLUSAONOMESTACOES frm = new F_EXCLUSAONOMESTACOES();
+            F_EXCLUSAONOMESTACOESINDIVIDUAL frm = new F_EXCLUSAONOMESTACOESINDIVIDUAL();
             frm.setVisible(true); 
         }
     }//GEN-LAST:event_mnuGerenciarExclusaoNomeEstacoesActionPerformed

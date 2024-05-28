@@ -29,4 +29,9 @@ public class CtrlNomeEstacao
         return new DAONomeEstacao().pesquisarNomeEstacaoDAO(pNomeEstacao);
     }  
     
+    public boolean excluirNomeEstacaoPorIntervalo(int pCodigo) 
+    {
+        return new DAONomeEstacao().excluirNomeEstacaoPorIntervaloDao(pCodigo);
+    }  
+    
 }

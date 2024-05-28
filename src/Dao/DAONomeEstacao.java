@@ -133,12 +133,29 @@ public class DAONomeEstacao {
         return pNomeEstacao;
     }      
     
-     public boolean excluirNomeEstacaoDao(int pCodigo) 
+    public boolean excluirNomeEstacaoDao(int pCodigo) 
     {
         try
         {            
             conexao.conectar();            
             sql = "DELETE FROM tblnomestacao WHERE codigo = "+pCodigo;     
+            conexao.ExecutarAtualizacaoSQL(sql);      
+            return true;
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o registro, \n"+e+", o sql passado foi \n"+sql);
+            return false;
+       } finally {
+            conexao.desconectar();
+        }        
+    } 
+    
+    public boolean excluirNomeEstacaoPorIntervaloDao(int pCodigo) 
+    {
+        try
+        {            
+            conexao.conectar();            
+            sql = "DELETE FROM tblnomestacao WHERE codigo = "+pCodigo+" AND status='DISPONIVEL'";     
             conexao.ExecutarAtualizacaoSQL(sql);      
             return true;
             

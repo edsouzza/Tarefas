@@ -105,6 +105,7 @@ public class MetodosPublicos {
             }
         }
     }
+      
         
     public void configurarBotoes(JButton botao) {
         botao.setFont(new Font("TimesRoman", Font.BOLD, 12));
@@ -3178,7 +3179,7 @@ public class MetodosPublicos {
         }
         return totalRegs;
     }  
-    
+            
     public ArrayList<String> ListarChapas() {
          int totalRegistros = retornarQdeRegistrosComCampoVazio("tblpatrimonios", "chapa");               
         
@@ -3216,6 +3217,59 @@ public class MetodosPublicos {
 //        }
         return listarCodigos;
     }   
+    
+    public ArrayList<String> ListarNumerosEstacoes(int numInicial, int numFinal) {
+        
+        //Retorna uma lista de numeros a partir de numero inicial e numero final entrados pelo usuário para exclusão de nomes de rede por intervalo solicitado
+        ArrayList listaNumEstacoes = new ArrayList();
+
+        int i = numInicial;
+        while(i < (numFinal+1)){
+            listaNumEstacoes.add(i);                         
+            i++;
+        }
+//        for (Object nomes : listaNumEstacoes) {
+//            System.out.println(nomes); 
+//        }
+        return listaNumEstacoes;
+    }
+    
+    public Integer ListarCodigoNomeEstacao(String pNome) {
+        //Retorna o codigo do nome de estação passado para exclusões por intervalo
+        int codNome = 0;
+        
+        conexao.conectar(); 
+              
+            String sqlConsulta = "select codigo from TBLNOMESTACAO where nomestacao = '"+pNome+"'";
+            conexao.ExecutarPesquisaSQL(sqlConsulta);
+      
+            try {
+            while(conexao.rs.next()){
+                 codNome = conexao.rs.getInt("codigo");                                
+            }   
+            } catch (SQLException ex) {
+                Logger.getLogger(MetodosPublicos.class.getName()).log(Level.SEVERE, null, ex);
+            }                     
+        
+            return codNome;
+    }
+    
+    public Boolean nomeEstacaoExiste(String pNome) {
+        //Retorna sim ou nao se nome existir ou nao na tabela para exclusões por intervalo
+        conexao.conectar(); 
+              
+        String sqlConsulta = "select codigo from TBLNOMESTACAO where nomestacao = '"+pNome+"' AND status='DISPONIVEL'"; 
+        conexao.ExecutarPesquisaSQL(sqlConsulta);
+
+        try {
+        while(conexao.rs.next()){
+             return true;                                
+        }   
+        } catch (SQLException ex) {
+            return false;
+        }        
+        return false;
+    }
             
     public void atualizarChapasVazias(){
         //OBTENDO A QUANTIDADE DE REGISTROS A SEREM ATUALIZADOS

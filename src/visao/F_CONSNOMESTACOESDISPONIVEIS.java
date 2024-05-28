@@ -116,7 +116,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnDisponiveis);
-        btnDisponiveis.setBounds(450, 10, 120, 33);
+        btnDisponiveis.setBounds(320, 10, 120, 33);
 
         cmbDeptos.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         cmbDeptos.setForeground(new java.awt.Color(51, 51, 255));
@@ -129,7 +129,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(cmbDeptos);
-        cmbDeptos.setBounds(10, 10, 290, 30);
+        cmbDeptos.setBounds(10, 10, 300, 30);
 
         btnLimparPesquisa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnLimparPesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_limpar.gif"))); // NOI18N
@@ -185,7 +185,7 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnUtilizados);
-        btnUtilizados.setBounds(320, 10, 120, 33);
+        btnUtilizados.setBounds(450, 10, 120, 33);
 
         txtNOMESTACAO.setEditable(false);
         txtNOMESTACAO.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
