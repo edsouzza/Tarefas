@@ -1,30 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-<<<<<<< HEAD
-            <url>src/visao/F_LOGIN.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>367</line>
-=======
-            <url>src/visao/F_GERARNOMESTACOES.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>112</line>
->>>>>>> feat1
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-=======
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/biblioteca/GetIPServidor.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
->>>>>>> 3162022c6c0c5833ff494ddd311d4d9c35e11331
         </group>
     </open-files>
 </project-private>
