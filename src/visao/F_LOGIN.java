@@ -365,7 +365,7 @@ public class F_LOGIN extends javax.swing.JFrame
         
         /*ULTIMA ATUALIZACAO 23/06/23 12:20*/
         
-        txtLogin.setText("D631863");       
+        //txtLogin.setText("D631863");       
         //txtLogin.setText("D538076");   
         //txtLogin.setText("D741921");   
         
