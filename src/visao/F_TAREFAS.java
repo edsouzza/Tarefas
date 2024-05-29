@@ -864,7 +864,7 @@ public class F_TAREFAS extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        if(umabiblio.permissaoLiberada()){
+        
             btnGravar.setEnabled(false);
             btnNovo.setEnabled(false);
             btnEditar.setEnabled(false);
@@ -897,7 +897,7 @@ public class F_TAREFAS extends javax.swing.JFrame {
             //abre o formulario de escolha de clientes/colaboradores
             F_LISTACLIENTESATIVOS frm = new F_LISTACLIENTESATIVOS(this, true);
             frm.setVisible(true);
-        }
+        
 
     }//GEN-LAST:event_btnNovoActionPerformed
 

@@ -123,7 +123,7 @@ public class DAOUsuario {
             if(conexao.rs.next())
             {
                 //tipo de msg = 1 é a de informacao msg = 2 é a de exclamação  msg = 3 é a de interrogação
-                JOptionPane.showMessageDialog(null,"Atenção este usuario já esta cadastrado, verifique!","Duplicidade no RF!",2);                
+                JOptionPane.showMessageDialog(null,"Atenção este usuario já esta cadastrado/inativado, verifique!","Duplicidade no RF!",2);                
                 return true;
             }else{ return false; }            
         } catch (SQLException ex) {

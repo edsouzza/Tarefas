@@ -61,7 +61,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }
     
     private void gerenciadorDeMenus(){        
-       //ADMINISTRADOR
+       //ADMINISTRADOR   SE FOR = 1 NIVEL = SISTEMA
        if(nivelAcessoUsuario >1)
        {
            mnuCONFIGURACOES.setVisible(false);
@@ -69,12 +69,20 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
            menuReativacoes.setVisible(false);
            menutipodocumentos.setVisible(false);
            menugerarnumdocto.setVisible(false);           
-           mnuGerenciarNomesEstacoes.setVisible(false); 
-           mnuGerenciamentoNomesRede.setVisible(false); 
+           mnuGerenciarNomesEstacoes.setVisible(true); 
+           mnuGerenciamentoNomesRede.setVisible(true); 
        }  //USUARIO
        if(nivelAcessoUsuario == 3){  
             menuclientesvirtuais.setVisible(false);
+            menuTIPOS.setVisible(false);
+            menuMODELOS.setVisible(false);
+            menuUSUARIOS.setVisible(false);
+            menuDepartamentos.setVisible(false);
+            menuEDICOES.setVisible(false);
+            menuLogs.setVisible(false);
             menuPatriLotes.setVisible(false);
+            mnuGerenciarNomesEstacoes.setVisible(false); 
+            mnuGerenciamentoNomesRede.setVisible(false); 
         }else{
            menuclientesvirtuais.setVisible(true);
            menuPatriLotes.setVisible(true);
@@ -122,12 +130,12 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuCONSIPSIMPRESSORAS = new javax.swing.JMenuItem();
         mnuCONSMICROS = new javax.swing.JMenuItem();
         mnuConsultarEstacoesDisponiveis = new javax.swing.JMenuItem();
+        menuEDICOES = new javax.swing.JMenu();
+        menuEditarModeloPatrimonio = new javax.swing.JMenuItem();
         mnuGerenciarNomesEstacoes = new javax.swing.JMenuItem();
         mnuGerenciamentoNomesRede = new javax.swing.JMenu();
         mnuGerenciarAdicaoNomeEstacoes = new javax.swing.JMenuItem();
         mnuGerenciarExclusaoNomeEstacoes = new javax.swing.JMenuItem();
-        menuEDICOES = new javax.swing.JMenu();
-        menuEditarModeloPatrimonio = new javax.swing.JMenuItem();
         menuReativacoes = new javax.swing.JMenu();
         mnuReativarSecao = new javax.swing.JMenuItem();
         mnuReativarUsuario = new javax.swing.JMenuItem();
@@ -477,16 +485,33 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuConsultas.add(mnuConsultarEstacoesDisponiveis);
 
+        jMenuBar1.add(menuConsultas);
+
+        menuEDICOES.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/building_add.png"))); // NOI18N
+        menuEDICOES.setText("Editar");
+        menuEDICOES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        menuEditarModeloPatrimonio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuEditarModeloPatrimonio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
+        menuEditarModeloPatrimonio.setText("MODELOS DE PATRIMÔNIOS");
+        menuEditarModeloPatrimonio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuEditarModeloPatrimonio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEditarModeloPatrimonioActionPerformed(evt);
+            }
+        });
+        menuEDICOES.add(menuEditarModeloPatrimonio);
+
         mnuGerenciarNomesEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         mnuGerenciarNomesEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
-        mnuGerenciarNomesEstacoes.setText("DISPONIBILIZAR / INDISPONIBILIZAR NOMES DE ESTAÇÕES");
+        mnuGerenciarNomesEstacoes.setText("GERENCIAR   DISPONIBILIZAÇÃO  DE  NOMES   DE   REDE");
         mnuGerenciarNomesEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuGerenciarNomesEstacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuGerenciarNomesEstacoesActionPerformed(evt);
             }
         });
-        menuConsultas.add(mnuGerenciarNomesEstacoes);
+        menuEDICOES.add(mnuGerenciarNomesEstacoes);
 
         mnuGerenciamentoNomesRede.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/monitor.png"))); // NOI18N
         mnuGerenciamentoNomesRede.setText("GERENCIAR INCLUSAO / EXCLUSAO DE NOMES DE REDE");
@@ -502,7 +527,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         mnuGerenciamentoNomesRede.add(mnuGerenciarAdicaoNomeEstacoes);
 
-        mnuGerenciarExclusaoNomeEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F13, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGerenciarExclusaoNomeEstacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuGerenciarExclusaoNomeEstacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Cancelar.gif"))); // NOI18N
         mnuGerenciarExclusaoNomeEstacoes.setText("EXCLUIR NOMES DE REDE");
         mnuGerenciarExclusaoNomeEstacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -513,23 +538,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         mnuGerenciamentoNomesRede.add(mnuGerenciarExclusaoNomeEstacoes);
 
-        menuConsultas.add(mnuGerenciamentoNomesRede);
-
-        jMenuBar1.add(menuConsultas);
-
-        menuEDICOES.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/building_add.png"))); // NOI18N
-        menuEDICOES.setText("Editar");
-        menuEDICOES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        menuEditarModeloPatrimonio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        menuEditarModeloPatrimonio.setText("Modelos Patrimônios");
-        menuEditarModeloPatrimonio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menuEditarModeloPatrimonio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuEditarModeloPatrimonioActionPerformed(evt);
-            }
-        });
-        menuEDICOES.add(menuEditarModeloPatrimonio);
+        menuEDICOES.add(mnuGerenciamentoNomesRede);
 
         jMenuBar1.add(menuEDICOES);
 

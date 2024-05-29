@@ -448,7 +448,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-     if(umabiblio.permissaoLiberada()){  
+     
         pesquisando = false;
         btnNovo.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -463,7 +463,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         txtCODIGO.setText(null);
         gravando = true;
         txtCODIGO.setText(String.valueOf(umabiblio.mostrarProximoCodigo(tabela)));
-     }
+     
                
     }//GEN-LAST:event_btnNovoActionPerformed
 
