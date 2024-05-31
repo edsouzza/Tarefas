@@ -59,7 +59,7 @@ public class F_LOGIN extends javax.swing.JFrame
         
         /* SEMPRE QUE COMPILAR UM PROJETO DO TIPO SYSTAREFAS VOCE DEVE ALTERAR :
         1-NO FORMULARIO LOGIN ESCOLHA O BANCO DE DADOS QUE DEVERA SER ABERTO NA INICIALIZACAO SYSTAREFAS
-        2-ABRA A CONEXAO E ACESSE A CLASSE GETIPSERVIDOR PARA SETAR O IP DO SERVIDOR SNJPGMC53 10.71.32.39*/
+        2-ABRA A CONEXAO E ACESSE A CLASSE GETIPSERVIDOR PARA SETAR O IP DO SERVIDOR */
 
         //DEFINE O BANCO DE DADOS A SER UTILIZADO COMO PADRÃO NO SERVIDOR
         nomeBancoSetado = "SYSTAREFAS";                
@@ -87,12 +87,12 @@ public class F_LOGIN extends javax.swing.JFrame
             }
         });//fim addComponentListener
         
-         //implementando o poupup menu de exclusão ao clicar com o botao direito do mouse na tabela de DISPONIVEIS
+         //implementando o poupup menu de escolha de banco ao clicar com o botao direito do mouse 
         jmEscolherBanco.addActionListener(new ActionListener() 
         {
         @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println("Ah, a ghost!");
+                
                 F_SELECIONARBANCO frm = new F_SELECIONARBANCO();
                 frm.setVisible(true);   
             }
@@ -104,8 +104,8 @@ public class F_LOGIN extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        lblSelecionarBanco = new javax.swing.JLabel();
+        jpLogin = new javax.swing.JPanel();
         txtLogin = new javax.swing.JTextField();
         txtSenha = new javax.swing.JPasswordField();
         btnLogar = new javax.swing.JButton();
@@ -121,17 +121,17 @@ public class F_LOGIN extends javax.swing.JFrame
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 3)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LOGOMARCA.jpg"))); // NOI18N
-        jLabel3.setOpaque(true);
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSelecionarBanco.setFont(new java.awt.Font("Tahoma", 0, 3)); // NOI18N
+        lblSelecionarBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LOGOMARCA.jpg"))); // NOI18N
+        lblSelecionarBanco.setOpaque(true);
+        lblSelecionarBanco.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                lblSelecionarBancoMouseClicked(evt);
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(230, 228, 228));
-        jPanel2.setEnabled(false);
+        jpLogin.setBackground(new java.awt.Color(230, 228, 228));
+        jpLogin.setEnabled(false);
 
         txtLogin.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         txtLogin.setToolTipText("D123456");
@@ -163,14 +163,14 @@ public class F_LOGIN extends javax.swing.JFrame
         btnLogar.setText("Entrar");
         btnLogar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogar.setEnabled(false);
-        btnLogar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogarActionPerformed(evt);
-            }
-        });
         btnLogar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 btnLogarFocusGained(evt);
+            }
+        });
+        btnLogar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogarActionPerformed(evt);
             }
         });
 
@@ -178,13 +178,13 @@ public class F_LOGIN extends javax.swing.JFrame
 
         lblSenha.setText("Senha");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jpLoginLayout = new javax.swing.GroupLayout(jpLogin);
+        jpLogin.setLayout(jpLoginLayout);
+        jpLoginLayout.setHorizontalGroup(
+            jpLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpLoginLayout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jpLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblUsuario)
                     .addComponent(txtLogin)
                     .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
@@ -192,9 +192,9 @@ public class F_LOGIN extends javax.swing.JFrame
                     .addComponent(btnLogar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jpLoginLayout.setVerticalGroup(
+            jpLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpLoginLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(lblUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -214,16 +214,16 @@ public class F_LOGIN extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblSelecionarBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jpLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(lblSelecionarBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -377,9 +377,9 @@ public class F_LOGIN extends javax.swing.JFrame
         autenticar();
     }//GEN-LAST:event_btnLogarFocusGained
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        jLabel3.setComponentPopupMenu(popupMenu);
-    }//GEN-LAST:event_jLabel3MouseClicked
+    private void lblSelecionarBancoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSelecionarBancoMouseClicked
+        lblSelecionarBanco.setComponentPopupMenu(popupMenu);
+    }//GEN-LAST:event_lblSelecionarBancoMouseClicked
 
     private void txtLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLoginMouseClicked
         txtLogin.selectAll();
@@ -430,8 +430,8 @@ public class F_LOGIN extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogar;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jpLogin;
+    private javax.swing.JLabel lblSelecionarBanco;
     private javax.swing.JLabel lblSenha;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtLogin;

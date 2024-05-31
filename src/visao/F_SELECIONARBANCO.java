@@ -82,6 +82,7 @@ public class F_SELECIONARBANCO extends javax.swing.JFrame {
 
         cmbBANCOS.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         cmbBANCOS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SYSTAREFAS", "SYSDESENV" }));
+        cmbBANCOS.setSelectedIndex(1);
         cmbBANCOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
