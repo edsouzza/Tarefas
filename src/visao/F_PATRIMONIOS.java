@@ -615,11 +615,6 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
         txtPESQUISA.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtPESQUISA.setForeground(new java.awt.Color(51, 51, 255));
         txtPESQUISA.setToolTipText("Barra de Pesquisa Rápida");
-        txtPESQUISA.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtPESQUISAFocusGained(evt);
-            }
-        });
         txtPESQUISA.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtPESQUISAMouseClicked(evt);
@@ -1325,46 +1320,7 @@ private void disponibilizarIPImpressoraTransferida(){
             btnVoltar.setEnabled(false);
             btnVoltar.setText("Voltar");
 //            JOptionPane.showMessageDialog(rootPane, "CLICOU NO BOTAO VOLTAR");
-        }
-     
-//        
-//        HabilitarConsulta();  
-//        txtPESQUISA.setEnabled(true);
-//        txtSERIE.setEditable(false);
-//        txtOBSERVACOES.setEditable(false);
-//        txtIP.setEditable(false);
-//        txtIP.setEnabled(true);
-//        txtCHAPA.setEditable(false);
-//        txtESTACAO.setEditable(false);
-//        txtESTACAO.setEnabled(true);
-//        txtCODIGO.setEditable(false);
-//        btnEditar.setEnabled(false);
-//        btnNovo.setEnabled(true);
-//        btnCadSemRede.setEnabled(true);
-//        btnExcel.setEnabled(true);
-//        btnVoltar.setEnabled(false);
-//        btnVoltar.setText("Voltar");
-//        btnVoltar.setToolTipText("Cancelar");
-//        btnGravar.setText("Gravar");        
-//        btnGravar.setEnabled(false);
-//        btnHistorico.setEnabled(false);
-//        btnPesquisar.setEnabled(true);
-//        btnGerarObsAdicional.setEnabled(false);
-//        btnSair.setEnabled(true);
-//        btnLISTARCLIENTESPARAEDITAR.setEnabled(false);
-//        cmbFILTRAPORTIPO.setEnabled(true);
-//        cmbFILTRARPORSECAO.setEnabled(true);       
-//        cmbMODELOS.setEnabled(false);
-//        cmbSTATUS.removeAllItems();
-//        cmbSTATUS.setEnabled(false);
-//        cmbFILTRARPORSECAO.setSelectedIndex(-1);
-//        cmbFILTRAPORTIPO.setSelectedIndex(-1);
-//        btnFILTRAR.setEnabled(true);
-//        txtTIPO.setEnabled(true);
-//        txtTIPO.setEditable(false);
-//        txtCODIGO.requestFocus();
-//        txtOBSERVACOES.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-//        LblPesquisaPorCod.setEnabled(true);        
+        }      
 //        
         cadastrando                 = false;
         listouClientesParaEdicao    = false;
@@ -1399,7 +1355,7 @@ private void disponibilizarIPImpressoraTransferida(){
    
     private void atualizarStatusDasEstacoesRenomeadas() {
            
-        /*QUANDO VOCE FIZER ALTERAÇÃO DE DO NOME DA ESTAÇÃO PARA UM NOME DISPONIVEL POR CONTA DE INATIVAÇÃO
+        /*QUANDO VOCE FIZER ALTERAÇÃO DO NOME DA ESTAÇÃO PARA UM NOME DISPONIVEL POR CONTA DE INATIVAÇÃO
           ATUALIZA O STATUS DA NOVA ESTAÇÃO ESCOLHIDA PARA INDISPONIVEL*/
         
         //JOptionPane.showMessageDialog(rootPane, "NOME A FICAR DISPONIVEL "+novonomestacao);
@@ -1587,7 +1543,9 @@ private void gravarEdicaoRegistro()
     //JOptionPane.showMessageDialog(rootPane, "NOME FINAL : "+nomeFinal);
     
     if(!nomeInicial.equals(nomeFinal)){
-        umMetodo.indisponibilizarStatusNomeEstacao(nomeFinal);
+        if(!estacao.equals("PGMCGGMC000")){
+            umMetodo.indisponibilizarStatusNomeEstacao(nomeFinal);
+        }
         umMetodo.indisponibilizarStatusNomeEstacaoTMP(nomeFinal); 
     }
     
@@ -3144,17 +3102,6 @@ private void gravarEdicaoRegistro()
             txtPESQUISA.setText(null);             
         }
     }//GEN-LAST:event_txtPESQUISAKeyPressed
-
-    private void txtPESQUISAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPESQUISAFocusGained
-//        cmbFILTRAPORTIPO.setEnabled(false);
-//        cmbFILTRARPORSECAO.setEnabled(false);
-//        btnFILTRAR.setEnabled(false);
-//        btnImprimir.setEnabled(false);
-//        btnExcel.setEnabled(false);
-//        btnPesquisar.setEnabled(false);
-//        btnNovo.setEnabled(false);
-//        btnVoltar.setEnabled(true);
-    }//GEN-LAST:event_txtPESQUISAFocusGained
 
     private void txtPESQUISAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPESQUISAMouseClicked
         //apagar campo de pesquisa mostrar todos os registros 

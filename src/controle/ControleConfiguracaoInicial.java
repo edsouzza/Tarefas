@@ -3,6 +3,7 @@
  */
 package controle;
 
+import biblioteca.MetodosPublicos;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.sql;
 import static biblioteca.VariaveisPublicas.confIni;
@@ -17,7 +18,9 @@ public class ControleConfiguracaoInicial
     CtrlUsuario         objControleUsuario  = new CtrlUsuario();
     CtrlSecoes          objSecao            = new CtrlSecoes();
     CtrlDepartamento    objDepto            = new CtrlDepartamento();
-    CtrlLog             objLog              = new CtrlLog();    
+    CtrlNomeEstacao     objNomeEstacao      = new CtrlNomeEstacao();
+    CtrlLog             objLog              = new CtrlLog();  
+    MetodosPublicos     umMetodo            = new MetodosPublicos();
     
     public void gravarConfiguracoesInciais()
     {
@@ -28,9 +31,11 @@ public class ControleConfiguracaoInicial
             conexao.ExecutarPesquisaSQL(sql);
             if(!conexao.rs.next())
             {                
-                objDepto.salvarDepartamentoInicialDAO();
+                objDepto.salvarDepartamentoInicial();
                 objSecao.salvarSecaoInicial();
+                objNomeEstacao.salvarNomeEstacaoInicial();
                 objLog.salvarLogInicial();   
+                
                 confIni = true;
                 JOptionPane.showMessageDialog(null,"Configuração inicial feita com sucesso!","Configuração inicial!",2);      
             }                

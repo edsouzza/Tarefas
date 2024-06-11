@@ -5,10 +5,12 @@
  */
 package Dao;
 
+import biblioteca.MetodosPublicos;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.sql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import static java.util.EnumSet.range;
 import javax.swing.JOptionPane;
 import modelo.Departamento;
 
@@ -18,7 +20,8 @@ import modelo.Departamento;
  */
 public class DAODepartamento {
 
-    ConnConexao conexao  = new ConnConexao();  
+    ConnConexao         conexao    = new ConnConexao();  
+    MetodosPublicos     umMetodo   = new MetodosPublicos();
     
     public boolean salvarDepartamentoDAO(Departamento pDepartamento) 
     {
@@ -57,6 +60,7 @@ public class DAODepartamento {
         } finally {
             conexao.desconectar();
         }
+        
     }
     
     public boolean atualizarDepartamentoDAO(Departamento pDepartamento) 

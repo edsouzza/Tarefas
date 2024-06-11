@@ -7,6 +7,7 @@ package visao;
 
 import Dao.DAODepartamento;
 import biblioteca.Biblioteca;
+import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.codigoSelecionado;
@@ -14,6 +15,7 @@ import static biblioteca.VariaveisPublicas.tabela;
 import static biblioteca.VariaveisPublicas.sql;
 import controle.ControleGravarLog;
 import controle.CtrlDepartamento;
+import controle.CtrlNomeEstacao;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import modelo.Departamento;
+import modelo.NomeEstacao;
 
 /**
  *
@@ -36,7 +39,8 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
     Departamento        umModDepartamento       = new Departamento();
     CtrlDepartamento    ctrDepartamento         = new CtrlDepartamento();
     ControleGravarLog   umGravarLog             = new ControleGravarLog();
-    DAODepartamento     departamentoDAO         = new DAODepartamento();  
+    DAODepartamento     departamentoDAO         = new DAODepartamento();    
+    MetodosPublicos     umMetodo                = new MetodosPublicos();
     
     String departamento,status,range;
     int codigo;
@@ -421,7 +425,7 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
             txtDEPARTAMENTO.setEditable(true);
             txtDEPARTAMENTO.setEnabled(true);
             
-            txtRANGEDEPTO.setText(null);
+            txtRANGEDEPTO.setText("N/C");
             txtRANGEDEPTO.setEditable(true);
             txtRANGEDEPTO.setEnabled(true);
             
@@ -489,7 +493,7 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
     private void txtRANGEDEPTOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRANGEDEPTOFocusGained
         txtRANGEDEPTO.selectAll();
     }//GEN-LAST:event_txtRANGEDEPTOFocusGained
-
+       
     private void gravarRegistro() {
         //se digitou algo nos campos nome e rf        
         if (txtDEPARTAMENTO.getText().length() > 0) 
@@ -497,7 +501,7 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
             //setando os valores dos edits   
             departamento    = txtDEPARTAMENTO.getText();              
             range           = txtRANGEDEPTO.getText();              
-            status  = "ATIVO"; 
+            status          = "ATIVO"; 
             
             umModDepartamento.setNome(departamento); 
             umModDepartamento.setRange(range); 
@@ -507,11 +511,14 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
                 if(!departamentoDAO.RegistroDuplicado(umModDepartamento)) //se nao estiver duplicado libera a gravaçao do registro
                 { 
                     ctrDepartamento.salvarDepartamento(umModDepartamento);
+                    if(!range.equals("N/C")){
+                        umMetodo.gravarPrimeiroNomeEstacao(range+"000", departamento);
+                    }                    
                     umGravarLog.gravarLog("cadastro de "+umModDepartamento.getNome());
                 }  
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos para continuar!"); //se nao digitou nada no campo nome da seção
+        } else {            
+            JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos, tente novamente.", "Atenção campo vazio!", 2);
             txtDEPARTAMENTO.requestFocus(); //foco no campo secao
         } 
         PreencherTabela(sqlDefault);   
@@ -536,7 +543,7 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
             ctrDepartamento.atualizarDepartamento(umModDepartamento); 
             umGravarLog.gravarLog("atualizacao no cadastro de "+umModDepartamento.getNome());                 
         } else {
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos para continuar!"); //se nao digitou nada no campo nome da seção
+            JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos, tente novamente.", "Atenção campo vazio!", 2);
             txtDEPARTAMENTO.requestFocus(); //foco no campo secao
         } 
         Leitura();

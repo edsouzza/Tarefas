@@ -28,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import controle.CtrlCliente;
+import controle.CtrlNomeEstacao;
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -57,6 +58,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import static jdk.nashorn.internal.objects.NativeString.toLowerCase;
 import modelo.Cliente;
+import modelo.NomeEstacao;
 
 public class MetodosPublicos {
 
@@ -74,6 +76,8 @@ public class MetodosPublicos {
     DAOPatrimonio     umPatrimonioDAO           = new DAOPatrimonio();
     Cliente           umModCliente              = new Cliente();
     CtrlCliente       ctrCliente                = new CtrlCliente();
+    NomeEstacao       umModeloNomeEstacao    = new NomeEstacao();
+    CtrlNomeEstacao   umControleNomeEstacao  = new CtrlNomeEstacao();
     DateFormat        sdf                       = new SimpleDateFormat("dd/MM/yyyy");
     Date              dataDia                   = dataDoDia; 
     
@@ -104,9 +108,8 @@ public class MetodosPublicos {
                 limparTodosCampos((Container) component);
             }
         }
-    }
-      
-        
+    }      
+            
     public void configurarBotoes(JButton botao) {
         botao.setFont(new Font("TimesRoman", Font.BOLD, 12));
         botao.setCursor(new Cursor(12));
@@ -142,6 +145,16 @@ public class MetodosPublicos {
         } finally {
             conexao.desconectar();
         }
+    }
+    
+      public void gravarPrimeiroNomeEstacao(String nomestacao, String nomeDepto){
+        
+        umModeloNomeEstacao.setNomestacao(nomestacao);
+        umModeloNomeEstacao.setNumestacao(0);
+        umModeloNomeEstacao.setDepto(nomeDepto);
+        umModeloNomeEstacao.setStatus("DISPONIVEL");
+        umControleNomeEstacao.salvarNomeEstacao(umModeloNomeEstacao);        
+        
     }
     
     public String getMotivoPatrimonio(int pCodigo){

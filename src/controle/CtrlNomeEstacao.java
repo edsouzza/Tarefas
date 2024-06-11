@@ -9,6 +9,11 @@ public class CtrlNomeEstacao
         return new DAONomeEstacao().salvarNomeEstacaoDAO(pEstacao);
     }    
     
+    public boolean salvarNomeEstacaoInicial() 
+    { 
+        return new DAONomeEstacao().salvarNomeEstacaoInicialDAO();
+    }    
+    
     public boolean atualizarStatusNomeEstacao(NomeEstacao pEstacao) 
     {
         return new DAONomeEstacao().atualizarStatusDoNomeEstacaoDAO(pEstacao);

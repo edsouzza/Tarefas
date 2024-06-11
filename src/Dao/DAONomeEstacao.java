@@ -41,6 +41,27 @@ public class DAONomeEstacao {
         }
     }
     
+    public boolean salvarNomeEstacaoInicialDAO() 
+    {
+        conexao.conectar();
+        try 
+        {
+            String sql = "INSERT INTO tblnomestacao (depto, nomestacao, numestacao, status) VALUES (?,?,?,?)";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, "CGGM");
+            pst.setString(2, "PGMCGGMC000");
+            pst.setInt(3, 0);            
+            pst.setString(4, "DISPONIVEL");
+            pst.executeUpdate(); 
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de inserção sql, \n"+e+", o sql passado foi \n"+sql);  
+            return false;
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
     public boolean atualizarStatusDoNomeEstacaoDAO(NomeEstacao pEstacao) 
     {
         conexao.conectar();

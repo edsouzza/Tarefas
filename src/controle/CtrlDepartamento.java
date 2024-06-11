@@ -11,7 +11,7 @@ public class CtrlDepartamento
         return new DAODepartamento().salvarDepartamentoDAO(pDepartamento);
     }    
     
-    public boolean salvarDepartamentoInicialDAO() 
+    public boolean salvarDepartamentoInicial() 
     {         
         return new DAODepartamento().salvarDepartamentoInicialDAO();
     }    

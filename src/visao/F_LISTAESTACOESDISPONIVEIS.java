@@ -111,13 +111,16 @@ public class F_LISTAESTACOESDISPONIVEIS extends javax.swing.JDialog {
            
         if(editandoDisponiveis)
         {
-                //ATUALIZA O STATUS DA NOVA ESTAÇÃO ESCOLHIDA PARA INDISPONIVEL
+            //ATUALIZA O STATUS DA NOVA ESTAÇÃO ESCOLHIDA PARA INDISPONIVEL
+            
+            if(!nomestacao.equals("PGMCGGMC000")){
                 int codigoEst = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomestacao);
                 umModeloNomeEstacao.setCodigo(codigoEst);
                 umModeloNomeEstacao.setNomestacao(nomestacao);
                 umModeloNomeEstacao.setStatus("INDISPONIVEL");
                 umControleNomeEstacao.atualizarStatusNomeEstacao(umModeloNomeEstacao);   
-                novonomestacao    = nomestacao;
+                novonomestacao = nomestacao;
+            }
 
                 //ATUALIZAR O STATUS DA ESTACAO SUBSTITUIDA PARA DISPONIVEL
                 int codigoEst1 = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomestacaosubstituida);
