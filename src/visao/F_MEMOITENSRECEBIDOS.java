@@ -10,12 +10,10 @@ import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.destinoTransferidos;
 import static biblioteca.VariaveisPublicas.controlenaveg;
-import static biblioteca.VariaveisPublicas.patriDeptos;
 import static biblioteca.VariaveisPublicas.anoVigente;
 import biblioteca.ModeloTabela;
 import biblioteca.SomenteNumeros;
 import static biblioteca.VariaveisPublicas.codigoUsuario;
-import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import static biblioteca.VariaveisPublicas.lstListaInteiros;
 import static biblioteca.VariaveisPublicas.nomeCliente;
 import static biblioteca.VariaveisPublicas.valorItem;
@@ -61,7 +59,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
     String sqlVazia        = "SELECT codigo FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo < 1";  
     String observacao, numemoinicial;
     int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;
-    boolean mostrouForm;
+    boolean mostrouForm, selecionouUsuario;
     
     public F_MEMOITENSRECEBIDOS() {
         initComponents();
@@ -184,6 +182,11 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                 txtOBSERVACAOFocusGained(evt);
             }
         });
+        txtOBSERVACAO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtOBSERVACAOMouseClicked(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 255));
@@ -231,7 +234,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
 
         btnLISTARCLIENTES.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
         btnLISTARCLIENTES.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/users16.jpg"))); // NOI18N
-        btnLISTARCLIENTES.setText("USUÁRIOS");
+        btnLISTARCLIENTES.setText("SERVIDORES");
         btnLISTARCLIENTES.setToolTipText("Listar clientes ativos");
         btnLISTARCLIENTES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLISTARCLIENTES.addActionListener(new java.awt.event.ActionListener() {
@@ -332,14 +335,15 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         btnAdicionar.setEnabled(false);
         btnImprimir.setEnabled(false);
         btnExcluirItem.setEnabled(false);
-        txtORIGEM.setEditable(true);
-        txtOBSERVACAO.setEditable(true);        
+        txtORIGEM.setEditable(false);
+        txtOBSERVACAO.setEditable(false);        
         btnSair.setEnabled(true);               
         numMemoTransferido = "";
         mostrouForm = false;        
         valorItem = 0;
         controlenaveg = 0;
         lstListaInteiros.clear();
+        selecionouUsuario = false;
 
         //JOptionPane.showMessageDialog(null, "Próximo numemo = "+String.valueOf(umMetodo.gerarProximoNumeroMemoTransferir()));
         if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS")){
@@ -538,18 +542,32 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
        }else{
             texto = nomeCliente;  
        }
-      
+       txtORIGEM.setEditable(true);
+       txtOBSERVACAO.setEditable(true);        
        txtORIGEM.setText(texto);
        txtOBSERVACAO.requestFocus();
+       selecionouUsuario = true;
        
     }//GEN-LAST:event_btnLISTARCLIENTESActionPerformed
 
     private void txtOBSERVACAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusGained
-        btnCancelar.setEnabled(true);
-        btnAdicionar.setEnabled(true);
-        String rf    = rfCliente; 
-        txtOBSERVACAO.setText("devolvido por "+txtORIGEM.getText()+" D"+rf+" ");
+        if(selecionouUsuario){
+            btnCancelar.setEnabled(true);
+            btnAdicionar.setEnabled(true);
+            String rf    = rfCliente; 
+            txtOBSERVACAO.setText("devolvido por "+txtORIGEM.getText()+" D"+rf+" ");
+        }
     }//GEN-LAST:event_txtOBSERVACAOFocusGained
+
+    private void txtOBSERVACAOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtOBSERVACAOMouseClicked
+        if(!selecionouUsuario){
+              
+            //txtOBSERVACAO.setText(null);
+            JOptionPane.showMessageDialog(null, "Selecione um nome no botão SERVIDORES para continuar!", "Servidor não selecionado!", 2); 
+            
+        }
+        
+    }//GEN-LAST:event_txtOBSERVACAOMouseClicked
     
     public void PreencherTabela(String sql)
     {
