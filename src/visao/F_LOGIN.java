@@ -93,6 +93,7 @@ public class F_LOGIN extends javax.swing.JFrame
         @Override
             public void actionPerformed(ActionEvent e) {
                 
+                /*Não pude usaro o F_SETARBANCO que é praticamente uma cópia mas o tipo de form para abrir como poupup deve ser JFrame e não JDialog*/
                 F_SELECIONARBANCO frm = new F_SELECIONARBANCO();
                 frm.setVisible(true);   
             }

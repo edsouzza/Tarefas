@@ -1079,7 +1079,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_menugerarnumdoctoActionPerformed
     
     private void mnuMudarBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMudarBancoActionPerformed
-        //Setar banco de dados    
+        //Setar banco de dados : Aqui foi usado um JDialog como Form   
         F_SETARBANCO frm = new F_SETARBANCO(this,true);
         frm.setVisible(true); 
         

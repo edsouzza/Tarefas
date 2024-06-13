@@ -5,20 +5,14 @@
             <url>src/visao/F_LOGIN.java</url>
             <bookmark id="1">
                 <name/>
-                <line>367</line>
+                <line>368</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/conexao/ConnConexao.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/biblioteca/GetIPServidor.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_CONFIGURACOES.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_MEMOITENSTRANSFERIDOS.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_APOIO.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_SELECIONARBANCO.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
+            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
         </group>
     </open-files>
 </project-private>
