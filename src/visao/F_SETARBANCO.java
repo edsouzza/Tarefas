@@ -60,7 +60,7 @@ public class F_SETARBANCO extends javax.swing.JDialog {
         jLabel1.setText("SELECIONE O NOME DO BANCO DE DADOS");
 
         cmbBANCOS.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        cmbBANCOS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SYSTAREFAS", "SYSDESENV" }));
+        cmbBANCOS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SYSDESENV", "SYSTAREFAS" }));
         cmbBANCOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         btnSetarBanco.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N

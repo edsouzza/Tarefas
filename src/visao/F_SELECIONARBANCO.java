@@ -27,6 +27,8 @@ public class F_SELECIONARBANCO extends javax.swing.JFrame {
         setResizable(false);   //desabilitando o redimencionamento da tela 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar
         
+         Leitura();      
+         
         //Impede que formulario seja arrastado na tela
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -81,7 +83,7 @@ public class F_SELECIONARBANCO extends javax.swing.JFrame {
         });
 
         cmbBANCOS.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        cmbBANCOS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SYSDESENV", "SYSDESENV" }));
+        cmbBANCOS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SYSDESENV", "SYSTAREFAS" }));
         cmbBANCOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -116,7 +118,12 @@ public class F_SELECIONARBANCO extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(532, 225));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void Leitura(){
+       cmbBANCOS.setSelectedIndex(0);
+    }
+    
+    
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
