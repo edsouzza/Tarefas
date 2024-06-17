@@ -9,6 +9,7 @@ import biblioteca.MetodosPublicos;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.destinoTransferidos;
+import static biblioteca.VariaveisPublicas.assuntoTransferido;
 import static biblioteca.VariaveisPublicas.controlenaveg;
 import static biblioteca.VariaveisPublicas.anoVigente;
 import biblioteca.ModeloTabela;
@@ -78,6 +79,10 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         txtORIGEM.setForeground(Color.red);        
         txtORIGEM.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(30));                  
         
+        txtASSUNTO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
+        txtASSUNTO.setForeground(Color.red);
+        txtASSUNTO.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(80));    
+        
         txtOBSERVACAO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
         txtOBSERVACAO.setForeground(Color.red);
         txtOBSERVACAO.setDocument(new CampoTxtLimitadoPorQdeCaracteres(80));         
@@ -125,6 +130,8 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         txtORIGEM = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btnLISTARCLIENTES = new javax.swing.JButton();
+        txtASSUNTO = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -212,19 +219,9 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         });
 
         txtORIGEM.setForeground(new java.awt.Color(51, 51, 255));
-        txtORIGEM.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtORIGEMFocusLost(evt);
-            }
-        });
         txtORIGEM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtORIGEMMouseClicked(evt);
-            }
-        });
-        txtORIGEM.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtORIGEMKeyPressed(evt);
             }
         });
 
@@ -237,11 +234,32 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         btnLISTARCLIENTES.setText("SERVIDORES");
         btnLISTARCLIENTES.setToolTipText("Listar clientes ativos");
         btnLISTARCLIENTES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLISTARCLIENTES.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLISTARCLIENTESMouseClicked(evt);
+            }
+        });
         btnLISTARCLIENTES.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLISTARCLIENTESActionPerformed(evt);
             }
         });
+
+        txtASSUNTO.setForeground(new java.awt.Color(51, 51, 255));
+        txtASSUNTO.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtASSUNTOFocusLost(evt);
+            }
+        });
+        txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtASSUNTOKeyPressed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel7.setText("ASSUNTO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -250,50 +268,58 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtOBSERVACAO)
-                            .addComponent(jScrollPane2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNUMEMO, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(72, 72, 72)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 877, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 746, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                        .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jLabel7)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(225, 225, 225))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane2)
+                .addGap(225, 225, 225))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -336,6 +362,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         btnImprimir.setEnabled(false);
         btnExcluirItem.setEnabled(false);
         txtORIGEM.setEditable(false);
+        txtASSUNTO.setEditable(false);
         txtOBSERVACAO.setEditable(false);        
         btnSair.setEnabled(true);               
         numMemoTransferido = "";
@@ -368,6 +395,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();
         destinoTransferidos    = "CGGM/INFO";
+        assuntoTransferido     = txtASSUNTO.getText();
         observacao             = txtOBSERVACAO.getText();
 
         /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
@@ -385,6 +413,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
 
             umModPatriTransferido.setStatus("TRANSFERIDO");
             umModPatriTransferido.setIdusuario(codigoUsuario);
+            umModPatriTransferido.setAssunto(assuntoTransferido);
             umCtrlPatriTranferido.salvarPatriTransferido(umModPatriTransferido); 
             umGravarLog.gravarLog("cadastro do memo de devolucao de patrimonios "+numMemoTransferido);
         }        
@@ -397,6 +426,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
           PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/                             
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();
+        assuntoTransferido     = txtASSUNTO.getText();
         destinoTransferidos    = "CGGM/INFO";
         patriDevolucao         = true;
 
@@ -518,17 +548,9 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnExcluirItemActionPerformed
 
-    private void txtORIGEMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtORIGEMKeyPressed
-        
-    }//GEN-LAST:event_txtORIGEMKeyPressed
-
     private void txtORIGEMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtORIGEMMouseClicked
         txtORIGEM.selectAll();
     }//GEN-LAST:event_txtORIGEMMouseClicked
-
-    private void txtORIGEMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtORIGEMFocusLost
-        txtOBSERVACAO.requestFocus();
-    }//GEN-LAST:event_txtORIGEMFocusLost
 
     private void btnLISTARCLIENTESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLISTARCLIENTESActionPerformed
              
@@ -537,16 +559,17 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
              
        String texto = nomeCliente;
        if(texto.length() > 30){
-            texto = nomeCliente.substring(0, 30);  
-            
+            texto = nomeCliente.substring(0, 30);              
        }else{
             texto = nomeCliente;  
        }
        txtORIGEM.setEditable(true);
+       txtASSUNTO.setEditable(true);
        txtOBSERVACAO.setEditable(true);        
        txtORIGEM.setText(texto);
-       txtOBSERVACAO.requestFocus();
        selecionouUsuario = true;
+       
+       txtASSUNTO.requestFocus();
        
     }//GEN-LAST:event_btnLISTARCLIENTESActionPerformed
 
@@ -568,6 +591,20 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_txtOBSERVACAOMouseClicked
+
+    private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtOBSERVACAO.requestFocus();
+        }       
+    }//GEN-LAST:event_txtASSUNTOKeyPressed
+
+    private void btnLISTARCLIENTESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLISTARCLIENTESMouseClicked
+         txtOBSERVACAO.requestFocus();          
+    }//GEN-LAST:event_btnLISTARCLIENTESMouseClicked
+
+    private void txtASSUNTOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtASSUNTOFocusLost
+        txtOBSERVACAO.requestFocus();       
+    }//GEN-LAST:event_txtASSUNTOFocusLost
     
     public void PreencherTabela(String sql)
     {
@@ -623,10 +660,12 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTabela;
+    private javax.swing.JTextField txtASSUNTO;
     private javax.swing.JTextField txtNUMEMO;
     private javax.swing.JTextField txtOBSERVACAO;
     private javax.swing.JTextField txtORIGEM;

@@ -206,11 +206,6 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
 
         txtDEPARTAMENTO.setEditable(false);
         txtDEPARTAMENTO.setToolTipText("");
-        txtDEPARTAMENTO.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDEPARTAMENTOActionPerformed(evt);
-            }
-        });
         txtDEPARTAMENTO.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtDEPARTAMENTOKeyPressed(evt);
@@ -236,14 +231,14 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
 
         txtRANGEDEPTO.setEditable(false);
         txtRANGEDEPTO.setToolTipText("");
-        txtRANGEDEPTO.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRANGEDEPTOActionPerformed(evt);
-            }
-        });
         txtRANGEDEPTO.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtRANGEDEPTOFocusGained(evt);
+            }
+        });
+        txtRANGEDEPTO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRANGEDEPTOActionPerformed(evt);
             }
         });
         txtRANGEDEPTO.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -461,10 +456,6 @@ public class F_DEPARTAMENTOS extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void txtDEPARTAMENTOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDEPARTAMENTOActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDEPARTAMENTOActionPerformed
 
     private void txtDEPARTAMENTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDEPARTAMENTOKeyPressed
         //se teclar enter estando dentro do txtNOME vá para o campo do rf

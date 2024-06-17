@@ -5,10 +5,12 @@ import Dao.DAOPatrimonio;
 import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteres;
+import biblioteca.CampoTxtLimitadoPorQdeCaracteresLowerCase;
 import biblioteca.MetodosPublicos;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.destinoTransferidos;
+import static biblioteca.VariaveisPublicas.assuntoTransferido;
 import static biblioteca.VariaveisPublicas.controlenaveg;
 import static biblioteca.VariaveisPublicas.patriDeptos;
 import static biblioteca.VariaveisPublicas.anoVigente;
@@ -74,12 +76,18 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
         //umabiblio.configurarCamposTextos(txtDESTINO);
         txtORIGEM.setFont(new Font("TimesRoman",Font.BOLD,16)); 
-        txtORIGEM.setForeground(Color.red);        
-        txtORIGEM.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(80));    
+        txtORIGEM.setForeground(Color.red);              
+        txtORIGEM.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(80));  
+        
         txtDESTINO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
         txtDESTINO.setForeground(Color.red);        
-        txtDESTINO.requestFocus();
         txtDESTINO.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(80));    
+        
+        txtASSUNTO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
+        txtASSUNTO.setForeground(Color.red);        
+        txtASSUNTO.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(80));  
+        
+        txtDESTINO.requestFocus();
         
         txtOBSERVACAO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
         txtOBSERVACAO.setForeground(Color.red);
@@ -129,6 +137,8 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         txtORIGEM = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        txtASSUNTO = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2147483647, 860));
@@ -244,6 +254,22 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(51, 51, 255));
         jLabel8.setText("ORIGEM");
 
+        txtASSUNTO.setForeground(new java.awt.Color(51, 51, 255));
+        txtASSUNTO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtASSUNTOMouseClicked(evt);
+            }
+        });
+        txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtASSUNTOKeyPressed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel9.setText("ASSUNTO");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -273,32 +299,44 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtASSUNTO)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(txtOBSERVACAO)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -343,6 +381,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         btnExcluirItem.setEnabled(false);
         txtORIGEM.setEditable(true);
         txtDESTINO.setEditable(true);
+        txtASSUNTO.setEditable(true);
         txtOBSERVACAO.setEditable(true);        
         btnSair.setEnabled(true);         
         txtDESTINO.setEditable(true);        
@@ -375,6 +414,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();
         destinoTransferidos    = txtDESTINO.getText();
+        assuntoTransferido     = txtASSUNTO.getText();
         observacao             = txtOBSERVACAO.getText();
 
         /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
@@ -392,6 +432,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
 
             umModPatriTransferido.setStatus("TRANSFERIDO");
             umModPatriTransferido.setIdusuario(codigoUsuario);
+            umModPatriTransferido.setAssunto(assuntoTransferido);
             umCtrlPatriTranferido.salvarPatriTransferido(umModPatriTransferido); 
             umGravarLog.gravarLog("cadastro do memo de transferencia de patrimonios "+numMemoTransferido);
         }        
@@ -405,6 +446,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();;
         destinoTransferidos    = txtDESTINO.getText();;            
+        assuntoTransferido     = txtASSUNTO.getText();;            
 
         //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS
         F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
@@ -439,6 +481,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
         txtNUMEMO        .setEditable(false);
         txtDESTINO       .setEditable(false);
+        txtASSUNTO       .setEditable(false);
 
     }//GEN-LAST:event_jTabelaMouseClicked
     
@@ -568,6 +611,14 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             txtORIGEM.setText("CGGM/INFO");
         }
     }//GEN-LAST:event_txtORIGEMFocusLost
+
+    private void txtASSUNTOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtASSUNTOMouseClicked
+        txtASSUNTO.selectAll();
+    }//GEN-LAST:event_txtASSUNTOMouseClicked
+
+    private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtASSUNTOKeyPressed
     
     public void PreencherTabela(String sql)
     {
@@ -597,12 +648,13 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             //define tamanho das colunas   
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(50);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna      
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(680);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(1).setPreferredWidth(650);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna        
-            jTabela.getColumnModel().getColumn(2).setPreferredWidth(125);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(2).setPreferredWidth(150);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna    
-            jTabela.getColumnModel().getColumn(3).setPreferredWidth(125);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(3).setPreferredWidth(150);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna        
+              
             //define propriedades da tabela
             jTabela.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada
             jTabela.setAutoResizeMode(jTabela.AUTO_RESIZE_OFF);          //nao será possivel redimencionar a tabela
@@ -626,9 +678,11 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTabela;
+    private javax.swing.JTextField txtASSUNTO;
     private javax.swing.JTextField txtDESTINO;
     private javax.swing.JTextField txtNUMEMO;
     private javax.swing.JTextField txtOBSERVACAO;

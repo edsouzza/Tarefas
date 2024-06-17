@@ -32,7 +32,7 @@ public class VariaveisPublicas {
                       codigoRegSelecionado ,codigoDeptoSelecionado, totalRegs, contador, qdeColunas, codParaHistorico, codigoDepartamento, numeroEstacao, idDepto, novoNumeroEstacao, idUsuarioInativado, codigoNumemo, codTipoVirtual, codTipoSelecionado = 0;
     
     public static String cejur_ou_pgm,tipoEquipamento,nomeBancoSetado,url,nomeBancoRelatorios,rfUsuario,nomeUsuario,tabela,oldRF,tabela_da_lista,nomestacaosubstituida,rangeEstacao,itemSelecionadoCadastro,statusLista,
-                         TipoDocumento, TipoModelo, nomeUsuarioLogado, ipServidor, nomeDoBanco,sql,sqlCamposSelecionados,nomeEstacao,novaSenha,novonomestacao,nomestacaoinicial,origemTransferidos, destinoMemorando,
+                         TipoDocumento, TipoModelo, nomeUsuarioLogado, ipServidor, nomeDoBanco,sql,sqlCamposSelecionados,nomeEstacao,novaSenha,novonomestacao,nomestacaoinicial,origemTransferidos, destinoMemorando, assuntoTransferido,
                          nomeBanco,nomeCliente,nomeDepartamento,nomePadrao,nomeEstacaoSelecionada,nomeSecao,nomeRelatorio,nomePDF,rfCliente,numemoParaImprimir,numemoParaEditarObs,nomeEstacaoTransferida,anoDoUltimoMemo,
                          status,paramPesquisa,serieEquipamento,numMemoTransferido,destinoTransferidos,entidadeInativa,origemPatrTransferido,deptobiblio,origemDevolucao,motivoInicial = null; 
     

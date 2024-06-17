@@ -24,13 +24,14 @@ public class DAOPatriTransferido {
         conexao.conectar();
         try 
         {
-            String sql = "INSERT INTO TBLMEMOSTRANSFERIDOS (idusuario, numemo, datacad, status, observacao) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO TBLMEMOSTRANSFERIDOS (idusuario, numemo, datacad, status, assunto, observacao) VALUES (?,?,?,?,?,?)";
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
             pst.setInt(1, pPatritransferido.getIdusuario());             
             pst.setString(2, pPatritransferido.getNumemo());             
             pst.setString(3, dataCadastro);
             pst.setString(4, pPatritransferido.getStatus());
-            pst.setString(5, pPatritransferido.getObservacao());
+            pst.setString(5, pPatritransferido.getAssunto());
+            pst.setString(6, pPatritransferido.getObservacao());
             pst.executeUpdate(); 
             return true;
         } catch (Exception e) {
@@ -71,6 +72,7 @@ public class DAOPatriTransferido {
                 pPatriTransferido.setCodigo(conexao.rs.getInt("codigo"));
                 pPatriTransferido.setNumemo(conexao.rs.getString("numemo"));
                 pPatriTransferido.setStatus(conexao.rs.getString("status"));
+                pPatriTransferido.setAssunto(conexao.rs.getString("assunto"));
                 pPatriTransferido.setObservacao(conexao.rs.getString("observacao"));
             }
         } catch (Exception e) {

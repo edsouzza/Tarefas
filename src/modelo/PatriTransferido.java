@@ -6,6 +6,7 @@ public class PatriTransferido {
        private String numemo;
        private String datacad;
        private String status;
+       private String assunto;
        private String observacao;
       
 
@@ -85,6 +86,20 @@ public class PatriTransferido {
      */
     public void setIdusuario(int idusuario) {
         this.idusuario = idusuario;
+    }
+
+    /**
+     * @return the assunto
+     */
+    public String getAssunto() {
+        return assunto;
+    }
+
+    /**
+     * @param assunto the assunto to set
+     */
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
     }
    
 }

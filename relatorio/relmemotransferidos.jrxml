@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2024-06-13T15:09:01 -->
+<!-- 2024-06-17T09:43:54 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TESTE" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c53ebc6-760c-4afc-b2c0-43ee711e05ca">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="adpSYSTAREFAS.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="CABECALHO" class="java.awt.Image"/>
 	<parameter name="numemo" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select m.modelo, i.*,o.observacao
+		<![CDATA[select m.modelo, i.*, u.nome, o.observacao
 from
-tblmodelos m, tblitensmemotransferidos i,tblmemostransferidos o
+tblmodelos m, tblitensmemotransferidos i,tblmemostransferidos o, TBLUSUARIOS u
 where
 m.codigo = i.modeloid
 and
 i.numemo=o.numemo
+and
+o.idusuario=u.codigo
 and
 i.numemo =$P{numemo}
 order by
@@ -29,6 +31,7 @@ i.item]]>
 	<field name="ORIGEM" class="java.lang.String"/>
 	<field name="DESTINO" class="java.lang.String"/>
 	<field name="STATUS" class="java.lang.String"/>
+	<field name="NOME" class="java.lang.String"/>
 	<field name="OBSERVACAO" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -245,7 +248,7 @@ Senhor(a) Responsável
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="170">
+		<band height="245">
 			<frame>
 				<reportElement x="19" y="24" width="511" height="140" uuid="cfac31df-0415-4581-b68b-b83528326a5b"/>
 				<box>

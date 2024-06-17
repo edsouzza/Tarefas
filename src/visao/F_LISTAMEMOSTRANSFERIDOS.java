@@ -15,7 +15,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import relatorios.GerarRelatorios;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import controle.ControleGravarLog;
@@ -36,7 +35,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     PatriTransferido               umModPatriTransferido        = new PatriTransferido();
     
     //String sqlDinamica  = "SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' ORDER BY RIGHT('000000000000' || m.numemo, 12), m.datacad";  
-    String sqlDinamica  = "SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' ORDER BY m.codigo";  
+    String sqlDinamica  = "SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino, m.assunto FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' ORDER BY m.codigo";  
     String numemo;    
     int icodigo, codExc = 0;
     
@@ -306,9 +305,9 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
        
     private void filtrarPorDigitacao(String pPesq) 
     {
-       PreencherTabela("SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i "
+       PreencherTabela("SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino, m.assunto FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i "
                         + "WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' AND "
-                        + "( (m.numemo like '%" + pPesq + "%') OR (i.destino like '%" + pPesq + "%') ) "
+                        + "( (m.numemo like '%" + pPesq + "%') OR (i.destino like '%" + pPesq + "%') OR (m.assunto like '%" + pPesq + "%')) "
                         + "ORDER BY i.destino"
                        );
        
@@ -362,7 +361,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         conexao.conectar();
         ArrayList dados = new ArrayList();
         //para receber os dados das colunas(exibe os titulos das colunas)
-        String[] Colunas = new String[]{"Código", "Memorando", "Origem", "Destino"};
+        String[] Colunas = new String[]{"Código", "Memorando", "Origem", "Destino","Assunto"};
         try {
             conexao.ExecutarPesquisaSQL(sql);
             while (conexao.rs.next()) {
@@ -371,7 +370,8 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
                     conexao.rs.getInt("codigo"),
                     conexao.rs.getString("numemo"),
                     conexao.rs.getString("origem"),
-                    conexao.rs.getString("destino")
+                    conexao.rs.getString("destino"),
+                    conexao.rs.getString("assunto")
 
                 });
                 totalRegs = conexao.rs.getRow();
@@ -381,12 +381,14 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
             //define tamanho das colunas   
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(60);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna      
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(120); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(1).setPreferredWidth(100); //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna        
-            jTabela.getColumnModel().getColumn(2).setPreferredWidth(310); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(2).setPreferredWidth(200); //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna         
-            jTabela.getColumnModel().getColumn(3).setPreferredWidth(310); //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna         
+            jTabela.getColumnModel().getColumn(3).setPreferredWidth(200); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna     
+            jTabela.getColumnModel().getColumn(4).setPreferredWidth(240);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna      
             //define propriedades da tabela
             jTabela.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada
             jTabela.setAutoResizeMode(jTabela.AUTO_RESIZE_OFF);          //nao será possivel redimencionar a tabela
