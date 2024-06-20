@@ -8,7 +8,6 @@ import biblioteca.GerarTXT;
 import biblioteca.MetodosPublicos;
 import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
-import biblioteca.VariaveisPublicas;
 import static biblioteca.VariaveisPublicas.anoVigente;
 import static biblioteca.VariaveisPublicas.codigoUsuario;
 import static biblioteca.VariaveisPublicas.lstAuxiliar;
@@ -19,9 +18,7 @@ import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorItem;
 import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
-import static biblioteca.VariaveisPublicas.controlaNumemo;
 import static biblioteca.VariaveisPublicas.gerouNumo;
-import static biblioteca.VariaveisPublicas.lstListaStringsAuxiliar;
 import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
@@ -62,7 +59,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     DateFormat                     sdf                          = new SimpleDateFormat("dd/MM/yyyy");
     Date dataDia                                                = dataDoDia; 
     
-    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes,sObsMemo, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem  = "";
+    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem  = "";
     int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg = 0;
     Boolean metodoPADRAOINIFIM,inserindo,inseriuItem = false;   
     String[] getDados;
@@ -95,6 +92,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         umaBiblio.configurarCamposTextos(txtDESTINO);
         txtOBSERVACAO.setDocument(new CampoTxtLimitadoPorQdeCaracteres(80));  
         txtOBSERVACAO.setFont(new Font("TimesRoman", Font.BOLD, 14));
+        txtASSUNTO.setDocument(new CampoTxtLimitadoPorQdeCaracteres(80));  
+        txtASSUNTO.setFont(new Font("TimesRoman", Font.BOLD, 14));
         txtMENSAGEM.setFont(new Font("TimesRoman", Font.BOLD, 14));
         txtMENSAGEM.setForeground(Color.red);
         txtMEMORANDO.setForeground(Color.red);
@@ -121,6 +120,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         txtDESTINO = new javax.swing.JTextField();
         txtOBSERVACAO = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        txtASSUNTO = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         btnGerarTXT = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
@@ -234,8 +235,39 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                 txtOBSERVACAOFocusGained(evt);
             }
         });
+        txtOBSERVACAO.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtOBSERVACAOKeyPressed(evt);
+            }
+        });
 
         jLabel5.setText("SERIE / CHAPA");
+
+        txtASSUNTO.setEditable(false);
+        txtASSUNTO.setForeground(new java.awt.Color(51, 51, 255));
+        txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtASSUNTOKeyPressed(evt);
+            }
+        });
+
+        jLabel8.setText("ASSUNTO");
+
+        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
@@ -250,7 +282,22 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                         .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtASSUNTO, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                                .addComponent(txtPESQUISA))
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtOBSERVACAO)))))
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -264,13 +311,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                                 .addGap(417, 417, 417)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(337, 337, 337)
-                                .addComponent(jLabel2))
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addComponent(txtPESQUISA)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel2)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jBoxPesquisar1Layout.setVerticalGroup(
@@ -293,34 +335,24 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -484,6 +516,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         sOrigem    = txtORIGEM.getText();
         sDestino   = txtDESTINO.getText();
         sMemorando = txtMEMORANDO.getText();
+        sAssunto   = txtASSUNTO.getText();
         
         iTipoid  = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
         sCodigo  = String.valueOf(codPatr);
@@ -545,6 +578,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         btnADDAOTXT.setEnabled(false);
         txtPESQUISA.setEditable(false);
         txtORIGEM.setEditable(false);
+        txtASSUNTO.setEditable(false);
         txtDESTINO.setEditable(false);
         btnLimpar.setEnabled(false);
         btnRemoverItem.setEnabled(false);
@@ -555,6 +589,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         txtCHAPA.setText("");
         txtPESQUISA.setText("");      
         txtOBSERVACAO.setText("");      
+        txtASSUNTO.setText("");      
         lstListaCampos.clear();
         model.clear();
         inserindo=false;    
@@ -587,6 +622,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                
         //habilitando edição do txtSerie         
         txtOBSERVACAO.setEditable(true);        
+        txtASSUNTO.setEditable(true);        
         txtORIGEM.setEditable(true);        
         txtDESTINO.setEditable(true);        
         txtPESQUISA.setEditable(true);    
@@ -648,8 +684,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
 
     private void txtPESQUISAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtCHAPA.requestFocus();
-            txtCHAPA.selectAll();
+            txtASSUNTO.requestFocus();
             buscarNumeroChapaSerie();
             btnADDAOTXT.setEnabled(true);
             txtMENSAGEM.setText("Clique no botão ADD ao TXT para adicionar este equipamento ao memorando");
@@ -891,6 +926,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                     //se já tiver Cadastro inicial
                     umModPatriTransferido.setObservacao(" ");
                 }                
+                    umModPatriTransferido.setAssunto(sAssunto);
                     umModPatriTransferido.setStatus("PROCESSANDO");
                     umModPatriTransferido.setIdusuario(codigoUsuario);
                     umCtrlPatriTranferido.salvarPatriTransferido(umModPatriTransferido); 
@@ -966,13 +1002,25 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
 
     private void txtCHAPAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCHAPAKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtOBSERVACAO.requestFocus();
+            txtASSUNTO.requestFocus();
         }        
     }//GEN-LAST:event_txtCHAPAKeyPressed
 
     private void txtOBSERVACAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusGained
        txtMENSAGEM.setText("Digite uma observação que constará no memorando...");
     }//GEN-LAST:event_txtOBSERVACAOFocusGained
+
+    private void txtOBSERVACAOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOBSERVACAOKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtASSUNTO.requestFocus();
+        }     
+    }//GEN-LAST:event_txtOBSERVACAOKeyPressed
+
+    private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtOBSERVACAO.requestFocus();
+        }    
+    }//GEN-LAST:event_txtASSUNTOKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1038,10 +1086,12 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPANELTOTAL;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList lstITENS;
+    private javax.swing.JTextField txtASSUNTO;
     private javax.swing.JTextField txtCHAPA;
     private javax.swing.JTextField txtDESTINO;
     private javax.swing.JTextField txtMEMORANDO;

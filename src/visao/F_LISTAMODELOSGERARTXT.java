@@ -15,6 +15,7 @@ import static biblioteca.VariaveisPublicas.codigoTipoModelo;
 import static biblioteca.VariaveisPublicas.TipoModelo;
 import static biblioteca.VariaveisPublicas.tabela_da_lista;
 import static biblioteca.VariaveisPublicas.cadastrando;
+import static biblioteca.VariaveisPublicas.imprimirPorModelo;
 import static biblioteca.VariaveisPublicas.codTipoSelecionado;
 import controle.CtrlModelo;
 import modelo.Modelo;
@@ -207,8 +208,10 @@ public class F_LISTAMODELOSGERARTXT extends javax.swing.JDialog {
     
     private void filtrarPorDigitacao(String pPesq) 
     {
-        if(tabela_da_lista.equals("TBLMODELOS")){
+        if(tabela_da_lista.equals("TBLMODELOS") && !imprimirPorModelo){
             PreencherTabelaPadrao("select * from TBLMODELOS where tipoid="+codTipoSelecionado+" and (modelo like '%" + pPesq + "%') ORDER BY modelo");                       
+        }else{
+            PreencherTabelaPadrao("select * from TBLMODELOS WHERE (modelo like '%" + pPesq + "%') ORDER BY modelo");   
         }
     }
 
@@ -248,7 +251,7 @@ public class F_LISTAMODELOSGERARTXT extends javax.swing.JDialog {
             //define tamanho das colunas
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(80);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(600);
+            jTabela.getColumnModel().getColumn(1).setPreferredWidth(625);
             jTabela.getColumnModel().getColumn(1).setResizable(false);
 
             //define propriedades da tabela

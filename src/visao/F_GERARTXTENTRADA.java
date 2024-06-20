@@ -4,11 +4,12 @@ import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
 import biblioteca.GerarTXT;
 import biblioteca.MetodosPublicos;
-import biblioteca.VariaveisPublicas;
 import static biblioteca.VariaveisPublicas.tabela_da_lista;
 import static biblioteca.VariaveisPublicas.TipoModelo;
 import static biblioteca.VariaveisPublicas.codTipoSelecionado;
 import static biblioteca.VariaveisPublicas.codigoTipoModelo;
+import static biblioteca.VariaveisPublicas.gerarTxt;
+import static biblioteca.VariaveisPublicas.imprimirPorModelo;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.lstAuxiliar;
 import static biblioteca.VariaveisPublicas.lstListaCampos;
@@ -84,7 +85,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         txtMODELO = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        cmbSTATUS = new javax.swing.JComboBox<String>();
+        cmbSTATUS = new javax.swing.JComboBox<>();
         btnGerarTXT = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
@@ -112,20 +113,10 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         txtCHAPA.setEditable(false);
         txtCHAPA.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCHAPA.setForeground(new java.awt.Color(51, 51, 255));
-        txtCHAPA.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCHAPAKeyPressed(evt);
-            }
-        });
 
         txtSERIE.setEditable(false);
         txtSERIE.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtSERIE.setForeground(new java.awt.Color(51, 51, 255));
-        txtSERIE.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtSERIEFocusLost(evt);
-            }
-        });
         txtSERIE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSERIEKeyPressed(evt);
@@ -153,10 +144,23 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
 
         cmbSTATUS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbSTATUS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NAO", "SIM" }));
+        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NAO", "SIM" }));
         cmbSTATUS.setSelectedIndex(-1);
         cmbSTATUS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbSTATUS.setEnabled(false);
+
+        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSERIE, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
@@ -166,22 +170,9 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtTIPO)
-                            .addComponent(txtSERIE, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMODELO)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(290, 290, 290)
-                                .addComponent(jLabel1)))
+                        .addComponent(jLabel4)
+                        .addGap(290, 290, 290)
+                        .addComponent(jLabel1)
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 301, Short.MAX_VALUE)
@@ -191,11 +182,22 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
                                     .addComponent(cmbSTATUS, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8)))
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addGap(295, 295, 295)
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtTIPO)
+                                .addComponent(txtSERIE, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMODELO)
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
-                                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                        .addGap(295, 295, 295)
-                                        .addComponent(jLabel2)))
+                                    .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -229,18 +231,6 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
                         .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
-        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSERIE, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -427,6 +417,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
        btnLimparActionPerformed(null);           
        cmbSTATUS.setEnabled(false);
        inserindo=false;
+       imprimirPorModelo = false;
        this.setTitle("GERAR ARQUIVO TXT A PARTIR DE UMA SQL");
       
     }//GEN-LAST:event_btnGerarTXTActionPerformed
@@ -448,7 +439,8 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         cmbSTATUS.setSelectedIndex(-1);
         lstListaCampos.clear();
         model.clear();
-        inserindo=false;  
+        inserindo=false; 
+        imprimirPorModelo = false;
         lstAuxiliar.clear();
         this.setTitle("GERAR ARQUIVO TXT A PARTIR DE UMA SQL");        
         
@@ -473,6 +465,7 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         codTipoSelecionado = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);      
         
         //abre a lista de modelos
+        imprimirPorModelo = false;
         tabela_da_lista   = "TBLMODELOS";
         F_LISTAMODELOSGERARTXT frm = new F_LISTAMODELOSGERARTXT(new javax.swing.JFrame(), true);
         frm.setVisible(true);                    
@@ -546,14 +539,6 @@ public class F_GERARTXTENTRADA extends javax.swing.JDialog {
         codItem = lstITENS.getSelectedIndex();  
         btnRemoverItem.setEnabled(true);
     }//GEN-LAST:event_lstITENSMouseClicked
-
-    private void txtCHAPAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCHAPAKeyPressed
-       
-    }//GEN-LAST:event_txtCHAPAKeyPressed
-
-    private void txtSERIEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSERIEFocusLost
-        
-    }//GEN-LAST:event_txtSERIEFocusLost
 
     /**
      * @param args the command line arguments

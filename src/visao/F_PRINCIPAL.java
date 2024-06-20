@@ -147,6 +147,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuMemoDevolucao = new javax.swing.JMenuItem();
         mnuMemoTransferencia = new javax.swing.JMenuItem();
         mnuImprimirMemosTransferencia = new javax.swing.JMenuItem();
+        mnuImprimirMemosTransferenciaPorTipo = new javax.swing.JMenuItem();
         mnuTarefas = new javax.swing.JMenu();
         mnuMEMORANDOS = new javax.swing.JMenu();
         mnuCONFIGURACOES = new javax.swing.JMenu();
@@ -211,6 +212,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(lblNOMESERVIDOR, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
@@ -230,8 +234,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_gravar.jpg"))); // NOI18N
         menuCadastro.setText("Cadastros");
@@ -650,6 +652,16 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuImpressoes.add(mnuImprimirMemosTransferencia);
+
+        mnuImprimirMemosTransferenciaPorTipo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
+        mnuImprimirMemosTransferenciaPorTipo.setText("Relatorio de Saidas Por Tipo de Equipamento");
+        mnuImprimirMemosTransferenciaPorTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuImprimirMemosTransferenciaPorTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuImprimirMemosTransferenciaPorTipoActionPerformed(evt);
+            }
+        });
+        menuImpressoes.add(mnuImprimirMemosTransferenciaPorTipo);
 
         jMenuBar1.add(menuImpressoes);
 
@@ -1197,6 +1209,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuGerenciarExclusaoNomeEstacoesActionPerformed
 
+    private void mnuImprimirMemosTransferenciaPorTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImprimirMemosTransferenciaPorTipoActionPerformed
+         if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS"))
+        {                   
+            F_RELMEMOSTRANSFERIDOSPORTIPO frm = new F_RELMEMOSTRANSFERIDOSPORTIPO(); 
+            frm.setVisible(true); 
+         }else{
+            JOptionPane.showMessageDialog(null, "A tabela de memorandos esta vazia acesse o menu (Impressões->Gerar Memo Transferência) e cadastre o primerio memorando para continuar!","Tabela vazia",2);  
+            
+         }  
+    }//GEN-LAST:event_mnuImprimirMemosTransferenciaPorTipoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1288,6 +1311,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuGerenciarNomesEstacoes;
     private javax.swing.JMenuItem mnuIPServidor;
     private javax.swing.JMenuItem mnuImprimirMemosTransferencia;
+    private javax.swing.JMenuItem mnuImprimirMemosTransferenciaPorTipo;
     private javax.swing.JMenu mnuLOGOFF;
     private javax.swing.JMenu mnuMEMORANDOS;
     private javax.swing.JMenuItem mnuMemoDevolucao;
