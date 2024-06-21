@@ -251,7 +251,7 @@ public class F_LISTAMODELOSGERARTXT extends javax.swing.JDialog {
             //define tamanho das colunas
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(80);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(625);
+            jTabela.getColumnModel().getColumn(1).setPreferredWidth(610);
             jTabela.getColumnModel().getColumn(1).setResizable(false);
 
             //define propriedades da tabela
