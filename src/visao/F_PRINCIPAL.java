@@ -654,7 +654,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
         mnuImprimirMemosTransferenciaPorTipo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuImprimirMemosTransferenciaPorTipo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        mnuImprimirMemosTransferenciaPorTipo.setText("Relatorio de Saidas Por Tipo de Equipamento");
+        mnuImprimirMemosTransferenciaPorTipo.setText("Relatorio de Envios Por Tipo de Equipamento");
         mnuImprimirMemosTransferenciaPorTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuImprimirMemosTransferenciaPorTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

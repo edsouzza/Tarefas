@@ -47,7 +47,7 @@ public class F_RELMEMOSTRANSFERIDOSPORTIPO extends javax.swing.JFrame {
         Leitura();        
         setResizable(false);              //desabilitando o redimencionamento da tela        
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar
-        this.setTitle("Listar Memorandos de Patrimônios Transferidos Por Modelo Selecionado");        
+        this.setTitle("Listar Memorandos de Patrimônios enviados Por Modelo Selecionado");        
                   
         //configuração dos botões        
         umabiblio.configurarBotoes(btnImprimir);
@@ -256,7 +256,7 @@ public class F_RELMEMOSTRANSFERIDOSPORTIPO extends javax.swing.JFrame {
         btnSair.setEnabled(true);                          
         btnListarModelos.setEnabled(true);   
         btnImprimir.setText("Imprimir memorando");
-        this.setTitle("Listar Memorandos de Patrimônios Transferidos Por Modelo Selecionado"); 
+        this.setTitle("Listar Memorandos de Patrimônios enviados Por Modelo Selecionado"); 
     }
     
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -287,7 +287,7 @@ public class F_RELMEMOSTRANSFERIDOSPORTIPO extends javax.swing.JFrame {
         
         sqlDinamica = "SELECT DISTINCT i.*, m.* from tblitensmemotransferidos i, tblmodelos m  WHERE i.modeloid = "+codigoTipoModelo+" AND i.modeloid = m.codigo AND i.item = 1 ORDER BY i.codigo";
         PreencherTabela(sqlDinamica); 
-        String sTitle = "Memorandos de Patrimônios Transferidos contendo o Modelo "+TipoModelo;
+        String sTitle = "Memorandos de Patrimônios enviados contendo o Modelo "+TipoModelo;
         this.setTitle(sTitle);
         btnListarModelos.setEnabled(false);
         btnLimparPesquisa.setEnabled(true);
