@@ -148,6 +148,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuMemoTransferencia = new javax.swing.JMenuItem();
         mnuImprimirMemosTransferencia = new javax.swing.JMenuItem();
         mnuImprimirMemosTransferenciaPorTipo = new javax.swing.JMenuItem();
+        mnuMemoInserviveis = new javax.swing.JMenuItem();
         mnuTarefas = new javax.swing.JMenu();
         mnuMEMORANDOS = new javax.swing.JMenu();
         mnuCONFIGURACOES = new javax.swing.JMenu();
@@ -662,6 +663,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuImpressoes.add(mnuImprimirMemosTransferenciaPorTipo);
+
+        mnuMemoInserviveis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuMemoInserviveis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_calculadora.gif"))); // NOI18N
+        mnuMemoInserviveis.setText("Relatorio de Equipamentos Inserviveis");
+        mnuMemoInserviveis.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuMemoInserviveis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMemoInserviveisActionPerformed(evt);
+            }
+        });
+        menuImpressoes.add(mnuMemoInserviveis);
 
         jMenuBar1.add(menuImpressoes);
 
@@ -1220,6 +1232,12 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
          }  
     }//GEN-LAST:event_mnuImprimirMemosTransferenciaPorTipoActionPerformed
 
+    private void mnuMemoInserviveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMemoInserviveisActionPerformed
+        tabela = "TBLITENSMEMOTRANSFERIDOS";   
+        F_MEMOINSERVIVEIS frm = new F_MEMOINSERVIVEIS();
+        frm.setVisible(true);       
+    }//GEN-LAST:event_mnuMemoInserviveisActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1315,6 +1333,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenu mnuLOGOFF;
     private javax.swing.JMenu mnuMEMORANDOS;
     private javax.swing.JMenuItem mnuMemoDevolucao;
+    private javax.swing.JMenuItem mnuMemoInserviveis;
     private javax.swing.JMenuItem mnuMemoTransferencia;
     private javax.swing.JMenuItem mnuMudarBanco;
     private javax.swing.JMenuItem mnuReativarCliente;

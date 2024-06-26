@@ -415,6 +415,21 @@ public class GerarRelatorios
         viewer.setVisible(true);        
         conexao.close();        
     }       
+    public void imprimirPatrimoniosInserviveis(String caminho, String pParam) throws JRException,Exception
+    {                    
+        //exibindo o relatorio
+        HashMap filtro = new HashMap();         
+                        
+        ImageIcon gto = new ImageIcon(getClass().getResource("/images/logoinserviveis.png"));
+        filtro.put("CABECALHO", gto.getImage());
+        filtro.put("numemo", pParam);
+        JasperPrint impressao = JasperFillManager.fillReport( caminho, filtro, conexao );
+        JasperViewer viewer   = new JasperViewer( impressao , false );
+        viewer.setTitle("Relatório de Patrimônios Inservíveis");
+        viewer.setZoomRatio(new Float(0.7956));  //ajustando o relatorio na pagina
+        viewer.setVisible(true);        
+        conexao.close();        
+    }       
     
     public void imprimirRelatorioPatrimoniosTransferidos(String caminho, String pParam) throws JRException,Exception
     {                   

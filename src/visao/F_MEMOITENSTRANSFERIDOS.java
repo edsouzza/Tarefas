@@ -5,7 +5,6 @@ import Dao.DAOPatrimonio;
 import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteres;
-import biblioteca.CampoTxtLimitadoPorQdeCaracteresLowerCase;
 import biblioteca.MetodosPublicos;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
@@ -255,11 +254,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         jLabel8.setText("ORIGEM");
 
         txtASSUNTO.setForeground(new java.awt.Color(51, 51, 255));
-        txtASSUNTO.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtASSUNTOMouseClicked(evt);
-            }
-        });
         txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtASSUNTOKeyPressed(evt);
@@ -383,8 +377,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         txtDESTINO.setEditable(true);
         txtASSUNTO.setEditable(true);
         txtOBSERVACAO.setEditable(true);        
-        btnSair.setEnabled(true);         
-        txtDESTINO.setEditable(true);        
+        btnSair.setEnabled(true);            
         numMemoTransferido = "";
         mostrouForm = false;
         valorItem = 0;
@@ -611,10 +604,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             txtORIGEM.setText("CGGM/INFO");
         }
     }//GEN-LAST:event_txtORIGEMFocusLost
-
-    private void txtASSUNTOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtASSUNTOMouseClicked
-        txtASSUNTO.selectAll();
-    }//GEN-LAST:event_txtASSUNTOMouseClicked
 
     private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
         // TODO add your handling code here:

@@ -63,8 +63,6 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImprimirSemChapaActionPerformed
 
     private void btnImprimirComChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirComChapaActionPerformed
-        //fechar o formulario e gerar o PDF
-        dispose();  
         GerarRelatorios objRel = new GerarRelatorios();
         try {            
             objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidocomchapa.jasper", numemoParaImprimir);
