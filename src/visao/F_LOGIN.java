@@ -14,6 +14,7 @@ import java.util.HashSet;
 import Dao.DAOUsuario;
 import biblioteca.CampoLimitadoParaRF;
 import biblioteca.MetodosPublicos;
+import biblioteca.ValidarLogin;
 import static biblioteca.VariaveisPublicas.confIni;
 import static biblioteca.VariaveisPublicas.cadastrado;
 import static biblioteca.VariaveisPublicas.codigoUsuario;
@@ -41,19 +42,20 @@ import javax.swing.JPopupMenu;
 
 public class F_LOGIN extends javax.swing.JFrame 
 {
-    MetodosPublicos umMetodo        = new MetodosPublicos();
-    ControleGravarLog umGravarLog   = new ControleGravarLog();
-    ControleConfiguracaoInicial cci = new ControleConfiguracaoInicial();
-    CtrlLog     umControleLog       = new CtrlLog();
-    CtrlUsuario umControleUsuario   = new CtrlUsuario();
-    DAOUsuario  umDaoUsuario        = new DAOUsuario();
-    Usuario     umModeloUsuario     = new Usuario();
-    Log         umModeloLog         = new Log();
-    JPopupMenu  popupMenu           = new JPopupMenu();
-    JMenuItem   jmEscolherBanco     = popupMenu.add("Escolher Banco");
-    String      senhadobanco        = "";
-    String      nomeBanco           = "";
-    int         Tentativas          = 1;
+    MetodosPublicos             umMetodo            = new MetodosPublicos();
+    ControleGravarLog           umGravarLog         = new ControleGravarLog();
+    ControleConfiguracaoInicial cci                 = new ControleConfiguracaoInicial();
+    CtrlLog                     umControleLog       = new CtrlLog();
+    CtrlUsuario                 umControleUsuario   = new CtrlUsuario();
+    DAOUsuario                  umDaoUsuario        = new DAOUsuario();
+    Usuario                     umModeloUsuario     = new Usuario();
+    Log                         umModeloLog         = new Log();
+    JPopupMenu                  popupMenu           = new JPopupMenu();
+    JMenuItem                   jmEscolherBanco     = popupMenu.add("Escolher Banco");
+    String                      senhadobanco        = "";
+    String                      nomeBanco           = "";
+    int                         Tentativas          = 1;    
+    ValidarLogin                umaValidacao       = new ValidarLogin();
 
     public F_LOGIN() {
         
@@ -355,7 +357,13 @@ public class F_LOGIN extends javax.swing.JFrame
     }
     
     private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
-        autenticarUsuario();       
+        if (!umaValidacao.loginValido(txtLogin.getText())) {    
+            txtLogin.setText(null);
+            txtLogin.requestFocus();   
+            JOptionPane.showMessageDialog(null, "Digite seu RF DXXXXXX para acessar ao sistema.", "RF inválido!", JOptionPane.WARNING_MESSAGE);       
+        } else {
+            autenticarUsuario();
+        }      
     }//GEN-LAST:event_txtSenhaFocusGained
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
@@ -363,9 +371,7 @@ public class F_LOGIN extends javax.swing.JFrame
     }//GEN-LAST:event_txtSenhaKeyPressed
 
     private void txtLoginFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoginFocusGained
-        
-        /*ULTIMA ATUALIZACAO 23/06/23 12:20*/
-        
+                        
         //txtLogin.setText("D631863");       
         //txtLogin.setText("D538076");   
         //txtLogin.setText("D741921");   
