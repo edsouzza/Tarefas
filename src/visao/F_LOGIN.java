@@ -356,14 +356,26 @@ public class F_LOGIN extends javax.swing.JFrame
         }
     }
     
-    private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
-        if (!umaValidacao.loginValido(txtLogin.getText())) {    
+    private void validarLoginUsuario(){
+        if (!umaValidacao.loginValido(txtLogin.getText())){    
             txtLogin.setText(null);
             txtLogin.requestFocus();   
             JOptionPane.showMessageDialog(null, "Digite seu RF DXXXXXX para acessar ao sistema.", "RF inválido!", JOptionPane.WARNING_MESSAGE);       
         } else {
-            autenticarUsuario();
+            autenticarUsuario();            
         }      
+    }
+    
+    private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
+       
+        if (!txtLogin.getText().equals("") || !txtLogin.getText().equals(null)){    
+            validarLoginUsuario();    
+        } else {
+             txtLogin.setText(null);
+             txtLogin.requestFocus();   
+             JOptionPane.showMessageDialog(null, "Digite seu RF DXXXXXX para acessar ao sistema.", "RF inválido!", JOptionPane.WARNING_MESSAGE);         
+        }      
+        
     }//GEN-LAST:event_txtSenhaFocusGained
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed

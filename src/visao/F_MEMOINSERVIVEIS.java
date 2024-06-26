@@ -6,7 +6,7 @@ import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteres;
 import biblioteca.MetodosPublicos;
-import static biblioteca.VariaveisPublicas.numMemoBaixado;
+import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.destinoTransferidos;
 import static biblioteca.VariaveisPublicas.assuntoTransferido;
@@ -186,6 +186,11 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         jLabel4.setText("MEMO");
 
         txtDESTINO.setForeground(new java.awt.Color(51, 51, 255));
+        txtDESTINO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtDESTINOMouseClicked(evt);
+            }
+        });
 
         txtOBSERVACAO.setForeground(new java.awt.Color(51, 51, 255));
 
@@ -356,11 +361,12 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         btnExcluirItem.setEnabled(false);
         btnSair.setEnabled(true);      
         
-        numMemoBaixado = "";
+        numMemoTransferido = "";
         mostrouForm = false;
         valorItem = 0;
         controlenaveg = 0;
         lstListaInteiros.clear();
+        txtDESTINO.setText("BAIXA");
 
         //JOptionPane.showMessageDialog(null, "Próximo numemo = "+String.valueOf(umMetodo.gerarProximoNumeroMemoTransferir()));
         if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS")){
@@ -383,7 +389,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         //GRAVA O CABECALHO DO MEMORANDO NA TABELA
         
         //GERANDO NUMERO DO MEMO COM O ANO VIGENTE
-        numMemoBaixado         = txtNUMEMO.getText()+"/"+anoVigente;
+        numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();
         destinoTransferidos    = txtDESTINO.getText();
         assuntoTransferido     = txtASSUNTO.getText();
@@ -391,9 +397,9 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
 
         /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
           Nao deixar salvar quando clicado mais de uma vez / So gravar a primeira vez que clicar*/            
-        if(!umMetodo.temDuplicidadeDeCadastro("TBLMEMOSTRANSFERIDOS", "numemo", numMemoBaixado))
+        if(!umMetodo.temDuplicidadeDeCadastro("TBLMEMOSTRANSFERIDOS", "numemo", numMemoTransferido))
         {
-            umModPatriTransferido.setNumemo(numMemoBaixado);
+            umModPatriTransferido.setNumemo(numMemoTransferido);
 
             if(!observacao.equals(null) && !observacao.equals(""))
             {
@@ -406,7 +412,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
             umModPatriTransferido.setIdusuario(codigoUsuario);
             umModPatriTransferido.setAssunto(assuntoTransferido);
             umCtrlPatriTranferido.salvarPatriTransferido(umModPatriTransferido); 
-            umGravarLog.gravarLog("cadastro do memo de patrimonios inservíveis "+numMemoBaixado);
+            umGravarLog.gravarLog("cadastro do memo de patrimonios inservíveis "+numMemoTransferido);
         }        
         
     }
@@ -415,7 +421,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         
         /*QDO CLICA NO BOTAO ADICIONAR ABRE-SE A LISTA DE PATRIMONIOS E AO ESCOLHER UM ITEM O MESMO É INCLUIDO NA TBLITENSMEMOTRANSFERIDOS COM STATUS 
           PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/                             
-        numMemoBaixado         = txtNUMEMO.getText()+"/"+anoVigente;
+        numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();;
         destinoTransferidos    = txtDESTINO.getText();;            
         assuntoTransferido     = txtASSUNTO.getText();;            
@@ -465,13 +471,14 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         gravarMemorando();
         
         //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
-        umMetodo.atualizarStatusParaTransferidos(numMemoBaixado);
+        //umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
+        umMetodo.atualizarStatusParaBaixados(numMemoTransferido);
         
-//        JOptionPane.showMessageDialog(null, numMemoBaixado);
+//        JOptionPane.showMessageDialog(null, numMemoTransferido);
 //        
 //        GerarRelatorios objRel = new GerarRelatorios();
 //        try {
-//            objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numMemoBaixado);
+//            objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numMemoTransferido);
 //        } catch (Exception e) {
 //            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
 //        }    
@@ -480,25 +487,22 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
         frm.setVisible(true);
               
-        umGravarLog.gravarLog("impressao do memo de patrimonios inservíveis "+numMemoBaixado);
-        Leitura();
-        
-        
-        
+        umGravarLog.gravarLog("impressao do memo de patrimonios inservíveis "+numMemoTransferido);
+              
         
         /*=============================================================================================================================================
                                                     INATIVAR PATRIMONIOS INSERIDOS NO MEMORANDO
         ===============================================================================================================================================*/
                     
-        //umPatrimonioDAO.InativarPatrimonioPeloMemorandoDAO(numMemoBaixado);  
+        //umPatrimonioDAO.InativarPatrimonioPeloMemorandoDAO(numMemoTransferido);  
             
         Leitura();        
         
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        umMetodo.deletarMemorandoSemItens(numMemoBaixado);
-        umMetodo.deletarItensDoMemorando(numMemoBaixado);        
+        umMetodo.deletarMemorandoSemItens(numMemoTransferido);
+        umMetodo.deletarItensDoMemorando(numMemoTransferido);        
         Leitura();
     }//GEN-LAST:event_btnCancelarActionPerformed
     
@@ -514,7 +518,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.YES_OPTION) 
         {            
-            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem, numMemoBaixado))
+            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem, numMemoTransferido))
             {
                 JOptionPane.showMessageDialog(null, "Ítem "+codItem+" foi excluído com sucesso do memorando atual!");
                 
@@ -556,6 +560,11 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
     private void txtORIGEMFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtORIGEMFocusGained
         PreencherDadosCampos();
     }//GEN-LAST:event_txtORIGEMFocusGained
+
+    private void txtDESTINOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDESTINOMouseClicked
+        txtDESTINO.setEditable(true);
+        txtDESTINO.selectAll();
+    }//GEN-LAST:event_txtDESTINOMouseClicked
     
     public void PreencherTabela(String sql)
     {

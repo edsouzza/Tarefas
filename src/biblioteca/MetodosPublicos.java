@@ -542,6 +542,25 @@ public class MetodosPublicos {
         }
     }  
     
+    public void atualizarStatusParaBaixados(String numemo) 
+    {
+        conexao.conectar();
+        try 
+        {
+            sql = "UPDATE TBLITENSMEMOTRANSFERIDOS SET status=? WHERE status=? AND numemo=?";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, "BAIXADO");           
+            pst.setString(2, "PROCESSANDO");    
+            pst.setString(3, numemo);    
+            pst.executeUpdate(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de inserção sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+    }  
+    
     public void atualizarStatusParaTransferidos(String numemo) 
     {
         conexao.conectar();

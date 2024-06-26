@@ -1,11 +1,14 @@
 package visao;
 
-import static biblioteca.VariaveisPublicas.numMemoBaixado;
+import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import javax.swing.JOptionPane;
 import relatorios.GerarRelatorios;
 
 
 public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
+    
+    String numeroMemorando = numMemoTransferido;  
+            
     public F_ESCOLHAIMPRESSAOINSERVIVEIS() {
         initComponents();
         setResizable(false);  //desabilitando o redimencionamento da tela
@@ -53,11 +56,10 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImprimirSemChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirSemChapaActionPerformed
-        
-        JOptionPane.showMessageDialog(null, numMemoBaixado); 
+                       
         GerarRelatorios objRel = new GerarRelatorios();
         try {             
-            objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numMemoBaixado);             
+            objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numeroMemorando);             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }    
@@ -66,11 +68,10 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImprimirSemChapaActionPerformed
 
     private void btnImprimirComChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirComChapaActionPerformed
-        
-        JOptionPane.showMessageDialog(null, numMemoBaixado); 
+                        
         GerarRelatorios objRel = new GerarRelatorios();
         try {               
-            objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numMemoBaixado);             
+            objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numeroMemorando);             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }             
