@@ -186,6 +186,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         jLabel4.setText("MEMO");
 
         txtDESTINO.setForeground(new java.awt.Color(51, 51, 255));
+        txtDESTINO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         txtDESTINO.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtDESTINOMouseClicked(evt);
@@ -347,6 +348,8 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         txtDESTINO.setEditable(false);
         txtASSUNTO.setEditable(false);
         txtOBSERVACAO.setEditable(false);
+        txtDESTINO.selectAll();
+        txtDESTINO.requestFocus();
         
     }
     
@@ -367,6 +370,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         controlenaveg = 0;
         lstListaInteiros.clear();
         txtDESTINO.setText("BAIXA");
+        
 
         //JOptionPane.showMessageDialog(null, "Próximo numemo = "+String.valueOf(umMetodo.gerarProximoNumeroMemoTransferir()));
         if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS")){
