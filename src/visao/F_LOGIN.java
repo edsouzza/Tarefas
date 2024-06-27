@@ -76,9 +76,9 @@ public class F_LOGIN extends javax.swing.JFrame
         txtLogin.setDocument(new CampoLimitadoParaRF(7));
                 
         // Colocando enter para pular de campo 
-        HashSet conj = new HashSet(this.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
-        conj.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_ENTER, 0));
-        this.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, conj);
+//        HashSet conj = new HashSet(this.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
+//        conj.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_ENTER, 0));
+//        this.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, conj);
 
         //Impede que formulario seja arrastado na tela
         this.addComponentListener(new ComponentAdapter() {
@@ -100,7 +100,7 @@ public class F_LOGIN extends javax.swing.JFrame
                 frm.setVisible(true);   
             }
         });//fim addComponentListener do poupup menu
-        
+                                      
     }
 
     @SuppressWarnings("unchecked")
@@ -146,6 +146,11 @@ public class F_LOGIN extends javax.swing.JFrame
         txtLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtLoginMouseClicked(evt);
+            }
+        });
+        txtLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtLoginKeyPressed(evt);
             }
         });
 
@@ -369,6 +374,7 @@ public class F_LOGIN extends javax.swing.JFrame
     private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
        
         if (!txtLogin.getText().equals("") || !txtLogin.getText().equals(null)){    
+            txtSenha.setEditable(true);
             validarLoginUsuario();    
         } else {
              txtLogin.setText(null);
@@ -379,17 +385,21 @@ public class F_LOGIN extends javax.swing.JFrame
     }//GEN-LAST:event_txtSenhaFocusGained
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
-        btnLogar.setEnabled(true);
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            validarLoginUsuario(); 
+            autenticar();
+            btnLogar.setEnabled(true);
+        }      
     }//GEN-LAST:event_txtSenhaKeyPressed
 
     private void txtLoginFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoginFocusGained
                         
-        txtLogin.setText("D631863");       
+        //txtLogin.setText("D631863");       
         //txtLogin.setText("D538076");   
         //txtLogin.setText("D741921");   
         
         txtLogin.selectAll();
-        
+        txtSenha.setEnabled(false);
     }//GEN-LAST:event_txtLoginFocusGained
 
     private void btnLogarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnLogarFocusGained
@@ -411,6 +421,19 @@ public class F_LOGIN extends javax.swing.JFrame
             dispose();
         } 
     }//GEN-LAST:event_formWindowOpened
+
+    private void txtLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {            
+            if ( !txtLogin.getText().isEmpty() ){    
+                txtSenha.setEnabled(true);
+                txtSenha.requestFocus();  
+            } else {                 
+                 txtLogin.requestFocus();   
+                 JOptionPane.showMessageDialog(null, "Digite seu RF DXXXXXX para acessar ao sistema.", "RF inválido!", JOptionPane.WARNING_MESSAGE);         
+            }      
+            
+        }
+    }//GEN-LAST:event_txtLoginKeyPressed
 
     /**
      * @param args the command line arguments
