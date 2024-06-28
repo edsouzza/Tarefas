@@ -62,13 +62,13 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     
     private void gerenciadorDeMenus(){        
        //ADMINISTRADOR   SE FOR = 1 NIVEL = SISTEMA
-       if(nivelAcessoUsuario >1)
+       if(nivelAcessoUsuario > 1)
        {
            mnuCONFIGURACOES.setVisible(false);
            mnuConsInformacoes.setVisible(false);
            menuReativacoes.setVisible(false);
            menutipodocumentos.setVisible(false);
-           menugerarnumdocto.setVisible(false);           
+           menugerarnumdocto.setVisible(false);      
            mnuGerenciarNomesEstacoes.setVisible(true); 
            mnuGerenciamentoNomesRede.setVisible(true); 
        }  //USUARIO
@@ -81,6 +81,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             menuEDICOES.setVisible(false);
             menuLogs.setVisible(false);
             menuPatriLotes.setVisible(false);
+            mnuMemoInserviveis.setVisible(false);
             mnuGerenciarNomesEstacoes.setVisible(false); 
             mnuGerenciamentoNomesRede.setVisible(false); 
         }else{
@@ -405,11 +406,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menuConsultas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
         menuConsultas.setText("Consultas");
         menuConsultas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menuConsultas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuConsultasActionPerformed(evt);
-            }
-        });
 
         menuLogs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         menuLogs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_blocoNotas.gif"))); // NOI18N
@@ -1115,11 +1111,11 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuMudarBancoActionPerformed
 
     private void mnuMemoTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMemoTransferenciaActionPerformed
-              
-        tabela = "TBLITENSMEMOTRANSFERIDOS";   
-        F_MEMOITENSTRANSFERIDOS frm = new F_MEMOITENSTRANSFERIDOS();
-        frm.setVisible(true);             
-        
+        if(umabiblio.permissaoLiberada()){       
+            tabela = "TBLITENSMEMOTRANSFERIDOS";   
+            F_MEMOITENSTRANSFERIDOS frm = new F_MEMOITENSTRANSFERIDOS();
+            frm.setVisible(true);             
+        }
     }//GEN-LAST:event_mnuMemoTransferenciaActionPerformed
 
     private void mnuApoioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuApoioActionPerformed
@@ -1197,16 +1193,12 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuGerenciarNomesEstacoesActionPerformed
 
     private void mnuMemoDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMemoDevolucaoActionPerformed
-              
-        tabela = "TBLITENSMEMOTRANSFERIDOS";   
-        F_MEMOITENSRECEBIDOS frm = new F_MEMOITENSRECEBIDOS();
-        frm.setVisible(true); 
-        
+        if(umabiblio.permissaoLiberada()){       
+            tabela = "TBLITENSMEMOTRANSFERIDOS";   
+            F_MEMOITENSRECEBIDOS frm = new F_MEMOITENSRECEBIDOS();
+            frm.setVisible(true); 
+        }        
     }//GEN-LAST:event_mnuMemoDevolucaoActionPerformed
-
-    private void menuConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConsultasActionPerformed
-       
-    }//GEN-LAST:event_menuConsultasActionPerformed
 
     private void mnuGerenciarAdicaoNomeEstacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGerenciarAdicaoNomeEstacoesActionPerformed
         if(umabiblio.permissaoLiberada()){  
@@ -1223,7 +1215,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuGerenciarExclusaoNomeEstacoesActionPerformed
 
     private void mnuImprimirMemosTransferenciaPorTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImprimirMemosTransferenciaPorTipoActionPerformed
-         if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS"))
+        if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS"))
         {                   
             F_RELMEMOSTRANSFERIDOSPORTIPO frm = new F_RELMEMOSTRANSFERIDOSPORTIPO(); 
             frm.setVisible(true); 
@@ -1234,9 +1226,11 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImprimirMemosTransferenciaPorTipoActionPerformed
 
     private void mnuMemoInserviveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMemoInserviveisActionPerformed
-        tabela = "TBLITENSMEMOTRANSFERIDOS";   
-        F_MEMOINSERVIVEIS frm = new F_MEMOINSERVIVEIS();
-        frm.setVisible(true);       
+        if(umabiblio.permissaoLiberada()){ 
+            tabela = "TBLITENSMEMOTRANSFERIDOS";   
+            F_MEMOINSERVIVEIS frm = new F_MEMOINSERVIVEIS();
+            frm.setVisible(true);       
+        }
     }//GEN-LAST:event_mnuMemoInserviveisActionPerformed
 
     /**

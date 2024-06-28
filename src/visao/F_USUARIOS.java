@@ -536,6 +536,11 @@ public class F_USUARIOS extends javax.swing.JFrame {
             //popular a combo nivel de acesso com todos os acessos possiveis
             cmbNivelAcesso.addItem("USUÁRIO");
             cmbNivelAcesso.addItem("ADMINISTRADOR");
+            
+            if(nivelAcessoUsuario == 1){
+                cmbNivelAcesso.addItem("SISTEMA");
+            }
+            
             //seta o nivel de acesso atual do usuario
             cmbNivelAcesso.getModel().setSelectedItem(sNomeAcesso);
 
@@ -964,6 +969,8 @@ public class F_USUARIOS extends javax.swing.JFrame {
             nivelAcesso = 3;
         } else if (cmbNivelAcesso.getSelectedItem().equals("ADMINISTRADOR")) {
             nivelAcesso = 2;
+        } else if (cmbNivelAcesso.getSelectedItem().equals("SISTEMA")) {
+            nivelAcesso = 1;
         }
         
         umModUsuario.setNome(nome);

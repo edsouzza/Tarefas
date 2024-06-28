@@ -76,7 +76,7 @@ public class Biblioteca
         {
             return "USUÁRIO";
         }
-        else if(nivelAcessoUsuario >0 && nivelAcessoUsuario < 2 )  //se for igual a 1
+        else if(nivelAcessoUsuario > 0 && nivelAcessoUsuario < 2 )  //se for igual a 1
         {
             return "SISTEMA";
         }
@@ -781,6 +781,7 @@ public class Biblioteca
     }
     
     public boolean permissaoLiberada(){
+        //Restringe o acesso ao USUARIO comum e libera para ADMINISTRADOR e SISTEMA que tem acesso a tudo
         if(nivelAcessoUsuario == 3){
              JOptionPane.showMessageDialog(null, "Atenção você não tem permissão para executar esta operação!","Contate o administrador!",2);
             return false;            
