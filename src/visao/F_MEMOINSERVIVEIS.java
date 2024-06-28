@@ -476,17 +476,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         
         //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
         //umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
-        umMetodo.atualizarStatusParaBaixados(numMemoTransferido);
-        
-//        JOptionPane.showMessageDialog(null, numMemoTransferido);
-//        
-//        GerarRelatorios objRel = new GerarRelatorios();
-//        try {
-//            objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numMemoTransferido);
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-//        }    
-       
+        umMetodo.atualizarStatusParaBaixados(numMemoTransferido);   
         
         F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
         frm.setVisible(true);
@@ -498,7 +488,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
                                                     INATIVAR PATRIMONIOS INSERIDOS NO MEMORANDO
         ===============================================================================================================================================*/
                     
-        //umPatrimonioDAO.InativarPatrimonioPeloMemorandoDAO(numMemoTransferido);  
+        umPatrimonioDAO.InativarPatrimonioPeloMemorandoDAO(numMemoTransferido);  
             
         Leitura();        
         
