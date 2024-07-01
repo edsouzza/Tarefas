@@ -75,7 +75,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
        if(nivelAcessoUsuario == 3){  
             menuclientesvirtuais.setVisible(false);
             menuTIPOS.setVisible(false);
-            menuMODELOS.setVisible(false);
             menuUSUARIOS.setVisible(false);
             menuDepartamentos.setVisible(false);
             menuEDICOES.setVisible(false);
