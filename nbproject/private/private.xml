@@ -1,41 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
-        <file>
-            <url>src/visao/F_LOGIN.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>387</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/visao/F_GERARTXTENTRADA.java</url>
-            <bookmark id="2">
-                <name/>
-                <line>469</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/biblioteca/Biblioteca.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/conexao/ConnConexao.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/biblioteca/GetIPServidor.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_USUARIOS.java</file>
-            <file>file:/I:/ProjetosDev/Projetos%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_MEMOINSERVIVEIS.java</file>
-=======
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_MEMOINSERVIVEIS.java</file>
->>>>>>> 72b1c93da1ac064f2e7844ab03db565591d11ac7
->>>>>>> 1221afb66a49cf017c1edec5fc6aa5b82f6999e6
         </group>
     </open-files>
 </project-private>
