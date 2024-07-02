@@ -77,10 +77,10 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             menuTIPOS.setVisible(false);
             menuUSUARIOS.setVisible(false);
             menuDepartamentos.setVisible(false);
+            mnuMemoInserviveis.setVisible(false);
             menuEDICOES.setVisible(false);
             menuLogs.setVisible(false);
             menuPatriLotes.setVisible(false);
-            mnuMemoInserviveis.setVisible(false);
             mnuGerenciarNomesEstacoes.setVisible(false); 
             mnuGerenciamentoNomesRede.setVisible(false); 
         }else{
