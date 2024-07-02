@@ -476,8 +476,12 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         
         //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
         //umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
+<<<<<<< HEAD
         umMetodo.atualizarStatusParaBaixados(numMemoTransferido);        
 
+=======
+        umMetodo.atualizarStatusParaBaixados(numMemoTransferido);   
+>>>>>>> 72b1c93da1ac064f2e7844ab03db565591d11ac7
         
         F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
         frm.setVisible(true);
