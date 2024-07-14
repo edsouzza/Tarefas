@@ -406,7 +406,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/TICK.PNG"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="CONSULTA MEMOS DE ENVIO POR TIPO DE EQUIPAMENTO"/>
+                <Property name="text" type="java.lang.String" value="CONSULTA MEMORANDOS DE ENVIO POR TIPO DE EQUIPAMENTO"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -751,7 +751,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/patrimonios.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="IP Servidor"/>
+                <Property name="text" type="java.lang.String" value="IP SERVIDOR"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -768,7 +768,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/lock_delete.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Setar Banco de Dados"/>
+                <Property name="text" type="java.lang.String" value="SETAR BANCO DE DADOS"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -785,7 +785,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/btn_Livro.gif"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Formulario de Apoio"/>
+                <Property name="text" type="java.lang.String" value="FORMULARIO DE APOIO"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -802,7 +802,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/TICK.PNG"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Documenta&#xe7;&#xe3;o"/>
+                <Property name="text" type="java.lang.String" value="DOCUMENTA&#xc7;&#xc3;O"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>

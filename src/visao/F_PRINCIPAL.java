@@ -213,6 +213,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(lblNOMESERVIDOR, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
@@ -232,8 +235,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_gravar.jpg"))); // NOI18N
         menuCadastro.setText("Cadastros");
@@ -484,7 +485,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
         mnuImprimirMemosTransferenciaPorTipo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuImprimirMemosTransferenciaPorTipo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        mnuImprimirMemosTransferenciaPorTipo.setText("CONSULTA MEMOS DE ENVIO POR TIPO DE EQUIPAMENTO");
+        mnuImprimirMemosTransferenciaPorTipo.setText("CONSULTA MEMORANDOS DE ENVIO POR TIPO DE EQUIPAMENTO");
         mnuImprimirMemosTransferenciaPorTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuImprimirMemosTransferenciaPorTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -698,7 +699,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
         mnuIPServidor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         mnuIPServidor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/patrimonios.png"))); // NOI18N
-        mnuIPServidor.setText("IP Servidor");
+        mnuIPServidor.setText("IP SERVIDOR");
         mnuIPServidor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuIPServidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -709,7 +710,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
         mnuMudarBanco.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.CTRL_MASK));
         mnuMudarBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lock_delete.png"))); // NOI18N
-        mnuMudarBanco.setText("Setar Banco de Dados");
+        mnuMudarBanco.setText("SETAR BANCO DE DADOS");
         mnuMudarBanco.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuMudarBanco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -720,7 +721,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
         mnuApoio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         mnuApoio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Livro.gif"))); // NOI18N
-        mnuApoio.setText("Formulario de Apoio");
+        mnuApoio.setText("FORMULARIO DE APOIO");
         mnuApoio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuApoio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -731,7 +732,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
         mnuDocumentacao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         mnuDocumentacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        mnuDocumentacao.setText("Documentação");
+        mnuDocumentacao.setText("DOCUMENTAÇÃO");
         mnuDocumentacao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuDocumentacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
