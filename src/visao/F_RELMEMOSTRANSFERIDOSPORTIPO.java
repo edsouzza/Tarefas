@@ -299,7 +299,7 @@ public class F_RELMEMOSTRANSFERIDOSPORTIPO extends javax.swing.JFrame {
         conexao.conectar();
         ArrayList dados = new ArrayList();
         //para receber os dados das colunas(exibe os titulos das colunas)
-        String[] Colunas = new String[]{"Código", "Memorando", "Modelo"};
+        String[] Colunas = new String[]{"Código", "Memorando", "Destino", "Modelo"};
         try {
             conexao.ExecutarPesquisaSQL(sql);
             while (conexao.rs.next()) {
@@ -307,6 +307,7 @@ public class F_RELMEMOSTRANSFERIDOSPORTIPO extends javax.swing.JFrame {
                     
                     conexao.rs.getInt("codigo"),
                     conexao.rs.getString("numemo"),
+                    conexao.rs.getString("destino"),
                     conexao.rs.getString("modelo")
 
                 });
@@ -318,9 +319,11 @@ public class F_RELMEMOSTRANSFERIDOSPORTIPO extends javax.swing.JFrame {
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(60);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna      
             jTabela.getColumnModel().getColumn(1).setPreferredWidth(100); //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna        
-            jTabela.getColumnModel().getColumn(2).setPreferredWidth(700); //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna         
+            jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna   
+            jTabela.getColumnModel().getColumn(2).setPreferredWidth(250); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna               
+            jTabela.getColumnModel().getColumn(3).setPreferredWidth(470); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna         
                
             //define propriedades da tabela
             jTabela.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada

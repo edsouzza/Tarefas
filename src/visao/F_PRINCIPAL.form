@@ -389,13 +389,30 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/patrimonios.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="NOMES DE ESTA&#xc7;&#xd5;ES DISPON&#xcd;VEIS PARA CADASTRO"/>
+                <Property name="text" type="java.lang.String" value="CONSULTA NOMES DE ESTA&#xc7;&#xd5;ES DISPON&#xcd;VEIS PARA CADASTRO"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuConsultarEstacoesDisponiveisActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuImprimirMemosTransferenciaPorTipo">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+Alt+F1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/images/TICK.PNG"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="CONSULTA MEMOS DE ENVIO POR TIPO DE EQUIPAMENTO"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Cursor em Forma de M&#xe3;o"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImprimirMemosTransferenciaPorTipoActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -591,7 +608,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/calculator.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Etiquetas Individuais"/>
+                <Property name="text" type="java.lang.String" value="ETIQUETAS INDIVIDUAIS"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -608,7 +625,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/brick_add.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Etiquetas  Coletivas"/>
+                <Property name="text" type="java.lang.String" value="ETIQUETAS COLETIVAS"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -625,7 +642,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/computador.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Gerar Memo Recebimento"/>
+                <Property name="text" type="java.lang.String" value="GERAR MEMO RECEBIMENTO"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -642,7 +659,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/btn_blocoNotas.gif"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Gerar Memo Transfer&#xea;ncia"/>
+                <Property name="text" type="java.lang.String" value="GERAR MEMO TRANSFERENCIA"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
@@ -659,30 +676,13 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/btn_imprimir.gif"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Listar Imprimir Memorandos"/>
+                <Property name="text" type="java.lang.String" value="LISTAR IMPRIMIR MEMORANDOS"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImprimirMemosTransferenciaActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuImprimirMemosTransferenciaPorTipo">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+Alt+F1"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/images/TICK.PNG"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Relatorio de Envios Por Tipo de Equipamento"/>
-                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor em Forma de M&#xe3;o"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImprimirMemosTransferenciaPorTipoActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuMemoInserviveis">
@@ -693,7 +693,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/images/btn_calculadora.gif"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Relatorio de Equipamentos e Bens Inserviveis"/>
+                <Property name="text" type="java.lang.String" value="GERAR RELATORIO DE BENS INSERVIVEIS"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
