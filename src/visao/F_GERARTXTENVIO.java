@@ -344,9 +344,9 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel8))
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -938,7 +938,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     
     private void imprimirRelatorio(){
         
-        if (umMetodo.ConfirmouOperacao("Confirma a impressão do Relatório?", "Impressão do Relatório999"))
+        if (umMetodo.ConfirmouOperacao("Confirma a impressão do Relatório?", "Impressão do Relatório"))
         {
             GerarRelatorios objRel = new GerarRelatorios();
             try {                
