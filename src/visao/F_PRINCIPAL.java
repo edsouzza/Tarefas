@@ -143,6 +143,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuReativarPatrimonio = new javax.swing.JMenuItem();
         mnuReativarCliente = new javax.swing.JMenuItem();
         menuImpressoes = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         mnuEtiquetasIndividuais = new javax.swing.JMenuItem();
         mnuEtiquetasColetivas = new javax.swing.JMenuItem();
         mnuMemoDevolucao = new javax.swing.JMenuItem();
@@ -605,6 +606,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menuImpressoes.setText("Impressões");
         menuImpressoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
+        jMenu1.setText("GERAR ETIQUETAS");
+
         mnuEtiquetasIndividuais.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
         mnuEtiquetasIndividuais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator.png"))); // NOI18N
         mnuEtiquetasIndividuais.setText("ETIQUETAS INDIVIDUAIS");
@@ -614,7 +618,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 mnuEtiquetasIndividuaisActionPerformed(evt);
             }
         });
-        menuImpressoes.add(mnuEtiquetasIndividuais);
+        jMenu1.add(mnuEtiquetasIndividuais);
 
         mnuEtiquetasColetivas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
         mnuEtiquetasColetivas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brick_add.png"))); // NOI18N
@@ -625,7 +629,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 mnuEtiquetasColetivasActionPerformed(evt);
             }
         });
-        menuImpressoes.add(mnuEtiquetasColetivas);
+        jMenu1.add(mnuEtiquetasColetivas);
+
+        menuImpressoes.add(jMenu1);
 
         mnuMemoDevolucao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         mnuMemoDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/computador.png"))); // NOI18N
@@ -1273,6 +1279,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblData;
