@@ -56,7 +56,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
     DAOPatriTensTransferido        umDAOPatriItens              = new DAOPatriTensTransferido();
     
     
-    String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";        
+    String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' AND i.status <> 'BAIXADO' ORDER BY i.item";        
     String sqlVazia        = "SELECT codigo FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo < 1";  
     String observacao, numemoinicial;
     int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;

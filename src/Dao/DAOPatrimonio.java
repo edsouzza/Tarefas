@@ -1,5 +1,6 @@
 package Dao;
 
+import biblioteca.MetodosPublicos;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.cadastrado;
@@ -935,8 +936,7 @@ public class DAOPatrimonio {
         
         for(int i=0; i<totalregs;i++)
         {
-            int pCod       = Integer.valueOf(lstListaGenerica.get(i));        
-            //System.out.println("dado : "+pCod);    
+            int pCod       = Integer.valueOf(lstListaGenerica.get(i));       
             gravarUpdateMemosRecebimento(pCod,pNumemo);
         }
         /*DAR ENTRADA DOS PATRIMONIOS NA CGGM/INFO secaoid = 30 clienteid = 202  deptoid = 6 => Se for micro estacao = PGMCGGMC000 => */
@@ -948,13 +948,10 @@ public class DAOPatrimonio {
         
         for(int i=0; i<totalregs;i++)
         {
-            int pCod       = Integer.valueOf(lstListaGenerica.get(i));        
-            //System.out.println("dado : "+pCod);    
+            int pCod       = Integer.valueOf(lstListaGenerica.get(i));         
             gravarUpdateMemos(pCod,pNumemo);
-        }
-        
-    }     
-    
+        }        
+    }         
 
     public void gravarUpdateMemosRecebimento(int pCod, String numemo){
         //Grava atualizacao do equipamento transferido pelo codigo

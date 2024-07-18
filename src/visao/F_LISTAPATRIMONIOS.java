@@ -10,17 +10,20 @@ import biblioteca.Biblioteca;
 import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
 import biblioteca.TudoMaiusculas;
+import biblioteca.VariaveisPublicas;
 import conexao.ConnConexao;
-import static biblioteca.VariaveisPublicas.enviando;
 import static biblioteca.VariaveisPublicas.codigoPatrimonio;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.destinoTransferidos;
 import static biblioteca.VariaveisPublicas.lstListaGenerica;
-import static biblioteca.VariaveisPublicas.lstListaInteiros;
 import static biblioteca.VariaveisPublicas.lstListaStrings;
 import static biblioteca.VariaveisPublicas.valorItem;
 import static biblioteca.VariaveisPublicas.nomeEstacaoTransferida;
+import static biblioteca.VariaveisPublicas.editandoMemorando;
+import static biblioteca.VariaveisPublicas.chapaRetornada;
+import static biblioteca.VariaveisPublicas.serieRetornada;
+import static biblioteca.VariaveisPublicas.codModeloRetornado;
 import static biblioteca.VariaveisPublicas.patriDeptos;
 import static biblioteca.VariaveisPublicas.patriDevolucao;
 import controle.ControleGravarLog;
@@ -53,7 +56,7 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
     PatriDepto                  umModPatrDepto              = new PatriDepto();
         
     int icodigo, codModelo, tipoid = 0;
-    String serieClicada, serieRetornada;
+    String serieClicada;
     String sqlPatriCGGM   = "SELECT p.*, t.*, m.* FROM tblpatrimonios p, tbltipos t, tblmodelos m WHERE p.tipoid = t.codigo AND p.modeloid = m.codigo AND p.status = 'ATIVO' ORDER BY m.modelo, p.codigo";    
     String sqlDevolucao   = "SELECT p.*, t.*, m.* FROM tblpatrimonios p, tbltipos t, tblmodelos m WHERE m.codigo=p.modeloid AND p.tipoid = t.codigo AND (p.status = 'INATIVO') ORDER BY t.tipo,p.codigo";
     
@@ -183,7 +186,8 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
            PreencherTabela(sqlPatriCGGM);  
         }else{         
            PreencherTabela(sqlDevolucao); 
-        }                
+        }    
+        
     }
 
     private void btnLimparPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparPesquisaActionPerformed
@@ -236,7 +240,7 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         //SETANDO OS VALORES NO MODELO PARA GRAVAR
         objModPatriTemTransferido.setItem(valorItem);
         objModPatriTemTransferido.setNumemo(numemo);
-        objModPatriTemTransferido.setModeloid(codModelo);        
+        objModPatriTemTransferido.setModeloid(codModelo);               
         objModPatriTemTransferido.setSerie(serieRetornada);
         objModPatriTemTransferido.setChapa(chapa);      
         objModPatriTemTransferido.setOrigem(origem);     
@@ -244,7 +248,7 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         objModPatriTemTransferido.setStatus(status);
         
         ctrlPatriTenstransferido.salvarPatriItensTransferido(objModPatriTemTransferido);
-        umGravarLog.gravarLog("Impressão do Memo de Transferencia "+numemo);
+        umGravarLog.gravarLog("Adição de itens ao memorando de transferencia "+numemo);
         
         codModelo = 0;
     }
@@ -268,8 +272,10 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
         serieRetornada              = objModPatrimonio.getSerie();
         tipoid                      = objModPatrimonio.getTipoid();
         chapa                       = objModPatrimonio.getChapa();
+        chapaRetornada              = objModPatrimonio.getChapa();
         nomeEstacaoTransferida      = objModPatrimonio.getEstacao();
         codModelo                   = objModPatrimonio.getModeloid();         
+        codModeloRetornado          = objModPatrimonio.getModeloid();         
 
         //inserindo os dados para atualização dos registros em uma lista           
         lstListaGenerica.add(String.valueOf(codigoPatrimonio));
@@ -290,8 +296,11 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
             valorItem--;            
         }else{
             //gravar registro na tabela TBLITENSMEMOTRANSFERIDOS
-            //JOptionPane.showMessageDialog(null, valorItem);            
-            gravarRegistro();
+            JOptionPane.showMessageDialog(null, "valllor item "+valorItem);  
+            if(!editandoMemorando){
+                gravarRegistro();
+            }
+            
         }  
         
         dispose();

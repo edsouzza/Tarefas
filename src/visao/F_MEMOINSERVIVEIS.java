@@ -36,7 +36,6 @@ import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
 import modelo.PatriTensTransferido;
 import modelo.PatriTransferido;
-import relatorios.GerarRelatorios;
 
 
 public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {

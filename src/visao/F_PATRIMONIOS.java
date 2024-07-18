@@ -69,8 +69,6 @@ import java.awt.Font;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

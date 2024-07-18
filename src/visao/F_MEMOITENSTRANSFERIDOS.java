@@ -16,6 +16,7 @@ import static biblioteca.VariaveisPublicas.anoVigente;
 import biblioteca.ModeloTabela;
 import biblioteca.SomenteNumeros;
 import static biblioteca.VariaveisPublicas.codigoUsuario;
+import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.enviando;
 import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import static biblioteca.VariaveisPublicas.lstListaInteiros;
@@ -55,7 +56,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     DAOPatriTensTransferido        umDAOPatriItens              = new DAOPatriTensTransferido();
     
     
-    String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' ORDER BY i.item";        
+    String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' AND i.status <> 'BAIXADO' ORDER BY i.item";        
     String sqlVazia        = "SELECT codigo FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo < 1";  
     String observacao, numemoinicial;
     int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;
@@ -440,7 +441,8 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         origemTransferidos     = txtORIGEM.getText();;
         destinoTransferidos    = txtDESTINO.getText();;            
         assuntoTransferido     = txtASSUNTO.getText();;            
-
+        editandoMemorando      = false;
+        
         //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS
         F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
         frmPatrimonios.setVisible(true);

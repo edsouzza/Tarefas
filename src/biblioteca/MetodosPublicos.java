@@ -598,6 +598,7 @@ public class MetodosPublicos {
             conexao.desconectar();
         }
     }  
+    
     public String retornarObsDoRegistro(int iCodigo, String tabela){
         //retorna os dados do campo obs do registro indicado pelo codigo                
         conn = conexao.conectar();      
@@ -607,6 +608,25 @@ public class MetodosPublicos {
             conexao.ExecutarPesquisaSQL(sql); 
             if(conexao.rs.next()){
                return conexao.rs.getString("obs"); 
+            }else{
+                return "";
+            }                        
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Erro a o pesquisar o campo obs na tabela, erro gerado : \n"+e+", o sql passado foi \n"+sql);
+            return "";
+       } finally {
+            conexao.desconectar();
+       }          
+    }
+    
+    public String getDestinoMemorando(String sNumemo){               
+        conn = conexao.conectar();      
+        try
+        {  
+            sql = "SELECT distinct destino FROM TBLITENSMEMOTRANSFERIDOS Where numemo = '"+sNumemo+"'";                       
+            conexao.ExecutarPesquisaSQL(sql); 
+            if(conexao.rs.next()){
+               return conexao.rs.getString("destino"); 
             }else{
                 return "";
             }                        
@@ -897,6 +917,24 @@ public class MetodosPublicos {
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
             pst.setString(1, "INATIVO");           
             pst.setInt(2, idUsuario);
+            pst.executeUpdate(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de inserção sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }        
+    }   
+    
+    public void inativarRegistrosPeloCodigo(int iCodigo)
+    {        
+        conexao.conectar();
+        try 
+        {
+            sql = "UPDATE TBLPATRIMONIOS SET status=? WHERE codigo = ?";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, "INATIVO");    
+            pst.setInt(2, iCodigo);    
             pst.executeUpdate(); 
             
         } catch (Exception e) {
@@ -1404,6 +1442,48 @@ public class MetodosPublicos {
         }
     }
     
+     public void setarStatusDosItensDoMemorando(String sStatus, String sNumemo) {
+        conn = conexao.conectar();
+        sql = "UPDATE TBLITENSMEMOTRANSFERIDOS SET status = '"+sStatus+"' WHERE numemo = '"+sNumemo+"' ";
+        conexao.ExecutarAtualizacaoSQL(sql);
+        try {
+            //JOptionPane.showMessageDialog(null, "Status atualizados com sucesso!");            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível reativar o registro!\nErro:" + e + ", o sql passado foi \n" + sql);
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
+    public ArrayList<String> getDadosMemorando(String pNumemo)
+    {
+//        txtORIGEM.setText("CGGM/INFO");
+//        txtDESTINO.setText("BAIXA");
+//        txtASSUNTO.setText("BAIXA DE EQUIPAMENTOS INSERVIVEIS");
+//        txtOBSERVACAO.setText("Todos os equipamentos foram dados como inserviveis."); 
+        
+        conn = conexao.conectar();
+        sql = "SELECT i.numemo, i.origem, i.destino, m.assunto, m.observacao FROM TBLITENSMEMOTRANSFERIDOS i, TBLMEMOSTRANSFERIDOS m WHERE i.numemo=m.numemo AND m.numemo = '"+pNumemo+"' ";
+        conexao.ExecutarPesquisaSQL(sql);
+        
+        ArrayList listaDados = new ArrayList();        
+        
+        try {
+            if (conexao.rs.next()) {
+                listaDados.add(conexao.rs.getString("numemo"));
+                listaDados.add(conexao.rs.getString("origem"));
+                listaDados.add(conexao.rs.getString("destino"));
+                listaDados.add(conexao.rs.getString("assunto")); 
+                listaDados.add(conexao.rs.getString("observacao"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar carregar os dados do memorando selecionado! " + ex);
+        } finally {
+            conexao.desconectar();
+        }     
+        return listaDados;
+    }
+
     public void excluirMemorandoSemItens()
     {
         String numemo = getMemorandoSemItens();
@@ -2960,6 +3040,25 @@ public class MetodosPublicos {
         
     }
     
+    public int getQdeRegsPeloStatus(String tabela, String pStatus){
+        conexao.conectar();
+        try
+        {             
+            sql = "SELECT COUNT(*) FROM "+tabela+" WHERE status = '"+pStatus+"' ";             
+            conexao.ExecutarPesquisaSQL(sql);
+            
+            if (conexao.rs.next())
+            {                
+                totalRegs = conexao.rs.getInt(1);
+            }       
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando sql, \n"+e+", o sql passado foi \n"+sql); 
+        } finally {
+            conexao.desconectar();
+        }       
+        return totalRegs;
+    }
+    
     public Boolean itemExisteNasTabelas(String tabela1, String tabela2, String pCampo, String pValComparar){
                         
         /* 
@@ -3247,8 +3346,30 @@ public class MetodosPublicos {
 //            System.out.println(dado); 
 //        }
         return listarCodigos;
-    }   
+    }       
     
+    private ArrayList<String> ListarCodigosPelaSerie(String sSerie) {
+        //OBTENDO A LISTA COM OS OS CODIGOS DOS REGS COM CHAPAS VAZIAS E RETORNANDO EM UM ARRAYLIST
+        conexao.conectar();  
+        String sql1 = "select codigo from tblpatrimonios where serie = '"+sSerie+"' order by codigo";
+        conexao.ExecutarPesquisaSQL(sql1);
+
+        ArrayList listarCodigos = new ArrayList();
+
+        try {
+        while(conexao.rs.next()){
+             listarCodigos.add(conexao.rs.getString("codigo"));                                
+          }   
+        } catch (SQLException ex) {
+            Logger.getLogger(MetodosPublicos.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+
+//        for (Object dado : listarCodigos) {
+//            System.out.println(dado); 
+//        }
+        return listarCodigos;
+    }       
+        
     public ArrayList<String> ListarNumerosEstacoes(int numInicial, int numFinal) {
         
         //Retorna uma lista de numeros a partir de numero inicial e numero final entrados pelo usuário para exclusão de nomes de rede por intervalo solicitado

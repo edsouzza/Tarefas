@@ -5,9 +5,12 @@ import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
 import biblioteca.SomenteNumeros;
 import biblioteca.TudoMaiusculas;
+import biblioteca.VariaveisPublicas;
+import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.numemoParaEditarObs;
 import static biblioteca.VariaveisPublicas.numemoParaImprimir;
+import static biblioteca.VariaveisPublicas.tabela;
 import conexao.ConnConexao;
 import java.awt.Color;
 import java.awt.Font;
@@ -33,8 +36,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     CtrlPatriItenstransferido      umCtrlPatrItemTranferido     = new CtrlPatriItenstransferido();
     CtrlPatriTransferido           umCtrlPatriTranferido        = new CtrlPatriTransferido();
     PatriTransferido               umModPatriTransferido        = new PatriTransferido();
-    
-    //String sqlDinamica  = "SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' ORDER BY RIGHT('000000000000' || m.numemo, 12), m.datacad";  
+        
     String sqlDinamica  = "SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino, m.assunto FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' ORDER BY m.codigo";  
     String numemo;    
     int icodigo, codExc = 0;
@@ -51,6 +53,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         umabiblio.configurarBotoes(btnExluir);
         umabiblio.configurarBotoes(btnSair);
         umabiblio.configurarBotoes(btnEditarObservacao);
+        umabiblio.configurarBotoes(btnEditarMemorando);
                
         //cofigurações das tabelas
         jTabela.setFont(new Font("TimesRoman",Font.BOLD,12));
@@ -87,6 +90,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         btnImprimir = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnEditarObservacao = new javax.swing.JButton();
+        btnEditarMemorando = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -217,20 +221,34 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
             }
         });
 
+        btnEditarMemorando.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnEditarMemorando.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
+        btnEditarMemorando.setText("Editar Memorando");
+        btnEditarMemorando.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditarMemorando.setEnabled(false);
+        btnEditarMemorando.setPreferredSize(new java.awt.Dimension(77, 25));
+        btnEditarMemorando.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarMemorandoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnExluir, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnExluir, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEditarObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                .addGap(2, 2, 2))
+                .addComponent(btnEditarObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditarMemorando, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +258,8 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
                     .addComponent(btnExluir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditarObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarMemorando, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -250,7 +269,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 841, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -278,9 +297,10 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         
         btnImprimir          .setEnabled(true);
         btnEditarObservacao  .setEnabled(true);
-        btnExluir            .setEnabled(true);     
+        btnExluir            .setEnabled(true);  
+        btnEditarMemorando   .setEnabled(true);
         btnExluir            .setToolTipText("Excluir memorando selecionado");
-        btnImprimir          .setToolTipText("Imprimir memorando selecionado");
+        btnImprimir          .setToolTipText("Imprimir memorando selecionado");   
         
     }//GEN-LAST:event_jTabelaMouseClicked
     
@@ -355,6 +375,19 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         btnEditarObservacao.setEnabled(false);
         btnExluir.setEnabled(false);
     }//GEN-LAST:event_btnEditarObservacaoActionPerformed
+
+    private void btnEditarMemorandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarMemorandoActionPerformed
+        //Converter status de todos os itens do memorando selecionado para 'PROCESSANDO'        
+        String numemoParaEditar = numemoParaImprimir;        
+        umMetodo.setarStatusDosItensDoMemorando("PROCESSANDO", numemoParaEditar);
+        
+        if(umabiblio.permissaoLiberada()){       
+            tabela = "TBLITENSMEMOTRANSFERIDOS";   
+            F_EDITARMEMOITENSTRANSFERIDOS frm = new F_EDITARMEMOITENSTRANSFERIDOS();
+            frm.setVisible(true);             
+        }
+        dispose();
+    }//GEN-LAST:event_btnEditarMemorandoActionPerformed
     
     public void PreencherTabela(String sql)
     {
@@ -403,6 +436,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
  
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditarMemorando;
     private javax.swing.JButton btnEditarObservacao;
     private javax.swing.JButton btnExluir;
     private javax.swing.JButton btnImprimir;
