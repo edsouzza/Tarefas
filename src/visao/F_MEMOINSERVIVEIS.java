@@ -16,6 +16,7 @@ import static biblioteca.VariaveisPublicas.anoVigente;
 import biblioteca.ModeloTabela;
 import biblioteca.SomenteNumeros;
 import static biblioteca.VariaveisPublicas.codigoUsuario;
+import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.lstListaInteiros;
 import static biblioteca.VariaveisPublicas.valorItem;
 import conexao.ConnConexao;
@@ -365,6 +366,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         
         numMemoTransferido = "";
         mostrouForm = false;
+        editandoMemorando = false;
         valorItem = 0;
         controlenaveg = 0;
         lstListaInteiros.clear();

@@ -295,12 +295,10 @@ public class F_LISTAPATRIMONIOS extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Este patrimônio já esta inserido neste memorando!","Atenção duplicidade de patrimônio!",2);
             valorItem--;            
         }else{
-            //gravar registro na tabela TBLITENSMEMOTRANSFERIDOS
-            JOptionPane.showMessageDialog(null, "valllor item "+valorItem);  
+            //gravar registro na tabela TBLITENSMEMOTRANSFERIDOS 
             if(!editandoMemorando){
                 gravarRegistro();
-            }
-            
+            }            
         }  
         
         dispose();

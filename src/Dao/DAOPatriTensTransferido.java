@@ -111,7 +111,7 @@ public class DAOPatriTensTransferido {
             conexao.desconectar();
        }        
     } 
-    
+            
     public boolean excluirItensDoMemoSelecionadoDAO(String pNumemo)
     {
         //Exluir todos os ítem do memorando selecionado

@@ -1376,7 +1376,6 @@ public class MetodosPublicos {
             } else {
                 return 0;
             }
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao mostrar o último código! " + ex);
             return 0;
@@ -1544,6 +1543,38 @@ public class MetodosPublicos {
     {
         conn = conexao.conectar();
         sql = "DELETE FROM TBLITENSMEMOTRANSFERIDOS WHERE numemo = '"+sNumemo+"' ";
+        conexao.ExecutarAtualizacaoSQL(sql);
+        try {
+            //JOptionPane.showMessageDialog(null, "Memorando excluído com sucesso!");            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o memorando!\nErro:" + e + ", o sql passado foi \n" + sql);
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
+    public boolean excluirItemDoMemoAtualPeloCodigo(int pCod)
+    {
+        //Excluir o ítem selecionado do memorando em curso
+        try
+        {            
+            conexao.conectar();            
+            sql = "DELETE FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo = "+pCod+"";           
+            conexao.ExecutarAtualizacaoSQL(sql);         
+            return true;
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o registro, \n"+e+", o sql passado foi \n"+sql);
+            return false;
+       } finally {
+            conexao.desconectar();
+       }        
+    } 
+    
+    public void deletarItensDoMemorandoPeloCodigo(int iCod)
+    {
+        conn = conexao.conectar();
+        sql = "DELETE FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo = '"+iCod+"' ";
         conexao.ExecutarAtualizacaoSQL(sql);
         try {
             //JOptionPane.showMessageDialog(null, "Memorando excluído com sucesso!");            

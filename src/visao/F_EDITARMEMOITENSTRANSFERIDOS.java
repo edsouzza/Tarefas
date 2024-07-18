@@ -4,7 +4,6 @@ import Dao.DAOPatriTensTransferido;
 import Dao.DAOPatrimonio;
 import biblioteca.Biblioteca;
 import biblioteca.MetodosPublicos;
-import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.controlenaveg;
 import static biblioteca.VariaveisPublicas.patriDeptos;
 import biblioteca.ModeloTabela;
@@ -18,6 +17,7 @@ import static biblioteca.VariaveisPublicas.origemMemorando;
 import static biblioteca.VariaveisPublicas.chapaRetornada;
 import static biblioteca.VariaveisPublicas.codModeloRetornado;
 import static biblioteca.VariaveisPublicas.editandoMemorando;
+import static biblioteca.VariaveisPublicas.numemoParaEditar;
 import static biblioteca.VariaveisPublicas.valorItem;
 import conexao.ConnConexao;
 import java.awt.AWTKeyStroke;
@@ -56,10 +56,11 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     
     String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' ORDER BY i.item";  
-    String observacao, numemoinicial, numemoParaEditar, destinoMemo, sNumemo, sStatus;
+    String observacao, numemoinicial, destinoMemo, sNumemo, sStatus;
     int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;
     boolean mostrouForm, adicionouItem;
-    ArrayList listaDados = new ArrayList();
+    ArrayList listaDados           = new ArrayList();
+    ArrayList<Integer>listaCodigos = new ArrayList();
     
     public F_EDITARMEMOITENSTRANSFERIDOS() {
         initComponents();
@@ -367,7 +368,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         editandoMemorando = true;
         controlenaveg     = 0;
         valorItem         = umMetodo.getQdeRegsPeloStatus("TBLITENSMEMOTRANSFERIDOS", "PROCESSANDO"); 
-        JOptionPane.showMessageDialog(rootPane, valorItem);
+        //JOptionPane.showMessageDialog(rootPane, "Valor do Item = "+valorItem);
     }
     
     private void atualizarStatusDosItens(){
@@ -378,12 +379,15 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             umMetodo.setarStatusDosItensDoMemorando("TRANSFERIDO", numemoParaEditar);  
         }else{
             umMetodo.setarStatusDosItensDoMemorando("BAIXADO", numemoParaEditar);  
-        }  
-        editandoMemorando = false;
+        }          
     }
         
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        atualizarStatusDosItens();   
+        if(adicionouItem){
+           deletarItensAdicionadosAoMemorando();  
+        }else{
+           atualizarStatusDosItens();               
+        }
         dispose();        
     }//GEN-LAST:event_btnSairActionPerformed
 
@@ -407,7 +411,8 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
         umCtrlPatrItemTranferido.salvarPatriItensTransferido(umModPatrItensTransferido);
         umGravarLog.gravarLog("Adição de itens ao memorando de transferencia "+sNumemo);
-        adicionouItem = true;        
+        adicionouItem = true;     
+        
     }
         
     
@@ -421,8 +426,16 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         if(umabiblio.duplicidadeDeCadastroMemo("TBLITENSMEMOTRANSFERIDOS", "serie", serieRetornada)){    
         //Mostra msg de duplicidade    
         }else{
-            //grava registro do item na tabela TBLITENSMEMOTRANSFERIDOS        
+            //grava registro do item na tabela TBLITENSMEMOTRANSFERIDOS   
             gravarItemNaTabeala();
+            
+            int ultimoCod = umMetodo.mostrarUltimoCodigo("TBLITENSMEMOTRANSFERIDOS");
+            listaCodigos.add(ultimoCod);
+            
+//            for (Object dado : listaCodigos) {
+//                System.out.println(dado); 
+//            }
+
         }                  
         
         PreencherTabela(sqlPatriCGGM);         
@@ -450,28 +463,42 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTabelaMouseClicked
             
+    private void selecionarTipoDeRelatorio(){
+        //Se for normal ou de baixa
+        numemoParaEditar = txtNUMEMO.getText();
+        destinoMemo      = umMetodo.getDestinoMemorando(numemoParaEditar);
+        if(!destinoMemo.equals("BAIXA"))
+        {
+            umMetodo.setarStatusDosItensDoMemorando("TRANSFERIDO", numemoParaEditar);  
+        }else{
+            umMetodo.setarStatusDosItensDoMemorando("BAIXADO", numemoParaEditar);  
+        }  
+       
+    }
        
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         /*IMPRIMINDO RELATORIO DOS PATRIMONIOS TRANSFERIDOS VERIFICANDO SE O ARQUIVO EXISTE RETORNA TRUE/FALSE
         System.out.println(new File("relatorio/relmemotransferidos.jasper").exists()); */      
-        
-//        numemoParaEditar = txtNUMEMO.getText();
-//        JOptionPane.showMessageDialog(rootPane, "NUMEMO : "+numemoParaEditar);
-//        
-//        destinoMemo      = umMetodo.getDestinoMemorando(numemoParaEditar);
-//        JOptionPane.showMessageDialog(rootPane, "DESTINO : "+destinoMemo);        
-//        
-//        if(!destinoMemo.equals("BAIXA"))
-//        {
-//            umMetodo.atualizarStatusParaTransferidos(numemoParaEditar);     
-//        }else{
-//            umMetodo.atualizarStatusParaBaixados(numemoParaEditar);     
-//        }       
+   
         atualizarStatusDosItens(); 
         
         GerarRelatorios objRel = new GerarRelatorios();
         try {
-            objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numemoParaEditar);
+            
+            //Se for normal ou de baixa
+            numemoParaEditar  = txtNUMEMO.getText();
+            destinoMemo       = umMetodo.getDestinoMemorando(numemoParaEditar);
+//            editandoMemorando = true;
+            
+            if(!destinoMemo.equals("BAIXA"))
+            {
+                objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numemoParaEditar); 
+            }else{
+                F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
+                frm.setVisible(true); 
+            }  
+                    
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }    
@@ -487,25 +514,26 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             int iCod = Integer.parseInt(pCod);
             umMetodo.inativarRegistrosPeloCodigo(iCod);
         } 
-    
+        
         //Sair do formulario ao termino da impressao
         dispose();             
         
     }//GEN-LAST:event_btnImprimirActionPerformed
     
-    
-    private void btnExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirItemActionPerformed
-        //EXCLUINDO ITEM DO MEMO ATUAL
+    private void ExcluirItemPeloCodigo()
+    {
+        //EXCLUINDO ITEM DO MEMO ATUAL PELO CODIGO
         ArrayList<Integer> lstListaItens = new ArrayList<>();
         
+        numemoParaEditar = txtNUMEMO.getText();
         String message = "Confirma a exclusão do ítem "+codItem+" do memorando em curso?";
         String title   = "Confirmação de Exclusão";
         //Exibe caixa de dialogo (veja figura) solicitando confirmação ou não. 
         //Se o usuário clicar em "Sim" retorna 0 pra variavel reply, se informado não retorna 1
         int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.YES_OPTION) 
-        {            
-            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem, numMemoTransferido))
+        {             
+            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem, numemoParaEditar))
             {
                 JOptionPane.showMessageDialog(null, "Ítem "+codItem+" foi excluído com sucesso do memorando atual!");
                 
@@ -542,18 +570,33 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             
         btnExcluirItem.setEnabled(false);   
         
+    }
+    
+    private void btnExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirItemActionPerformed
+       ExcluirItemPeloCodigo();
     }//GEN-LAST:event_btnExcluirItemActionPerformed
 
     private void txtDESTINOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDESTINOMouseClicked
         txtDESTINO.selectAll();
     }//GEN-LAST:event_txtDESTINOMouseClicked
 
+    private void deletarItensAdicionadosAoMemorando()
+    {
+        int totalRegs = listaCodigos.size();
+        
+        for(int i=0; i < totalRegs; i++){
+            int pCod = listaCodigos.get(i);
+            umMetodo.deletarItensDoMemorandoPeloCodigo(pCod);
+        } 
+        atualizarStatusDosItens();
+    }
+    
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //Mensagem de confirmação se deseja sair e cancelar a operação
         if(umabiblio.ConfirmouOperacao("Tem certeza que deseja sair e cancelar a operação?", "Saindo da Edição do Memorando "+txtNUMEMO.getText())){
             umGravarLog.gravarLog("cancelando edicao do memorando "+txtNUMEMO.getText());
             //Se adicionou itens devera exclui-los da tabela TBLITENSMEMOTRANSFERIDOS
-            //exluirItensdatabela
+            deletarItensAdicionadosAoMemorando();            
             dispose();
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
