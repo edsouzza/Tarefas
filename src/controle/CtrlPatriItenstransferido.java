@@ -21,9 +21,9 @@ public class CtrlPatriItenstransferido
         return new DAOPatriTensTransferido().excluirItensProcessandoDAO();
     }
     
-     public boolean excluirItemDoMemoAtual(int pCodItem, String pNumemo)
+     public boolean excluirItemDoMemoAtual(int pCodItem)
     {
-        return new DAOPatriTensTransferido().excluirItemDoMemoAtualDAO(pCodItem, pNumemo);        
+        return new DAOPatriTensTransferido().excluirItemDoMemoAtualDAO(pCodItem);        
     }
     
     public boolean excluirItensDoMemoSelecionado(String pNumemo)
@@ -36,9 +36,9 @@ public class CtrlPatriItenstransferido
         return new DAOPatriTensTransferido().memoAtualTemItensDAO();
     }
     
-    public boolean atualizarValorDosItensAposExclusao(int pItem)
+    public boolean atualizarValorDosItensAposExclusao(int pItem, String pNumemo)
     {
-        return new DAOPatriTensTransferido().atualizarValorDosItensAposExclusaoDAO(pItem);
+        return new DAOPatriTensTransferido().atualizarValorDosItensAposExclusaoDAO(pItem, pNumemo);
     }
               
 }

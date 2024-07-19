@@ -148,8 +148,8 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuEtiquetasColetivas = new javax.swing.JMenuItem();
         mnuMemoDevolucao = new javax.swing.JMenuItem();
         mnuMemoTransferencia = new javax.swing.JMenuItem();
-        mnuImprimirMemosTransferencia = new javax.swing.JMenuItem();
         mnuMemoInserviveis = new javax.swing.JMenuItem();
+        mnuImprimirMemosTransferencia = new javax.swing.JMenuItem();
         mnuTarefas = new javax.swing.JMenu();
         mnuMEMORANDOS = new javax.swing.JMenu();
         mnuCONFIGURACOES = new javax.swing.JMenu();
@@ -645,7 +645,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
         mnuMemoTransferencia.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.CTRL_MASK));
         mnuMemoTransferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_blocoNotas.gif"))); // NOI18N
-        mnuMemoTransferencia.setText("GERAR MEMO TRANSFERENCIA");
+        mnuMemoTransferencia.setText("GERAR MEMO ENCAMINHAMENTO");
         mnuMemoTransferencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         mnuMemoTransferencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -653,17 +653,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuImpressoes.add(mnuMemoTransferencia);
-
-        mnuImprimirMemosTransferencia.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, java.awt.event.InputEvent.CTRL_MASK));
-        mnuImprimirMemosTransferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
-        mnuImprimirMemosTransferencia.setText("LISTAR IMPRIMIR MEMORANDOS");
-        mnuImprimirMemosTransferencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        mnuImprimirMemosTransferencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuImprimirMemosTransferenciaActionPerformed(evt);
-            }
-        });
-        menuImpressoes.add(mnuImprimirMemosTransferencia);
 
         mnuMemoInserviveis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuMemoInserviveis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_calculadora.gif"))); // NOI18N
@@ -675,6 +664,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuImpressoes.add(mnuMemoInserviveis);
+
+        mnuImprimirMemosTransferencia.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, java.awt.event.InputEvent.CTRL_MASK));
+        mnuImprimirMemosTransferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
+        mnuImprimirMemosTransferencia.setText("LISTAR E IMPRIMIR OS MEMORANDOS");
+        mnuImprimirMemosTransferencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuImprimirMemosTransferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuImprimirMemosTransferenciaActionPerformed(evt);
+            }
+        });
+        menuImpressoes.add(mnuImprimirMemosTransferencia);
 
         jMenuBar1.add(menuImpressoes);
 

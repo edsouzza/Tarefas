@@ -10,7 +10,6 @@ import biblioteca.Biblioteca;
 import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
 import biblioteca.TudoMaiusculas;
-import biblioteca.VariaveisPublicas;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.codigoPatrimonio;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;

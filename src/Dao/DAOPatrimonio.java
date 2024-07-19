@@ -928,19 +928,7 @@ public class DAOPatrimonio {
                 conexao.desconectar();
                 //return false;
             }           
-    }
-    
-    public void ReativarPatrimonioPeloMemorandoDAO(String pNumemo){
-        //SE NAO FOR CPU        
-        int totalregs = lstListaGenerica.size();
-        
-        for(int i=0; i<totalregs;i++)
-        {
-            int pCod       = Integer.valueOf(lstListaGenerica.get(i));       
-            gravarUpdateMemosRecebimento(pCod,pNumemo);
-        }
-        /*DAR ENTRADA DOS PATRIMONIOS NA CGGM/INFO secaoid = 30 clienteid = 202  deptoid = 6 => Se for micro estacao = PGMCGGMC000 => */
-    }        
+    }             
          
     public void InativarPatrimonioPeloMemorandoDAO(String pNumemo){
         //SE NAO FOR CPU        
@@ -952,7 +940,19 @@ public class DAOPatrimonio {
             gravarUpdateMemos(pCod,pNumemo);
         }        
     }         
-
+    
+      public void ReativarPatrimonioPeloMemorandoDAO(String pNumemo){
+        //SE NAO FOR CPU        
+        int totalregs = lstListaGenerica.size();
+        
+        for(int i=0; i<totalregs;i++)
+        {
+            int pCod       = Integer.valueOf(lstListaGenerica.get(i));       
+            gravarUpdateMemosRecebimento(pCod,pNumemo);
+        }
+        /*DAR ENTRADA DOS PATRIMONIOS NA CGGM/INFO secaoid = 30 clienteid = 202  deptoid = 6 => Se for micro estacao = PGMCGGMC000 => */
+    } 
+      
     public void gravarUpdateMemosRecebimento(int pCod, String numemo){
         //Grava atualizacao do equipamento transferido pelo codigo
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

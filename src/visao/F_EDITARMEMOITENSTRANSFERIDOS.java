@@ -57,7 +57,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' ORDER BY i.item";  
     String observacao, numemoinicial, destinoMemo, sNumemo, sStatus;
-    int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;
+    int icodigo, codExc, codItem, Item, TotalItens, codigoPatri = 0;
     boolean mostrouForm, adicionouItem;
     ArrayList listaDados           = new ArrayList();
     ArrayList<Integer>listaCodigos = new ArrayList();
@@ -244,10 +244,6 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -278,29 +274,34 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(txtOBSERVACAO)))
+                    .addComponent(txtOBSERVACAO)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1012, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -329,10 +330,10 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1040, 804));
+        setSize(new java.awt.Dimension(1040, 824));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
         
@@ -383,12 +384,15 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     }
         
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        
+        umGravarLog.gravarLog("cancelando edição do memorando "+txtNUMEMO.getText());            
         if(adicionouItem){
            deletarItensAdicionadosAoMemorando();  
         }else{
            atualizarStatusDosItens();               
         }
-        dispose();        
+        dispose();     
+       
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void gravarItemNaTabeala() 
@@ -440,8 +444,8 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
         PreencherTabela(sqlPatriCGGM);         
                 
-        btnSair.setEnabled(true);   
-        btnExcluirItem.setEnabled(true);       
+        btnSair.setEnabled(false);   
+        btnExcluirItem.setEnabled(false);       
         controlenaveg=0;                
     }
     
@@ -454,6 +458,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
         //AO CLICAR EM UM REGISTRO DA TABELA MOSTRAR OS DADOS NOS EDITS
         codItem = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0); 
+        Item    = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 1); 
         //JOptionPane.showMessageDialog(null, "CODIGO DO ÍTEM SELECIONADO...: "+codItem); 
         
         btnImprimir      .setEnabled(false);
@@ -526,16 +531,16 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         ArrayList<Integer> lstListaItens = new ArrayList<>();
         
         numemoParaEditar = txtNUMEMO.getText();
-        String message = "Confirma a exclusão do ítem "+codItem+" do memorando em curso?";
+        String message = "Confirma a exclusão do ítem com código "+codItem+" do memorando em curso?";
         String title   = "Confirmação de Exclusão";
         //Exibe caixa de dialogo (veja figura) solicitando confirmação ou não. 
         //Se o usuário clicar em "Sim" retorna 0 pra variavel reply, se informado não retorna 1
         int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.YES_OPTION) 
         {             
-            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem, numemoParaEditar))
+            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem))
             {
-                JOptionPane.showMessageDialog(null, "Ítem "+codItem+" foi excluído com sucesso do memorando atual!");
+                JOptionPane.showMessageDialog(null, "Ítem com código "+codItem+" foi excluído com sucesso do memorando atual!");
                 
                 //Reorganizar os numeros dos ítens e depois mostrar com PreencherTabela(sqlDinamica)
                 valorItem--;
@@ -551,7 +556,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
 //                    JOptionPane.showMessageDialog(null, "O total atual de itens após a exclusão é : "+lstListaGenerica.size());
                                        
                     //atualizar o valor do item
-                    umCtrlPatrItemTranferido.atualizarValorDosItensAposExclusao(codItem);
+                    umCtrlPatrItemTranferido.atualizarValorDosItensAposExclusao(Item, numemoParaEditar);
                     btnAdicionar.setEnabled(true);
                     btnImprimir.setEnabled(true);
                                         
@@ -569,7 +574,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         }            
             
         btnExcluirItem.setEnabled(false);   
-        
+        btnSair.setEnabled(false);
     }
     
     private void btnExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirItemActionPerformed
@@ -593,7 +598,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //Mensagem de confirmação se deseja sair e cancelar a operação
-        if(umabiblio.ConfirmouOperacao("Tem certeza que deseja sair e cancelar a operação?", "Saindo da Edição do Memorando "+txtNUMEMO.getText())){
+        if(umabiblio.ConfirmouOperacao("Tem certeza que deseja sair e cancelar a operação,os dados não salvos serão perdidos?", "Saindo da Edição do Memorando "+txtNUMEMO.getText())){
             umGravarLog.gravarLog("cancelando edicao do memorando "+txtNUMEMO.getText());
             //Se adicionou itens devera exclui-los da tabela TBLITENSMEMOTRANSFERIDOS
             deletarItensAdicionadosAoMemorando();            
@@ -608,7 +613,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         conexao.conectar();
         ArrayList dados = new ArrayList();
         //para receber os dados das colunas(exibe os titulos das colunas)
-        Colunas = new String[]{"Ítem", "Descrição", "Série", "Chapa"};
+        Colunas = new String[]{"Cod.", "Ítem", "Descrição", "Série", "Chapa"};
         
         try {
             conexao.ExecutarPesquisaSQL(sql);
@@ -616,6 +621,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             if(!patriDeptos){
                 while (conexao.rs.next()) {
                         dados.add(new Object[]{
+                        conexao.rs.getInt("codigo"),
                         conexao.rs.getInt("item"),
                         conexao.rs.getString("modelo"),
                         conexao.rs.getString("serie"),
@@ -629,12 +635,14 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             //define tamanho das colunas   
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(50);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna      
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(630);  //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna        
-            jTabela.getColumnModel().getColumn(2).setPreferredWidth(150);  //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna    
+            jTabela.getColumnModel().getColumn(1).setPreferredWidth(50);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna      
+            jTabela.getColumnModel().getColumn(2).setPreferredWidth(600);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna        
             jTabela.getColumnModel().getColumn(3).setPreferredWidth(150);  //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna        
+            jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna    
+            jTabela.getColumnModel().getColumn(4).setPreferredWidth(150);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna        
               
             //define propriedades da tabela
             jTabela.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada

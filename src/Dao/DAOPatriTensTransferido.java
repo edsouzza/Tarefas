@@ -94,13 +94,13 @@ public class DAOPatriTensTransferido {
         }        
     }
     
-    public boolean excluirItemDoMemoAtualDAO(int pCodItem, String pNumemo)
+    public boolean excluirItemDoMemoAtualDAO(int pCodItem)
     {
         //Excluir o ítem selecionado do memorando em curso
         try
         {            
             conexao.conectar();            
-            sql = "DELETE FROM TBLITENSMEMOTRANSFERIDOS WHERE item = "+pCodItem+" AND numemo = '"+pNumemo+"'";           
+            sql = "DELETE FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo = "+pCodItem;           
             conexao.ExecutarAtualizacaoSQL(sql);         
             return true;
             
@@ -130,16 +130,16 @@ public class DAOPatriTensTransferido {
         }        
     }       
     
-    public boolean atualizarValorDosItensAposExclusaoDAO(int pItemExcluido)
+    public boolean atualizarValorDosItensAposExclusaoDAO(int pItemExcluido, String pNumemo)
     {
         /*Esta atualização refere-se aos ítens subsequentes ao ítem excluido, entao eu pego o valor do ítem excluido e somo+1 -> isso informa qual 
           será o primeiro ítem a ser atualizado Ex: se informa em pItemExcluido = 4 então o primeiro a ser alterado será o 5 com valor 5+1=6  e a
           parte da SQL que diz (item >= "+pItemUpdate+) informa que todos que forem > que o ítem 4 serão atualizados com + 1*/
-        int pItemUpdate = pItemExcluido+1;
+        int pItemForUpdate = pItemExcluido + 1;
         try
         {            
             conexao.conectar();            
-            sql = "UPDATE TBLITENSMEMOTRANSFERIDOS SET item = item-1 WHERE item >= "+pItemUpdate+"";            
+            sql = "UPDATE TBLITENSMEMOTRANSFERIDOS SET item = item-1 WHERE item >="+pItemForUpdate+" AND numemo = '"+pNumemo+"'";            
             conexao.ExecutarAtualizacaoSQL(sql);         
             return true;
             

@@ -58,8 +58,8 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status <> 'TRANSFERIDO' AND i.status <> 'BAIXADO' ORDER BY i.item";        
     String sqlVazia        = "SELECT codigo FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo < 1";  
-    String observacao, numemoinicial;
-    int icodigo, codExc, codItem, TotalItens, codigoPatri = 0;
+    String observacao;
+    int icodigo, codExc, codItem, Item, TotalItens, codigoPatri = 0;
     boolean mostrouForm;
     
     public F_MEMOITENSTRANSFERIDOS() {
@@ -384,12 +384,12 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         valorItem = 0;
         controlenaveg = 0;
         lstListaInteiros.clear();
-
+                
         //JOptionPane.showMessageDialog(null, "Próximo numemo = "+String.valueOf(umMetodo.gerarProximoNumeroMemoTransferir()));
         if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS")){
             txtNUMEMO.setText(String.valueOf(umMetodo.gerarProximoNumeroMemoTransferir()));               
         }else{
-            txtNUMEMO.setText("1");
+            txtNUMEMO.setText("1");            
         } 
         PreencherTabela(sqlVazia);
         txtORIGEM.requestFocus();
@@ -397,8 +397,10 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         //Exclui os itens se nao gerou relatorio
-        btnCancelarActionPerformed(null);
-        dispose();
+        umMetodo.deletarMemorandoSemItens(numMemoTransferido);
+        umMetodo.deletarItensDoMemorando(numMemoTransferido);        
+        Leitura();                 
+        dispose();           
     }//GEN-LAST:event_btnSairActionPerformed
         
     private void gravarMemorando(){
@@ -466,6 +468,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
         //AO CLICAR EM UM REGISTRO DA TABELA MOSTRAR OS DADOS NOS EDITS
         codItem = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0); 
+        Item    = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 1);         
         //JOptionPane.showMessageDialog(null, "CODIGO DO ÍTEM SELECIONADO...: "+codItem); 
         
         btnImprimir      .setEnabled(false);
@@ -528,9 +531,15 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        umMetodo.deletarMemorandoSemItens(numMemoTransferido);
-        umMetodo.deletarItensDoMemorando(numMemoTransferido);        
-        Leitura();
+        //Se memorando tiver itens com status PROCESSANDO      
+        
+        if(umabiblio.ConfirmouOperacao(" 55555 Tem certeza que deseja sair e cancelar a operação,os dados não salvos serão perdidos?", "Saindo do Memorando "+numMemoTransferido)){
+            umGravarLog.gravarLog("cancelando criacao do memorando "+numMemoTransferido);
+            umMetodo.deletarMemorandoSemItens(numMemoTransferido);
+            umMetodo.deletarItensDoMemorando(numMemoTransferido);        
+            Leitura();                 
+            dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
     
     
@@ -538,20 +547,20 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         //EXCLUINDO ITEM DO MEMO ATUAL
         ArrayList<Integer> lstListaItens = new ArrayList<>();
         
-        String message = "Confirma a exclusão do ítem "+codItem+" do memorando em curso?";
+        String message = "Confirma a exclusão do ítem com código "+codItem+" do memorando em curso?";
         String title   = "Confirmação de Exclusão";
         //Exibe caixa de dialogo (veja figura) solicitando confirmação ou não. 
         //Se o usuário clicar em "Sim" retorna 0 pra variavel reply, se informado não retorna 1
         int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.YES_OPTION) 
         {            
-            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem, numMemoTransferido))
+            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem))
             {
-                JOptionPane.showMessageDialog(null, "Ítem "+codItem+" foi excluído com sucesso do memorando atual!");
+                JOptionPane.showMessageDialog(null, "Ítem com código "+codItem+" foi excluído com sucesso do memorando atual!");
                 
                 //Reorganizar os numeros dos ítens e depois mostrar com PreencherTabela(sqlDinamica)
                 valorItem--;
-                //reorganizarListaDeItensDoMemorandoAposExclusao(codItem);
+                //umMetodo.reorganizarListaDeItensDoMemorandoAposExclusao(codItem);
                 
                 //Verificando se o memo atual ainda tem ítens apos a exclusao
                 lstListaItens = umDAOPatriItens.ListaItemsAposExclusao();
@@ -563,7 +572,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
 //                    JOptionPane.showMessageDialog(null, "O total atual de itens após a exclusão é : "+lstListaGenerica.size());
                                        
                     //atualizar o valor do item
-                    umCtrlPatrItemTranferido.atualizarValorDosItensAposExclusao(codItem);
+                    umCtrlPatrItemTranferido.atualizarValorDosItensAposExclusao(Item, numMemoTransferido);
                     btnAdicionar.setEnabled(true);
                     btnImprimir.setEnabled(true);
                                         
@@ -580,6 +589,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             btnAdicionar.setEnabled(true);
         }            
             
+        btnCancelar.setEnabled(true);   
         btnExcluirItem.setEnabled(false);   
         
     }//GEN-LAST:event_btnExcluirItemActionPerformed
@@ -611,14 +621,14 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtASSUNTOKeyPressed
     
-    public void PreencherTabela(String sql)
+     public void PreencherTabela(String sql)
     {
         String[] Colunas;
         
         conexao.conectar();
         ArrayList dados = new ArrayList();
         //para receber os dados das colunas(exibe os titulos das colunas)
-        Colunas = new String[]{"Ítem", "Descrição", "Série", "Chapa"};
+        Colunas = new String[]{"Cod.", "Ítem", "Descrição", "Série", "Chapa"};
         
         try {
             conexao.ExecutarPesquisaSQL(sql);
@@ -626,6 +636,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             if(!patriDeptos){
                 while (conexao.rs.next()) {
                         dados.add(new Object[]{
+                        conexao.rs.getInt("codigo"),
                         conexao.rs.getInt("item"),
                         conexao.rs.getString("modelo"),
                         conexao.rs.getString("serie"),
@@ -639,12 +650,14 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             //define tamanho das colunas   
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(50);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna      
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(650);  //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna        
-            jTabela.getColumnModel().getColumn(2).setPreferredWidth(150);  //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna    
+            jTabela.getColumnModel().getColumn(1).setPreferredWidth(50);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna      
+            jTabela.getColumnModel().getColumn(2).setPreferredWidth(600);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna        
             jTabela.getColumnModel().getColumn(3).setPreferredWidth(150);  //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna        
+            jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna    
+            jTabela.getColumnModel().getColumn(4).setPreferredWidth(150);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna        
               
             //define propriedades da tabela
             jTabela.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada
