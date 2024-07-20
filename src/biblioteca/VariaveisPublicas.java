@@ -24,7 +24,7 @@ public class VariaveisPublicas {
     public static String            mesVigente              = new SimpleDateFormat("MM").format(new Date(System.currentTimeMillis())); 
     public static String            anoVigente              = new SimpleDateFormat("yyyy").format(new Date(System.currentTimeMillis()));
      
-    public static boolean cadastrado,consultandoInativos,editando,clicouNaTabela,consultando,cadastrando,consultou,editandoRegistro,isDeContrato,alterouBanco,editandoNomeEstacaoReativada,alterouNomeRede,visualizandoInativos,enviando,acessoInicial,valorPesquisaTrue,gerarTxt,
+    public static boolean cadastrado,consultandoInativos,editando,clicouNaTabela,consultando,cadastrando,consultou,editandoRegistro,isDeContrato,alterouBanco,editandoNomeEstacaoReativada,alterouNomeRede,visualizandoInativos,enviando,acessoInicial,valorPesquisaTrue,gerarTxt,relPorDestino,
                           deConLicencaConsecutivas,result, selecionouCliente,regEncontrado,isUsuario,isImpressora,isMicro,isMonitor,isSwitch,isScanner,isNotebook,isGbit,reativando,alterouStatus,salvandoreativado,editandoNomeRede,patriDeptos,salvandoLote,cadPatriDeptos,imprimirPorModelo,
                           reativou, alterandonomestacao, editandoDisponiveis, cadastrandonomestacao,cadPatrimovel,cadastrandoEquipamento, reativandoEquipamento, cadastrandoEstacaoForaRede,confIni,naoTemModelo,userInformatica,naoTemEncerrado,gerouNumo,patriDevolucao, editandoMemorando = false;
     
@@ -32,7 +32,7 @@ public class VariaveisPublicas {
                       codigoRegSelecionado ,codigoDeptoSelecionado, totalRegs, contador, qdeColunas, codParaHistorico, codigoDepartamento, numeroEstacao, idDepto, novoNumeroEstacao, idUsuarioInativado, codigoNumemo, codTipoVirtual, codTipoSelecionado, codModeloRetornado = 0;
     
     public static String cejur_ou_pgm,tipoEquipamento,nomeBancoSetado,url,nomeBancoRelatorios,rfUsuario,nomeUsuario,tabela,oldRF,tabela_da_lista,nomestacaosubstituida,rangeEstacao,itemSelecionadoCadastro,statusLista,assuntoTransferido,numemoSelecionado,numemoParaEditar,
-                         TipoDocumento, TipoModelo, nomeUsuarioLogado, ipServidor, nomeDoBanco,sql,sqlCamposSelecionados,nomeEstacao,novaSenha,novonomestacao,nomestacaoinicial,origemTransferidos,origemMemorando,destinoMemorando,assuntoMemorando,obsMemorando,
+                         TipoDocumento, TipoModelo, nomeUsuarioLogado, ipServidor, nomeDoBanco,sql,sqlCamposSelecionados,nomeEstacao,novaSenha,novonomestacao,nomestacaoinicial,origemTransferidos,origemMemorando,destinoMemorando,assuntoMemorando,obsMemorando,relDestinoMemo,
                          nomeBanco,nomeCliente,nomeDepartamento,nomePadrao,nomeEstacaoSelecionada,nomeSecao,nomeRelatorio,nomePDF,rfCliente,numemoParaImprimir,numemoParaEditarObs,nomeEstacaoTransferida,anoDoUltimoMemo,serieRetornada,chapaRetornada,
                          status,paramPesquisa,serieEquipamento,numMemoTransferido,destinoTransferidos,entidadeInativa,origemPatrTransferido,deptobiblio,origemDevolucao,motivoInicial = null; 
     

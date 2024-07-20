@@ -1,6 +1,8 @@
 package visao;
 
 import static biblioteca.VariaveisPublicas.numemoParaImprimir;
+import static biblioteca.VariaveisPublicas.relPorDestino;
+import static biblioteca.VariaveisPublicas.relDestinoMemo;
 import javax.swing.JOptionPane;
 import relatorios.GerarRelatorios;
 
@@ -53,9 +55,13 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImprimirSemChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirSemChapaActionPerformed
-         GerarRelatorios objRel = new GerarRelatorios();
+        GerarRelatorios objRel = new GerarRelatorios();
         try { 
-            objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidosemchapa.jasper", numemoParaImprimir);
+            if(relPorDestino && relDestinoMemo.equals("BAIXA")){
+               objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numemoParaImprimir);     
+            }else{
+               objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidosemchapa.jasper", numemoParaImprimir);                
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }    
@@ -64,8 +70,13 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
 
     private void btnImprimirComChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirComChapaActionPerformed
         GerarRelatorios objRel = new GerarRelatorios();
-        try {            
-            objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidocomchapa.jasper", numemoParaImprimir);
+        try {    
+            if(relPorDestino && relDestinoMemo.equals("BAIXA")){
+               objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numemoParaImprimir);     
+            }else{
+               objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidocomchapa.jasper", numemoParaImprimir);              
+                
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }             

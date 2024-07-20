@@ -5,11 +5,11 @@ import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
 import biblioteca.SomenteNumeros;
 import biblioteca.TudoMaiusculas;
-import biblioteca.VariaveisPublicas;
-import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.numemoParaEditarObs;
 import static biblioteca.VariaveisPublicas.numemoParaImprimir;
+import static biblioteca.VariaveisPublicas.relPorDestino;
+import static biblioteca.VariaveisPublicas.relDestinoMemo;
 import static biblioteca.VariaveisPublicas.tabela;
 import conexao.ConnConexao;
 import java.awt.Color;
@@ -38,7 +38,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     PatriTransferido               umModPatriTransferido        = new PatriTransferido();
         
     String sqlDinamica  = "SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino, m.assunto FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' ORDER BY m.codigo";  
-    String numemo;    
+    String numemo, sDestino;    
     int icodigo, codExc = 0;
     
     public F_LISTAMEMOSTRANSFERIDOS() {
@@ -294,6 +294,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         icodigo              = (int)jTabela.getValueAt(jTabela.getSelectedRow(), 0);
         numemoParaImprimir   = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 1);
         numemoParaEditarObs  = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 1);
+        relDestinoMemo       = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 3);        
         
         btnImprimir          .setEnabled(true);
         btnEditarObservacao  .setEnabled(true);
@@ -341,18 +342,19 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         btnImprimir.setEnabled(false);
         btnEditarObservacao.setEnabled(false);
         btnSair.setEnabled(true);         
-        PreencherTabela(sqlDinamica);                
-         
+        PreencherTabela(sqlDinamica);        
+        
     }
     
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-                    
+       //relPorDestino é uma variavel que controle de onde esta sendo solicitado o relatorio que no caso é da Lista de Memorandos cadastrados, mas pode vir tambem da 
+       relPorDestino = true; 
        F_ESCOLHAIMPRESSAO frm = new F_ESCOLHAIMPRESSAO();
        frm.setVisible(true);
               
-        umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir);
-        Leitura();
-        
+       umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir);
+       Leitura();
+       
     }//GEN-LAST:event_btnImprimirActionPerformed
     
     public void limparCampos() {

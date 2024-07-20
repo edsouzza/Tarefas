@@ -474,7 +474,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         txtDESTINO.requestFocus(); //devolvendo o foco ao txtDESTINO logo apos a emissao do relatorio caso queira fazer outro memorando
      
         gravarMemorando();
-        
+        editandoMemorando = false;
         //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
         //umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
 
@@ -599,7 +599,7 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna      
             jTabela.getColumnModel().getColumn(1).setPreferredWidth(50);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna      
-            jTabela.getColumnModel().getColumn(2).setPreferredWidth(600);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(2).setPreferredWidth(550);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna        
             jTabela.getColumnModel().getColumn(3).setPreferredWidth(150);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna    
