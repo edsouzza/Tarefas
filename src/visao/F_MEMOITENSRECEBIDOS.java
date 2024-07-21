@@ -448,7 +448,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                 
         GerarRelatorios objRel = new GerarRelatorios();
         try {
-            objRel.imprimirPatrimoniosTransferidos("relatorio/relmemorecebidos.jasper", numMemoTransferido);
+            objRel.imprimirPatrimoniosTransferidos("relatorio/relmemodevolucaocomchapa.jasper", numMemoTransferido);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }    
