@@ -18,6 +18,8 @@ import static biblioteca.VariaveisPublicas.chapaRetornada;
 import static biblioteca.VariaveisPublicas.codModeloRetornado;
 import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.numemoParaEditar;
+import static biblioteca.VariaveisPublicas.relAssuntoMemo;
+import static biblioteca.VariaveisPublicas.relPorAssunto;
 import static biblioteca.VariaveisPublicas.valorItem;
 import conexao.ConnConexao;
 import java.awt.AWTKeyStroke;
@@ -484,25 +486,31 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         /*IMPRIMINDO RELATORIO DOS PATRIMONIOS TRANSFERIDOS VERIFICANDO SE O ARQUIVO EXISTE RETORNA TRUE/FALSE
         System.out.println(new File("relatorio/relmemotransferidos.jasper").exists()); */      
-   
+        relAssuntoMemo    = txtASSUNTO.getText();
+        if(relAssuntoMemo.equals("DEVOLUCAO DE EQUIPAMENTOSA")){
+            relPorAssunto = true;    
+        }
         atualizarStatusDosItens(); 
         
         GerarRelatorios objRel = new GerarRelatorios();
         try {
             
             //Se for normal ou de baixa
+            
             numemoParaEditar  = txtNUMEMO.getText();
             destinoMemo       = umMetodo.getDestinoMemorando(numemoParaEditar);
-//            editandoMemorando = true;
             
-            if(!destinoMemo.equals("BAIXA"))
+            if(!destinoMemo.equals("BAIXA") && (!relPorAssunto))
             {
                 objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numemoParaEditar); 
-            }else{
+            }else if(destinoMemo.equals("BAIXA")){
                 F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
                 frm.setVisible(true); 
-            }  
-                    
+            }else if(relAssuntoMemo.equals("DEVOLUCAO DE EQUIPAMENTOS")){
+                F_ESCOLHAIMPRESSAODEVOLUCAO frm = new F_ESCOLHAIMPRESSAODEVOLUCAO();
+                frm.setVisible(true);
+                relPorAssunto = false;   
+            }
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
