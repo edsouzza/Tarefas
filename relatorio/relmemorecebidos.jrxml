@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2024-05-25T09:09:22 -->
+<!-- 2024-07-21T08:44:08 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TESTE" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c53ebc6-760c-4afc-b2c0-43ee711e05ca">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="adpSYSTAREFAS.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -34,9 +34,9 @@ i.codigo]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="352">
+		<band height="363">
 			<staticText>
-				<reportElement x="19" y="103" width="531" height="230" uuid="7203f321-8ec3-4fc3-8216-fcedb61c5d44"/>
+				<reportElement x="19" y="103" width="531" height="187" uuid="7203f321-8ec3-4fc3-8216-fcedb61c5d44"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
@@ -49,10 +49,7 @@ i.codigo]]>
 
  Á 
  CGGM/INFO
-
-Senhor(a) Responsável
-
-	   	Servimo-nos do presente para encaminhar a Vossa Senhoria os equipamentos                                abaixo discriminados:
+ Senhor(a) Responsável
 ]]></text>
 			</staticText>
 			<textField>
@@ -75,6 +72,20 @@ Senhor(a) Responsável
 				<reportElement x="10" y="-12" width="543" height="102" uuid="6ab57d10-7d63-482a-bde1-be8da37f6a55"/>
 				<imageExpression><![CDATA[$P{CABECALHO}]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="20" y="308" width="530" height="13" uuid="78d0504f-2991-43fe-864e-8cf35fb46d02"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ORIGEM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="323" width="530" height="38" uuid="161740a7-6094-46e7-b32a-f0cfe5ee1c11"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[A título de devolução encaminha a V.sa os equipamentos abaixo discriminados.]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>

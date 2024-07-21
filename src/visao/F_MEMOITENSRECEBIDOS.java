@@ -20,7 +20,6 @@ import static biblioteca.VariaveisPublicas.nomeCliente;
 import static biblioteca.VariaveisPublicas.patriDeptos;
 import static biblioteca.VariaveisPublicas.valorItem;
 import static biblioteca.VariaveisPublicas.patriDevolucao;
-import static biblioteca.VariaveisPublicas.rfCliente;
 import conexao.ConnConexao;
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
@@ -83,11 +82,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         //umabiblio.configurarCamposTextos(txtDESTINO);
         txtORIGEM.setFont(new Font("TimesRoman",Font.BOLD,16)); 
         txtORIGEM.setForeground(Color.red);        
-        txtORIGEM.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(30));                  
-        
-        txtASSUNTO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
-        txtASSUNTO.setForeground(Color.red);
-        txtASSUNTO.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(80));    
+        txtORIGEM.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(30));   
         
         txtOBSERVACAO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
         txtOBSERVACAO.setForeground(Color.red);
@@ -136,8 +131,6 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         txtORIGEM = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btnLISTARCLIENTES = new javax.swing.JButton();
-        txtASSUNTO = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -251,22 +244,6 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
             }
         });
 
-        txtASSUNTO.setForeground(new java.awt.Color(51, 51, 255));
-        txtASSUNTO.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtASSUNTOFocusLost(evt);
-            }
-        });
-        txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtASSUNTOKeyPressed(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel7.setText("ASSUNTO");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -295,16 +272,11 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(37, 37, 37)
-                                        .addComponent(jLabel7)
-                                        .addGap(0, 0, Short.MAX_VALUE))))))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtORIGEM))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane2))
                 .addGap(225, 225, 225))
         );
@@ -315,14 +287,12 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -347,10 +317,10 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1044, 804));
+        setSize(new java.awt.Dimension(1040, 804));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
             
@@ -365,7 +335,6 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         btnImprimir.setEnabled(false);
         btnExcluirItem.setEnabled(false);
         txtORIGEM.setEditable(false);
-        txtASSUNTO.setEditable(false);
         txtOBSERVACAO.setEditable(false);        
         btnSair.setEnabled(true);               
         numMemoTransferido = "";
@@ -397,7 +366,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();
         destinoTransferidos    = "CGGM/INFO";
-        assuntoTransferido     = txtASSUNTO.getText();
+        assuntoTransferido     = "DEVOLUCAO DE EQUIPAMENTOS";
         observacao             = txtOBSERVACAO.getText();
 
         /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
@@ -428,7 +397,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
           PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/                             
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
         origemTransferidos     = txtORIGEM.getText();
-        assuntoTransferido     = txtASSUNTO.getText();
+        assuntoTransferido     = "DEVOLUCAO DE EQUIPAMENTOS";
         destinoTransferidos    = "CGGM/INFO";
         patriDevolucao         = true;
 
@@ -571,12 +540,12 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
             texto = nomeCliente;  
        }
        txtORIGEM.setEditable(true);
-       txtASSUNTO.setEditable(true);
        txtOBSERVACAO.setEditable(true);        
+       txtOBSERVACAO.requestFocus();
        txtORIGEM.setText(texto);
-       selecionouUsuario = true;
-       
-       txtASSUNTO.requestFocus();
+       selecionouUsuario = true;    
+       btnCancelar.setEnabled(true);
+       btnAdicionar.setEnabled(true);
        
     }//GEN-LAST:event_btnLISTARCLIENTESActionPerformed
 
@@ -584,8 +553,8 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         if(selecionouUsuario){
             btnCancelar.setEnabled(true);
             btnAdicionar.setEnabled(true);
-            String rf    = rfCliente; 
-            txtOBSERVACAO.setText("devolvido por "+txtORIGEM.getText()+" D"+rf+" ");
+//            String rf    = rfCliente; 
+//            txtOBSERVACAO.setText("devolvido por "+txtORIGEM.getText()+" D"+rf+" ");
         }
     }//GEN-LAST:event_txtOBSERVACAOFocusGained
 
@@ -599,19 +568,9 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtOBSERVACAOMouseClicked
 
-    private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtOBSERVACAO.requestFocus();
-        }       
-    }//GEN-LAST:event_txtASSUNTOKeyPressed
-
     private void btnLISTARCLIENTESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLISTARCLIENTESMouseClicked
          txtOBSERVACAO.requestFocus();          
     }//GEN-LAST:event_btnLISTARCLIENTESMouseClicked
-
-    private void txtASSUNTOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtASSUNTOFocusLost
-        txtOBSERVACAO.requestFocus();       
-    }//GEN-LAST:event_txtASSUNTOFocusLost
     
      public void PreencherTabela(String sql)
     {
@@ -673,12 +632,10 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTabela;
-    private javax.swing.JTextField txtASSUNTO;
     private javax.swing.JTextField txtNUMEMO;
     private javax.swing.JTextField txtOBSERVACAO;
     private javax.swing.JTextField txtORIGEM;

@@ -8,8 +8,11 @@ import biblioteca.TudoMaiusculas;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.numemoParaEditarObs;
 import static biblioteca.VariaveisPublicas.numemoParaImprimir;
+import static biblioteca.VariaveisPublicas.relAssuntoMemo;
 import static biblioteca.VariaveisPublicas.relPorDestino;
+import static biblioteca.VariaveisPublicas.relPorAssunto;
 import static biblioteca.VariaveisPublicas.relDestinoMemo;
+import static biblioteca.VariaveisPublicas.relPorAssunto;
 import static biblioteca.VariaveisPublicas.tabela;
 import conexao.ConnConexao;
 import java.awt.Color;
@@ -24,6 +27,7 @@ import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
 import modelo.PatriTransferido;
+import relatorios.GerarRelatorios;
 
 
 public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
@@ -295,6 +299,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         numemoParaImprimir   = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 1);
         numemoParaEditarObs  = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 1);
         relDestinoMemo       = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 3);        
+        relAssuntoMemo       = (String)jTabela.getValueAt(jTabela.getSelectedRow(), 4);        
         
         btnImprimir          .setEnabled(true);
         btnEditarObservacao  .setEnabled(true);
@@ -302,6 +307,10 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         btnEditarMemorando   .setEnabled(true);
         btnExluir            .setToolTipText("Excluir memorando selecionado");
         btnImprimir          .setToolTipText("Imprimir memorando selecionado");   
+        
+        if(relAssuntoMemo.equals("DEVOLUCAO DE EQUIPAMENTOS")){
+            relPorAssunto = true;
+        }
         
     }//GEN-LAST:event_jTabelaMouseClicked
     
@@ -344,13 +353,28 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         btnSair.setEnabled(true);         
         PreencherTabela(sqlDinamica);        
         
-    }
+    }    
+    
+    private void ImprimirPorAssunto(){
+        GerarRelatorios objRel = new GerarRelatorios();
+        try { 
+            objRel.imprimirPatrimoniosTransferidos("relatorio/relmemorecebidos.jasper", numemoParaImprimir);            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+        }
+        relPorAssunto = false;
+    }    
     
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
        //relPorDestino é uma variavel que controle de onde esta sendo solicitado o relatorio que no caso é da Lista de Memorandos cadastrados, mas pode vir tambem da 
        relPorDestino = true; 
-       F_ESCOLHAIMPRESSAO frm = new F_ESCOLHAIMPRESSAO();
-       frm.setVisible(true);
+       
+       if(relPorAssunto){
+            ImprimirPorAssunto();            
+       }else{           
+            F_ESCOLHAIMPRESSAO frm = new F_ESCOLHAIMPRESSAO();
+            frm.setVisible(true);
+       }             
               
        umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir);
        Leitura();

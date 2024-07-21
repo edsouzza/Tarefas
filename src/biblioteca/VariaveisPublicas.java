@@ -25,7 +25,7 @@ public class VariaveisPublicas {
     public static String            anoVigente              = new SimpleDateFormat("yyyy").format(new Date(System.currentTimeMillis()));
      
     public static boolean cadastrado,consultandoInativos,editando,clicouNaTabela,consultando,cadastrando,consultou,editandoRegistro,isDeContrato,alterouBanco,editandoNomeEstacaoReativada,alterouNomeRede,visualizandoInativos,enviando,acessoInicial,valorPesquisaTrue,gerarTxt,relPorDestino,
-                          deConLicencaConsecutivas,result, selecionouCliente,regEncontrado,isUsuario,isImpressora,isMicro,isMonitor,isSwitch,isScanner,isNotebook,isGbit,reativando,alterouStatus,salvandoreativado,editandoNomeRede,patriDeptos,salvandoLote,cadPatriDeptos,imprimirPorModelo,
+                          deConLicencaConsecutivas,result, selecionouCliente,regEncontrado,isUsuario,isImpressora,isMicro,isMonitor,isSwitch,isScanner,isNotebook,isGbit,reativando,alterouStatus,salvandoreativado,editandoNomeRede,patriDeptos,salvandoLote,cadPatriDeptos,imprimirPorModelo,relPorAssunto,
                           reativou, alterandonomestacao, editandoDisponiveis, cadastrandonomestacao,cadPatrimovel,cadastrandoEquipamento, reativandoEquipamento, cadastrandoEstacaoForaRede,confIni,naoTemModelo,userInformatica,naoTemEncerrado,gerouNumo,patriDevolucao, editandoMemorando = false;
     
     public static int qdeUnidades, codigoTipoDocumento, codigoTipoModelo, codigoUsuario, codigoSecao, nivelAcessoUsuario, codigoCliente, codigoSelecionado, codigoUsuarioLogado, codigoPatrimonio,idUsuarioReativado,valorItem, indiceItemSelecionado,controlenaveg, controlaNumemo,
@@ -33,7 +33,7 @@ public class VariaveisPublicas {
     
     public static String cejur_ou_pgm,tipoEquipamento,nomeBancoSetado,url,nomeBancoRelatorios,rfUsuario,nomeUsuario,tabela,oldRF,tabela_da_lista,nomestacaosubstituida,rangeEstacao,itemSelecionadoCadastro,statusLista,assuntoTransferido,numemoSelecionado,numemoParaEditar,
                          TipoDocumento, TipoModelo, nomeUsuarioLogado, ipServidor, nomeDoBanco,sql,sqlCamposSelecionados,nomeEstacao,novaSenha,novonomestacao,nomestacaoinicial,origemTransferidos,origemMemorando,destinoMemorando,assuntoMemorando,obsMemorando,relDestinoMemo,
-                         nomeBanco,nomeCliente,nomeDepartamento,nomePadrao,nomeEstacaoSelecionada,nomeSecao,nomeRelatorio,nomePDF,rfCliente,numemoParaImprimir,numemoParaEditarObs,nomeEstacaoTransferida,anoDoUltimoMemo,serieRetornada,chapaRetornada,
+                         nomeBanco,nomeCliente,nomeDepartamento,nomePadrao,nomeEstacaoSelecionada,nomeSecao,nomeRelatorio,nomePDF,rfCliente,numemoParaImprimir,numemoParaEditarObs,nomeEstacaoTransferida,anoDoUltimoMemo,serieRetornada,chapaRetornada,relAssuntoMemo,
                          status,paramPesquisa,serieEquipamento,numMemoTransferido,destinoTransferidos,entidadeInativa,origemPatrTransferido,deptobiblio,origemDevolucao,motivoInicial = null; 
     
 }
