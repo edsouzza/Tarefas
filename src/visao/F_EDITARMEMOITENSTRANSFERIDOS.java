@@ -58,7 +58,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     
     String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' ORDER BY i.item";  
-    String observacao, numemoinicial, destinoMemo, sNumemo, sStatus;
+    String observacao, numemoinicial, destinoMemo, sNumemo, sStatus, sSerie;
     int icodigo, codExc, codItem, Item, TotalItens, codigoPatri = 0;
     boolean mostrouForm, adicionouItem;
     ArrayList listaDados           = new ArrayList();
@@ -461,6 +461,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         //AO CLICAR EM UM REGISTRO DA TABELA MOSTRAR OS DADOS NOS EDITS
         codItem = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0); 
         Item    = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 1); 
+        sSerie  = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 3); 
         //JOptionPane.showMessageDialog(null, "CODIGO DO ÍTEM SELECIONADO...: "+codItem); 
         
         btnImprimir      .setEnabled(false);
@@ -543,9 +544,16 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         String title   = "Confirmação de Exclusão";
         //Exibe caixa de dialogo (veja figura) solicitando confirmação ou não. 
         //Se o usuário clicar em "Sim" retorna 0 pra variavel reply, se informado não retorna 1
+        
+        //Codigo do patrimonios na tabela TBLPATRIMONIOS
+        int codPatri = umMetodo.getCodigoPassandoString("tblpatrimonios", "serie", sSerie);
+        
         int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.YES_OPTION) 
         {             
+            //Reativando patrimonio pos exclusao de item em ediçao de memorando de encaminhamento            
+            umPatrimonioDAO.updateStatusPosExclusaoItemDeMemoEnviado(codPatri, numemoParaEditar);
+            
             if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codItem))
             {
                 JOptionPane.showMessageDialog(null, "Ítem com código "+codItem+" foi excluído com sucesso do memorando atual!");
@@ -586,7 +594,19 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     }
     
     private void btnExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirItemActionPerformed
-       ExcluirItemPeloCodigo();
+        //Se o memorando tiver apenas um ítem o mesmo não pode permitir a exclusao do ultimo ítem
+        
+        if(umMetodo.retornarQdeRegistrosDoMemorando(numemoParaEditar) > 1){
+            ExcluirItemPeloCodigo();            
+        }else{
+            JOptionPane.showMessageDialog(null, "Este ítem não pode ser excluído por ser único neste memorando, se deseja continuar pesquise o memorando e faça exclusão do mesmo!", "Exclusão de ítens do memorando", 2);
+            btnExcluirItem.setEnabled(false);
+            btnCancelar.setEnabled(false);
+            btnAdicionar.setEnabled(true);
+            btnImprimir.setEnabled(true);
+            btnSair.setEnabled(true);
+        }
+        btnSair.setEnabled(true);
     }//GEN-LAST:event_btnExcluirItemActionPerformed
 
     private void txtDESTINOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDESTINOMouseClicked

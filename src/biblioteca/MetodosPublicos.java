@@ -3249,20 +3249,7 @@ public class MetodosPublicos {
 
         return novoNumeroEstacao;        
     }   
-    
-    public String teste() { 
-        String pro = "Java;Ruby;PHP"; 
-        int um; 
-        int dois; 
-        um   = pro.indexOf(";"); 
-        System.out.println(um);
-        dois = pro.lastIndexOf(";"); 
-        System.out.println(dois);
-        String resultado = pro.substring(um + 1, dois);
-        System.out.println(resultado); 
-        return resultado;
-    }
-    
+            
     public Integer gerarProximoNumeroMemoTransferir()
     {  
         int proximoMemo;
@@ -3327,6 +3314,26 @@ public class MetodosPublicos {
         try
         { 
             sql = "SELECT COUNT(*) AS qde FROM "+tabela+" WHERE "+campo+" = ''";            
+            conexao.ExecutarPesquisaSQL(sql);
+            while (conexao.rs.next())
+            {
+                totalRegs = (conexao.rs.getInt("qde"));
+                
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando sql, \n"+e+", o sql passado foi \n"+sql); 
+        } finally {
+            conexao.desconectar();
+        }
+        return totalRegs;
+    }  
+    
+    public int retornarQdeRegistrosDoMemorando(String numemo) 
+    {    
+        conexao.conectar();
+        try
+        { 
+            sql = "SELECT COUNT(*) AS qde FROM TBLITENSMEMOTRANSFERIDOS WHERE numemo = '"+numemo+"' ";            
             conexao.ExecutarPesquisaSQL(sql);
             while (conexao.rs.next())
             {

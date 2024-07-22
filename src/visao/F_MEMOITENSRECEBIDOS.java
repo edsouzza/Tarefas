@@ -320,7 +320,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1040, 804));
+        setSize(new java.awt.Dimension(1026, 804));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
             
@@ -401,7 +401,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         destinoTransferidos    = "CGGM/INFO";
         patriDevolucao         = true;
 
-        //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS
+        //ABRE ALISTA DE PATRIMONIOS INATIVADOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO
         F_LISTAPATRIMONIOS frmPatrimonios = new F_LISTAPATRIMONIOS(this, true);
         frmPatrimonios.setVisible(true);           
         

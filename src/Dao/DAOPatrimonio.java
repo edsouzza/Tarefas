@@ -1049,6 +1049,76 @@ public class DAOPatrimonio {
         }
     }                         
 
+public void updateStatusPosExclusaoItemDeMemoEnviado(int pCod, String numemo){
+    
+        //Reativando patrimonio pos exclusao de item em ediçao de memorando de encaminhamento
+        //Grava atualizacao do equipamento transferido pelo codigo
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataDia  = dataDoDia;
+        
+        String status, estacao, tipo, motivo, obs  ="";
+
+        status                  = "ATIVO";           
+        estacao                 = "PGMCGGMC000";  
+        motivo                  = getMotivos(pCod)+"\n"+df.format(dataDia)+" : Reativado por motivo de exclusao/estorno do memorando "+numemo+".";  
+        obs                     = getObs(pCod)+"\n"+df.format(dataDia)+" : Reativado por motivo de exclusao/estorno do memorando "+numemo+"."; 
+        int codTipoEquipto      = 0;
+        String nomeTipoEquipto  = "";    
+        codTipoEquipto          = getCodTipo(pCod); //retorna o codigo do tipo de equipamento  ex : 1
+        nomeTipoEquipto         = getNomeTipoEquipto(codTipoEquipto); //retorna o nome do tipo de equipamento ex : MICRO
+        
+        if(Emicro(pCod))
+        {
+            //PARA MICROS  
+            try
+            {
+                conexao.conectar();
+                sql = "UPDATE tblpatrimonios SET estacao=?, status=?, motivo=?, datainativacao=?, observacoes=? WHERE codigo=?";
+
+                PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+                pst.setString(1, estacao);           
+                pst.setString(2, status);   
+                pst.setString(3, motivo);   
+                pst.setNull(4, Types.DATE);   
+                pst.setString(5, obs);               
+                pst.setInt(6, pCod);               
+                pst.executeUpdate();
+                pst.close(); 
+
+                //return true;
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,"Não foi possível atualizar o registro, \n "+e+" , o sql passado foi \n"+sql); 
+            }finally{
+                conexao.desconectar();
+                //return false;
+            }    
+        }else{
+            //PARA NAO MICROS
+            estacao = nomeTipoEquipto;
+            try
+            {
+                conexao.conectar();
+                sql = "UPDATE tblpatrimonios SET estacao=?, status=?, motivo=?, datainativacao=?, observacoes=? WHERE codigo=?";
+
+                PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+                pst.setString(1, estacao);           
+                pst.setString(2, status);   
+                pst.setString(3, motivo);   
+                pst.setNull(4, Types.DATE);   
+                pst.setString(5, obs);               
+                pst.setInt(6, pCod);               
+                pst.executeUpdate();
+                pst.close(); 
+
+                //return true;
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,"Não foi possível atualizar o registro, \n "+e+" , o sql passado foi \n"+sql); 
+            }finally{
+                conexao.desconectar();
+                //return false;
+            }                
+        }
+}
 
 public void gravarUpdateMemos(int pCod, String numemo){
         //Grava atualizacao do equipamento transferido pelo codigo

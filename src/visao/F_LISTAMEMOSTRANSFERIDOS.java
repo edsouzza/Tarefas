@@ -322,7 +322,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
                 {                
                     //esta exclusao devera afetar as duas tabelas TBLMEMOSTRANSFERIDOS | TBLITENSMEMOTRANSFERIDOS             
                     umCtrlPatrItemTranferido.excluirItensDoMemoSelecionado(numemoParaImprimir);
-                    JOptionPane.showMessageDialog(null, "O memorando selecionado foi excluído e seus ítens reativados com sucesso!","Exclusão de memorando!",1);
+                    JOptionPane.showMessageDialog(null, "O memorando selecionado foi excluído com sucesso!","Exclusão de memorando!",1);
                     PreencherTabela(sqlDinamica);                 
                 }            
             }
