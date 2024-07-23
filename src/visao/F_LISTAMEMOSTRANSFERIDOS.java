@@ -1,5 +1,6 @@
 package visao;
 
+import Dao.DAOPatrimonio;
 import biblioteca.Biblioteca;
 import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
@@ -38,10 +39,12 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     CtrlPatriItenstransferido      umCtrlPatrItemTranferido     = new CtrlPatriItenstransferido();
     CtrlPatriTransferido           umCtrlPatriTranferido        = new CtrlPatriTransferido();
     PatriTransferido               umModPatriTransferido        = new PatriTransferido();
+    DAOPatrimonio                  umPatrimonioDAO              = new DAOPatrimonio();
         
     String sqlDinamica  = "SELECT DISTINCT m.codigo, m.numemo, i.origem, i.destino, m.assunto FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo=i.numemo AND m.status = 'TRANSFERIDO' ORDER BY m.codigo";  
     String numemo, sDestino;    
     int icodigo, codExc = 0;
+    ArrayList<Integer>listaCodigosParaReativacao  = new ArrayList();
     
     public F_LISTAMEMOSTRANSFERIDOS() {
         initComponents();
@@ -176,7 +179,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
 
         btnExluir.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnExluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif"))); // NOI18N
-        btnExluir.setText("Excluir");
+        btnExluir.setText("Excluir Memo");
         btnExluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExluir.setEnabled(false);
         btnExluir.setMaximumSize(new java.awt.Dimension(77, 25));
@@ -290,7 +293,8 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
-        
+       
+    
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
         //AO CLICAR EM UM REGISTRO DA TABELA MOSTRAR OS DADOS NOS EDITS
         icodigo              = (int)jTabela.getValueAt(jTabela.getSelectedRow(), 0);
@@ -310,25 +314,47 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
             relPorAssunto = true;
         }
         
+        //Incrementar a listaCodigosParaReativacao -> Ler todos os registros que constam do memorando e guardar os codigos        
+        listaCodigosParaReativacao = umMetodo.ListarCodigosDosItensDoMemorando(numemoParaImprimir);              
+                        
     }//GEN-LAST:event_jTabelaMouseClicked
     
-    private void btnExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExluirActionPerformed
-        //exclusão do ítem da tabela de transferencia
-        if(umabiblio.permissaoLiberada())
+    private void excluirMemorandoSelecionado(){
+         if(umabiblio.permissaoLiberada())
         {  
-            if (umabiblio.ConfirmouOperacao("Confirma a exclusão do memorando selecionado?", "Exclusão de memorando"))
-            {        
+            if (umabiblio.ConfirmouOperacao("Confirma a exclusão do memorando "+numemoParaImprimir+"?", "Exclusão de memorando "+numemoParaImprimir))
+            {    
                 if (umCtrlPatriTranferido.excluirMemoTransferido(numemoParaImprimir))
                 {                
                     //esta exclusao devera afetar as duas tabelas TBLMEMOSTRANSFERIDOS | TBLITENSMEMOTRANSFERIDOS             
                     umCtrlPatrItemTranferido.excluirItensDoMemoSelecionado(numemoParaImprimir);
-                    JOptionPane.showMessageDialog(null, "O memorando selecionado foi excluído com sucesso!","Exclusão de memorando!",1);
+                    
+                    JOptionPane.showMessageDialog(null, "O memorando "+numemoParaImprimir+" foi excluído com sucesso!","Exclusão de memorando!",1);
+                    
                     PreencherTabela(sqlDinamica);                 
                 }            
             }
 
             Leitura();
         }
+    }
+    
+    private void reativarPatrimoniosDoMemorandoPosExclusao()
+    {
+        //Caso o memorando seja excluido todos os patrimonios constantes do mesmo serão reativados        
+        int totalRegs = listaCodigosParaReativacao.size();        
+                
+        for(int i=0; i < totalRegs; i++){
+            int pCodigo = listaCodigosParaReativacao.get(i);   
+            umPatrimonioDAO.updateStatusPosExclusaoItemDeMemoEnviado(pCodigo, numemoParaImprimir);
+        }        
+   }
+    
+    private void btnExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExluirActionPerformed
+        //exclusão do ítem da tabela de transferencia
+        excluirMemorandoSelecionado();
+        reativarPatrimoniosDoMemorandoPosExclusao();
+       
     }//GEN-LAST:event_btnExluirActionPerformed
        
     private void filtrarPorDigitacao(String pPesq) 

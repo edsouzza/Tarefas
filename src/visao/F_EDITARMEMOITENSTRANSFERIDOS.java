@@ -61,8 +61,9 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     String observacao, numemoinicial, destinoMemo, sNumemo, sStatus, sSerie;
     int icodigo, codExc, codItem, Item, TotalItens, codigoPatri = 0;
     boolean mostrouForm, adicionouItem;
-    ArrayList listaDados           = new ArrayList();
-    ArrayList<Integer>listaCodigos = new ArrayList();
+    ArrayList listaDados                        = new ArrayList();
+    ArrayList<Integer>listaCodigos              = new ArrayList();
+    
     
     public F_EDITARMEMOITENSTRANSFERIDOS() {
         initComponents();
@@ -436,7 +437,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             gravarItemNaTabeala();
             
             int ultimoCod = umMetodo.mostrarUltimoCodigo("TBLITENSMEMOTRANSFERIDOS");
-            listaCodigos.add(ultimoCod);
+            ArrayList<Integer>listaCodigosPosExclusao   = new ArrayList();
             
 //            for (Object dado : listaCodigos) {
 //                System.out.println(dado); 
@@ -496,8 +497,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         GerarRelatorios objRel = new GerarRelatorios();
         try {
             
-            //Se for normal ou de baixa
-            
+            //Se for normal ou de baixa            
             numemoParaEditar  = txtNUMEMO.getText();
             destinoMemo       = umMetodo.getDestinoMemorando(numemoParaEditar);
             
@@ -595,8 +595,10 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     private void btnExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirItemActionPerformed
         //Se o memorando tiver apenas um ítem o mesmo não pode permitir a exclusao do ultimo ítem
+        numemoParaEditar = txtNUMEMO.getText();
+        int qdeItensNoMemo = umMetodo.retornarQdeRegistrosDoMemorando(numemoParaEditar);
         
-        if(umMetodo.retornarQdeRegistrosDoMemorando(numemoParaEditar) > 1){
+        if( qdeItensNoMemo > 1){
             ExcluirItemPeloCodigo();            
         }else{
             JOptionPane.showMessageDialog(null, "Este ítem não pode ser excluído por ser único neste memorando, se deseja continuar pesquise o memorando e faça exclusão do mesmo!", "Exclusão de ítens do memorando", 2);
@@ -622,8 +624,8 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             umMetodo.deletarItensDoMemorandoPeloCodigo(pCod);
         } 
         atualizarStatusDosItens();
-    }
-    
+    }    
+        
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //Mensagem de confirmação se deseja sair e cancelar a operação
         if(umabiblio.ConfirmouOperacao("Tem certeza que deseja sair e cancelar a operação,os dados não salvos serão perdidos?", "Saindo da Edição do Memorando "+txtNUMEMO.getText())){

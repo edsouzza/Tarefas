@@ -3364,6 +3364,30 @@ public class MetodosPublicos {
         return listaChapas;
     }
     
+    public ArrayList<Integer> ListarCodigosDosItensDoMemorando(String pNumemo) {
+        //OBTENDO A LISTA COM OS OS CODIGOS DOS REGS NA TABELA DE TBLPATRIMONIOS ATRAVES DO NUMERO DE SERIE ENTRE TBLPATRIMONIOS/TBLITENSMEMOTRANSFERIDOS
+        conexao.conectar();  
+        String sql1 = "select p.codigo from TBLPATRIMONIOS p, TBLITENSMEMOTRANSFERIDOS i where p.serie = i.serie AND i.numemo = '"+pNumemo+"'"; 
+        conexao.ExecutarPesquisaSQL(sql1);
+
+        ArrayList listarCodigos = new ArrayList();
+
+        try {
+        while(conexao.rs.next())
+        {
+             listarCodigos.add(conexao.rs.getInt("codigo"));                                
+        }   
+        } catch (SQLException ex) {
+            Logger.getLogger(MetodosPublicos.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+
+//        for (Object dado : listarCodigos) {
+//            System.out.println(dado); 
+//        }
+        
+        return listarCodigos;
+    }       
+    
     private ArrayList<String> ListarCodigos() {
         //OBTENDO A LISTA COM OS OS CODIGOS DOS REGS COM CHAPAS VAZIAS E RETORNANDO EM UM ARRAYLIST
         conexao.conectar();  

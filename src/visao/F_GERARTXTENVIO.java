@@ -59,7 +59,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     DateFormat                     sdf                          = new SimpleDateFormat("dd/MM/yyyy");
     Date dataDia                                                = dataDoDia; 
     
-    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem  = "";
+    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo  = "";
     int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg = 0;
     Boolean metodoPADRAOINIFIM,inserindo,inseriuItem = false;   
     String[] getDados;
@@ -216,6 +216,9 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDESTINOFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDESTINOFocusLost(evt);
+            }
         });
         txtDESTINO.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -252,22 +255,6 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         });
 
         jLabel8.setText("ASSUNTO");
-
-        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
@@ -353,6 +340,21 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                     .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -593,7 +595,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         lstListaCampos.clear();
         model.clear();
         inserindo=false;    
-        qdeItens=0;
+        qdeItens=0;        
     }
     
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -679,6 +681,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
             btnSair.setEnabled(false);
         }else{
              AdicionarItemAoTXT();
+             destinoMemo = txtDESTINO.getText();
         }             
     }//GEN-LAST:event_btnADDAOTXTActionPerformed
 
@@ -941,13 +944,27 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         if (umMetodo.ConfirmouOperacao("Confirma a impressão do Relatório?", "Impressão do Relatório"))
         {
             GerarRelatorios objRel = new GerarRelatorios();
-            try {                
-                objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", sMemorando);
-                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+sMemorando);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-            }              
-        }
+           
+            try {              
+                //Se for normal ou de baixa            
+                //JOptionPane.showMessageDialog(rootPane, "DESTINO : " + destinoMemo);
+                        
+                if(!destinoMemo.equals("BAIXA"))
+                {
+                     objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numMemoTransferido); 
+                }else if(destinoMemo.equals("BAIXA")){
+                    F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
+                    frm.setVisible(true);   
+                }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+                }         
+
+                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+numMemoTransferido);            
+
+        }          
+
     }
     
     private void btnEnviarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarDadosActionPerformed
@@ -1021,6 +1038,13 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
             txtOBSERVACAO.requestFocus();
         }    
     }//GEN-LAST:event_txtASSUNTOKeyPressed
+
+    private void txtDESTINOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDESTINOFocusLost
+        if(txtDESTINO.getText().equals("BAIXA")){
+            txtASSUNTO.setText("BAIXA DE EQUIPAMENTOS INSERVIVEIS");
+            txtOBSERVACAO.setText("Todos os equipamentos foram dados como inserviveis.");
+        }
+    }//GEN-LAST:event_txtDESTINOFocusLost
 
     /**
      * @param args the command line arguments

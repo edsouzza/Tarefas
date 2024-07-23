@@ -5,12 +5,9 @@
  */
 package visao;
 
-import java.awt.AWTKeyStroke;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.util.HashSet;
 import Dao.DAOUsuario;
 import biblioteca.CampoLimitadoParaRF;
 import biblioteca.MetodosPublicos;
@@ -394,7 +391,7 @@ public class F_LOGIN extends javax.swing.JFrame
 
     private void txtLoginFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoginFocusGained
                         
-        txtLogin.setText("D631863");       
+        //txtLogin.setText("D631863");       
         //txtLogin.setText("D538076");   
         //txtLogin.setText("D741921");   
         
