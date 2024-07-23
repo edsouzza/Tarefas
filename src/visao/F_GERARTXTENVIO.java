@@ -189,7 +189,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("OBSERVAÇÃO PARA MEMORANDO");
+        jLabel4.setText("OBSERVAÇÃO");
 
         txtORIGEM.setEditable(false);
         txtORIGEM.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -264,81 +264,78 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addComponent(txtMEMORANDO)
-                        .addGap(10, 10, 10)
-                        .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtASSUNTO, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtPESQUISA))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createSequentialGroup()
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtASSUNTO, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
-                                .addComponent(txtPESQUISA))
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCHAPA)
+                            .addComponent(txtOBSERVACAO)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtOBSERVACAO)))))
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addGap(327, 327, 327)
-                                .addComponent(jLabel7)
-                                .addGap(283, 283, 283)
-                                .addComponent(jLabel9))
+                                .addGap(904, 904, 904)
+                                .addComponent(jLabel2))
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(417, 417, 417)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(337, 337, 337)
-                                .addComponent(jLabel2)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(410, 410, 410)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(391, 391, 391)
+                                        .addComponent(jLabel9))
+                                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jBoxPesquisar1Layout.setVerticalGroup(
             jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(16, 16, 16)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel1)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel9))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCHAPA, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
         );
         jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -477,8 +474,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         jPANELTOTALLayout.setVerticalGroup(
             jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPANELTOTALLayout.createSequentialGroup()
-                .addComponent(jBoxPesquisar1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBoxPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtMENSAGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -495,9 +492,9 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPANELTOTAL);
-        jPANELTOTAL.setBounds(14, 11, 1020, 650);
+        jPANELTOTAL.setBounds(14, 11, 1020, 660);
 
-        setSize(new java.awt.Dimension(1055, 700));
+        setSize(new java.awt.Dimension(1055, 723));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -688,8 +685,9 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     private void txtPESQUISAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtASSUNTO.requestFocus();
+            
             buscarNumeroChapaSerie();
-            btnADDAOTXT.setEnabled(true);
+
             txtMENSAGEM.setText("Clique no botão ADD ao TXT para adicionar este equipamento ao memorando");
             String numSerie = txtPESQUISA.getText();
             
@@ -982,7 +980,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     private void txtDESTINOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDESTINOKeyPressed
         //se teclar enter estando dentro do txtNOME vá para o campo do rf
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtPESQUISA.requestFocus();
+            txtASSUNTO.requestFocus();
         }   
     }//GEN-LAST:event_txtDESTINOKeyPressed
 
@@ -1029,7 +1027,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
 
     private void txtOBSERVACAOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOBSERVACAOKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtASSUNTO.requestFocus();
+            txtPESQUISA.requestFocus();
         }     
     }//GEN-LAST:event_txtOBSERVACAOKeyPressed
 
@@ -1043,6 +1041,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         if(txtDESTINO.getText().equals("BAIXA")){
             txtASSUNTO.setText("BAIXA DE EQUIPAMENTOS INSERVIVEIS");
             txtOBSERVACAO.setText("Todos os equipamentos foram dados como inserviveis.");
+            txtPESQUISA.requestFocus();
         }
     }//GEN-LAST:event_txtDESTINOFocusLost
 
