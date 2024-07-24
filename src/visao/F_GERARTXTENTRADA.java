@@ -8,7 +8,6 @@ import static biblioteca.VariaveisPublicas.tabela_da_lista;
 import static biblioteca.VariaveisPublicas.TipoModelo;
 import static biblioteca.VariaveisPublicas.codTipoSelecionado;
 import static biblioteca.VariaveisPublicas.codigoTipoModelo;
-import static biblioteca.VariaveisPublicas.gerarTxt;
 import static biblioteca.VariaveisPublicas.imprimirPorModelo;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.lstAuxiliar;
