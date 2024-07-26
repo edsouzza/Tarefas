@@ -958,9 +958,21 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSECOESActionPerformed
 
     private void menuMODELOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMODELOSActionPerformed
-        tabela = "TBLMODELOS";        
-        F_MODELOS frm = new F_MODELOS();
-        frm.setVisible(true); 
+                
+        if(umabiblio.permissaoLiberada()){  
+            if(umMetodo.ConfirmouOperacao("Atenção, tenha  em  mente que para cadastrar modelos é necessário ter o tipo do equipamento \npreviamente  cadastrado. Você   já  cadastrou  o  tipo  do  equipamento  para  prosseguimento?", "Cadastro de modelos"))
+            {
+                //abre tela para cadastro de modelos
+                tabela = "TBLMODELOS";        
+                F_MODELOS frm = new F_MODELOS();
+                frm.setVisible(true);                    
+            }else{
+                tabela = "TBLTIPOS";
+                status = "ATIVO";
+                F_TIPOS frm = new F_TIPOS();
+                frm.setVisible(true);         
+            }
+        }
     }//GEN-LAST:event_menuMODELOSActionPerformed
 
     private void mnuCONSIMPRESSORASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCONSIMPRESSORASActionPerformed
