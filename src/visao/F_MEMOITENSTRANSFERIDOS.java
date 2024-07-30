@@ -533,7 +533,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //Se memorando tiver itens com status PROCESSANDO      
         
-        if(umabiblio.ConfirmouOperacao(" 55555 Tem certeza que deseja sair e cancelar a operação,os dados não salvos serão perdidos?", "Saindo do Memorando "+numMemoTransferido)){
+        if(umabiblio.ConfirmouOperacao("Tem certeza que deseja sair e cancelar a operação,os dados não salvos serão perdidos?", "Saindo do Memorando "+numMemoTransferido)){
             umGravarLog.gravarLog("cancelando criacao do memorando "+numMemoTransferido);
             umMetodo.deletarMemorandoSemItens(numMemoTransferido);
             umMetodo.deletarItensDoMemorando(numMemoTransferido);        
