@@ -484,10 +484,9 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabelaMouseClicked
     
     private void txtDESTINOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDESTINOKeyPressed
-        btnAdicionar.setEnabled(true);
-        btnCancelar.setEnabled(true);
-        lstListaGenerica.clear();
-        patriDeptos=false;        
+       
+        patriDeptos=false;      
+        
     }//GEN-LAST:event_txtDESTINOKeyPressed
         
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -618,7 +617,9 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     }//GEN-LAST:event_txtORIGEMFocusLost
 
     private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
-        // TODO add your handling code here:
+        btnAdicionar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        lstListaGenerica.clear();
     }//GEN-LAST:event_txtASSUNTOKeyPressed
     
      public void PreencherTabela(String sql)
