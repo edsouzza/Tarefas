@@ -764,8 +764,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                 //Se ainda restarem ítens no memo em curso
                 if(lstListaItens.size()>0)
                 {
-                    JOptionPane.showMessageDialog(null,"Sim este memorando ainda tem ítens cadastrados após a exclusão");
-                    JOptionPane.showMessageDialog(null, "O total atual de itens após a exclusão é : "+lstListaItens.size());
+                    //JOptionPane.showMessageDialog(null,"Sim este memorando ainda tem ítens cadastrados após a exclusão");
+                    //JOptionPane.showMessageDialog(null, "O total atual de itens após a exclusão é : "+lstListaItens.size());
                                        
                     //atualizar o valor do item
                     umCtrlPatrItemTranferido.atualizarValorDosItensAposExclusao(codItem, sMemorando);                    
@@ -838,16 +838,16 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                         
             //Dados do item separados por ";" preciso transforma-los em um vetor usando como separador o ";"
             String itemClicado = lstITENS.getSelectedValue().toString();
-            System.out.println(itemClicado);
+            //System.out.println(itemClicado);
             
             //Criando um vetor chapa para receber o vetor convertido
             String[] chapa;              
             //transformando os dados em um vetor usando como separador o ";"      
             chapa = itemClicado.split(";");
             //Visualizando o vetor
-            System.out.println(Arrays.toString(chapa));
+            //System.out.println(Arrays.toString(chapa));
             //Pegando o valor desejado que é a chapa que é o indice 7 do vetor
-            System.out.println(chapa[7]);
+            //System.out.println(chapa[7]);
             String chapaSelecionada = chapa[7];
             //Agora com a chapa em maos pesquise o codigo do item na tabela TBLITENSMEMOTRANSFERIDOS para exclusao
             codigoDoItem = umMetodo.getCodigoPassandoMaisDeUmParametroString("TBLITENSMEMOTRANSFERIDOS", "serie", chapaSelecionada, "numemo", sMemorando);
