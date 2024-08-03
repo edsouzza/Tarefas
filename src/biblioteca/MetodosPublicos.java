@@ -1613,6 +1613,22 @@ public class MetodosPublicos {
         }
         return id;
     }
+    
+    public int getCodigoPassandoMaisDeUmParametroString(String tabela, String nomeCampo1, String sParam1, String nomeCampo2,  String sParam2) {
+        //pesquisar codigo de um campo passando seu nome
+        int id = 0;
+        conn = conexao.conectar();        
+        sql = "SELECT codigo FROM "+tabela+" WHERE "+nomeCampo1+" = '" +sParam1+ "' AND  "+nomeCampo2+" = '" +sParam2+ "' ";
+        conexao.ExecutarPesquisaSQL(sql);        
+        try {
+            if(conexao.rs.next()){
+                id = conexao.rs.getInt("codigo");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao executar a pesquisa do código! " + ex);
+        }
+        return id;
+    }
 
     public String getStringPassandoCodigo(String tabela, String valorRetorno, int codigo) {
         //retorna uma String como(valorRetorno) do codigo passado como parametro da tabela entrada

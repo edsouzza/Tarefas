@@ -1,5 +1,6 @@
 package visao;
 
+import Dao.DAOPatriTensTransferido;
 import Dao.DAOPatrimonio;
 import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteres;
@@ -33,6 +34,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -55,12 +58,13 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     PatriTensTransferido           umModPatrItensTransferido    = new PatriTensTransferido();
     PatriTensTransferido           objModPatriTemTransferido    = new PatriTensTransferido();
     CtrlPatriItenstransferido      ctrlPatriTenstransferido     = new CtrlPatriItenstransferido();
+    DAOPatriTensTransferido        umDAOPatriItens              = new DAOPatriTensTransferido();
     DAOPatrimonio                  umDaoPatri                   = new DAOPatrimonio();
     DateFormat                     sdf                          = new SimpleDateFormat("dd/MM/yyyy");
     Date dataDia                                                = dataDoDia; 
     
     String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo  = "";
-    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg = 0;
+    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem = 0;
     Boolean metodoPADRAOINIFIM,inserindo,inseriuItem = false;   
     String[] getDados;
     
@@ -121,6 +125,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtASSUNTO = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         btnGerarTXT = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
@@ -253,6 +258,8 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
 
         jLabel8.setText("ASSUNTO");
 
+        jLabel10.setText(" CHAPA");
+
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
         jBoxPesquisar1Layout.setHorizontalGroup(
@@ -260,39 +267,45 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPESQUISA)
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtOBSERVACAO)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                                 .addGap(904, 904, 904)
                                 .addComponent(jLabel2))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(391, 391, 391)
-                                        .addComponent(jLabel9))
-                                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(410, 410, 410)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 84, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtPESQUISA, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtASSUNTO, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtOBSERVACAO)
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtCHAPA)))
+                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel7))
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(10, 10, 10)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDESTINO)
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jBoxPesquisar1Layout.setVerticalGroup(
@@ -302,35 +315,33 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel9))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxPesquisar1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54))
         );
         jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -347,6 +358,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jBoxPesquisar1.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -581,7 +593,6 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         txtMENSAGEM.setText("");
         txtDESTINO.setText("");
         txtCHAPA.setText("");
-        txtCHAPA.setVisible(false);
         txtPESQUISA.setText("");      
         txtOBSERVACAO.setText("");      
         txtASSUNTO.setText("");      
@@ -728,12 +739,57 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtPESQUISAKeyPressed
 
-    private void removerItem(){
+    private void removerItemDaTabela(){
+         //EXCLUINDO ITEM DO MEMO ATUAL
+        ArrayList<Integer> lstListaItens = new ArrayList<>();
+        
+        String message = "Confirma a exclusão do ítem com código "+codigoDoItem+" do memorando em curso?";
+        String title   = "Confirmação de Exclusão";
+        //Exibe caixa de dialogo (veja figura) solicitando confirmação ou não. 
+        //Se o usuário clicar em "Sim" retorna 0 pra variavel reply, se informado não retorna 1
+        int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION) 
+        {            
+            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codigoDoItem))
+            {
+                JOptionPane.showMessageDialog(null, "Ítem com código "+codigoDoItem+" foi excluído com sucesso do memorando atual!");
+                
+                //Reorganizar os numeros dos ítens e depois mostrar com PreencherTabela(sqlDinamica)
+                valorItem--;
+                //umMetodo.reorganizarListaDeItensDoMemorandoAposExclusao(codigoDoItem);
+                
+                //Verificando se o memo atual ainda tem ítens apos a exclusao
+                lstListaItens = umDAOPatriItens.ListaItemsAposExclusao();
+                
+                //Se ainda restarem ítens no memo em curso
+                if(lstListaItens.size()>0)
+                {
+                    JOptionPane.showMessageDialog(null,"Sim este memorando ainda tem ítens cadastrados após a exclusão");
+                    JOptionPane.showMessageDialog(null, "O total atual de itens após a exclusão é : "+lstListaItens.size());
+                                       
+                    //atualizar o valor do item
+                    umCtrlPatrItemTranferido.atualizarValorDosItensAposExclusao(codItem, sMemorando);                    
+                                        
+                }else{
+                    //JOptionPane.showMessageDialog(null,"Não existem ítens cadastrados neste memorando após a exclusão");
+                    //Tudo Ok por aqui...
+                    btnADDAOTXT.setEnabled(true);
+                }      
+            }
+        }else{
+            btnADDAOTXT.setEnabled(true);
+        }      
+        
+    }        
+    
+    private void removerItemDoLstItens(){
         model.remove(codItem);       
         btnRemoverItem.setEnabled(false);
         btnADDAOTXT.setEnabled(false);
         txtPESQUISA.requestFocus();
-        valorItem--;
+        //valorItem--;
+        removerItemDaTabela();
+        
     }    
     
     private int getCodigoChapaSerie()
@@ -772,11 +828,32 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     }
     
     private void btnRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverItemActionPerformed
-        removerItem();
+        removerItemDoLstItens();
     }//GEN-LAST:event_btnRemoverItemActionPerformed
 
     private void lstITENSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstITENSMouseClicked
         codItem = lstITENS.getSelectedIndex();  
+        
+        if (lstITENS.getSelectedValue() != null) {
+                        
+            //Dados do item separados por ";" preciso transforma-los em um vetor usando como separador o ";"
+            String itemClicado = lstITENS.getSelectedValue().toString();
+            System.out.println(itemClicado);
+            
+            //Criando um vetor chapa para receber o vetor convertido
+            String[] chapa;              
+            //transformando os dados em um vetor usando como separador o ";"      
+            chapa = itemClicado.split(";");
+            //Visualizando o vetor
+            System.out.println(Arrays.toString(chapa));
+            //Pegando o valor desejado que é a chapa que é o indice 7 do vetor
+            System.out.println(chapa[7]);
+            String chapaSelecionada = chapa[7];
+            //Agora com a chapa em maos pesquise o codigo do item na tabela TBLITENSMEMOTRANSFERIDOS para exclusao
+            codigoDoItem = umMetodo.getCodigoPassandoMaisDeUmParametroString("TBLITENSMEMOTRANSFERIDOS", "serie", chapaSelecionada, "numemo", sMemorando);
+            
+        }     
+        
         if(inseriuItem){
            btnRemoverItem.setEnabled(true);
         }       
@@ -1099,6 +1176,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     private javax.swing.JButton btnRemoverItem;
     private javax.swing.JButton btnSair;
     private javax.swing.JLayeredPane jBoxPesquisar1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

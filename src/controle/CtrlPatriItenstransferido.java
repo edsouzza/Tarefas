@@ -21,9 +21,14 @@ public class CtrlPatriItenstransferido
         return new DAOPatriTensTransferido().excluirItensProcessandoDAO();
     }
     
-     public boolean excluirItemDoMemoAtual(int pCodItem)
+    public boolean excluirItemDoMemoAtual(int pCodItem)
     {
         return new DAOPatriTensTransferido().excluirItemDoMemoAtualDAO(pCodItem);        
+    }
+    
+    public boolean excluirItemDoMemoAtualPeloNumemo(int pCodItem, String pNumemo)
+    {
+        return new DAOPatriTensTransferido().excluirItemDoMemoAtualPeloNumemoDAO(pCodItem, pNumemo);        
     }
     
     public boolean excluirItensDoMemoSelecionado(String pNumemo)

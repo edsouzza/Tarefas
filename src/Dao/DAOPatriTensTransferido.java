@@ -111,6 +111,24 @@ public class DAOPatriTensTransferido {
             conexao.desconectar();
        }        
     } 
+    
+    public boolean excluirItemDoMemoAtualPeloNumemoDAO(int pCodItem, String pNuMemo)
+    {
+        //Excluir o ítem selecionado do memorando em curso
+        try
+        {            
+            conexao.conectar();            
+            sql = "DELETE FROM TBLITENSMEMOTRANSFERIDOS WHERE codigo = "+pCodItem+" AND numemo = "+pNuMemo;           
+            conexao.ExecutarAtualizacaoSQL(sql);         
+            return true;
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o registro, \n"+e+", o sql passado foi \n"+sql);
+            return false;
+       } finally {
+            conexao.desconectar();
+       }        
+    } 
             
     public boolean excluirItensDoMemoSelecionadoDAO(String pNumemo)
     {
