@@ -3,6 +3,7 @@ package visao;
 import Dao.DAOMemorando;
 import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
+import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.sql;
@@ -25,16 +26,19 @@ import javax.swing.ListSelectionModel;
 import modelo.Memorando;
 
 public class F_MEMORANDOS extends javax.swing.JFrame {
-    ConnConexao conexao  = new ConnConexao();
-    Biblioteca    umabiblio                 = new Biblioteca();
-    Memorando     umModMemorando            = new Memorando();
-    CtrlMemorando   CtrMemorando            = new CtrlMemorando();
-    ControleListaMemorandos umCtrLista      = new ControleListaMemorandos();
-    ControleGravarLog umGravarLog           = new ControleGravarLog();
-    DAOMemorando    memoDAO                 = new DAOMemorando();  
-    Boolean clicouNaTabela,clicouConcluidas = false;
-    String memorando,assunto,nomeCli        = null;    
-    int codigo,idClienteRegSel,ind          = 0; 
+    ConnConexao             conexao  = new ConnConexao();
+    Biblioteca              umabiblio                   = new Biblioteca();
+    Memorando               umModMemorando              = new Memorando();
+    CtrlMemorando           CtrMemorando                = new CtrlMemorando();
+    ControleListaMemorandos umCtrLista                  = new ControleListaMemorandos();
+    ControleGravarLog       umGravarLog                 = new ControleGravarLog();
+    DAOMemorando            memoDAO                     = new DAOMemorando();  
+    MetodosPublicos         umMetodo                    = new MetodosPublicos();
+    
+    
+    Boolean clicouNaTabela,clicouConcluidas             = false;
+    String memorando,assunto,nomeCli,assuntoSelecioado  = null;    
+    int codigo,idClienteRegSel,ind,codigoAssunto        = 0; 
     boolean gravando,pesquisando;  //controla no botão gravar entre gravar novo registro e gravar alteração de um registro
     String sqlDefault = "select * from tblmemorandos order by codigo";  
     
@@ -139,6 +143,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         txtCODIGO = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnExclir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1035, 756));
@@ -231,7 +236,9 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         });
 
         txtMEMORANDO.setColumns(20);
+        txtMEMORANDO.setLineWrap(true);
         txtMEMORANDO.setRows(5);
+        txtMEMORANDO.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtMEMORANDO);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
@@ -261,6 +268,18 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(51, 51, 255));
         jLabel4.setText("ASSUNTO");
 
+        btnExclir.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnExclir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Cancelar.gif"))); // NOI18N
+        btnExclir.setText("Excluir");
+        btnExclir.setToolTipText("");
+        btnExclir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnExclir.setEnabled(false);
+        btnExclir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExclirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -284,19 +303,22 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGravar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnGravar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExclir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,8 +344,9 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
                     .addComponent(btnGravar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -331,7 +354,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1048, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -392,6 +415,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         btnGravar.setEnabled(false);
         btnVoltar.setEnabled(false);
         btnEditar.setEnabled(false);
+        btnExclir.setEnabled(false);
         btnSair.setEnabled(true);  
         txtCODIGO.setEditable(false);
         txtASSUNTO.setEditable(false);
@@ -429,6 +453,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         txtCODIGO.setText(null);
         txtMEMORANDO.setText(null);
         btnEditar.setEnabled(false);
+        btnExclir.setEnabled(false);
         btnNovo.setEnabled(true);
         btnVoltar.setEnabled(false);
         btnVoltar.setText("Voltar");
@@ -489,7 +514,9 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
     }//GEN-LAST:event_txtASSUNTOFocusGained
     private void mostrarDados(){
         //pesquisar o assunto pelo codigo do assunto retornado apos a escolha do assunto
-        int codigoAssunto = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
+        codigoAssunto = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
+        assuntoSelecioado = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 1);
+        
         sql = "SELECT * FROM "+tabela+" WHERE codigo ="+codigoAssunto+" order by codigo";
         conexao.conectar();
         conexao.ExecutarPesquisaSQL(sql);
@@ -513,6 +540,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         btnGravar      .setEnabled(false);
         btnNovo        .setEnabled(false);
         btnVoltar      .setEnabled(true);
+        btnExclir      .setEnabled(true);
         btnSair        .setEnabled(false);
         btnPesquisar   .setEnabled(false);
         btnLimparPesquisa.setEnabled(false);
@@ -559,6 +587,17 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
         LimparPesquisa();
         voltar();
     }//GEN-LAST:event_btnLimparPesquisaActionPerformed
+        
+    private void btnExclirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclirActionPerformed
+        String codigoExclusao = String.valueOf(codigoAssunto);
+        
+        if (umMetodo.ConfirmouOperacao("Confirma a exclusão do memorando  [ "+assuntoSelecioado+" ]?", "Exclusão do memorando de numero "+codigoExclusao)){
+           umMetodo.deletarRegistrosConformeString("TBLMEMORANDOS", "codigo", codigoExclusao);
+           JOptionPane.showMessageDialog(null, "O memorando de número "+codigoExclusao+" foi excluído com sucesso");
+           PreencherTabela(sqlDefault);  
+           Leitura();
+        }
+    }//GEN-LAST:event_btnExclirActionPerformed
     
     public void PreencherTabela(String sql)
     {
@@ -604,6 +643,7 @@ public class F_MEMORANDOS extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnExclir;
     private javax.swing.JButton btnGravar;
     private javax.swing.JButton btnLimparPesquisa;
     private javax.swing.JButton btnNovo;
