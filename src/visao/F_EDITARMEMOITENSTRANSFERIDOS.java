@@ -20,6 +20,7 @@ import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.numemoParaEditar;
 import static biblioteca.VariaveisPublicas.relAssuntoMemo;
 import static biblioteca.VariaveisPublicas.relPorAssunto;
+import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.valorItem;
 import conexao.ConnConexao;
 import java.awt.AWTKeyStroke;
@@ -58,9 +59,9 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     
     
     String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' ORDER BY i.item";  
-    String observacao, numemoinicial, destinoMemo, sNumemo, sStatus, sSerie;
+    String observacao, numemoinicial, destinoMemo, sNumemo, sStatus, sSerie, sqlFiltro;
     int icodigo, codExc, codItem, Item, TotalItens, codigoPatri = 0;
-    boolean mostrouForm, adicionouItem;
+    boolean mostrouForm, adicionouItem, achouRegistros;
     ArrayList listaDados                        = new ArrayList();
     ArrayList<Integer>listaCodigos              = new ArrayList();
     
@@ -89,6 +90,8 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
         txtOBSERVACAO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
         txtOBSERVACAO.setForeground(Color.red);    
+        
+        umabiblio.configurarCamposTextos(txtPESQUISA);
                 
         //configuração dos botões
         umabiblio.configurarBotoes(btnAdicionar);
@@ -136,6 +139,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         txtASSUNTO = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
+        txtPESQUISA = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -240,6 +244,20 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             }
         });
 
+        txtPESQUISA.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtPESQUISA.setForeground(new java.awt.Color(51, 51, 255));
+        txtPESQUISA.setToolTipText("Barra de Pesquisa Rápida");
+        txtPESQUISA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtPESQUISAMouseClicked(evt);
+            }
+        });
+        txtPESQUISA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPESQUISAKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -247,18 +265,6 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
@@ -278,17 +284,31 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(txtOBSERVACAO)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1012, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
+                            .addComponent(txtPESQUISA))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,6 +655,23 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             dispose();
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtPESQUISAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPESQUISAMouseClicked
+        //apagar campo de pesquisa mostrar todos os registros
+        txtPESQUISA.setText(null);   
+        PreencherTabela(sqlPatriCGGM);
+    }//GEN-LAST:event_txtPESQUISAMouseClicked
+
+    private void filtrarPorDigitacao(String pPesq) {
+        sqlFiltro = ("SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' AND i.serie like '%" + pPesq + "%' ORDER BY i.item");
+        PreencherTabela(sqlFiltro);
+        this.setTitle("Total de registros retornados pela pesquisa = "+totalRegs);             
+    }
+    
+    
+    private void txtPESQUISAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyReleased
+        filtrarPorDigitacao(txtPESQUISA.getText());
+    }//GEN-LAST:event_txtPESQUISAKeyReleased
     
     public void PreencherTabela(String sql)
     {
@@ -657,6 +694,8 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                         conexao.rs.getString("serie"),
                         conexao.rs.getString("chapa")
                     });
+                         totalRegs = conexao.rs.getRow(); //passando o total de registros para o titulo
+                         
                 };
             }
             
@@ -706,5 +745,6 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private javax.swing.JTextField txtNUMEMO;
     private javax.swing.JTextField txtOBSERVACAO;
     private javax.swing.JTextField txtORIGEM;
+    private javax.swing.JTextField txtPESQUISA;
     // End of variables declaration//GEN-END:variables
 }
