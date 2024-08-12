@@ -61,7 +61,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     String sqlPatriCGGM    = "SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' ORDER BY i.item";  
     String observacao, numemoinicial, destinoMemo, sNumemo, sStatus, sSerie, sqlFiltro;
     int icodigo, codExc, codItem, Item, TotalItens, codigoPatri = 0;
-    boolean mostrouForm, adicionouItem, achouRegistros;
+    boolean mostrouForm, adicionouItem;
     ArrayList listaDados                        = new ArrayList();
     ArrayList<Integer>listaCodigos              = new ArrayList();
     
@@ -610,6 +610,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         }            
             
         btnExcluirItem.setEnabled(false);   
+        txtPESQUISA.setText(null);
         btnSair.setEnabled(false);
     }
     
@@ -623,7 +624,6 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Este ítem não pode ser excluído por ser único neste memorando, se deseja continuar pesquise o memorando e faça exclusão do mesmo!", "Exclusão de ítens do memorando", 2);
             btnExcluirItem.setEnabled(false);
-            btnCancelar.setEnabled(false);
             btnAdicionar.setEnabled(true);
             btnImprimir.setEnabled(true);
             btnSair.setEnabled(true);
@@ -648,11 +648,18 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //Mensagem de confirmação se deseja sair e cancelar a operação
-        if(umabiblio.ConfirmouOperacao("Tem certeza que deseja sair e cancelar a operação,os dados não salvos serão perdidos?", "Saindo da Edição do Memorando "+txtNUMEMO.getText())){
-            umGravarLog.gravarLog("cancelando edicao do memorando "+txtNUMEMO.getText());
-            //Se adicionou itens devera exclui-los da tabela TBLITENSMEMOTRANSFERIDOS
-            deletarItensAdicionadosAoMemorando();            
-            dispose();
+        if(btnCancelar.getText().equals("Cancelar")){
+            if(umabiblio.ConfirmouOperacao("Tem certeza que deseja sair e cancelar a operação,os dados não salvos serão perdidos?", "Saindo da Edição do Memorando "+txtNUMEMO.getText())){
+                umGravarLog.gravarLog("cancelando edicao do memorando "+txtNUMEMO.getText());
+                //Se adicionou itens devera exclui-los da tabela TBLITENSMEMOTRANSFERIDOS
+                deletarItensAdicionadosAoMemorando();            
+                dispose();
+            }            
+        }else{
+            txtPESQUISA.setText(null);
+            txtPESQUISA.requestFocus();
+            txtPESQUISAMouseClicked(null);
+            btnCancelar.setText("Cancelar");
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -662,15 +669,17 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         PreencherTabela(sqlPatriCGGM);
     }//GEN-LAST:event_txtPESQUISAMouseClicked
 
-    private void filtrarPorDigitacao(String pPesq) {
-        sqlFiltro = ("SELECT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' AND i.serie like '%" + pPesq + "%' ORDER BY i.item");
+    private void filtrarPorDigitacao(String pPesq, String snuMemo) {
+        
+        sqlFiltro = ("SELECT DISTINCT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' AND (i.serie like '%"+pPesq+"%') ORDER BY i.item");
         PreencherTabela(sqlFiltro);
         this.setTitle("Total de registros retornados pela pesquisa = "+totalRegs);             
     }
     
     
     private void txtPESQUISAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyReleased
-        filtrarPorDigitacao(txtPESQUISA.getText());
+        filtrarPorDigitacao(txtPESQUISA.getText(), sNumemo);
+        btnCancelar.setText("Limpar");
     }//GEN-LAST:event_txtPESQUISAKeyReleased
     
     public void PreencherTabela(String sql)
