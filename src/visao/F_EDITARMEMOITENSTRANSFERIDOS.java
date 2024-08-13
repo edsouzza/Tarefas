@@ -40,6 +40,7 @@ import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 import modelo.PatriTensTransferido;
 import modelo.PatriTransferido;
 
@@ -92,6 +93,9 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         txtOBSERVACAO.setForeground(Color.red);    
         
         umabiblio.configurarCamposTextos(txtPESQUISA);
+        txtPESQUISA.setFont(new Font("TimesRoman",Font.BOLD,16));
+        txtPESQUISA.setForeground(Color.red);
+        
                 
         //configuração dos botões
         umabiblio.configurarBotoes(btnAdicionar);
@@ -105,6 +109,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         jTabela.setForeground(Color.blue);
         jTabela.setFocusable(false);   //RETIRANDO O FOCO DA TABELA PARA ABRIR FOCO DIRETO NO TXTNUMERO        
         txtNUMEMO.setFocusable(false); //RETIRANDO O FOCO DO NUMERO PARA ABRIR FOCO DIRETO NO TXTNUMERO        
+        
         
         //Impede que formulario seja arrastado na tela
         this.addComponentListener(new ComponentAdapter() {
@@ -253,6 +258,9 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             }
         });
         txtPESQUISA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPESQUISAKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPESQUISAKeyReleased(evt);
             }
@@ -629,6 +637,8 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             btnSair.setEnabled(true);
         }
         btnSair.setEnabled(true);
+        //mudar icone do botao     
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif")));
     }//GEN-LAST:event_btnExcluirItemActionPerformed
 
     private void txtDESTINOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDESTINOMouseClicked
@@ -661,6 +671,8 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             txtPESQUISAMouseClicked(null);
             btnCancelar.setText("Cancelar");
         }
+        //mudar icone do botao     
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif")));
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtPESQUISAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPESQUISAMouseClicked
@@ -671,16 +683,26 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
 
     private void filtrarPorDigitacao(String pPesq, String snuMemo) {
         
-        sqlFiltro = ("SELECT DISTINCT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE i.modeloid=m.codigo AND i.status = 'PROCESSANDO' AND (i.serie like '%"+pPesq+"%') ORDER BY i.item");
+        sqlFiltro = ("SELECT DISTINCT i.*, m.* FROM TBLITENSMEMOTRANSFERIDOS i, TBLMODELOS m WHERE "
+                     + "(i.serie like '%" + pPesq + "%' OR i.chapa like '%" + pPesq + "%') AND i.modeloid=m.codigo AND i.status = 'PROCESSANDO' ORDER BY i.item");
         PreencherTabela(sqlFiltro);
-        this.setTitle("Total de registros retornados pela pesquisa = "+totalRegs);             
+        this.setTitle("Total de registros retornados pela pesquisa = "+totalRegs);      
+        
     }
     
     
     private void txtPESQUISAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyReleased
         filtrarPorDigitacao(txtPESQUISA.getText(), sNumemo);
         btnCancelar.setText("Limpar");
+        //mudar icone do botao     
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_limpar.gif")));
     }//GEN-LAST:event_txtPESQUISAKeyReleased
+
+    private void txtPESQUISAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {            
+            PreencherTabela(sqlFiltro);
+        }
+    }//GEN-LAST:event_txtPESQUISAKeyPressed
     
     public void PreencherTabela(String sql)
     {

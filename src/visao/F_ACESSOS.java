@@ -206,11 +206,6 @@ public class F_ACESSOS extends javax.swing.JFrame {
         txtSENHA.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtSENHA.setForeground(new java.awt.Color(255, 51, 51));
         txtSENHA.setToolTipText("");
-        txtSENHA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSENHAActionPerformed(evt);
-            }
-        });
         txtSENHA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSENHAKeyPressed(evt);
@@ -236,17 +231,9 @@ public class F_ACESSOS extends javax.swing.JFrame {
 
         txtINSTITUICAO.setEditable(false);
         txtINSTITUICAO.setToolTipText("");
-        txtINSTITUICAO.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtINSTITUICAOActionPerformed(evt);
-            }
-        });
         txtINSTITUICAO.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtINSTITUICAOKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtINSTITUICAOKeyReleased(evt);
             }
         });
 
@@ -258,29 +245,11 @@ public class F_ACESSOS extends javax.swing.JFrame {
         txtOBS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtOBS.setForeground(new java.awt.Color(0, 51, 255));
         txtOBS.setToolTipText("");
-        txtOBS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtOBSActionPerformed(evt);
-            }
-        });
-        txtOBS.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtOBSKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtOBSKeyReleased(evt);
-            }
-        });
 
         txtPESQUISA.setEditable(false);
         txtPESQUISA.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtPESQUISA.setForeground(new java.awt.Color(0, 51, 255));
         txtPESQUISA.setToolTipText("");
-        txtPESQUISA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPESQUISAActionPerformed(evt);
-            }
-        });
         txtPESQUISA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPESQUISAKeyPressed(evt);
@@ -512,10 +481,6 @@ public class F_ACESSOS extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void txtSENHAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSENHAActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSENHAActionPerformed
-
     private void txtSENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSENHAKeyPressed
         //se teclar enter estando dentro do txtNOME vá para o campo do rf
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -532,36 +497,12 @@ public class F_ACESSOS extends javax.swing.JFrame {
         umabiblio.tabelaVazia(tabela);
     }//GEN-LAST:event_formWindowOpened
 
-    private void txtINSTITUICAOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtINSTITUICAOActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtINSTITUICAOActionPerformed
-
     private void txtINSTITUICAOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtINSTITUICAOKeyPressed
         //se teclar enter estando dentro do txtNOME vá para o campo do rf
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtSENHA.requestFocus();
         }
     }//GEN-LAST:event_txtINSTITUICAOKeyPressed
-
-    private void txtINSTITUICAOKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtINSTITUICAOKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtINSTITUICAOKeyReleased
-
-    private void txtOBSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOBSActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtOBSActionPerformed
-
-    private void txtOBSKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOBSKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtOBSKeyPressed
-
-    private void txtOBSKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOBSKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtOBSKeyReleased
-
-    private void txtPESQUISAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPESQUISAActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPESQUISAActionPerformed
 
     private void txtPESQUISAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyPressed
         //se teclar enter estando dentro da pesquisa limpar a pesquisa
