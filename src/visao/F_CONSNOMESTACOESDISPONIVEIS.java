@@ -240,23 +240,23 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
                 
         if(pDepto.equals("CGGM"))
         {
-             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
+             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, p.serie, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
              + "s.codigo=p.secaoid and t.codigo=p.tipoid and p.deptoid = '"+umDeptoid+"' and p.estacao like '%PGMCGGMC%' and p.estacao<>'PGMCGGMC000' "
              + "and p.status='ATIVO' ORDER BY RIGHT('000000000000' || p.estacao, 12)";  
         }else if(pDepto.equals("CEJUR")){
-             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
+             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, p.serie, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
              + "s.codigo=p.secaoid and t.codigo=p.tipoid and p.deptoid = '"+umDeptoid+"' and p.estacao like '%PGMCEJURC%' and p.estacao<>'PGMCEJURC00' "
              + "and p.status='ATIVO' ORDER BY RIGHT('000000000000' || p.estacao, 12)";  
         }else if(pDepto.equals("CEJUSC")){
-             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
+             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, p.serie, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
              + "s.codigo=p.secaoid and t.codigo=p.tipoid and p.deptoid = '"+umDeptoid+"' and p.estacao like '%PGMCEJUSCC%' and p.estacao<>'PGMCEJUSCC0' "
              + "and p.status='ATIVO' ORDER BY RIGHT('000000000000' || p.estacao, 12)";  
         }else if(pDepto.equals("PFM")){
-             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
+             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, p.serie, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
              + "s.codigo=p.secaoid and t.codigo=p.tipoid and p.deptoid = '"+umDeptoid+"' and p.estacao like '%PGMPFMC%' and p.estacao<>'PGMPFMC00' "
              + "and p.status='ATIVO' ORDER BY RIGHT('000000000000' || p.estacao, 12)"; 
         }else if(pDepto.equals("BIBLIOTECA")){
-             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
+             sqlPesquisaNomesUtilizados = "SELECT p.codigo, p.estacao, p.serie, t.tipo, s.nome as secao FROM tblpatrimonios p, tbltipos t, tblsecoes s WHERE "
              + "s.codigo=p.secaoid and t.codigo=p.tipoid and p.deptoid = '"+umDeptoid+"' and p.estacao like '%PGMCEJURC%' and p.estacao<>'PGMCEJURC00' "
              + "and p.status='ATIVO' ORDER BY RIGHT('000000000000' || p.estacao, 12)"; 
         }
@@ -444,15 +444,16 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
         conexao.conectar();
         ArrayList dados = new ArrayList();
         //para receber os dados das colunas(exibe os titulos das colunas)
-        String[] Colunas = new String[]{"Código", "Estação", "Tipo", "Seção"};
+        String[] Colunas = new String[]{"Código", "Tipo", "Seção", "Estação", "Série"};
         try {
             conexao.ExecutarPesquisaSQL(sql);
             while (conexao.rs.next()) {
                 dados.add(new Object[]{
                     conexao.rs.getInt("codigo"),
-                    conexao.rs.getString("estacao"),
                     conexao.rs.getString("tipo"),
-                    conexao.rs.getString("secao")
+                    conexao.rs.getString("secao"),
+                    conexao.rs.getString("estacao"),
+                    conexao.rs.getString("serie")
 
                 });
                 totalRegs = conexao.rs.getRow();
@@ -462,14 +463,16 @@ public class F_CONSNOMESTACOESDISPONIVEIS extends javax.swing.JDialog  {
             jTabelaESTACOES.setModel(modelo);
             
             //define tamanho das colunas
-            jTabelaESTACOES.getColumnModel().getColumn(0).setPreferredWidth(70);  //define o tamanho da coluna
+            jTabelaESTACOES.getColumnModel().getColumn(0).setPreferredWidth(80);  //define o tamanho da coluna
             jTabelaESTACOES.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabelaESTACOES.getColumnModel().getColumn(1).setPreferredWidth(220);  //define o tamanho da coluna
+            jTabelaESTACOES.getColumnModel().getColumn(1).setPreferredWidth(170);  //define o tamanho da coluna
             jTabelaESTACOES.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabelaESTACOES.getColumnModel().getColumn(2).setPreferredWidth(200);  //define o tamanho da coluna
+            jTabelaESTACOES.getColumnModel().getColumn(2).setPreferredWidth(170);  //define o tamanho da coluna
             jTabelaESTACOES.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabelaESTACOES.getColumnModel().getColumn(3).setPreferredWidth(300);  //define o tamanho da coluna
+            jTabelaESTACOES.getColumnModel().getColumn(3).setPreferredWidth(170);  //define o tamanho da coluna
             jTabelaESTACOES.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna 
+            jTabelaESTACOES.getColumnModel().getColumn(4).setPreferredWidth(200);  //define o tamanho da coluna
+            jTabelaESTACOES.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna 
             
             //define propriedades da tabela
             jTabelaESTACOES.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada
