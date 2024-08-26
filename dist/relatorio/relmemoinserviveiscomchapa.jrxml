@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2024-08-26T10:49:19 -->
+<!-- 2024-08-26T18:50:37 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TESTE" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c53ebc6-760c-4afc-b2c0-43ee711e05ca">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="connSysTarefas"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="connSYSTAREFAS.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="CABECALHO" class="java.awt.Image"/>
 	<parameter name="numemo" class="java.lang.String"/>
@@ -34,7 +34,7 @@ i.item]]>
 	<field name="NOME" class="java.lang.String"/>
 	<field name="OBSERVACAO" class="java.lang.String"/>
 	<background>
-		<band height="14" splitType="Stretch"/>
+		<band height="46" splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="325">
@@ -194,27 +194,12 @@ Declaramos que os bens abaixo relacionados, são  inservíveis, com  defeitos, q
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="30" y="16" width="510" height="20" uuid="11fbc407-dc6b-492d-b3b2-d76f970b2bfa">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{OBSERVACAO}]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="145">
+		<band height="177">
 			<frame>
-				<reportElement x="27" y="7" width="511" height="126" uuid="cfac31df-0415-4581-b68b-b83528326a5b"/>
+				<reportElement x="27" y="35" width="511" height="126" uuid="cfac31df-0415-4581-b68b-b83528326a5b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -243,6 +228,17 @@ Declaramos que os bens abaixo relacionados, são  inservíveis, com  defeitos, q
 					<text><![CDATA[Nome :         _______________________________  RF:_________________]]></text>
 				</staticText>
 			</frame>
+			<textField>
+				<reportElement x="27" y="7" width="511" height="18" uuid="1069fcf8-01e9-4ed2-b3ec-a0380c7e1743"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{OBSERVACAO}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>
