@@ -232,7 +232,7 @@ public class F_APOIO extends javax.swing.JDialog
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel1.setText("  ATUALIZADO EM 26AGO/24  11:00 EM CASA");
+        jLabel1.setText("  ATUALIZADO EM 27AGO/24  10:36 EM CGGM");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
