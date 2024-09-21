@@ -579,6 +579,24 @@ public class MetodosPublicos {
             conexao.desconectar();
         }
     }  
+    public void atualizarSerieChapaPatrimoniosEditadosETransferidos(String pNovaSeire, String pNovaChapa, String pSerieAtual) 
+    {
+        conexao.conectar();
+        try 
+        {
+            sql = "UPDATE TBLITENSMEMOTRANSFERIDOS SET serie=?, chapa=? WHERE serie=?";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, pNovaSeire);           
+            pst.setString(2, pNovaChapa);    
+            pst.setString(3, pSerieAtual);    
+            pst.executeUpdate(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de inserção sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+    }  
     
     public void atualizarStatusDosMemosParaTransferidos(String numemo) 
     {

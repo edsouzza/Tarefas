@@ -123,7 +123,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
     //Controle de Listas
     ControleListaPatrimonios umCtrLista          = new ControleListaPatrimonios();
     
-    String descricaoDeReativacao,motivoReativacao,patrimonio, situacao, nomeCli, nomeTipo, nomeESTACAOOLD, numIPOLD, STATUSIPOLD, nomeClienteOLD, motivoInativacao, estacao, obs, serie, chapa, paramPesquisa, paramPesqCod, paramPesqIP, nomeColuna, nomeEstacao, nomeEstacaoAtual, ip, observacaoDeInativacao, tipo, contrato, nomestacaoCad, nomeInicial, nomeFinal, motivo, nomeSecao,novaObservacao,deContrato  = null; 
+    String descricaoDeReativacao,motivoReativacao,patrimonio, situacao, nomeCli, nomeTipo, nomeESTACAOOLD, numIPOLD, STATUSIPOLD, nomeClienteOLD, numSerieOLD, motivoInativacao, estacao, obs, serie, chapa, paramPesquisa, paramPesqCod, paramPesqIP, nomeColuna, nomeEstacao, nomeEstacaoAtual, ip, observacaoDeInativacao, tipo, contrato, nomestacaoCad, nomeInicial, nomeFinal, motivo, nomeSecao,novaObservacao,deContrato  = null; 
     int cont,ipesqPorCod,ipesqPorIP,codEstacaoParaEditar,codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo,deptoid, tipoid, controleMostraDescricao, idCodigoIPDisponivel, idCodigoEstacaoDisponivel, codPatrimonio,codTipoid, contClick = 0;
     boolean entrouNovaObs, selecionouTipo,escolheuModelo,reativando,gravando,transferindo,semIP, temIP, alterouIP, alterouEstacao, editando, cadastrando, flagImprimiu, listouClientesParaEdicao, alterouStatus, bEncontrou, clicouNaTabela, filtrou, naoMicro, clicouInativos, filtrouClicou, selecionouItem,estacaoRecebeuDisponivel;      
     String sqlDefaultATIVOS   = "select p.*, c.nome as cliente, s.nome as secao, t.*, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status = 'ATIVO' ORDER BY p.codigo desc";
@@ -1609,8 +1609,9 @@ private void gravarEdicaoRegistro()
     estacao = txtESTACAO.getText();
     umModPatrimonio.setEstacao(estacao);    
     
-       
-
+    //CASO O PATRIMONIO TENHA SIDO TRANSFERERIDO PARA OUTRO LUGAR A SERIE E CHAPA SERAO ATUALIZADOS CONFORME ESTE PROCEDIMENTO   
+    umMetodo.atualizarSerieChapaPatrimoniosEditadosETransferidos(serie, chapa, numSerieOLD);
+    
     //setando codigo do modelo
     idModelo  = umaBiblio.buscarCodigoGenerico("tblmodelos","modelo",cmbMODELOS.getSelectedItem().toString());
     umModPatrimonio.setModeloid(idModelo);
@@ -1706,6 +1707,7 @@ private void gravarEdicaoRegistro()
         listouClientesParaEdicao = false;
         cadastrandonomestacao    = false;  
         tipo                     = txtTIPO.getText();
+        numSerieOLD              = txtSERIE.getText();
         contrato                 = txtCONTRATO.getText();
         nomeSecao                = umPatrimonioDAO.getSecaoEquipamento(Integer.valueOf(txtCODIGO.getText()));
         
