@@ -210,16 +210,17 @@ public class DAOPatrimonio {
         conexao.conectar();
         try
         {
-            sql = "UPDATE tblpatrimonios SET estacao=?, secaoid=?, clienteid=?, status=?, motivo=?, datainativacao=?, observacoes=?  WHERE codigo=?";
+            sql = "UPDATE tblpatrimonios SET ip=?, estacao=?, secaoid=?, clienteid=?, status=?, motivo=?, datainativacao=?, observacoes=?  WHERE codigo=?";
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
-            pst.setString(1, umPatrimonio.getEstacao());
-            pst.setInt(2, umPatrimonio.getSecaoid());
-            pst.setInt(3, umPatrimonio.getClienteid());
-            pst.setString(4, umPatrimonio.getStatus());
-            pst.setString(5, umPatrimonio.getMotivo());
-            pst.setDate(6, new java.sql.Date(dataDoDia.getTime())); 
-            pst.setString(7, umPatrimonio.getObservacoes());
-            pst.setInt(8, umPatrimonio.getCodigo());
+            pst.setString(1, umPatrimonio.getIp());
+            pst.setString(2, umPatrimonio.getEstacao());
+            pst.setInt(3, umPatrimonio.getSecaoid());
+            pst.setInt(4, umPatrimonio.getClienteid());
+            pst.setString(5, umPatrimonio.getStatus());
+            pst.setString(6, umPatrimonio.getMotivo());
+            pst.setDate(7, new java.sql.Date(dataDoDia.getTime())); 
+            pst.setString(8, umPatrimonio.getObservacoes());
+            pst.setInt(9, umPatrimonio.getCodigo());
             pst.executeUpdate();
             pst.close();  
             return true;
@@ -936,7 +937,9 @@ public class DAOPatrimonio {
         
         for(int i=0; i<totalregs;i++)
         {
-            int pCod       = Integer.valueOf(lstListaGenerica.get(i));         
+            int pCod = Integer.valueOf(lstListaGenerica.get(i));  
+            
+            //VERIFICA QUAL O DESTINO SE FOR UM DE NOSSOS DEPTOS NAO INATIVA E SOMENTE ENVIA CASO CONTRARIO INATIVA
             gravarUpdateMemos(pCod,pNumemo);
         }        
     }         

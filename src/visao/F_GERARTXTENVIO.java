@@ -513,23 +513,63 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
     {  
         sChapa     = txtCHAPA.getText();
         sSerie     = txtPESQUISA.getText();
-        sStatus    = "INATIVO";
-        sSecaoid   = "30";
-        sClienteid = "202";
-        codSecao   = 30;
-        codCliente = 202;
-        sOrigem    = txtORIGEM.getText();
         sDestino   = txtDESTINO.getText();
+        sOrigem    = txtORIGEM.getText();            
         sMemorando = txtMEMORANDO.getText();
-        sAssunto   = txtASSUNTO.getText();
+        sAssunto   = txtASSUNTO.getText();        
+        iTipoid    = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
+        sCodigo    = String.valueOf(codPatr);
         
-        iTipoid  = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
-        sCodigo  = String.valueOf(codPatr);
-        
-        if(umMetodo.Emicro(codPatr)){
-            sEstacao = "PGMCGGMC000";
+        if(umMetodo.Emicro(codPatr)){            
+                       
+            switch (sDestino) {
+                case "CEJUR":                    
+                    sStatus     = "ATIVO";
+                    sSecaoid    = "3";
+                    sClienteid  = "196";  
+                    codSecao    = 3;
+                    codCliente  = 196;   
+                    sEstacao    = "PGMCEJURC00";
+                    break;
+                case "CEJUSC":                    
+                    sStatus     = "ATIVO";
+                    sSecaoid    = "21";
+                    sClienteid  = "197";  
+                    codSecao    = 21;
+                    codCliente  = 197;   
+                    sEstacao    = "PGMCEJUSCC0";
+                    break;
+                case "PFM":                       
+                    sStatus     = "ATIVO";
+                    sSecaoid    = "17";
+                    sClienteid  = "227";  
+                    codSecao    = 17;
+                    codCliente  = 227;   
+                    sEstacao    = "PGMPFMC000";
+                    break;
+                case "BIBLIOTECA":                    
+                    sStatus     = "ATIVO";
+                    sSecaoid    = "3";
+                    sClienteid  = "196";  
+                    codSecao    = 22;
+                    codCliente  = 195;   
+                    sEstacao    = "PGMCEJURC00";
+                    break;
+                default:                    
+                    sStatus     = "INATIVO";
+                    sSecaoid    = "30";
+                    sClienteid  = "202";
+                    codSecao    = 30;
+                    codCliente  = 202;
+                    sEstacao    = "PGMCGGMC000";
+            }             
         }else{
             sEstacao = umMetodo.getStringPassandoCodigo("tblpatrimonios", "estacao", codPatr);
+            sStatus     = "INATIVO";
+            sSecaoid    = "30";
+            sClienteid  = "202";
+            codSecao    = 30;
+            codCliente  = 202;
         }
         
         sMotivo      = dataDoDia+" : Transferido de "+sOrigem+" para "+sDestino+" através do Memorando "+sMemorando+"";
@@ -868,6 +908,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         
         umModPatrimonio.setCodigo(Integer.valueOf(sCodigo));
         umModPatrimonio.setEstacao(sEstacao);
+        umModPatrimonio.setIp("0");
         umModPatrimonio.setSecaoid(Integer.valueOf(sSecaoid));
         umModPatrimonio.setClienteid(Integer.valueOf(sClienteid));
         umModPatrimonio.setStatus(sStatus);    
