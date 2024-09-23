@@ -130,7 +130,7 @@ public class MetodosPublicos {
     
     public boolean Emicro(int pCodigo) {
         conexao.conectar();
-        sql = "SELECT * FROM tblpatrimonios WHERE tipoid=1 AND codigo = '"+ pCodigo +"'";
+        sql = "SELECT * FROM tblpatrimonios WHERE tipoid=1 OR tipoid=19 AND codigo = '"+ pCodigo +"'";
         conexao.ExecutarPesquisaSQL(sql);
         try {
             if (conexao.rs.next()) {

@@ -315,7 +315,8 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         }
         
         //Incrementar a listaCodigosParaReativacao -> Ler todos os registros que constam do memorando e guardar os codigos        
-        listaCodigosParaReativacao = umMetodo.ListarCodigosDosItensDoMemorando(numemoParaImprimir);              
+        listaCodigosParaReativacao = umMetodo.ListarCodigosDosItensDoMemorando(numemoParaImprimir);    
+        
                         
     }//GEN-LAST:event_jTabelaMouseClicked
     
@@ -376,24 +377,26 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
         btnEditarObservacao.setEnabled(false);
         btnSair.setEnabled(true);         
         PreencherTabela(sqlDinamica);        
+        txtPESQUISA.requestFocus();
         
     }    
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-       //relPorDestino é uma variavel que controle de onde esta sendo solicitado o relatorio que no caso é da Lista de Memorandos cadastrados, mas pode vir tambem da 
+       //relPorDestino é uma variavel que controla de onde esta sendo solicitado o relatorio que no caso é da Lista de Memorandos cadastrados 
        relPorDestino = true; 
        
        if(relPorAssunto){
             F_ESCOLHAIMPRESSAODEVOLUCAO frm = new F_ESCOLHAIMPRESSAODEVOLUCAO();
             frm.setVisible(true);
             relPorAssunto = false;           
-       }else{           
-            F_ESCOLHAIMPRESSAO frm = new F_ESCOLHAIMPRESSAO();
+       }else{
+           F_ESCOLHAIMPRESSAO frm = new F_ESCOLHAIMPRESSAO();
             frm.setVisible(true);
        }             
               
        umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir);
        Leitura();
+       btnLimparPesquisaActionPerformed(null);
        
     }//GEN-LAST:event_btnImprimirActionPerformed
     

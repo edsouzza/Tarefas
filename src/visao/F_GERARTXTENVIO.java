@@ -95,7 +95,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         umaBiblio.configurarCamposTextos(txtDESTINO);
         txtOBSERVACAO.setDocument(new CampoTxtLimitadoPorQdeCaracteres(80));  
         txtOBSERVACAO.setFont(new Font("TimesRoman", Font.BOLD, 14));
-        txtASSUNTO.setDocument(new CampoTxtLimitadoPorQdeCaracteres(80));  
+        txtASSUNTO.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(80));  
         txtASSUNTO.setFont(new Font("TimesRoman", Font.BOLD, 14));
         txtMENSAGEM.setFont(new Font("TimesRoman", Font.BOLD, 14));
         txtMENSAGEM.setForeground(Color.red);
@@ -519,7 +519,7 @@ public class F_GERARTXTENVIO extends javax.swing.JFrame {
         sAssunto   = txtASSUNTO.getText();        
         iTipoid    = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
         sCodigo    = String.valueOf(codPatr);
-        
+                
         if(umMetodo.Emicro(codPatr)){            
                        
             switch (sDestino) {

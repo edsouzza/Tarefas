@@ -391,7 +391,7 @@ public class F_LOGIN extends javax.swing.JFrame
 
     private void txtLoginFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoginFocusGained
                         
-        //txtLogin.setText("D631863");       
+        txtLogin.setText("D631863");       
         //txtLogin.setText("D538076");   
         //txtLogin.setText("D741921");   
         

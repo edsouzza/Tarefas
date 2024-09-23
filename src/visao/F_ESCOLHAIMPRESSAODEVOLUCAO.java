@@ -2,7 +2,6 @@ package visao;
 
 import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
-import static biblioteca.VariaveisPublicas.numemoParaEditar;
 import static biblioteca.VariaveisPublicas.numemoParaImprimir;
 import javax.swing.JOptionPane;
 import relatorios.GerarRelatorios;

@@ -8,6 +8,7 @@ import relatorios.GerarRelatorios;
 
 
 public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
+    
     public F_ESCOLHAIMPRESSAO() {
         initComponents();
         setResizable(false);  //desabilitando o redimencionamento da tela
@@ -29,7 +30,7 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
         btnImprimirSemChapa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnImprimirSemChapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
         btnImprimirSemChapa.setText("SEM CHAPA");
-        btnImprimirSemChapa.setToolTipText("Imprimir");
+        btnImprimirSemChapa.setToolTipText("");
         btnImprimirSemChapa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnImprimirSemChapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -41,7 +42,7 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
         btnImprimirComChapa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnImprimirComChapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
         btnImprimirComChapa.setText("COM CHAPA");
-        btnImprimirComChapa.setToolTipText("Gerar PDF");
+        btnImprimirComChapa.setToolTipText("");
         btnImprimirComChapa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnImprimirComChapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,32 +56,35 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImprimirSemChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirSemChapaActionPerformed
-        GerarRelatorios objRel = new GerarRelatorios();
+        
+        GerarRelatorios objRelSemChapa = new GerarRelatorios();
         try { 
             if(relPorDestino && relDestinoMemo.equals("BAIXA")){
-               objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numemoParaImprimir);     
+               objRelSemChapa.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numemoParaImprimir);     
             }else{
-               objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidosemchapa.jasper", numemoParaImprimir);                
-            }
+               objRelSemChapa.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidosemchapa.jasper", numemoParaImprimir);                
+            }  
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório de INSERVIVEIS!\n"+e);                
         }    
         dispose();        
+        
     }//GEN-LAST:event_btnImprimirSemChapaActionPerformed
 
     private void btnImprimirComChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirComChapaActionPerformed
-        GerarRelatorios objRel = new GerarRelatorios();
+        
+        GerarRelatorios objRelComChapa = new GerarRelatorios();
         try {    
             if(relPorDestino && relDestinoMemo.equals("BAIXA")){
-               objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numemoParaImprimir);     
+               objRelComChapa.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numemoParaImprimir);     
             }else{
-               objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidocomchapa.jasper", numemoParaImprimir);              
-                
+               objRelComChapa.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidocomchapa.jasper", numemoParaImprimir);          
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório de INSERVIVEIS!\n"+e);                
         }             
         dispose();
+        
     }//GEN-LAST:event_btnImprimirComChapaActionPerformed
 
     /**
