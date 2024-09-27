@@ -84,7 +84,7 @@
             <url>src/visao/F_MEMOITENSRECEBIDOS.java</url>
             <bookmark id="19">
                 <name/>
-                <line>574</line>
+                <line>573</line>
                 <key/>
             </bookmark>
         </file>
@@ -110,7 +110,6 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/ARQS-JAVA/PROJETOS%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-            <file>file:/F:/ARQS-JAVA/PROJETOS%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_MEMOITENSRECEBIDOS.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2024-07-21T08:44:08 -->
+<!-- 2024-09-27T19:20:06 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TESTE" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c53ebc6-760c-4afc-b2c0-43ee711e05ca">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="adpSYSTAREFAS.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -73,18 +73,25 @@ i.codigo]]>
 				<imageExpression><![CDATA[$P{CABECALHO}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="20" y="308" width="530" height="13" uuid="78d0504f-2991-43fe-864e-8cf35fb46d02"/>
-				<textElement>
+				<reportElement x="108" y="300" width="443" height="23" uuid="dac42041-996c-45fc-a128-a9e1b9ba152f"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ORIGEM}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="20" y="323" width="530" height="38" uuid="161740a7-6094-46e7-b32a-f0cfe5ee1c11"/>
-				<textElement>
+				<reportElement x="21" y="323" width="530" height="20" uuid="7018edaa-71b3-4936-9886-56f0dea9c15b"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[A título de devolução encaminha a V.sa os equipamentos abaixo discriminados.]]></text>
+				<text><![CDATA[A título de devolução encaminhamos a V.sas o(s) equipamento(s) abaixo discriminado(s).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="300" width="86" height="23" uuid="9a88783b-f876-47f4-99f8-25c528e79274"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Devolvido por :]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -265,7 +272,7 @@ i.codigo]]>
 					<text><![CDATA[Em _____/_____/_____                                           RF:_________________]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="11" y="109" width="489" height="30" uuid="a14aaff4-9bc8-4493-8947-4067e82dc91d"/>
+					<reportElement x="22" y="109" width="489" height="30" uuid="a14aaff4-9bc8-4493-8947-4067e82dc91d"/>
 					<textElement>
 						<font fontName="Arial" size="14"/>
 					</textElement>
