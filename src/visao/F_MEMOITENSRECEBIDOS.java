@@ -77,12 +77,14 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                        
         LayoutManager layout = this.getLayout();
         System.out.println("Layout do JFrame: " + layout.getClass().getName());
-
         
-        //umabiblio.configurarCamposTextos(txtDESTINO);
-        txtORIGEM.setFont(new Font("TimesRoman",Font.BOLD,16)); 
-        txtORIGEM.setForeground(Color.red);        
-        txtORIGEM.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(30));   
+        txtORIGEMLOCAL.setFont(new Font("TimesRoman",Font.BOLD,16)); 
+        txtORIGEMLOCAL.setForeground(Color.red);        
+        txtORIGEMLOCAL.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(30)); 
+        
+        txtORIGEMEXTERNA.setFont(new Font("TimesRoman",Font.BOLD,16)); 
+        txtORIGEMEXTERNA.setForeground(Color.red);        
+        txtORIGEMEXTERNA.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(30)); 
         
         txtOBSERVACAO.setFont(new Font("TimesRoman",Font.BOLD,16)); 
         txtOBSERVACAO.setForeground(Color.red);
@@ -128,9 +130,11 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnExcluirItem = new javax.swing.JButton();
-        txtORIGEM = new javax.swing.JTextField();
+        txtORIGEMLOCAL = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btnLISTARCLIENTES = new javax.swing.JButton();
+        txtORIGEMEXTERNA = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -188,11 +192,6 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                 txtOBSERVACAOFocusGained(evt);
             }
         });
-        txtOBSERVACAO.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtOBSERVACAOMouseClicked(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 255));
@@ -217,16 +216,21 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
             }
         });
 
-        txtORIGEM.setForeground(new java.awt.Color(51, 51, 255));
-        txtORIGEM.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtORIGEMLOCAL.setForeground(new java.awt.Color(51, 51, 255));
+        txtORIGEMLOCAL.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtORIGEMLOCALFocusGained(evt);
+            }
+        });
+        txtORIGEMLOCAL.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtORIGEMMouseClicked(evt);
+                txtORIGEMLOCALMouseClicked(evt);
             }
         });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel8.setText("ORIGEM");
+        jLabel8.setText("ORIGEM EXTERNA");
 
         btnLISTARCLIENTES.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
         btnLISTARCLIENTES.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/users16.jpg"))); // NOI18N
@@ -244,42 +248,54 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
             }
         });
 
+        txtORIGEMEXTERNA.setForeground(new java.awt.Color(51, 51, 255));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel9.setText("ORIGEM LOCAL");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(txtNUMEMO, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                            .addComponent(txtORIGEMEXTERNA))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtOBSERVACAO)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtNUMEMO, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtORIGEM))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane2))
-                .addGap(225, 225, 225))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtORIGEMLOCAL, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(txtOBSERVACAO)))
+                .addGap(284, 284, 284))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdicionar, btnCancelar, btnExcluirItem, btnImprimir, btnSair});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -287,12 +303,14 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtORIGEMLOCAL, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLISTARCLIENTES, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtORIGEMEXTERNA, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,16 +329,16 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1037, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1088, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1026, 804));
+        setSize(new java.awt.Dimension(1094, 804));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
             
@@ -334,7 +352,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         btnAdicionar.setEnabled(false);
         btnImprimir.setEnabled(false);
         btnExcluirItem.setEnabled(false);
-        txtORIGEM.setEditable(false);
+        txtORIGEMLOCAL.setEditable(false);
         txtOBSERVACAO.setEditable(false);        
         btnSair.setEnabled(true);               
         numMemoTransferido = "";
@@ -364,7 +382,7 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         
         //GERANDO NUMERO DO MEMO COM O ANO VIGENTE
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
-        origemTransferidos     = txtORIGEM.getText();
+        //origemTransferidos     = txtORIGEMLOCAL.getText();
         destinoTransferidos    = "CGGM/INFO";
         assuntoTransferido     = "DEVOLUCAO DE EQUIPAMENTOS";
         observacao             = txtOBSERVACAO.getText();
@@ -390,13 +408,21 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         }        
         
     }
+    
+    private boolean comOrigemExterna(){
+        if(!txtORIGEMEXTERNA.getText().equals("")){   
+             return true;
+        }else{
+            return false;
+        }             
+    }
    
     private void AdicionarPatrimoniosAoMemorando(){                  
         
         /*QDO CLICA NO BOTAO ADICIONAR ABRE-SE A LISTA DE PATRIMONIOS E AO ESCOLHER UM ITEM O MESMO É INCLUIDO NA TBLITENSMEMOTRANSFERIDOS COM STATUS 
           PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/                             
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
-        origemTransferidos     = txtORIGEM.getText();
+        //origemTransferidos     = txtORIGEMLOCAL.getText();
         assuntoTransferido     = "DEVOLUCAO DE EQUIPAMENTOS";
         destinoTransferidos    = "CGGM/INFO";
         patriDevolucao         = true;
@@ -416,7 +442,13 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
     }
     
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        
+       if(comOrigemExterna()){           
+            origemTransferidos = txtORIGEMEXTERNA.getText();
+        }else{
+            origemTransferidos = txtORIGEMLOCAL.getText();
+        }
+        JOptionPane.showMessageDialog(null, origemTransferidos);
+      
        AdicionarPatrimoniosAoMemorando();           
         
     }//GEN-LAST:event_btnAdicionarActionPerformed
@@ -524,9 +556,9 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnExcluirItemActionPerformed
 
-    private void txtORIGEMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtORIGEMMouseClicked
-        txtORIGEM.selectAll();
-    }//GEN-LAST:event_txtORIGEMMouseClicked
+    private void txtORIGEMLOCALMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtORIGEMLOCALMouseClicked
+        txtOBSERVACAO.requestFocus();
+    }//GEN-LAST:event_txtORIGEMLOCALMouseClicked
 
     private void btnLISTARCLIENTESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLISTARCLIENTESActionPerformed
              
@@ -539,40 +571,38 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
        }else{
             texto = nomeCliente;  
        }
-       txtORIGEM.setEditable(true);
-       txtOBSERVACAO.setEditable(true);        
+       txtORIGEMLOCAL.setEditable(true);
+       txtORIGEMLOCAL.setText(texto);
        txtOBSERVACAO.requestFocus();
-       txtORIGEM.setText(texto);
+       txtOBSERVACAO.setEditable(true);        
        selecionouUsuario = true;    
        btnCancelar.setEnabled(true);
        btnAdicionar.setEnabled(true);
        
     }//GEN-LAST:event_btnLISTARCLIENTESActionPerformed
-
-    private void txtOBSERVACAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusGained
-        if(selecionouUsuario){
-            btnCancelar.setEnabled(true);
-            btnAdicionar.setEnabled(true);
-//            String rf    = rfCliente; 
-//            txtOBSERVACAO.setText("devolvido por "+txtORIGEM.getText()+" D"+rf+" ");
-        }
-    }//GEN-LAST:event_txtOBSERVACAOFocusGained
-
-    private void txtOBSERVACAOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtOBSERVACAOMouseClicked
-        if(!selecionouUsuario){
-              
-            //txtOBSERVACAO.setText(null);
-            JOptionPane.showMessageDialog(null, "Selecione um nome no botão SERVIDORES para continuar!", "Servidor não selecionado!", 2); 
-            
-        }
         
-    }//GEN-LAST:event_txtOBSERVACAOMouseClicked
-
     private void btnLISTARCLIENTESMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLISTARCLIENTESMouseClicked
          txtOBSERVACAO.requestFocus();          
     }//GEN-LAST:event_btnLISTARCLIENTESMouseClicked
+
+    private void txtORIGEMLOCALFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtORIGEMLOCALFocusGained
+        //Se preencheu a origem através de digitação
+        if(!txtORIGEMEXTERNA.getText().equals("")){  
+            txtOBSERVACAO.setEditable(true);
+            txtOBSERVACAO.requestFocus();
+            btnLISTARCLIENTES.setEnabled(false);
+            btnCancelar.setEnabled(true);
+            btnAdicionar.setEnabled(true);
+        }
+    }//GEN-LAST:event_txtORIGEMLOCALFocusGained
+
+    private void txtOBSERVACAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusGained
+        if(!comOrigemExterna()){
+            txtORIGEMEXTERNA.setEditable(false);
+        }
+    }//GEN-LAST:event_txtOBSERVACAOFocusGained
     
-     public void PreencherTabela(String sql)
+    public void PreencherTabela(String sql)
     {
         String[] Colunas;
         
@@ -605,9 +635,9 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
             jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna      
             jTabela.getColumnModel().getColumn(2).setPreferredWidth(550);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna        
-            jTabela.getColumnModel().getColumn(3).setPreferredWidth(150);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(3).setPreferredWidth(200);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna    
-            jTabela.getColumnModel().getColumn(4).setPreferredWidth(150);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(4).setPreferredWidth(200);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna        
               
             //define propriedades da tabela
@@ -633,11 +663,13 @@ public class F_MEMOITENSRECEBIDOS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTabela;
     private javax.swing.JTextField txtNUMEMO;
     private javax.swing.JTextField txtOBSERVACAO;
-    private javax.swing.JTextField txtORIGEM;
+    private javax.swing.JTextField txtORIGEMEXTERNA;
+    private javax.swing.JTextField txtORIGEMLOCAL;
     // End of variables declaration//GEN-END:variables
 }

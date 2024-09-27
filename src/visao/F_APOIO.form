@@ -333,7 +333,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="33" green="33" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="  ATUALIZADO EM 27AGO/24  10:36 EM CGGM"/>
+                    <Property name="text" type="java.lang.String" value="  ATUALIZADO EM 27/09/24  18:22 EM CGGM"/>
                   </Properties>
                 </Component>
               </SubComponents>
