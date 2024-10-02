@@ -6,11 +6,11 @@ import biblioteca.Biblioteca;
 import biblioteca.CampoLimitadoParaCHAPA;
 import biblioteca.CampoLimitadoParaIP;
 import biblioteca.CopiarParaClipboard;
+import biblioteca.MetodosPublicos;
 import biblioteca.ModeloTabela;
 import conexao.ConnConexao;
 import controle.CtrlPatrimonio;
 import biblioteca.TudoMaiusculas;
-import biblioteca.VariaveisPublicas;
 import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import controle.CtrlCliente;
 import static biblioteca.VariaveisPublicas.totalRegs;
@@ -42,8 +42,9 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
     ConnConexao conexao  = new ConnConexao();
     Biblioteca umabiblio                = new Biblioteca();
+    MetodosPublicos     umMetodo        = new MetodosPublicos();
     Patrimonio umModPatrimonio          = new Patrimonio();
-    Cliente umModeloCliente                = new Cliente();
+    Cliente umModeloCliente             = new Cliente();
     CtrlCliente umControleCliente       = new CtrlCliente();
     CtrlPatrimonio umControlePatrimonio = new CtrlPatrimonio();
     CtrlImpressoraContrato umContrImpr  = new CtrlImpressoraContrato();
@@ -160,6 +161,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnPorSecao = new javax.swing.JButton();
         btnChamado = new javax.swing.JButton();
         btnInativarImpressorasContrato = new javax.swing.JButton();
+        btnConsultarPorSerie = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultando Impressoras");
@@ -433,6 +435,16 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             }
         });
 
+        btnConsultarPorSerie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
+        btnConsultarPorSerie.setText("Consultar Pela Série");
+        btnConsultarPorSerie.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConsultarPorSerie.setPreferredSize(new java.awt.Dimension(77, 25));
+        btnConsultarPorSerie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarPorSerieActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -494,14 +506,16 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                             .addComponent(jLabel13))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(84, 84, 84))
         );
@@ -568,7 +582,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -883,6 +898,25 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         cmbMODELOS.setEnabled(false);
         cmbSECOES.setEnabled(false);
     }
+    public void filtrarPorSerieAtiva(String pSerie)
+    {
+        nomeTipo = "IMPRESSORA";
+        escolheuModelo   =false;
+        filtrou          =true;
+        filtrouPorSecao  =true;
+        
+        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
+                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and  p.clienteid=c.codigo "
+                            + "and t.tipo= '" + nomeTipo + "' and p.serie = '" + pSerie + "'");
+        
+        if(escolheuModelo)        
+            this.setTitle("Total de impressoras "+modelo+" retornadas pela pesquisa = "+totalRegs);  //passando o total de registros para o titulo
+        else
+             this.setTitle("Total de impressoras retornadas pela pesquisa = "+totalRegs);  //passando o total de registros para o titulo
+        umabiblio.limparTodosCampos(rootPane);  //LIMPA TODOS OS EDITS 
+        cmbMODELOS.setEnabled(false);
+        cmbSECOES.setEnabled(false);
+    }
     public void filtrarPorSecaoInativa(int idSecao)
     {
         nomeTipo = "IMPRESSORA";
@@ -1078,6 +1112,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         cmbMODELOS.setSelectedIndex(-1);
         cmbSECOES.setSelectedIndex(-1);
         btnChamado.setEnabled(false);
+        btnConsultarPorSerie.setEnabled(true);
     }
     private void btnLimparPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparPesquisaActionPerformed
        limparPesquisa();        
@@ -1153,7 +1188,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     private void btnChamadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChamadoActionPerformed
         //abrir pagina de abertura de chamado da empresa contratada
         if(umabiblio.permissaoLiberada()){
-            umaURL.abrirURL("https://suporte.mrcomputer.com.br:8000/User/Login");
+            umaURL.abrirURL("https://suporte.mrcomputer.com.br/User/Login");
             //Copiando a série/modelo do equipamento para área de transferencia
             String sSerie, sModelo;
             sSerie = txtSERIE.getText();
@@ -1177,6 +1212,49 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnInativarImpressorasContratoActionPerformed
+
+    public void Pesquisar()
+    {    
+        //pesquisa não deverá aceitar valores vazios, nulos ou zero como parâmetro
+        while(paramPesquisa == null || paramPesquisa.equals("") || paramPesquisa.equals("0"))   //enquanto nao digitar um valor valido pra pesquisa não sair
+        {
+            
+            paramPesquisa = JOptionPane.showInputDialog(null, "Entre com serie, ip da Impressora!", "Pesquisando Patrimônio", 2);
+           
+            if (paramPesquisa == null || paramPesquisa.equals("") || paramPesquisa.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "Valor inválido","Entre com um parâmetro válido",2);
+            }else{    
+                bEncontrou = false;
+                paramPesquisa = paramPesquisa.toUpperCase();  //Esta variavel receberá um valor em letras maiusculas  
+
+                //Encontrar o codigo do patrimonio pela serie ou ip pois a pesquisa de inativados permite pesquisar apenas por esses dois campos
+                int ipesqPorCod = umMetodo.retornaCodigoPesq(tabela, "serie", "ip", paramPesquisa);                
+
+               //Se encontrar o registro e este estiver inativado msg, caso contrario mostrar o registro simplesmente
+                if(umMetodo.EInativoPorCodigo(tabela,ipesqPorCod)){
+                   jTabbedPane4.setSelectedIndex(1);
+                   JOptionPane.showMessageDialog(null, "Este Patrimônio encontra-se inativado no momento!","Patrimônio inativo",2);                   
+                }else{
+                   jTabbedPane4.setSelectedIndex(0); 
+                   filtrarPorSerieAtiva(paramPesquisa);
+                }
+                btnPorModelo.setEnabled(false);
+                btnPorSecao.setEnabled(false);
+                btnImprimir.setEnabled(false);
+                btnConsultarPorSerie.setEnabled(false);
+                btnInativarImpressorasContrato.setEnabled(false);
+                btnLimparPesquisa.setEnabled(true);
+            }            
+        }  
+       paramPesquisa = null;
+       
+    }
+    
+    private void btnConsultarPorSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPorSerieActionPerformed
+        Pesquisar();
+    }//GEN-LAST:event_btnConsultarPorSerieActionPerformed
+   
     private void mostrarDescricao(int codModelo){
         //Mostrando a descricao vinda da tabela de modelos
         sql="select descricao from tblmodelos where codigo="+codModelo;
@@ -1312,6 +1390,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChamado;
+    private javax.swing.JButton btnConsultarPorSerie;
     private javax.swing.JButton btnFiltroModeloSecao;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnInativarImpressorasContrato;

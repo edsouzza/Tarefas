@@ -3471,8 +3471,7 @@ private void gravarEdicaoRegistro()
     }
     
     public void PesquisarPorCod()
-    {   
-               
+    {                  
         while(paramPesqCod == null || paramPesqCod.equals("") || paramPesqCod.equals("0") || paramPesqCod.length() > 9) 
         {            
             paramPesqCod = JOptionPane.showInputDialog(null, "Entre com o código do equipamento até 9 digitos!", "Pesquisa por Código", 2);
@@ -3500,8 +3499,7 @@ private void gravarEdicaoRegistro()
                     btnVoltar.setToolTipText("Limpar pesquisa");
                     DesabilitarConsulta();
                 } 
-            }
-            
+            }            
        }
        paramPesqCod = null;
     }           
