@@ -1219,7 +1219,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         while(paramPesquisa == null || paramPesquisa.equals("") || paramPesquisa.equals("0"))   //enquanto nao digitar um valor valido pra pesquisa não sair
         {
             
-            paramPesquisa = JOptionPane.showInputDialog(null, "Entre com serie, ip da Impressora!", "Pesquisando Patrimônio", 2);
+            paramPesquisa = JOptionPane.showInputDialog(null, "Entre com serie da Impressora!", "Pesquisando Patrimônio", 2);
            
             if (paramPesquisa == null || paramPesquisa.equals("") || paramPesquisa.equals("0"))
             {
