@@ -2136,26 +2136,12 @@ private void gravarEdicaoRegistro()
         disponibilizarNomeEstacaoPeloNome();
         if(cadastrando || editando)
         {  
-            mostrarNomeClienteSelecionado(); 
-            if(nomeDepartamento.equals("CGGM"))
-            {
-
+              mostrarNomeClienteSelecionado(); 
               F_LISTAESTACOESDISPONIVEIS frm = new F_LISTAESTACOESDISPONIVEIS(new JFrame(),true);
               frm.setVisible(true);
               txtESTACAO.setText(frm.getNomeEstacaoSelecionada()); 
               estacaoRecebeuDisponivel = true;
-              txtCHAPA.requestFocus();  
-                      
-            }else{
-               if (nomeDepartamento.equals("BIBLIOTECA"))
-               {   
-                  txtESTACAO.setText(umMetodo.gerarProximoNomestacao("CEJUR")); 
-               }else{
-                  txtESTACAO.setText(umMetodo.gerarProximoNomestacao(nomeDepartamento));  
-               }                
-               estacaoRecebeuDisponivel = true;
-            }
-            
+              txtCHAPA.requestFocus();              
         }        
     }
         
