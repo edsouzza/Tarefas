@@ -409,6 +409,7 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
         }
         txtIP.setEditable(false);
         btnLimparTudo.setEnabled(true);
+        btnAdd.setEnabled(true);
     }//GEN-LAST:event_txtINICIOKeyPressed
 
     private void txtFIMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFIMKeyPressed
