@@ -97,6 +97,8 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTabelaDISPONIVEIS = new javax.swing.JTable();
         lblTITULO1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        btnLimparTudo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lista de IPs de impressoras cadastradas no sistema");
@@ -128,13 +130,19 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
             }
         });
         panelPrincipal.add(txtIP);
-        txtIP.setBounds(10, 20, 380, 30);
+        txtIP.setBounds(10, 20, 240, 30);
 
         lblTITULO2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTITULO2.setForeground(new java.awt.Color(0, 102, 102));
-        lblTITULO2.setText("Adiconar IP's na lista de disponiveis");
+        lblTITULO2.setText("INICIO                       FIM                         Add IP's Disponíveis");
         panelPrincipal.add(lblTITULO2);
         lblTITULO2.setBounds(400, 0, 380, 15);
+
+        txtFIM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFIMKeyPressed(evt);
+            }
+        });
         panelPrincipal.add(txtFIM);
         txtFIM.setBounds(530, 20, 110, 30);
 
@@ -148,13 +156,14 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
         btnAdd.setText("Add IP");
+        btnAdd.setEnabled(false);
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
         panelPrincipal.add(btnAdd);
-        btnAdd.setBounds(660, 17, 120, 33);
+        btnAdd.setBounds(650, 20, 130, 33);
 
         jTabelaDISPONIVEIS.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jTabelaDISPONIVEIS.setToolTipText("DISPONÍVEIS");
@@ -169,6 +178,24 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
         lblTITULO1.setText("Consultar IPs utilizados por impressoras cadastradas");
         panelPrincipal.add(lblTITULO1);
         lblTITULO1.setBounds(10, 0, 380, 15);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 51, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("A");
+        panelPrincipal.add(jLabel1);
+        jLabel1.setBounds(510, 30, 20, 15);
+
+        btnLimparTudo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_limpar.gif"))); // NOI18N
+        btnLimparTudo.setText("Limpar");
+        btnLimparTudo.setEnabled(false);
+        btnLimparTudo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparTudoActionPerformed(evt);
+            }
+        });
+        panelPrincipal.add(btnLimparTudo);
+        btnLimparTudo.setBounds(260, 20, 130, 33);
 
         getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 800, 570));
 
@@ -257,8 +284,11 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
          //se teclar enter estando dentro da pesquisa limpar a pesquisa
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             PreencherTabelaUTILIZADOS(sqlDefault);
-            txtIP.setText(null);     
+            txtIP.setText(null);                
         }
+         btnLimparTudo.setEnabled(true);
+         txtINICIO.setEditable(false);
+         txtFIM.setEditable(false);
     }//GEN-LAST:event_txtIPKeyPressed
     
     public void addUmIPDisponivel(){
@@ -357,15 +387,47 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
                }
            }
         }
-      
+        btnAdd.setEnabled(false);
+        btnLimparTudo.setEnabled(false);          
+        
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void LimparCampos(){
+        txtINICIO.setText("");
+        txtFIM.setText("");
+        txtIP.setText("");
+        txtIP.requestFocus();
+        txtINICIO.setEditable(true);
+        txtFIM.setEditable(true);
+        txtIP.setEditable(true);
+    }
+    
     private void txtINICIOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtINICIOKeyPressed
          //se teclar enter estando dentro da pesquisa limpar a pesquisa
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
           txtFIM.requestFocus();       
         }
+        txtIP.setEditable(false);
+        btnLimparTudo.setEnabled(true);
     }//GEN-LAST:event_txtINICIOKeyPressed
+
+    private void txtFIMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFIMKeyPressed
+        if(!txtINICIO.getText().equals("")){
+            btnAdd.setEnabled(true);
+            btnLimparTudo.setEnabled(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"Se deseja cadastrar um range de ips comece digitando o inicio do range no campo inicial e o fim neste campo!","Cadastro de range de ips!",2);
+            JOptionPane.showMessageDialog(null,"Se deseja cadastrar apenas um ip digite o mesmo no campo inicial somente!","Cadastro de um ip!",2);
+            txtINICIO.requestFocus();
+            txtFIM.setText("");
+        }
+    }//GEN-LAST:event_txtFIMKeyPressed
+
+    private void btnLimparTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparTudoActionPerformed
+        LimparCampos();
+        btnAdd.setEnabled(false);
+        btnLimparTudo.setEnabled(false);        
+    }//GEN-LAST:event_btnLimparTudoActionPerformed
     
     private void ExcluirLinhaDaTabela(){
         //verificando primeiro se o usuário selecionou uma linha na tabela
@@ -452,7 +514,7 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
             //define tamanho das colunas
             jTabelaDISPONIVEIS.getColumnModel().getColumn(0).setPreferredWidth(50);  //define o tamanho da coluna
             jTabelaDISPONIVEIS.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabelaDISPONIVEIS.getColumnModel().getColumn(1).setPreferredWidth(320);  //define o tamanho da coluna
+            jTabelaDISPONIVEIS.getColumnModel().getColumn(1).setPreferredWidth(300);  //define o tamanho da coluna
             jTabelaDISPONIVEIS.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna 
 
             //define propriedades da tabela
@@ -477,6 +539,8 @@ public class F_CONSIPSDISPONIVEIS extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnAdd;
+    public javax.swing.JButton btnLimparTudo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     public javax.swing.JTable jTabelaDISPONIVEIS;

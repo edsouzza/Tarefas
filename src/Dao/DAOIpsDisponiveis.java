@@ -13,7 +13,7 @@ import modelo.IPDisponivel;
  */
 public class DAOIpsDisponiveis {
 
-    ConnConexao         conexao                  = new ConnConexao();
+    ConnConexao  conexao  = new ConnConexao();
     
     
     public boolean salvarIPDisponivelDAO(IPDisponivel pIP) 
