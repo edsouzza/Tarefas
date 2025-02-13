@@ -176,6 +176,32 @@ public class MetodosPublicos {
         }
     }
     
+    public ArrayList<String> getListaDeMotivosPatrimonios(){
+        ArrayList<String> lista = new ArrayList();
+        
+        sql = "SELECT codigo, motivo from tblpatrimonios where tipoid = 3 and contrato='S' and empresaid > 0 and  status='ATIVO'";
+ 
+        conn = conexao.conectar();
+        conexao.ExecutarPesquisaSQL(sql);  
+        
+        try {          
+              while (conexao.rs.next())
+              {
+                lista.add(conexao.rs.getString("codigo"));   
+                lista.add(conexao.rs.getString("motivo"));  
+              }            
+              return lista;
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar verificar se tem motivos no registro da tabela, \n" + e + ", o sql passado foi \n" + sql);
+            return null;
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
+    
+    
     public boolean temDuplicidadeNaEdicao(String tabela, String campoTabela, String campoComparacao, Integer codigo) {
         conn = conexao.conectar();
         try {
@@ -504,13 +530,34 @@ public class MetodosPublicos {
             conexao.desconectar();
         }
     }  
+    
+    public boolean verificarSePesquisaRetornouDados(String sql){
+
+        conexao.conectar();
+        boolean temDados = conexao.ExecutarPesquisaSQLComRetorno(sql);
+
+        if (temDados) {
+            System.out.println("A pesquisa retornou resultados.");
+            return true;
+        } else {
+            System.out.println("Nenhum dado encontrado.");
+            return true;
+        }
+    }       
               
     public void inativarImpressorasContrato(Patrimonio umPatrimonio) 
     {         
         conexao.conectar();
         try 
-        {
-            sql = "UPDATE tblpatrimonios set status='INATIVO', motivo=?, observacoes=? where empresaid > 0 and status='ATIVO' and tipoid = 3";
+        { 
+            sql =  "UPDATE tblpatrimonios "+
+                    "SET motivo = COALESCE(motivo, '') || ASCII_CHAR(13) || ?, "+
+                    "observacoes = COALESCE(observacoes, '') || ASCII_CHAR(13) || ?, "+
+                    "status = 'INATIVO'  "+
+                    "WHERE empresaid > 0 "+
+                    "AND status = 'ATIVO' "+
+                    "AND tipoid = 3";
+            
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
             pst.setString(1, umPatrimonio.getMotivo());       
             pst.setString(2, umPatrimonio.getObservacoes());

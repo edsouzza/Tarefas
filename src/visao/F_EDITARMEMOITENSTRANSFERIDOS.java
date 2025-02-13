@@ -40,7 +40,6 @@ import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
 import modelo.PatriTensTransferido;
 import modelo.PatriTransferido;
 

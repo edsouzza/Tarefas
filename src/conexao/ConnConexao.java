@@ -70,6 +70,24 @@ public class ConnConexao {
         }          
     }
      
+    public boolean ExecutarPesquisaSQLComRetorno(String sql) {        
+        try {
+            stm = conexao.createStatement(rs.TYPE_SCROLL_INSENSITIVE, rs.CONCUR_READ_ONLY);
+            rs = stm.executeQuery(sql);   
+
+            if (rs.next()) { 
+                return true;  // Retornou dados
+            } else {
+                return false; // Não retornou dados
+            }
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(null, 
+                "Não foi possível executar o comando SQL de pesquisa, \n" + sqlEx + 
+                ", o SQL passado foi \n" + sql);
+            return false; // Em caso de erro, retorna falso
+        }          
+    } 
+     
     public void ExecutarPesquisaSQL(String sql)
     {        
        //esse metodo executeQuery geralmente é utilizado para consultas select no banco

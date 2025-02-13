@@ -1125,6 +1125,20 @@ public void updateStatusPosExclusaoItemDeMemoEnviado(int pCod, String numemo){
         }
 }
 
+public boolean verificarSePesquisaRetornouDados(String sql){
+
+    conexao.conectar();
+    boolean temDados = conexao.ExecutarPesquisaSQLComRetorno(sql);
+
+    if (temDados) {
+        System.out.println("A pesquisa retornou resultados.");
+        return true;
+    } else {
+        System.out.println("Nenhum dado encontrado.");
+        return true;
+    }
+}
+
 public void gravarUpdateMemos(int pCod, String numemo){
         //Grava atualizacao do equipamento transferido pelo codigo
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -1281,3 +1295,4 @@ public void gravarUpdateMemos(int pCod, String numemo){
         }
     }                         
 }
+
