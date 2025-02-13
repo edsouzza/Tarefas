@@ -11,6 +11,7 @@ import biblioteca.ModeloTabela;
 import conexao.ConnConexao;
 import controle.CtrlPatrimonio;
 import biblioteca.TudoMaiusculas;
+import static biblioteca.VariaveisPublicas.dataDoDia;
 import controle.CtrlCliente;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.nomeCliente;
@@ -26,7 +27,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -1173,12 +1176,27 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPorSecaoActionPerformed
 
     private void btnInativarImpressorasContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarImpressorasContratoActionPerformed
-       //Inativa todas as impressora de contrato para cadastro de nova Empresa   
+        //Inativa todas as impressora de contrato para cadastro de nova Empresa 
+        //Preciso manter os dados que constam em motivo e obs e quebrar linha somente se tiver dados
+        
+        Date              dataDia   = dataDoDia; 
+        SimpleDateFormat  sdf       = new SimpleDateFormat("dd.MM.yyyy");  
+        String motivo               = "\n"+sdf.format(dataDia)+" : Inativado por conta da troca de empresa e novo contrato de alocacao";        
+        String observacao           = "\n"+sdf.format(dataDia)+" : Inativado por conta da troca de empresa e novo contrato de alocacao";
+        
         if(umabiblio.permissaoLiberada()){
             if (umabiblio.ConfirmouOperacao("Confirma Inativação de todas as Impressoras do Contrato Atual?", "Inativação de Impressoras de Contrato Atual")){
-                umMetodo.inativarImpressorasContrato();
-                JOptionPane.showMessageDialog(null, "Todas as impressoras do Contrato Atual foram inativadas com sucesso!","Inativação de impressoras!",2);
-                PreencherTabelaATIVOS(sqlDefaultATIVOS);
+                umModPatrimonio.setMotivo(motivo);
+                umModPatrimonio.setObservacoes(observacao);                
+                umMetodo.inativarImpressorasContrato(umModPatrimonio);
+                JOptionPane.showMessageDialog(null, "Todas as impressoras do Contrato Atual foram inativadas com sucesso, cadastre agora a nova Empresa!","Inativação de impressoras!",2);
+                
+                PreencherTabelaATIVOS(sqlDefaultATIVOS);                
+
+                tabela = "TBLEMPRESA";     
+                F_EMPRESA frm = new F_EMPRESA(); 
+                frm.setVisible(true); 
+               
             }   
         }
         

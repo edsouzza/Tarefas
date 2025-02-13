@@ -460,10 +460,12 @@ public class F_EMPRESA extends javax.swing.JFrame {
                 { 
                     int qdeRegs = (umMetodo.getQdeRegistrosNaTabela("TblEmpresa"));
                     
+                    //Ao cadastrar a nova empresa será inativada a empresa anterior automaticamente
                     if(qdeRegs >= 1){
                        String codigoAtual = umMetodo.getValorCampoUltimoCodigo("tblempresa", "codigo");
                        umaEmpresaDAO.inativarEmpresasInativasDAO(Integer.parseInt(codigoAtual));        
                     }    
+                    
                     ctrEmpresa.salvarEmpresa(umModEmpresa);
                 }else{                    
                     umGravarLog.gravarLog("cadastro de empresa do novo contrato de impressoras "+nome);
@@ -475,13 +477,8 @@ public class F_EMPRESA extends javax.swing.JFrame {
         } 
         PreencherTabela(sqlDefault);   
         Leitura();        
-        gravando = false;
-        
-        if(umMetodo.ConfirmouOperacao("Deseja inativar as impressoras da antiga empresa, você pode fazer isso depois ?", "Inativando todas as impressoras do antigo contrato"))
-        {           
-           umMetodo.inativarImpressorasContrato();   
-        }    
-            
+        gravando = false;        
+                    
     }
 
     private void editarRegistro() 

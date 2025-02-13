@@ -59,6 +59,7 @@ import javax.swing.JPanel;
 import static jdk.nashorn.internal.objects.NativeString.toLowerCase;
 import modelo.Cliente;
 import modelo.NomeEstacao;
+import modelo.Patrimonio;
 
 public class MetodosPublicos {
 
@@ -504,14 +505,15 @@ public class MetodosPublicos {
         }
     }  
               
-    public void inativarImpressorasContrato() 
-    {
-        //Grava na tabela tblnomestacao diretamente sem criação de modelo etc. a alteração do status da estação para INDISPONIVEL
+    public void inativarImpressorasContrato(Patrimonio umPatrimonio) 
+    {         
         conexao.conectar();
         try 
         {
-            sql = "UPDATE tblpatrimonios set status='INATIVO' where empresaid > 0 and status='ATIVO' and tipoid = 3";
+            sql = "UPDATE tblpatrimonios set status='INATIVO', motivo=?, observacoes=? where empresaid > 0 and status='ATIVO' and tipoid = 3";
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, umPatrimonio.getMotivo());       
+            pst.setString(2, umPatrimonio.getObservacoes());
             pst.executeUpdate(); 
             
         } catch (Exception e) {

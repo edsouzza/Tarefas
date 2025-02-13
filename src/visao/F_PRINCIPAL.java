@@ -122,7 +122,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menutipodocumentos = new javax.swing.JMenuItem();
         menugerarnumdocto = new javax.swing.JMenuItem();
         menuclientesvirtuais = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mnuEmpresaContratoImpressoras = new javax.swing.JMenuItem();
         menuConsultas = new javax.swing.JMenu();
         menuLogs = new javax.swing.JMenuItem();
         mnuCONSMONITORES = new javax.swing.JMenuItem();
@@ -158,6 +158,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuMudarBanco = new javax.swing.JMenuItem();
         mnuApoio = new javax.swing.JMenuItem();
         mnuDocumentacao = new javax.swing.JMenuItem();
+        mnuAnotacoes = new javax.swing.JMenuItem();
         menuSobre = new javax.swing.JMenu();
         mnuLOGOFF = new javax.swing.JMenu();
         menuSair = new javax.swing.JMenu();
@@ -401,16 +402,16 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuCadastro.add(menuclientesvirtuais);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brick_add.png"))); // NOI18N
-        jMenuItem1.setText("EMPRESA CONTRATO IMPRESSORAS");
-        jMenuItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mnuEmpresaContratoImpressoras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuEmpresaContratoImpressoras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brick_add.png"))); // NOI18N
+        mnuEmpresaContratoImpressoras.setText("EMPRESA CONTRATO IMPRESSORAS");
+        mnuEmpresaContratoImpressoras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuEmpresaContratoImpressoras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnuEmpresaContratoImpressorasActionPerformed(evt);
             }
         });
-        menuCadastro.add(jMenuItem1);
+        menuCadastro.add(mnuEmpresaContratoImpressoras);
 
         jMenuBar1.add(menuCadastro);
 
@@ -757,6 +758,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         mnuCONFIGURACOES.add(mnuDocumentacao);
+
+        mnuAnotacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuAnotacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_blocoNotas.gif"))); // NOI18N
+        mnuAnotacoes.setText("ANOTAÇÕES");
+        mnuAnotacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuAnotacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAnotacoesActionPerformed(evt);
+            }
+        });
+        mnuCONFIGURACOES.add(mnuAnotacoes);
 
         jMenuBar1.add(mnuCONFIGURACOES);
 
@@ -1261,13 +1273,21 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuMemoInserviveisActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnuEmpresaContratoImpressorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEmpresaContratoImpressorasActionPerformed
         if(umabiblio.permissaoLiberada()){  
             tabela = "TBLEMPRESA";     
             F_EMPRESA frm = new F_EMPRESA(); 
             frm.setVisible(true); 
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mnuEmpresaContratoImpressorasActionPerformed
+
+    private void mnuAnotacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnotacoesActionPerformed
+        if(umabiblio.permissaoLiberada()){  
+            tabela = "TBLANOTACOES";     
+            F_ANOTACOES frm = new F_ANOTACOES(this,true);
+            frm.setVisible(true); 
+        }
+    }//GEN-LAST:event_mnuAnotacoesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1312,7 +1332,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblDesenvolvido;
@@ -1345,6 +1364,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem menugerarnumdocto;
     private javax.swing.JMenuItem menupatrimoniosmoveis;
     private javax.swing.JMenuItem menutipodocumentos;
+    private javax.swing.JMenuItem mnuAnotacoes;
     private javax.swing.JMenuItem mnuApoio;
     private javax.swing.JMenu mnuCONFIGURACOES;
     private javax.swing.JMenuItem mnuCONSIMPRESSORAS;
@@ -1354,6 +1374,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuConsInformacoes;
     private javax.swing.JMenuItem mnuConsultarEstacoesDisponiveis;
     private javax.swing.JMenuItem mnuDocumentacao;
+    private javax.swing.JMenuItem mnuEmpresaContratoImpressoras;
     private javax.swing.JMenuItem mnuEtiquetasColetivas;
     private javax.swing.JMenuItem mnuEtiquetasIndividuais;
     private javax.swing.JMenu mnuGerenciamentoNomesRede;
