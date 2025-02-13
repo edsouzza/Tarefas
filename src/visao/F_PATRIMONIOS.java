@@ -124,7 +124,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
     ControleListaPatrimonios umCtrLista          = new ControleListaPatrimonios();
     
     String descricaoDeReativacao,motivoReativacao,patrimonio, situacao, nomeCli, nomeTipo, nomeESTACAOOLD, numIPOLD, STATUSIPOLD, nomeClienteOLD, numSerieOLD, motivoInativacao, estacao, obs, serie, chapa, paramPesquisa, paramPesqCod, paramPesqIP, nomeColuna, nomeEstacao, nomeEstacaoAtual, ip, observacaoDeInativacao, tipo, contrato, nomestacaoCad, nomeInicial, nomeFinal, motivo, nomeSecao,novaObservacao,deContrato  = null; 
-    int cont,ipesqPorCod,ipesqPorIP,codEstacaoParaEditar,codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo,deptoid, tipoid, controleMostraDescricao, idCodigoIPDisponivel, idCodigoEstacaoDisponivel, codPatrimonio,codTipoid, contClick = 0;
+    int    empresaid,cont,ipesqPorCod,ipesqPorIP,codEstacaoParaEditar,codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo,deptoid, tipoid, controleMostraDescricao, idCodigoIPDisponivel, idCodigoEstacaoDisponivel, codPatrimonio,codTipoid, contClick = 0;
     boolean entrouNovaObs, selecionouTipo,escolheuModelo,reativando,gravando,transferindo,semIP, temIP, alterouIP, alterouEstacao, editando, cadastrando, flagImprimiu, listouClientesParaEdicao, alterouStatus, bEncontrou, clicouNaTabela, filtrou, naoMicro, clicouInativos, filtrouClicou, selecionouItem,estacaoRecebeuDisponivel;      
     String sqlDefaultATIVOS   = "select p.*, c.nome as cliente, s.nome as secao, t.*, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status = 'ATIVO' ORDER BY p.codigo desc";
     String sqlDefaultINATIVOS = "select p.*, c.nome as cliente, s.nome as secao, t.*, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status = 'INATIVO' ORDER BY p.datainativacao desc";
@@ -1024,6 +1024,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
         umModPatrimonio.setClienteid(codigoCliente);
         umModPatrimonio.setModeloid(idModelo);
         umModPatrimonio.setDeptoid(idDepto);        
+        umModPatrimonio.setEmpresaid(empresaid);        
         umModPatrimonio.setEstacao(nomeEstacao);
         umModPatrimonio.setStatus("ATIVO");
         umModPatrimonio.setDatacad(dataDoDia);
@@ -2039,8 +2040,7 @@ private void gravarEdicaoRegistro()
         txtIP.setText("0");
         txtCONTRATO.setText("NAO");
         
-        int codItemSelec= umMetodo.getCodigoPassandoString("tbltipos", "tipo", tipo);
-        //JOptionPane.showMessageDialog(null, "CODIGO ITEM SELECIONADO "+codItemSelec);
+        int codItemSelec= umMetodo.getCodigoPassandoString("tbltipos", "tipo", tipo);       
         
         if(umMetodo.TipoTemClientesVirtuais(codItemSelec)){
             cadastrandoEquipamento = false;
@@ -2067,19 +2067,28 @@ private void gravarEdicaoRegistro()
            //tela de verificacao se é de contrato ou nao, por enquanto somente as impressoras são de contrato entao essa tela só aparece pra impressoras até o momento
            F_LISTATIPOSCONTRATOS frmTiposContratos = new F_LISTATIPOSCONTRATOS(this, true);
            frmTiposContratos.setVisible(true);            
-                                   
+           empresaid = 0;    //qualquer que seja o equipamento empresaid = 0 só será diferente se for impressora
+           
            if(!isDeContrato){
               gerarIPFicticio();
               txtCONTRATO.setText("NAO");
+                         
            }else{
               txtCONTRATO.setText("SIM"); 
+              int codigoEmpresaAtualContratoImpressoras = 0;
+              codigoEmpresaAtualContratoImpressoras     = Integer.parseInt(umMetodo.getValorCampoUltimoCodigo("tblempresa", "codigo"));     
+        
+              if(isDeContrato && itemSelecionadoCadastro.equals("IMPRESSORA")){
+                  empresaid = codigoEmpresaAtualContratoImpressoras;           
+              }   
               //lista os ips disponiveis para impressoras de contrato
               listarIPImpressorasContrato();      
            }
            txtIP.requestFocus();   
            txtIP.selectAll();
         }          
-                     
+        //JOptionPane.showMessageDialog(rootPane, "CODIGO EMPRESA DO CONTRATO DE IMPRESSORAS = "+empresaid);
+        
         //POPULANDO O COMBO COM OS TIPO DE MODELOS
         popularComboBoxModelos();
         

@@ -11,14 +11,12 @@ import biblioteca.ModeloTabela;
 import conexao.ConnConexao;
 import controle.CtrlPatrimonio;
 import biblioteca.TudoMaiusculas;
-import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import controle.CtrlCliente;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.nomeCliente;
 import static biblioteca.VariaveisPublicas.sql;
 import static biblioteca.VariaveisPublicas.tabela;
 import controle.ControleGravarLog;
-import controle.CtrlImpressoraContrato;
 import controle.CtrlSecoes;
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
@@ -47,7 +45,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     Cliente umModeloCliente             = new Cliente();
     CtrlCliente umControleCliente       = new CtrlCliente();
     CtrlPatrimonio umControlePatrimonio = new CtrlPatrimonio();
-    CtrlImpressoraContrato umContrImpr  = new CtrlImpressoraContrato();
     ControleGravarLog umGravarLog       = new ControleGravarLog();
     DAOPatrimonio patrimonioDAO         = new DAOPatrimonio();
     Secao umModeloSecao                 = new Secao();
@@ -58,10 +55,15 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     int codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo, codigoSecao, codigoModelo = 0;
     boolean filtrouPorModelo, filtrouPorSecao, reativando,gravando, editando, flag, alterouStatus, bEncontrou, clicouNaTabela, escolheuModelo,filtrou, naoMicro, clicouInativos, filtrouClicou;  //controla no botão gravar entre gravar novo registro e gravar alteração de um registro    
     
-    String sqlDefaultATIVOS   = "select p.*, c.nome as cliente, s.nome as secao, m.*,t.* from tblpatrimonios p, tblclientes c, tblsecoes s, tbltipos t, "
-                              + "tblmodelos m where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status='ATIVO' and t.tipo='IMPRESSORA'";
-    String sqlDefaultINATIVOS = "select p.*, t.*, c.nome as cliente, s.nome as secao, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tbltipos t,"
-                              + "tblmodelos m where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status='INATIVO' and t.tipo='IMPRESSORA'";
+    String sqlDefaultATIVOS     = "select p.*, c.nome as cliente, s.nome as secao, m.*,t.* from tblpatrimonios p, tblclientes c, tblsecoes s, tbltipos t, "
+                                + "tblmodelos m where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status='ATIVO' and t.tipo='IMPRESSORA' and p.empresaid > 0";
+    
+    String sqlSemContratoATIVOS = "select p.*, c.nome as cliente, s.nome as secao, m.*,t.* from tblpatrimonios p, tblclientes c, tblsecoes s, tbltipos t, "
+                                + "tblmodelos m where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status='ATIVO' and t.tipo='IMPRESSORA' and p.empresaid = 0";
+    
+    
+    String sqlDefaultINATIVOS   = "select p.*, t.*, c.nome as cliente, s.nome as secao, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tbltipos t,"
+                                + "tblmodelos m where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status='INATIVO' and t.tipo='IMPRESSORA' and p.empresaid > 0";
     
     public F_CONSIMPRESSORAS() {
         initComponents();
@@ -80,6 +82,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         umabiblio.configurarCamposTextos(txtSERIE);
         umabiblio.configurarCamposTextos(txtIP);
         umabiblio.configurarCamposTextos(txtCHAPA);        
+        umabiblio.configurarCamposTextos(txtEMPRESA);        
         umabiblio.configurarCamposTextos(txtCLIENTE);
         txtDESCRICAO.setFont(new Font("TimesRoman", Font.BOLD, 12));
         txtDESCRICAO.setForeground(Color.blue);
@@ -88,12 +91,14 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtCHAPA.setDocument(new CampoLimitadoParaCHAPA());
         txtCODIGO.setForeground(Color.red);
         txtOBSERVACOES.setForeground(Color.red);
+        txtEMPRESA.setForeground(Color.red);
         txtOBSERVACOES.setDocument(new TudoMaiusculas());
         cmbMODELOS.setFont(new Font("TimesRoman", Font.BOLD, 12));
         cmbSECOES.setFont(new Font("TimesRoman", Font.BOLD, 12));
         txtOBSERVACOES.setFont(new Font("TimesRoman", Font.BOLD, 12));
         PreencherTabelaATIVOS(sqlDefaultATIVOS);
         PreencherTabelaINATIVOS(sqlDefaultINATIVOS);
+        PreencherTabelaSemContrato(sqlSemContratoATIVOS);
         
         //configuração dos botões
         umabiblio.configurarBotoes(btnImprimir);
@@ -107,6 +112,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         jTabelaATIVOS2.setForeground(Color.blue);
         jTabelaINATIVOS.setFont(new Font("TimesRoman", Font.BOLD, 12));
         jTabelaINATIVOS.setForeground(Color.red);
+        jTabelaSEMCONTRATO.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        jTabelaSEMCONTRATO.setForeground(Color.blue);
         txtCODIGO.setForeground(Color.red);
         txtCLIENTE.setForeground(Color.red);
 
@@ -139,7 +146,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtIP = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        cmbMODELOS = new javax.swing.JComboBox<>();
+        cmbMODELOS = new javax.swing.JComboBox<String>();
         txtOBSERVACOES = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -152,16 +159,19 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTabelaINATIVOS = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTabelaSEMCONTRATO = new javax.swing.JTable();
         btnLimparPesquisa = new javax.swing.JButton();
-        cmbSECOES = new javax.swing.JComboBox<>();
+        cmbSECOES = new javax.swing.JComboBox<String>();
         jLabel9 = new javax.swing.JLabel();
         btnFiltroModeloSecao = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         btnPorModelo = new javax.swing.JButton();
         btnPorSecao = new javax.swing.JButton();
-        btnChamado = new javax.swing.JButton();
         btnInativarImpressorasContrato = new javax.swing.JButton();
         btnConsultarPorSerie = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtEMPRESA = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultando Impressoras");
@@ -209,41 +219,13 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
         txtCHAPA.setEditable(false);
         txtCHAPA.setForeground(new java.awt.Color(51, 51, 255));
-        txtCHAPA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCHAPAActionPerformed(evt);
-            }
-        });
-        txtCHAPA.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtCHAPAFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCHAPAFocusLost(evt);
-            }
-        });
-        txtCHAPA.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                txtCHAPAPropertyChange(evt);
-            }
-        });
 
         jLabel4.setText("SERIE");
 
         txtCLIENTE.setForeground(new java.awt.Color(51, 51, 255));
-        txtCLIENTE.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtCLIENTEFocusGained(evt);
-            }
-        });
 
         txtIP.setEditable(false);
         txtIP.setForeground(new java.awt.Color(51, 51, 255));
-        txtIP.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtIPFocusGained(evt);
-            }
-        });
 
         jLabel5.setText("IP");
 
@@ -251,25 +233,15 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
         cmbMODELOS.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         cmbMODELOS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbMODELOS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<ESCOLHA O MODELO>", " " }));
+        cmbMODELOS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<ESCOLHA O MODELO>", " " }));
         cmbMODELOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbMODELOS.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbMODELOSItemStateChanged(evt);
             }
         });
-        cmbMODELOS.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                cmbMODELOSFocusLost(evt);
-            }
-        });
 
         txtOBSERVACOES.setForeground(new java.awt.Color(51, 51, 255));
-        txtOBSERVACOES.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtOBSERVACOESFocusGained(evt);
-            }
-        });
 
         jLabel12.setText("OBSERVAÇÕES");
 
@@ -318,7 +290,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("ATIVAS", jPanel7);
@@ -339,10 +311,20 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("INATIVAS", jPanel2);
+
+        jTabelaSEMCONTRATO.setGridColor(new java.awt.Color(255, 255, 255));
+        jTabelaSEMCONTRATO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabelaSEMCONTRATOMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(jTabelaSEMCONTRATO);
+
+        jTabbedPane4.addTab("SEM CONTRATO", jScrollPane6);
 
         btnLimparPesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_limpar.gif"))); // NOI18N
         btnLimparPesquisa.setText("Limpar Pesquisa");
@@ -357,16 +339,11 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
         cmbSECOES.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         cmbSECOES.setForeground(new java.awt.Color(51, 51, 255));
-        cmbSECOES.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<ESCOLHA A SEÇÃO>", "" }));
+        cmbSECOES.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<ESCOLHA A SEÇÃO>", "" }));
         cmbSECOES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbSECOES.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbSECOESItemStateChanged(evt);
-            }
-        });
-        cmbSECOES.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                cmbSECOESFocusLost(evt);
             }
         });
 
@@ -411,18 +388,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             }
         });
 
-        btnChamado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/configs.png"))); // NOI18N
-        btnChamado.setText("Abrir Chamado");
-        btnChamado.setToolTipText("Abrir Chamado de manutenção");
-        btnChamado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnChamado.setEnabled(false);
-        btnChamado.setPreferredSize(new java.awt.Dimension(77, 25));
-        btnChamado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChamadoActionPerformed(evt);
-            }
-        });
-
         btnInativarImpressorasContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif"))); // NOI18N
         btnInativarImpressorasContrato.setText("Inativar Contrato");
         btnInativarImpressorasContrato.setToolTipText("Inativar Impressoras de contrato");
@@ -445,6 +410,11 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("EMPRESA DO CONTRATO");
+
+        txtEMPRESA.setEditable(false);
+        txtEMPRESA.setForeground(new java.awt.Color(51, 51, 255));
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -452,7 +422,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtOBSERVACOES)
                     .addComponent(jScrollPane1)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,22 +470,28 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                             .addComponent(btnFiltroModeloSecao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jTabbedPane4)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13))
+                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtOBSERVACOES))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEMPRESA, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))))
                 .addGap(84, 84, 84))
         );
         panelPrincipalLayout.setVerticalGroup(
@@ -569,22 +544,29 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtOBSERVACOES, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel2))
+                        .addGap(353, 394, Short.MAX_VALUE))
+                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtOBSERVACOES, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEMPRESA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
 
         getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 680));
@@ -781,18 +763,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtSERIE.selectAll();
     }//GEN-LAST:event_txtSERIEFocusGained
 
-    private void txtCHAPAPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtCHAPAPropertyChange
-
-    }//GEN-LAST:event_txtCHAPAPropertyChange
-
-    private void txtCHAPAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCHAPAActionPerformed
-
-    }//GEN-LAST:event_txtCHAPAActionPerformed
-
-    private void txtCHAPAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCHAPAFocusGained
-       
-    }//GEN-LAST:event_txtCHAPAFocusGained
-
     private void txtCODIGOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCODIGOFocusGained
         txtCODIGO.setEditable(false);
     }//GEN-LAST:event_txtCODIGOFocusGained
@@ -825,8 +795,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         //pesquisar um patrimonio pelo numero do codigo setando os edits,nao use o next porque se clicou na tabela o registro com certeza existe
         //Obs: no caso dos inativos não precisa mostrar a seção pois não estão mais na PGM em nenhuma seçao
 
-        sql = "SELECT p.*, c.nome as cliente, s.nome as secao, m.*, t.* FROM tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t WHERE "
-                     +"p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.codigo='" + codPatrimonio + "'";
+        sql = "SELECT p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.*  FROM tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t, tblempresa e WHERE "
+                     +"p.tipoid=t.codigo and e.codigo = p.empresaid and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.codigo='" + codPatrimonio + "'";
         conexao.conectar();
         conexao.ExecutarPesquisaSQL(sql);
         try
@@ -838,6 +808,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 txtSERIE.setText(conexao.rs.getString("serie"));
                 txtIP.setText(conexao.rs.getString("ip"));            
                 txtCHAPA.setText(conexao.rs.getString("chapa"));
+                txtEMPRESA.setText(conexao.rs.getString("nome"));
                 txtDESCRICAO.setText(conexao.rs.getString("descricao"));
                 txtCLIENTE.setText(conexao.rs.getString("cliente"));  
                 txtOBSERVACOES.setText(conexao.rs.getString("observacoes"));   
@@ -857,28 +828,57 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         } finally {
             conexao.desconectar();
         }
-    }
-    private void txtCHAPAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCHAPAFocusLost
-        
-    }//GEN-LAST:event_txtCHAPAFocusLost
-
-    private void txtCLIENTEFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCLIENTEFocusGained
-       
-    }//GEN-LAST:event_txtCLIENTEFocusGained
+    }    
     
-    private void txtIPFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIPFocusGained
-              
-    }//GEN-LAST:event_txtIPFocusGained
+     public void mostrarDadosRegSelecionadoSemContrato(int codPatrimonio)
+    {
+        //pesquisar um patrimonio pelo numero do codigo setando os edits,nao use o next porque se clicou na tabela o registro com certeza existe
+        //Obs: no caso dos inativos não precisa mostrar a seção pois não estão mais na PGM em nenhuma seçao
 
+//        sql = "SELECT p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome  FROM tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t, tblempresa e WHERE "
+//                     +"p.tipoid=t.codigo and e.codigo=p.empresaid and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.contrato='N' and  p.empresaid = 0 and p.codigo='" + codPatrimonio + "'";
+        sql ="select p.*, c.nome as cliente, s.nome as secao, m.*,t.* from tblpatrimonios p, tblclientes c, tblsecoes s, tbltipos t, "
+             +"tblmodelos m where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo " 
+             +"and p.secaoid=s.codigo and p.status='ATIVO' and t.tipo='IMPRESSORA' and p.empresaid = 0 and p.codigo='"+codPatrimonio+"'";
+        
+        conexao.conectar();
+        conexao.ExecutarPesquisaSQL(sql);
+        try
+        {
+            if( conexao.rs.next())
+            {
+                conexao.rs.first();
+                txtCODIGO.setText(String.valueOf(conexao.rs.getInt("codigo")));
+                txtSERIE.setText(conexao.rs.getString("serie"));
+                txtIP.setText(conexao.rs.getString("ip"));            
+                txtCHAPA.setText(conexao.rs.getString("chapa"));
+                txtEMPRESA.setText(conexao.rs.getString("nome"));
+                txtDESCRICAO.setText(conexao.rs.getString("descricao"));
+                txtCLIENTE.setText(conexao.rs.getString("cliente"));  
+                txtOBSERVACOES.setText(conexao.rs.getString("observacoes"));   
+                                             
+                //setando o modelo na combobox do patrimonio escolhido
+                String modelo = conexao.rs.getString("modelo");    
+                cmbMODELOS.setSelectedItem(modelo);
+                
+                //setando a seção na combobox do patrimonio escolhido
+                String secao = conexao.rs.getString("secao");    
+                cmbSECOES.setSelectedItem(secao);
+                
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar selecionar os dados dos registro!\nERRO:" + ex.getMessage());
+        } finally {
+            conexao.desconectar();
+        }
+    }    
+     
     private void cmbMODELOSItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbMODELOSItemStateChanged
         txtDESCRICAO.requestFocus();
         editando=true;
     }//GEN-LAST:event_cmbMODELOSItemStateChanged
-
-    public void inativarImpressorasContrato(){
-       umContrImpr.InativarTodasImpressorasContrato();
-    }
-    
+        
     public void filtrarPorSecaoAtiva(int idSecao)
     {
         nomeTipo = "IMPRESSORA";
@@ -886,8 +886,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         filtrou=true;
         filtrouPorSecao=true;
         
-        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
-                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and  p.clienteid=c.codigo "
+        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tblempresa e "
+                            + "where e.codigo=p.empresaid and p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and  p.empresaid > 0 and p.clienteid=c.codigo "
                             + "and t.tipo= '" + nomeTipo + "' and s.codigo= "+idSecao);
         
         if(escolheuModelo)        
@@ -898,6 +898,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         cmbMODELOS.setEnabled(false);
         cmbSECOES.setEnabled(false);
     }
+    
     public void filtrarPorSerieAtiva(String pSerie)
     {
         nomeTipo = "IMPRESSORA";
@@ -905,8 +906,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         filtrou          =true;
         filtrouPorSecao  =true;
         
-        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
-                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and  p.clienteid=c.codigo "
+        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tblempresa e "
+                            + "where e.codigo=p.empresaid and p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and p.empresaid > 0 and p.clienteid=c.codigo "
                             + "and t.tipo= '" + nomeTipo + "' and p.serie = '" + pSerie + "'");
         
         if(escolheuModelo)        
@@ -924,8 +925,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         filtrou=true;
         filtrouPorSecao=true;
         
-        PreencherTabelaINATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
-                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='INATIVO' and  p.clienteid=c.codigo "
+        PreencherTabelaINATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tblempresa e "
+                            + "where e.codigo=p.empresaid and p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='INATIVO' and  p.empresaid > 0 and p.clienteid=c.codigo "
                             + "and t.tipo= '" + nomeTipo + "' and s.codigo= "+idSecao);
         
         if(escolheuModelo)        
@@ -943,8 +944,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         filtrou=true;
         filtrouPorModelo=true;
         
-        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
-                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and p.clienteid=c.codigo and "
+        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tblempresa e "
+                            + "where e.codigo=p.empresaid and p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and p.empresaid > 0 and p.clienteid=c.codigo and "
                             + "t.tipo= '" + nomeTipo + "' and m.codigo= "+idModelo);
         
         if(escolheuModelo)        
@@ -962,8 +963,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         filtrou=true;
         filtrouPorModelo=true;
         
-        PreencherTabelaINATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
-                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='INATIVO' and p.clienteid=c.codigo and "
+        PreencherTabelaINATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tblempresa e "
+                            + "where e.codigo=p.empresaid and p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='INATIVO' and p.empresaid > 0 and p.clienteid=c.codigo and "
                             + "t.tipo= '" + nomeTipo + "' and m.codigo= "+idModelo);
         
         if(escolheuModelo)        
@@ -981,8 +982,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         filtrou=true;
         filtrouPorModelo=true;
         
-        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
-                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and p.clienteid=c.codigo and "
+        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tblempresa e "
+                            + "where e.codigo=p.empresaid and p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='ATIVO' and p.empresaid > 0 and p.clienteid=c.codigo and "
                             + "t.tipo= '" + nomeTipo + "' and m.codigo= "+idModelo+" and s.codigo = "+idSecao);
         
         if(escolheuModelo)        
@@ -1000,8 +1001,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         filtrou=true;
         filtrouPorModelo=true;
         
-        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.* from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m "
-                            + "where p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='INATIVO' and p.clienteid=c.codigo and "
+        PreencherTabelaATIVOS("select p.*, c.nome as cliente, s.nome as secao, m.*, t.*, e.nome from tbltipos t, tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tblempresa e "
+                            + "where e.codigo=p.empresaid and p.tipoid=t.codigo and s.codigo=p.secaoid and p.modeloid=m.codigo and p.status='INATIVO' and p.empresaid > 0 and p.clienteid=c.codigo and "
                             + "t.tipo= '" + nomeTipo + "' and m.codigo= "+idModelo+" and s.codigo = "+idSecao);
         
         if(escolheuModelo)        
@@ -1013,14 +1014,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         cmbSECOES.setEnabled(false);
     }
     
-    private void cmbMODELOSFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbMODELOSFocusLost
-       
-    }//GEN-LAST:event_cmbMODELOSFocusLost
-
-    private void txtOBSERVACOESFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACOESFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtOBSERVACOESFocusGained
-
     private void txtDESCRICAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDESCRICAOFocusGained
         txtOBSERVACOES.requestFocus();
     }//GEN-LAST:event_txtDESCRICAOFocusGained
@@ -1041,7 +1034,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnPorSecao.setEnabled(false);
         txtIP.setEnabled(true);
         clicouNaTabela = true;
-        btnChamado.setEnabled(true);
         btnInativarImpressorasContrato.setEnabled(false);
         if(clicouNaTabela && filtrou){
             filtrouClicou = true;
@@ -1111,7 +1103,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtCODIGO.setEnabled(true);
         cmbMODELOS.setSelectedIndex(-1);
         cmbSECOES.setSelectedIndex(-1);
-        btnChamado.setEnabled(false);
         btnConsultarPorSerie.setEnabled(true);
     }
     private void btnLimparPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparPesquisaActionPerformed
@@ -1126,10 +1117,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             btnPorSecao.setEnabled(false);
         }
     }//GEN-LAST:event_cmbSECOESItemStateChanged
-
-    private void cmbSECOESFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbSECOESFocusLost
-       
-    }//GEN-LAST:event_cmbSECOESFocusLost
 
     private void btnFiltroModeloSecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroModeloSecaoActionPerformed
        //filtrando por modelo + secao
@@ -1185,28 +1172,12 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btnPorSecaoActionPerformed
 
-    private void btnChamadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChamadoActionPerformed
-        //abrir pagina de abertura de chamado da empresa contratada
-        if(umabiblio.permissaoLiberada()){
-            umaURL.abrirURL("https://suporte.mrcomputer.com.br/User/Login");
-            //Copiando a série/modelo do equipamento para área de transferencia
-            String sSerie, sModelo;
-            sSerie = txtSERIE.getText();
-            sModelo = cmbMODELOS.getSelectedItem().toString();            
-            lstListaGenerica.add(sModelo);
-            lstListaGenerica.add(sSerie);
-            
-            umTexto.setClipboard(lstListaGenerica.toString());            
-                        
-        }
-    }//GEN-LAST:event_btnChamadoActionPerformed
-
     private void btnInativarImpressorasContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarImpressorasContratoActionPerformed
        //Inativa todas as impressora de contrato para cadastro de nova Empresa   
         if(umabiblio.permissaoLiberada()){
-            if (umabiblio.ConfirmouOperacao("Confirma Inativação de todas as Impressoras de Contrato?", "Inativação de Impressoras de Contrato")){
-                inativarImpressorasContrato();
-                JOptionPane.showMessageDialog(null, "Todas as impressoras de Contrato foram inativadas com sucesso!","Inativação de impressoras!",2);
+            if (umabiblio.ConfirmouOperacao("Confirma Inativação de todas as Impressoras do Contrato Atual?", "Inativação de Impressoras de Contrato Atual")){
+                umMetodo.inativarImpressorasContrato();
+                JOptionPane.showMessageDialog(null, "Todas as impressoras do Contrato Atual foram inativadas com sucesso!","Inativação de impressoras!",2);
                 PreencherTabelaATIVOS(sqlDefaultATIVOS);
             }   
         }
@@ -1254,6 +1225,27 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     private void btnConsultarPorSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPorSerieActionPerformed
         Pesquisar();
     }//GEN-LAST:event_btnConsultarPorSerieActionPerformed
+
+    private void jTabelaSEMCONTRATOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaSEMCONTRATOMouseClicked
+        int codigoRegSelecionado = (int) jTabelaSEMCONTRATO.getValueAt(jTabelaSEMCONTRATO.getSelectedRow(), 0);
+        mostrarDadosRegSelecionadoSemContrato(codigoRegSelecionado);
+
+        txtCODIGO.setForeground(Color.red);
+        txtCODIGO.requestFocus();
+        txtCODIGO.setEnabled(false);
+        nomeClienteOLD = txtCLIENTE.getText();
+        btnImprimir.setEnabled(true);
+        txtIP.setEnabled(true);
+        btnLimparPesquisa.setEnabled(true);
+        btnPorModelo.setEnabled(false);
+        btnPorSecao.setEnabled(false);
+        txtCODIGO.setEnabled(false);
+        btnInativarImpressorasContrato.setEnabled(false);
+        clicouNaTabela = true;
+        if(clicouNaTabela && filtrou){
+            filtrouClicou = true;
+        }
+    }//GEN-LAST:event_jTabelaSEMCONTRATOMouseClicked
    
     private void mostrarDescricao(int codModelo){
         //Mostrando a descricao vinda da tabela de modelos
@@ -1386,10 +1378,67 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         }  
        
     }
+        
+        public void PreencherTabelaSemContrato(String sql)
+    {
+        conexao.conectar();
+        ArrayList dados = new ArrayList();
+        //para receber os dados das colunas(exibe os titulos das colunas)
+        String[] Colunas = new String[]{"Código", "Seção", "Ip", "Série", "Chapa", "Status", "Contrato"};
+        try 
+        {  
+            conexao.ExecutarPesquisaSQL(sql);
+            
+            while (conexao.rs.next())
+            {               
+                dados.add(new Object[]
+                {
+                    conexao.rs.getInt("codigo"),
+                    conexao.rs.getString("secao"),
+                    conexao.rs.getString("ip"),
+                    conexao.rs.getString("serie"),
+                    conexao.rs.getString("chapa"),
+                    conexao.rs.getString("status"),
+                    conexao.rs.getString("contrato")
+                });
+                totalRegs = conexao.rs.getRow(); //passando o total de registros para o titulo
+                modelo    = conexao.rs.getString("modelo");
+                
+             };                
+
+            ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+            jTabelaSEMCONTRATO.setModel(modelo);
+            //define tamanho das colunas
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(0).setPreferredWidth(75);  //define o tamanho da coluna
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna 
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(1).setPreferredWidth(170);
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(1).setResizable(false);
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(2).setPreferredWidth(135);
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(2).setResizable(false);
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(3).setResizable(false);
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(4).setPreferredWidth(150);  //define o tamanho da coluna
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna 
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(5).setPreferredWidth(100);  //define o tamanho da coluna
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(5).setResizable(false);    //nao será possivel redimencionar a coluna 
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(6).setPreferredWidth(90);  //define o tamanho da coluna
+            jTabelaSEMCONTRATO.getColumnModel().getColumn(6).setResizable(false);    //nao será possivel redimencionar a coluna 
+
+            //define propriedades da tabela
+            jTabelaSEMCONTRATO.getTableHeader().setReorderingAllowed(false);          //nao podera ser reorganizada
+            jTabelaSEMCONTRATO.setAutoResizeMode(jTabelaSEMCONTRATO.AUTO_RESIZE_OFF);      //nao será possivel redimencionar a tabela
+            jTabelaSEMCONTRATO.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //so podera selecionar apena uma linha  
+        
+        } catch (SQLException ex) {
+                //apos a consulta acima abrir o formulario mesmo que a tabela esteja vazia  
+                JOptionPane.showMessageDialog(null, "Erro ao preencher o ArrayList da tabela ATIVOS!\nErro: " + ex.getMessage());
+        } finally {
+            conexao.desconectar();
+        }  
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnChamado;
     private javax.swing.JButton btnConsultarPorSerie;
     private javax.swing.JButton btnFiltroModeloSecao;
     private javax.swing.JButton btnImprimir;
@@ -1405,6 +1454,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1415,14 +1465,17 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTable jTabelaATIVOS2;
     private javax.swing.JTable jTabelaINATIVOS;
+    private javax.swing.JTable jTabelaSEMCONTRATO;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTextField txtCHAPA;
     private javax.swing.JTextField txtCLIENTE;
     private javax.swing.JTextField txtCODIGO;
     private javax.swing.JTextArea txtDESCRICAO;
+    private javax.swing.JTextField txtEMPRESA;
     private javax.swing.JTextField txtIP;
     private javax.swing.JTextField txtOBSERVACOES;
     private javax.swing.JTextField txtSERIE;

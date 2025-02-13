@@ -484,7 +484,7 @@ public class MetodosPublicos {
             conexao.desconectar();
         }
     }    
-              
+    
     public void indisponibilizarStatusNomeEstacao(String pEstacao) 
     {
         //Grava na tabela tblnomestacao diretamente sem criação de modelo etc. a alteração do status da estação para INDISPONIVEL
@@ -499,6 +499,23 @@ public class MetodosPublicos {
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de inserção sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+    }  
+              
+    public void inativarImpressorasContrato() 
+    {
+        //Grava na tabela tblnomestacao diretamente sem criação de modelo etc. a alteração do status da estação para INDISPONIVEL
+        conexao.conectar();
+        try 
+        {
+            sql = "UPDATE tblpatrimonios set status='INATIVO' where empresaid > 0 and status='ATIVO' and tipoid = 3";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.executeUpdate(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de atualização inativando impressoras do contrato sql, \n"+e+", o sql passado foi \n"+sql);              
         } finally {
             conexao.desconectar();
         }

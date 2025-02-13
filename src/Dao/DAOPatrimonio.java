@@ -1,6 +1,5 @@
 package Dao;
 
-import biblioteca.MetodosPublicos;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.cadastrado;
@@ -44,12 +43,13 @@ public class DAOPatrimonio {
             pst.setInt(6, umPatrimonio.getClienteid());
             pst.setInt(7, umPatrimonio.getModeloid());
             pst.setInt(8, umPatrimonio.getDeptoid());
-            pst.setString(9, umPatrimonio.getEstacao());
-            pst.setString(10, "ATIVO");            
-            pst.setString(11, umPatrimonio.getMotivo());       
-            pst.setDate(12, new java.sql.Date(dataDoDia.getTime()));    //grava um Timestamp no banco com data e hora para data de cadastro
-            pst.setString(13, umPatrimonio.getObservacoes());
-            pst.setString(14, umPatrimonio.getContrato());
+            pst.setInt(9, umPatrimonio.getEmpresaid());
+            pst.setString(10, umPatrimonio.getEstacao());
+            pst.setString(11, "ATIVO");            
+            pst.setString(12, umPatrimonio.getMotivo());       
+            pst.setDate(13, new java.sql.Date(dataDoDia.getTime()));    //grava um Timestamp no banco com data e hora para data de cadastro
+            pst.setString(14, umPatrimonio.getObservacoes());
+            pst.setString(15, umPatrimonio.getContrato());
             pst.executeUpdate();
             pst.close(); 
             return true;
@@ -279,6 +279,7 @@ public class DAOPatrimonio {
                 umPatrimonio.setClienteid(conexao.rs.getInt("clienteid"));
                 umPatrimonio.setModeloid(conexao.rs.getInt("modeloid"));
                 umPatrimonio.setDeptoid(conexao.rs.getInt("deptoid"));
+                umPatrimonio.setEmpresaid(conexao.rs.getInt("empresaid"));
                 umPatrimonio.setEstacao(conexao.rs.getString("estacao"));
                 umPatrimonio.setStatus(conexao.rs.getString("status"));
                 umPatrimonio.setMotivo(conexao.rs.getString("motivo"));
@@ -714,6 +715,7 @@ public class DAOPatrimonio {
                 Integer vClienteid     = conexao.rs.getInt("clienteid");
                 Integer vModeloid      = conexao.rs.getInt("modeloid");
                 Integer vDeptoid       = conexao.rs.getInt("deptoid");
+                Integer vEmpresaid     = conexao.rs.getInt("empresaid");
                 String vStatus         = conexao.rs.getString("status");
                 String vMotivo         = conexao.rs.getString("motivo");
                 Date vDatacad          = conexao.rs.getDate("datacad");

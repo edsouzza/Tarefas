@@ -12,6 +12,7 @@ public class Patrimonio {
     private int clienteid;
     private int modeloid;
     private int deptoid;
+    private int empresaid;
     private String status;
     private String motivo;
     private Date datacad;
@@ -174,6 +175,20 @@ public class Patrimonio {
      */
     public void setDatainativacao(Date datainativacao) {
         this.datainativacao = datainativacao;
+    }
+
+    /**
+     * @return the empresaid
+     */
+    public int getEmpresaid() {
+        return empresaid;
+    }
+
+    /**
+     * @param empresaid the empresaid to set
+     */
+    public void setEmpresaid(int empresaid) {
+        this.empresaid = empresaid;
     }
        
 }

@@ -122,6 +122,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         menutipodocumentos = new javax.swing.JMenuItem();
         menugerarnumdocto = new javax.swing.JMenuItem();
         menuclientesvirtuais = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuConsultas = new javax.swing.JMenu();
         menuLogs = new javax.swing.JMenuItem();
         mnuCONSMONITORES = new javax.swing.JMenuItem();
@@ -399,6 +400,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuCadastro.add(menuclientesvirtuais);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brick_add.png"))); // NOI18N
+        jMenuItem1.setText("EMPRESA CONTRATO IMPRESSORAS");
+        jMenuItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(jMenuItem1);
 
         jMenuBar1.add(menuCadastro);
 
@@ -1249,6 +1261,14 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuMemoInserviveisActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if(umabiblio.permissaoLiberada()){  
+            tabela = "TBLEMPRESA";     
+            F_EMPRESA frm = new F_EMPRESA(); 
+            frm.setVisible(true); 
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1292,6 +1312,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblDesenvolvido;

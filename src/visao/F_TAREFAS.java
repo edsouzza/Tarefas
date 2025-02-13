@@ -36,16 +36,17 @@ import modelo.Cliente;
 import modelo.Tarefa;
 
 public class F_TAREFAS extends javax.swing.JFrame {
-    ConnConexao conexao  = new ConnConexao();
-    Biblioteca    umabiblio               = new Biblioteca();
-    Tarefa    umModTarefa                 = new Tarefa();
-    Cliente   umMoCliente                 = new Cliente();
-    CtrlCliente umControleCliente         = new CtrlCliente();
-    CtrlTarefa   CtrTarefa                = new CtrlTarefa();
-    ControleListaTarefas umCtrLista       = new ControleListaTarefas();
-    ControleGravarLog umGravarLog         = new ControleGravarLog();
-    DAOTarefa    tarefaDAO                = new DAOTarefa(); 
-    MetodosPublicos umMetodo              = new MetodosPublicos();
+    ConnConexao                 conexao  = new ConnConexao();
+    Biblioteca                  umabiblio                  = new Biblioteca();
+    Tarefa                      umModTarefa                = new Tarefa();
+    Cliente                     umMoCliente                = new Cliente();
+    CtrlCliente                 umControleCliente          = new CtrlCliente();
+    CtrlTarefa                  CtrTarefa                  = new CtrlTarefa();
+    ControleListaTarefas        umCtrLista                 = new ControleListaTarefas();
+    ControleGravarLog           umGravarLog                = new ControleGravarLog();
+    DAOTarefa                   tarefaDAO                  = new DAOTarefa(); 
+    MetodosPublicos             umMetodo                   = new MetodosPublicos();
+    
     Boolean clicouNaTabela,clicouConcluidas, pesquisando, cadastrando = false;
     String tarefa,situacao,nomeCli,nomesecao  = null;    
     int codigo,idClienteRegSel,ind  = 0; 
