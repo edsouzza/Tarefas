@@ -59,6 +59,7 @@ import static biblioteca.VariaveisPublicas.rfCliente;
 import static biblioteca.VariaveisPublicas.salvandoreativado;
 import static biblioteca.VariaveisPublicas.selecionouCliente;
 import static biblioteca.VariaveisPublicas.tabela;
+import static biblioteca.VariaveisPublicas.temimpressorasAtivas;
 import controle.ControleGravarLog;
 import controle.CtrlNomeEstacao;
 import controle.CtrlSecoes;
@@ -1454,7 +1455,7 @@ private void disponibilizarIPImpressoraTransferida(){
         txtTIPO.setEditable(false);
         LblPesquisaPorCod.setEnabled(true);
         cont=0;
-
+        umMetodo.TemImpressorasDeContratoAtivas();
     }
     
     public void HabilitarConsulta() {
@@ -2061,34 +2062,34 @@ private void gravarEdicaoRegistro()
         }                
                   
         if(tipo.equals("IMPRESSORA")){
-           isImpressora=true;
-           cadastrandoEquipamento = true;
-           
-           //tela de verificacao se é de contrato ou nao, por enquanto somente as impressoras são de contrato entao essa tela só aparece pra impressoras até o momento
-           F_LISTATIPOSCONTRATOS frmTiposContratos = new F_LISTATIPOSCONTRATOS(this, true);
-           frmTiposContratos.setVisible(true);            
-           empresaid = 0;    //qualquer que seja o equipamento empresaid = 0 só será diferente se for impressora
-           
-           if(!isDeContrato){
-              gerarIPFicticio();
-              txtCONTRATO.setText("NAO");
-                         
-           }else{
-              txtCONTRATO.setText("SIM"); 
-              int codigoEmpresaAtualContratoImpressoras = 0;
-              codigoEmpresaAtualContratoImpressoras     = Integer.parseInt(umMetodo.getValorCampoUltimoCodigo("tblempresa", "codigo"));     
-        
-              if(isDeContrato && itemSelecionadoCadastro.equals("IMPRESSORA")){
-                  empresaid = codigoEmpresaAtualContratoImpressoras;           
-              }   
-              //lista os ips disponiveis para impressoras de contrato
-              listarIPImpressorasContrato();      
-           }
-           txtIP.requestFocus();   
-           txtIP.selectAll();
-        }          
-        //JOptionPane.showMessageDialog(rootPane, "CODIGO EMPRESA DO CONTRATO DE IMPRESSORAS = "+empresaid);
-        
+                isImpressora=true;
+                cadastrandoEquipamento = true;
+
+                //tela de verificacao se é de contrato ou nao, por enquanto somente as impressoras são de contrato entao essa tela só aparece pra impressoras até o momento
+                F_LISTATIPOSCONTRATOS frmTiposContratos = new F_LISTATIPOSCONTRATOS(this, true);
+                frmTiposContratos.setVisible(true);            
+                empresaid = 0;    //qualquer que seja o equipamento empresaid = 0 só será diferente se for impressora
+
+                if(!isDeContrato){
+                   gerarIPFicticio();
+                   txtCONTRATO.setText("NAO");
+
+                }else{
+                   txtCONTRATO.setText("SIM"); 
+                   int codigoEmpresaAtualContratoImpressoras = 0;
+                   codigoEmpresaAtualContratoImpressoras     = Integer.parseInt(umMetodo.getValorCampoUltimoCodigo("tblempresa", "codigo"));     
+
+                   if(isDeContrato && itemSelecionadoCadastro.equals("IMPRESSORA")){
+                       empresaid = codigoEmpresaAtualContratoImpressoras;           
+                   }   
+                   //lista os ips disponiveis para impressoras de contrato
+                   listarIPImpressorasContrato();      
+                }
+                txtIP.requestFocus();   
+                txtIP.selectAll();        
+            
+        }             
+              
         //POPULANDO O COMBO COM OS TIPO DE MODELOS
         popularComboBoxModelos();
         
@@ -2100,27 +2101,30 @@ private void gravarEdicaoRegistro()
             btnVoltarActionPerformed(null);
             
         }else{
-            if(umMetodo.TipoTemClientesVirtuais(codItemSelec))
-            {
-                //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
-                F_LISTACLIENTESPARACADASTRO frm = new F_LISTACLIENTESPARACADASTRO(this, true);
-                frm.setVisible(true);   
-            }else{
-                //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
-                F_LISTACLIENTESATIVOS frmClientes = new F_LISTACLIENTESATIVOS(this, true);
-                frmClientes.setVisible(true);   
+            if(!tipo.equals("IMPRESSORA")){
+                if(umMetodo.TipoTemClientesVirtuais(codItemSelec))
+                {
+                    //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
+                    F_LISTACLIENTESPARACADASTRO frm = new F_LISTACLIENTESPARACADASTRO(this, true);
+                    frm.setVisible(true);   
+                }else{
+                    //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
+                    F_LISTACLIENTESATIVOS frmClientes = new F_LISTACLIENTESATIVOS(this, true);
+                    frmClientes.setVisible(true);   
+                }
+
+                txtCLIENTE.setText(nomeCliente);
+                txtRF.setText(rfCliente);       
+
+                umMetodo.gerarNumeroAleatorioParaCampoTexto(txtCHAPA);          
+
+                //Abre lista de nomes de estações disponiveis
+                if(tipo.equals("MICRO") || tipo.equals("NOTEBOOK")){            
+                   definirNomestacao();
+                   //abrirListaEstacoesDisponiveis();
+                }
             }
-
-            txtCLIENTE.setText(nomeCliente);
-            txtRF.setText(rfCliente);       
-
-            umMetodo.gerarNumeroAleatorioParaCampoTexto(txtCHAPA);          
-
-            //Abre lista de nomes de estações disponiveis
-            if(tipo.equals("MICRO") || tipo.equals("NOTEBOOK")){            
-               definirNomestacao();
-               //abrirListaEstacoesDisponiveis();
-            }
+            
         }
         //METODO UTILIZADO PARA ATUALIZAÇÃO DA TABELA ENQUANTO TINHA REGS COM VALORES EM BRANCO      
         //umMetodo.atualizarChapasVazias();//gerar numero para campos vazios, usar este metodo apenas pra atualizar uma vez

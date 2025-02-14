@@ -8,6 +8,7 @@ import static biblioteca.VariaveisPublicas.lstListaStrings;
 import static biblioteca.VariaveisPublicas.nomeEstacao;
 import static biblioteca.VariaveisPublicas.qdeColunas;
 import static biblioteca.VariaveisPublicas.sql;
+import static biblioteca.VariaveisPublicas.temimpressorasAtivas;
 import static biblioteca.VariaveisPublicas.tabela;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.enviando;
@@ -2080,7 +2081,7 @@ public class MetodosPublicos {
          A segunda string recebe o título da caixa tipo: Excluindo cliente!
          */
 
-        int sair = JOptionPane.showConfirmDialog(null, sConfirmacao, sTitulo, JOptionPane.YES_NO_OPTION);
+        int sair = JOptionPane.showConfirmDialog(null, sConfirmacao, sTitulo, JOptionPane.YES_NO_OPTION,2);
         if (sair == JOptionPane.YES_OPTION) {
             return true;
         } else {
@@ -2121,6 +2122,46 @@ public class MetodosPublicos {
             conexao.desconectar();
         }
 
+    }
+    
+    public boolean TemImpressorasDeContratoAtivas(){
+       
+        conn = conexao.conectar();
+        try {            
+            sql = "SELECT * from tblpatrimonios where tipoid = 3 and contrato='S'  and status='ATIVO'";
+            conexao.ExecutarPesquisaSQL(sql);
+            if ((conexao.rs.next())) {
+                temimpressorasAtivas = true;
+                return true;
+            } else {
+                temimpressorasAtivas=false;
+                return false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar verificar se existem impressoras de contrato ativas "+tabela+"" + ex);
+            return false;
+        } finally {
+            conexao.desconectar();
+        }        
+    }
+    
+     public void ImpressorasDeContratoAtivas(){
+       
+        conn = conexao.conectar();
+        try {            
+            sql = "SELECT * from tblpatrimonios where tipoid = 3 and contrato='S'  and status='ATIVO'";
+            conexao.ExecutarPesquisaSQL(sql);
+            if ((conexao.rs.next())) {
+                temimpressorasAtivas = true;
+            } else {
+                temimpressorasAtivas=false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar verificar se existem impressoras de contrato ativas "+tabela+"" + ex);
+            temimpressorasAtivas=false;
+        } finally {
+            conexao.desconectar();
+        }        
     }
 
     public int somenteDigitos(String palavra) {

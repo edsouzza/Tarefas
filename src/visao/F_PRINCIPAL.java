@@ -1276,9 +1276,10 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
     private void mnuEmpresaContratoImpressorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEmpresaContratoImpressorasActionPerformed
         if(umabiblio.permissaoLiberada()){  
-            tabela = "TBLEMPRESA";     
-            F_EMPRESA frm = new F_EMPRESA(); 
+            tabela = "TBLEMPRESA";    
+            F_EMPRESA frm = new F_EMPRESA(this,true);
             frm.setVisible(true); 
+            
         }
     }//GEN-LAST:event_mnuEmpresaContratoImpressorasActionPerformed
 

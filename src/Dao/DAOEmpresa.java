@@ -25,7 +25,7 @@ public class DAOEmpresa {
             pst.setString(4, pEmpresa.getObs());           
            
             pst.executeUpdate();             
-            JOptionPane.showMessageDialog(null, "Empresa do novo contrato de impressoras cadastrada com sucesso!!","Cadastro da empresa do novo contrato de impressoras!",2);
+            JOptionPane.showMessageDialog(null, "Empresa do novo contrato de impressoras cadastrada com sucesso cadastre as impressoras!!","Cadastro da empresa do novo contrato de impressoras!",2);
             return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Não foi possível executar o comando sql, \n"+e+", o sql passado foi \n"+sql);  

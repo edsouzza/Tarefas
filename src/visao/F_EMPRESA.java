@@ -30,7 +30,7 @@ import modelo.Empresa;
  * Este formulario serve para cadastrar todos os usuarios que voce desejar ex: SCANNER para todas as seções ficaria SCANNER DIVISAO / SCANNER BENS etc...
  * Ao cadastrar aqui serão gerados os clientes como no exemplo acima automaticamente na tabela TBLCLIENTES
  */
-public class F_EMPRESA extends javax.swing.JFrame {
+public class F_EMPRESA extends javax.swing.JDialog  {
     ConnConexao                 conexao                 = new ConnConexao();
     Biblioteca                  umabiblio               = new Biblioteca();
     MetodosPublicos             umMetodo                = new MetodosPublicos();
@@ -48,14 +48,14 @@ public class F_EMPRESA extends javax.swing.JFrame {
     String sqlVazia   = "select * from TBLEMPRESA where codigo = 0";
 
     
-    public F_EMPRESA() {
+    public F_EMPRESA(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         PreencherTabela(sqlDefault);         
         setResizable(false);   //desabilitando o redimencionamento da tela        
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar
-        Leitura();
-                
-        //configuracoes dos edits   
+        Leitura();                
+   
        //configuracoes dos edits 
         umMetodo.configurarCamposTextos(txtNOME);
 //        umMetodo.configurarCamposTextos(txtOBS);
@@ -465,8 +465,7 @@ public class F_EMPRESA extends javax.swing.JFrame {
                        String codigoAtual = umMetodo.getValorCampoUltimoCodigo("tblempresa", "codigo");
                        umaEmpresaDAO.inativarEmpresasInativasDAO(Integer.parseInt(codigoAtual));        
                     }    
-                    
-                    ctrEmpresa.salvarEmpresa(umModEmpresa);
+                       ctrEmpresa.salvarEmpresa(umModEmpresa);
                 }else{                    
                     umGravarLog.gravarLog("cadastro de empresa do novo contrato de impressoras "+nome);
                 }  
@@ -504,7 +503,6 @@ public class F_EMPRESA extends javax.swing.JFrame {
         } 
         Leitura();
         PreencherTabela(sqlDefault);
-        //txtTIPO.setEditable(false);
         gravando = false;
     }    
     
@@ -730,7 +728,14 @@ public class F_EMPRESA extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new F_EMPRESA().setVisible(true);
+                F_EMPRESA dialog = new F_EMPRESA(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

@@ -70,10 +70,10 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     
     public F_CONSIMPRESSORAS() {
         initComponents();
-        Leitura();
         setResizable(false);   //desabilitando o redimencionamento da tela        
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar
         this.setTitle(this.mostrarTituloDoFormulario());
+        Leitura();
 
         // Colocando enter para pular de campo 
         HashSet conj = new HashSet(this.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
@@ -171,10 +171,10 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         btnPorModelo = new javax.swing.JButton();
         btnPorSecao = new javax.swing.JButton();
-        btnInativarImpressorasContrato = new javax.swing.JButton();
         btnConsultarPorSerie = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtEMPRESA = new javax.swing.JTextField();
+        btnImprimirAtivas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultando Impressoras");
@@ -251,7 +251,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         jLabel13.setText("DESCRIÇAO");
 
         btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
-        btnImprimir.setText("Imprimir");
+        btnImprimir.setText("Imprimir Cadastradas");
         btnImprimir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnImprimir.setPreferredSize(new java.awt.Dimension(77, 25));
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -391,18 +391,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             }
         });
 
-        btnInativarImpressorasContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif"))); // NOI18N
-        btnInativarImpressorasContrato.setText("Inativar Contrato");
-        btnInativarImpressorasContrato.setToolTipText("Inativar Impressoras de contrato");
-        btnInativarImpressorasContrato.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInativarImpressorasContrato.setEnabled(false);
-        btnInativarImpressorasContrato.setPreferredSize(new java.awt.Dimension(77, 25));
-        btnInativarImpressorasContrato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInativarImpressorasContratoActionPerformed(evt);
-            }
-        });
-
         btnConsultarPorSerie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_pesquisa.gif"))); // NOI18N
         btnConsultarPorSerie.setText("Consultar Pela Série");
         btnConsultarPorSerie.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -418,6 +406,17 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtEMPRESA.setEditable(false);
         txtEMPRESA.setForeground(new java.awt.Color(51, 51, 255));
 
+        btnImprimirAtivas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
+        btnImprimirAtivas.setText("Imprimir Ativas");
+        btnImprimirAtivas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnImprimirAtivas.setEnabled(false);
+        btnImprimirAtivas.setPreferredSize(new java.awt.Dimension(77, 25));
+        btnImprimirAtivas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirAtivasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -425,77 +424,79 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(txtCLIENTE, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(txtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtSERIE, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(123, 123, 123)
-                                .addComponent(jLabel4)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(txtCODIGO, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(cmbMODELOS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPorModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(108, 108, 108))
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(cmbSECOES, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPorSecao, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(113, 113, 113))
-                            .addComponent(btnFiltroModeloSecao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jTabbedPane4)
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(917, 917, 917))
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtOBSERVACOES))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEMPRESA, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))))
-                .addGap(84, 84, 84))
+                                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnImprimirAtivas, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtOBSERVACOES))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtEMPRESA, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)))
+                            .addComponent(jTabbedPane4)
+                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtCODIGO, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(cmbMODELOS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPorModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(108, 108, 108))
+                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                        .addComponent(cmbSECOES, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnPorSecao, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addGap(113, 113, 113))
+                                    .addComponent(btnFiltroModeloSecao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1)
+                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(txtCLIENTE, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                        .addComponent(txtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtSERIE, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(123, 123, 123)
+                                        .addComponent(jLabel4)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(84, 84, 84))))
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -547,16 +548,16 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(jLabel2))
-                        .addGap(353, 394, Short.MAX_VALUE))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtOBSERVACOES, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEMPRESA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -567,8 +568,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                             .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnInativarImpressorasContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnImprimirAtivas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
 
@@ -737,16 +738,15 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
        
     private void Leitura()
     {
+
         if (umabiblio.tabelaVazia(tabela)) {
-            //JOptionPane.showMessageDialog(null, "A tabela: " + tabela + " esta vazia cadastre o primeiro registro!");
             btnImprimir.setEnabled(false);            
         } else {
             btnImprimir.setEnabled(true);
             PreencherTabelaATIVOS(sqlDefaultATIVOS);
-
         }
         umabiblio.limparTodosCampos(rootPane);  //LIMPA TODOS OS EDITS 
-       
+
         btnSair.setEnabled(true);
         txtCLIENTE.setEditable(false);
         txtCODIGO.setEditable(false);
@@ -757,9 +757,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtIP.setEditable(false);  
         cmbMODELOS.setSelectedIndex(-1);
         cmbSECOES.setSelectedIndex(-1);
-        btnFiltroModeloSecao.setEnabled(false);
-        btnInativarImpressorasContrato.setEnabled(true);
-
+        btnFiltroModeloSecao.setEnabled(false);   
+        
     }
               
     private void txtSERIEFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSERIEFocusGained
@@ -779,18 +778,29 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     }
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
                 
-        conexao.conectar();
-        //String sql = "select * from tblpatrimonios where status='ATIVO'";
-        conexao.ExecutarPesquisaSQL(sqlDefaultATIVOS);
-        try {
-            if (conexao.rs.next()) {   //selecionando a primeira linha somente se tiver registros
-                jTabelaATIVOS2.addRowSelectionInterval(0, 0);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela ATIVOS!\nErro: " + ex.getMessage());
-        } finally {
-            conexao.desconectar();
+        if(!umMetodo.TemImpressorasDeContratoAtivas()){
+            
+            if(umMetodo.ConfirmouOperacao("O contrato da empresa anterior foi finalizado, deseja cadastrar a nova empresa agora?", "Contrato de impressoras finalizado")){              
+                  dispose(); 
+                  tabela = "TBLEMPRESA";     
+                  F_EMPRESA frm = new F_EMPRESA(this,true);
+                  frm.setVisible(true);                     
+             }            
+        }else{      
+            conexao.conectar();
+            conexao.ExecutarPesquisaSQL(sqlDefaultATIVOS);
+            try {
+                if (conexao.rs.next()) {   //selecionando a primeira linha somente se tiver registros
+                    jTabelaATIVOS2.addRowSelectionInterval(0, 0);
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela ATIVOS!\nErro: " + ex.getMessage());
+            } finally {
+                conexao.desconectar();
+            }      
         }
+        
+         
         
     }//GEN-LAST:event_formWindowOpened
     public void mostrarDadosRegSelecionado(int codPatrimonio)
@@ -1037,7 +1047,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnPorSecao.setEnabled(false);
         txtIP.setEnabled(true);
         clicouNaTabela = true;
-        btnInativarImpressorasContrato.setEnabled(false);
         if(clicouNaTabela && filtrou){
             filtrouClicou = true;
         }
@@ -1059,7 +1068,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnPorModelo.setEnabled(false);
         btnPorSecao.setEnabled(false);
         txtCODIGO.setEnabled(false);
-        btnInativarImpressorasContrato.setEnabled(false);
         clicouNaTabela = true;
         if(clicouNaTabela && filtrou){
             filtrouClicou = true;
@@ -1102,7 +1110,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnPorModelo.setEnabled(true);
         btnPorSecao.setEnabled(true);
         btnFiltroModeloSecao.setEnabled(false);
-        btnInativarImpressorasContrato.setEnabled(true);
         txtCODIGO.setEnabled(true);
         cmbMODELOS.setSelectedIndex(-1);
         cmbSECOES.setSelectedIndex(-1);
@@ -1136,7 +1143,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
        btnPorSecao.setEnabled(false);
        btnFiltroModeloSecao.setEnabled(false);
        txtCODIGO.setEnabled(false);
-       btnInativarImpressorasContrato.setEnabled(false);
     }//GEN-LAST:event_btnFiltroModeloSecaoActionPerformed
 
     private void btnPorModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPorModeloActionPerformed
@@ -1153,7 +1159,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
        btnPorModelo.setEnabled(false);
        btnPorSecao.setEnabled(false);
        txtCODIGO.setEnabled(false);
-       btnInativarImpressorasContrato.setEnabled(false);
        
     }//GEN-LAST:event_btnPorModeloActionPerformed
 
@@ -1171,11 +1176,14 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
        btnPorSecao.setEnabled(false);
        btnPorModelo.setEnabled(false);
        txtCODIGO.setEnabled(false);
-       btnInativarImpressorasContrato.setEnabled(false);
        
     }//GEN-LAST:event_btnPorSecaoActionPerformed
 
-    private void btnInativarImpressorasContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarImpressorasContratoActionPerformed
+    private void inativarImpressorasDoContratoAtual(){
+        /*ATENÇÃO ESTE METODO NAO ESTA SENDO UTLIZADO ESSA INATIVAÇÃO ESTA SENDO FEITA QDO DA GERAÇÃO 
+        DO MEMORANDO DE DEVOLUÇÃO DOS EQUIPTOS PARA EMPRESA DO CONTRATO FINALIZADO DEIXE AQUI POIS
+        TEM APRENDIZADO NO METODO umMetodo.inativarImpressorasContrato(umModPatrimonio);*/        
+        
         //Inativa todas as impressoras de contrato para cadastro de nova Empresa 
         //Preciso manter os dados que constam em motivo e obs e quebrar linha somente se tiver dados       
         
@@ -1192,17 +1200,17 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 umMetodo.inativarImpressorasContrato(umModPatrimonio);
                 
                 JOptionPane.showMessageDialog(null, "Todas as impressoras do Contrato Atual foram inativadas com sucesso, cadastre agora a nova Empresa!","Inativação de impressoras!",2);
-                
+                dispose();                
+                                
                 PreencherTabelaATIVOS(sqlDefaultATIVOS);   
                 tabela = "TBLEMPRESA";     
-                F_EMPRESA frm = new F_EMPRESA(); 
-                frm.setVisible(true); 
-               
+                F_EMPRESA frm1 = new F_EMPRESA(this,true);
+                frm1.setVisible(true); 
+                
             }   
-        }
-        
-    }//GEN-LAST:event_btnInativarImpressorasContratoActionPerformed
-
+        }       
+    }
+    
     public void Pesquisar()
     {    
         //pesquisa não deverá aceitar valores vazios, nulos ou zero como parâmetro
@@ -1233,7 +1241,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 btnPorSecao.setEnabled(false);
                 btnImprimir.setEnabled(false);
                 btnConsultarPorSerie.setEnabled(false);
-                btnInativarImpressorasContrato.setEnabled(false);
                 btnLimparPesquisa.setEnabled(true);
             }            
         }  
@@ -1259,12 +1266,21 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnPorModelo.setEnabled(false);
         btnPorSecao.setEnabled(false);
         txtCODIGO.setEnabled(false);
-        btnInativarImpressorasContrato.setEnabled(false);
         clicouNaTabela = true;
         if(clicouNaTabela && filtrou){
             filtrouClicou = true;
         }
     }//GEN-LAST:event_jTabelaSEMCONTRATOMouseClicked
+
+    private void btnImprimirAtivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirAtivasActionPerformed
+        GerarRelatorios objRel = new GerarRelatorios();
+            try {
+                objRel.imprimirImpressorasCadastradas("relatorio/relImpressorasativas.jasper");
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!"+e);                
+            }
+    }//GEN-LAST:event_btnImprimirAtivasActionPerformed
    
     private void mostrarDescricao(int codModelo){
         //Mostrando a descricao vinda da tabela de modelos
@@ -1461,7 +1477,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     private javax.swing.JButton btnConsultarPorSerie;
     private javax.swing.JButton btnFiltroModeloSecao;
     private javax.swing.JButton btnImprimir;
-    private javax.swing.JButton btnInativarImpressorasContrato;
+    private javax.swing.JButton btnImprimirAtivas;
     private javax.swing.JButton btnLimparPesquisa;
     private javax.swing.JButton btnPorModelo;
     private javax.swing.JButton btnPorSecao;
