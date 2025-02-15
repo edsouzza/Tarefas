@@ -74,6 +74,22 @@ public class DAOEmpresa {
         }          
     }    
     
+    public boolean inativarEmpresaDoContratoImpressorasDAO()
+    {                                  
+        try 
+        {   
+            conexao.conectar();
+            sql = "UPDATE tblempresa SET status='INATIVO' WHERE codigo=(select max(codigo) from tblempresa)";
+            conexao.ExecutarAtualizacaoSQL(sql);
+            return true;           
+       }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível atualizar o registro, \n"+e+", o sql passado foi \n"+sql);
+            return false;
+       } finally {
+            conexao.desconectar();
+        }          
+    }    
+    
     public boolean atualizarNomeEmpresaDAO(int pCod, String pNome)
     {                                  
         try 

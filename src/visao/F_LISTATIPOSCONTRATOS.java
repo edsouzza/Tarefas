@@ -1,6 +1,8 @@
 package visao;
 
 import static biblioteca.VariaveisPublicas.isDeContrato;
+import static biblioteca.VariaveisPublicas.temContratoImpressoraAtivo;
+import static biblioteca.VariaveisPublicas.temimpressorasAtivas;
 import javax.swing.JOptionPane;
 
 public class F_LISTATIPOSCONTRATOS extends javax.swing.JDialog {
@@ -19,10 +21,15 @@ public class F_LISTATIPOSCONTRATOS extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        cmbCONTRATO = new javax.swing.JComboBox<>();
+        cmbCONTRATO = new javax.swing.JComboBox<String>();
         btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("O PATRIMÔNIO É DE CONTRATO?");
@@ -30,7 +37,7 @@ public class F_LISTATIPOSCONTRATOS extends javax.swing.JDialog {
 
         cmbCONTRATO.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cmbCONTRATO.setForeground(new java.awt.Color(51, 51, 255));
-        cmbCONTRATO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NAO", "SIM" }));
+        cmbCONTRATO.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NAO", "SIM" }));
         cmbCONTRATO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -75,13 +82,22 @@ public class F_LISTATIPOSCONTRATOS extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+       
         if(cmbCONTRATO.getSelectedIndex() == 0){
             isDeContrato = false;            
         }else if(cmbCONTRATO.getSelectedIndex() == 1){            
             isDeContrato = true;
         }        
+      
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if(!temContratoImpressoraAtivo){           
+            cmbCONTRATO.setSelectedIndex(0);
+            cmbCONTRATO.setEnabled(false);            
+        }
+    }//GEN-LAST:event_formWindowOpened
    
     
     public static void main(String args[]) {

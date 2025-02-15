@@ -496,7 +496,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
      
         gravarMemorando();
         
-        //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
+        //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROCESSANDO para TRANSFERIDO
         umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
                 
         GerarRelatorios objRel = new GerarRelatorios();

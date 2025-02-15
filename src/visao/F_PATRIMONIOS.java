@@ -60,6 +60,7 @@ import static biblioteca.VariaveisPublicas.salvandoreativado;
 import static biblioteca.VariaveisPublicas.selecionouCliente;
 import static biblioteca.VariaveisPublicas.tabela;
 import static biblioteca.VariaveisPublicas.temimpressorasAtivas;
+import static biblioteca.VariaveisPublicas.temContratoImpressoraAtivo;
 import controle.ControleGravarLog;
 import controle.CtrlNomeEstacao;
 import controle.CtrlSecoes;
@@ -88,6 +89,7 @@ import relatorios.GerarExcelPatrimonios;
 import relatorios.GerarRelatorios;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import jdk.nashorn.internal.parser.TokenType;
 
 public class F_PATRIMONIOS extends javax.swing.JFrame {
     
@@ -259,6 +261,11 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
         LblPesquisaPorCod = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelPrincipal.setPreferredSize(new java.awt.Dimension(1024, 733));
@@ -1981,7 +1988,7 @@ private void gravarEdicaoRegistro()
         txtOBSERVACOES.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         
     }//GEN-LAST:event_btnGravarActionPerformed
-
+        
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
     if(umaBiblio.permissaoLiberada())
     {
@@ -2061,13 +2068,25 @@ private void gravarEdicaoRegistro()
         }                
                   
         if(tipo.equals("IMPRESSORA")){
-            if(!temimpressorasAtivas){
-                System.out.println("NAO temos impressoras ativas");
-                
-            }
+            if(!temContratoImpressoraAtivo){
+                //System.out.println("nao temos impressoras ativas");
+                        
+                if(umMetodo.ConfirmouOperacao("O contrato de locacao de impressoras da empresa anterior foi finalizado, é necessário\n" +
+                    "cadastrar  a  empresa   do  novo  contrato  para   então  cadastrar  seus  equipamentos \n" +
+                    "Deseja cadastrar a nova empresa agora?", "Contrato de impressoras finalizado")){              
+                    
+                    dispose(); 
+                    
+                    tabela = "TBLEMPRESA";     
+                    F_EMPRESA frm = new F_EMPRESA(this,true);
+                    frm.setVisible(true); 
+                    return;
+                }    
+            }         
         }
            
         if(tipo.equals("IMPRESSORA")){
+            
             isImpressora=true;
             cadastrandoEquipamento = true;
 
@@ -3544,6 +3563,11 @@ private void gravarEdicaoRegistro()
     private void cmbFILTRARPORSECAOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbFILTRARPORSECAOMouseClicked
         cont = 1;
     }//GEN-LAST:event_cmbFILTRARPORSECAOMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //verificando se tem contrato de impressora ativo
+        umMetodo.TemContratoImpressoraAtivo();
+    }//GEN-LAST:event_formWindowOpened
         
     private void mostrarDescricao(int idMod){
         //Mostrando a descricao vinda da tabela de modelos

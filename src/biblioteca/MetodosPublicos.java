@@ -9,6 +9,7 @@ import static biblioteca.VariaveisPublicas.nomeEstacao;
 import static biblioteca.VariaveisPublicas.qdeColunas;
 import static biblioteca.VariaveisPublicas.sql;
 import static biblioteca.VariaveisPublicas.temimpressorasAtivas;
+import static biblioteca.VariaveisPublicas.temContratoImpressoraAtivo;
 import static biblioteca.VariaveisPublicas.tabela;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.enviando;
@@ -2128,13 +2129,34 @@ public class MetodosPublicos {
        
         conn = conexao.conectar();
         try {            
-            sql = "SELECT * from tblpatrimonios where tipoid = 3 and contrato='S'  and status='ATIVO'";
+            sql = "SELECT * from tblpatrimonios where tipoid = 3 and contrato='S' and status='ATIVO'";
             conexao.ExecutarPesquisaSQL(sql);
             if ((conexao.rs.next())) {
                 temimpressorasAtivas = true;
                 return true;
             } else {
                 temimpressorasAtivas=false;
+                return false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar verificar se existem impressoras de contrato ativas "+tabela+"" + ex);
+            return false;
+        } finally {
+            conexao.desconectar();
+        }        
+    }
+    
+     public boolean TemContratoImpressoraAtivo(){
+        //uso -> umMetodo.TemContratoImpressoraAtivo();
+        conn = conexao.conectar();
+        try {            
+            sql = "SELECT * from tblEmpresa where status='ATIVO'";
+            conexao.ExecutarPesquisaSQL(sql);
+            if ((conexao.rs.next())) {
+                temContratoImpressoraAtivo = true;
+                return true;
+            } else {
+                temContratoImpressoraAtivo = false;
                 return false;
             }
         } catch (SQLException ex) {

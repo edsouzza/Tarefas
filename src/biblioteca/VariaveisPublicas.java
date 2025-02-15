@@ -25,7 +25,7 @@ public class VariaveisPublicas {
     public static String            anoVigente              = new SimpleDateFormat("yyyy").format(new Date(System.currentTimeMillis()));
      
     public static boolean cadastrado,consultandoInativos,editando,clicouNaTabela,consultando,cadastrando,consultou,editandoRegistro,isDeContrato,alterouBanco,editandoNomeEstacaoReativada,alterouNomeRede,visualizandoInativos,enviando,acessoInicial,valorPesquisaTrue,gerarTxt,relPorDestino,temimpressorasAtivas,
-                          deConLicencaConsecutivas,result, selecionouCliente,regEncontrado,isUsuario,isImpressora,isMicro,isMonitor,isSwitch,isScanner,isNotebook,isGbit,reativando,alterouStatus,salvandoreativado,editandoNomeRede,patriDeptos,salvandoLote,cadPatriDeptos,imprimirPorModelo,relPorAssunto,
+                          deConLicencaConsecutivas,result, selecionouCliente,regEncontrado,isUsuario,isImpressora,isMicro,isMonitor,isSwitch,isScanner,isNotebook,isGbit,reativando,alterouStatus,salvandoreativado,editandoNomeRede,patriDeptos,salvandoLote,cadPatriDeptos,imprimirPorModelo,relPorAssunto,temContratoImpressoraAtivo,
                           reativou, alterandonomestacao, editandoDisponiveis, cadastrandonomestacao,cadPatrimovel,cadastrandoEquipamento, reativandoEquipamento, cadastrandoEstacaoForaRede,confIni,naoTemModelo,userInformatica,naoTemEncerrado,gerouNumo,patriDevolucao, editandoMemorando = false;
     
     public static int qdeUnidades, codigoTipoDocumento, codigoTipoModelo, codigoUsuario, codigoSecao, nivelAcessoUsuario, codigoCliente, codigoSelecionado, codigoUsuarioLogado, codigoPatrimonio,idUsuarioReativado,valorItem, indiceItemSelecionado,controlenaveg, controlaNumemo,

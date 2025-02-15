@@ -39,4 +39,9 @@ public class CtrlEmpresa
         return new DAOEmpresa().excluirEmpresaDAO(pCodigo);
     }
     
+    public boolean inativarEmpresaDoContratoImpressoras()
+    {
+        return new DAOEmpresa().inativarEmpresaDoContratoImpressorasDAO();
+    }
+    
 }

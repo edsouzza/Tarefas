@@ -174,6 +174,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtEMPRESA = new javax.swing.JTextField();
         btnImprimirAtivas = new javax.swing.JButton();
+        btnInativarContrato = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultando Impressoras");
@@ -415,6 +416,16 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             }
         });
 
+        btnInativarContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif"))); // NOI18N
+        btnInativarContrato.setText("Inativar Contrato");
+        btnInativarContrato.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInativarContrato.setPreferredSize(new java.awt.Dimension(77, 25));
+        btnInativarContrato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInativarContratoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -424,20 +435,22 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addGap(917, 917, 917))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(btnImprimirTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnImprimirAtivas, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPrincipalLayout.createSequentialGroup()
+                                .addComponent(btnImprimirTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnImprimirAtivas, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                .addComponent(btnInativarContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPrincipalLayout.createSequentialGroup()
                                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                                         .addComponent(jLabel12)
@@ -447,8 +460,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtEMPRESA, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2)))
-                            .addComponent(jTabbedPane4)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                            .addComponent(jTabbedPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPrincipalLayout.createSequentialGroup()
                                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(txtCODIGO, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -475,8 +488,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                                         .addComponent(jLabel10)
                                         .addGap(113, 113, 113))
                                     .addComponent(btnFiltroModeloSecao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jScrollPane1)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPrincipalLayout.createSequentialGroup()
                                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11)
                                     .addComponent(txtCLIENTE, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -567,13 +580,14 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                             .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnImprimirAtivas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnImprimirAtivas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInativarContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
 
-        getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 680));
+        getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 680));
 
-        setSize(new java.awt.Dimension(945, 725));
+        setSize(new java.awt.Dimension(934, 725));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void PreencherComboSecoes(JComboBox cmb,String campo)
@@ -1292,6 +1306,23 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!"+e);                
             }
     }//GEN-LAST:event_btnImprimirAtivasActionPerformed
+
+    private void btnInativarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarContratoActionPerformed
+        //inativarImpressorasDoContratoAtual();        
+       
+        /* 
+           1- Inativar a empresa atual do contrato / ou seja inativar o ultimo registro da TBLEMPRESA-> 
+              "UPDATE tblempresa SET status='INATIVO' WHERE codigo=(select max(codigo) from tblempresa)" 
+              criado metodo inativarEmpresaDoContratoImpressorasDAO() usar o CtrlEmpresa.inativarEmpresaDoContratoImpressoras
+        
+           2- Como criar o metodo para gerar o memorando automaticamente (estudar o form de geração de memo de encaminhamento : F_MEMOITENSTRANSFERIDOS())
+              inativando os regs da empresaid, para inativar os regs temos inativarImpressorasDoContratoAtual() se precisar
+        
+           3- Inativar os regs da empresaid -> Pra isso temos o metodo : inativarImpressorasDoContratoAtual();        
+              OBS: Se conseguir criar o formulario de geração de memorando de encaminhamento automatico nao precisando do metodoa cima : inativarImpressorasDoContratoAtual();                  
+        */
+        
+    }//GEN-LAST:event_btnInativarContratoActionPerformed
    
     private void mostrarDescricao(int codModelo){
         //Mostrando a descricao vinda da tabela de modelos
@@ -1489,6 +1520,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     private javax.swing.JButton btnFiltroModeloSecao;
     private javax.swing.JButton btnImprimirAtivas;
     private javax.swing.JButton btnImprimirTudo;
+    private javax.swing.JButton btnInativarContrato;
     private javax.swing.JButton btnLimparPesquisa;
     private javax.swing.JButton btnPorModelo;
     private javax.swing.JButton btnPorSecao;
