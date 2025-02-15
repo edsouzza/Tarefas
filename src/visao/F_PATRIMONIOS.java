@@ -2025,8 +2025,7 @@ private void gravarEdicaoRegistro()
         cmbFILTRARPORSECAO.setEnabled(false);
         cmbFILTRAPORTIPO.setEnabled(false);
         btnFILTRAR.setEnabled(false);
-        txtCODIGO.setText(String.valueOf(umaBiblio.mostrarProximoCodigo(tabela)));        
-        //txtESTACAO.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        txtCODIGO.setText(String.valueOf(umaBiblio.mostrarProximoCodigo(tabela))); 
         PreencherTabelaATIVOS(sqlVazia);
         
         //abrir lista de tipos de equipamentos para cadastrar
@@ -2062,31 +2061,31 @@ private void gravarEdicaoRegistro()
         }                
                   
         if(tipo.equals("IMPRESSORA")){
-                isImpressora=true;
-                cadastrandoEquipamento = true;
+            isImpressora=true;
+            cadastrandoEquipamento = true;
 
-                //tela de verificacao se é de contrato ou nao, por enquanto somente as impressoras são de contrato entao essa tela só aparece pra impressoras até o momento
-                F_LISTATIPOSCONTRATOS frmTiposContratos = new F_LISTATIPOSCONTRATOS(this, true);
-                frmTiposContratos.setVisible(true);            
-                empresaid = 0;    //qualquer que seja o equipamento empresaid = 0 só será diferente se for impressora
+            //tela de verificacao se é de contrato ou nao, por enquanto somente as impressoras são de contrato entao essa tela só aparece pra impressoras até o momento
+            F_LISTATIPOSCONTRATOS frmTiposContratos = new F_LISTATIPOSCONTRATOS(this, true);
+            frmTiposContratos.setVisible(true);            
+            empresaid = 0;    //qualquer que seja o equipamento empresaid = 0 só será diferente se for impressora
 
-                if(!isDeContrato){
-                   gerarIPFicticio();
-                   txtCONTRATO.setText("NAO");
+            if(!isDeContrato){
+               gerarIPFicticio();
+               txtCONTRATO.setText("NAO");
 
-                }else{
-                   txtCONTRATO.setText("SIM"); 
-                   int codigoEmpresaAtualContratoImpressoras = 0;
-                   codigoEmpresaAtualContratoImpressoras     = Integer.parseInt(umMetodo.getValorCampoUltimoCodigo("tblempresa", "codigo"));     
+            }else{
+               txtCONTRATO.setText("SIM"); 
+               int codigoEmpresaAtualContratoImpressoras = 0;
+               codigoEmpresaAtualContratoImpressoras     = Integer.parseInt(umMetodo.getValorCampoUltimoCodigo("tblempresa", "codigo"));     
 
-                   if(isDeContrato && itemSelecionadoCadastro.equals("IMPRESSORA")){
-                       empresaid = codigoEmpresaAtualContratoImpressoras;           
-                   }   
-                   //lista os ips disponiveis para impressoras de contrato
-                   listarIPImpressorasContrato();      
-                }
-                txtIP.requestFocus();   
-                txtIP.selectAll();        
+               if(isDeContrato && itemSelecionadoCadastro.equals("IMPRESSORA")){
+                   empresaid = codigoEmpresaAtualContratoImpressoras;           
+               }   
+               //lista os ips disponiveis para impressoras de contrato
+               listarIPImpressorasContrato();      
+            }
+            txtIP.requestFocus();   
+            txtIP.selectAll();        
             
         }             
               
@@ -2101,29 +2100,29 @@ private void gravarEdicaoRegistro()
             btnVoltarActionPerformed(null);
             
         }else{
-            if(!tipo.equals("IMPRESSORA")){
-                if(umMetodo.TipoTemClientesVirtuais(codItemSelec))
-                {
-                    //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
-                    F_LISTACLIENTESPARACADASTRO frm = new F_LISTACLIENTESPARACADASTRO(this, true);
-                    frm.setVisible(true);   
-                }else{
-                    //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
-                    F_LISTACLIENTESATIVOS frmClientes = new F_LISTACLIENTESATIVOS(this, true);
-                    frmClientes.setVisible(true);   
-                }
-
-                txtCLIENTE.setText(nomeCliente);
-                txtRF.setText(rfCliente);       
-
-                umMetodo.gerarNumeroAleatorioParaCampoTexto(txtCHAPA);          
-
-                //Abre lista de nomes de estações disponiveis
-                if(tipo.equals("MICRO") || tipo.equals("NOTEBOOK")){            
-                   definirNomestacao();
-                   //abrirListaEstacoesDisponiveis();
-                }
+            
+            if(umMetodo.TipoTemClientesVirtuais(codItemSelec))
+            {
+                //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
+                F_LISTACLIENTESPARACADASTRO frm = new F_LISTACLIENTESPARACADASTRO(this, true);
+                frm.setVisible(true);   
+            }else{
+                //abre lista para escolher o usuário se naoTemModelo estiver com false ou seja o equipto ter pelo menos um modelo cadastrado            
+                F_LISTACLIENTESATIVOS frmClientes = new F_LISTACLIENTESATIVOS(this, true);
+                frmClientes.setVisible(true);   
             }
+
+            txtCLIENTE.setText(nomeCliente);
+            txtRF.setText(rfCliente);       
+
+            umMetodo.gerarNumeroAleatorioParaCampoTexto(txtCHAPA);          
+
+            //Abre lista de nomes de estações disponiveis
+            if(tipo.equals("MICRO") || tipo.equals("NOTEBOOK")){            
+               definirNomestacao();
+               //abrirListaEstacoesDisponiveis();
+            }
+          
             
         }
         //METODO UTILIZADO PARA ATUALIZAÇÃO DA TABELA ENQUANTO TINHA REGS COM VALORES EM BRANCO      
