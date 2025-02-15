@@ -103,8 +103,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         PreencherTabelaINATIVOS(sqlDefaultINATIVOS);
         PreencherTabelaSemContrato(sqlSemContratoATIVOS);
         
-        //configuração dos botões
-        umabiblio.configurarBotoes(btnImprimir);
+        //configuração dos botões        
         umabiblio.configurarBotoes(btnSair);
         
         //preenchendo a combo dos modelos somente com impressoras e registros do bd
@@ -153,7 +152,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtOBSERVACOES = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        btnImprimir = new javax.swing.JButton();
+        btnImprimirTudo = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel7 = new javax.swing.JPanel();
@@ -250,13 +249,13 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
         jLabel13.setText("DESCRIÇAO");
 
-        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
-        btnImprimir.setText("Imprimir Cadastradas");
-        btnImprimir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnImprimir.setPreferredSize(new java.awt.Dimension(77, 25));
-        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+        btnImprimirTudo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
+        btnImprimirTudo.setText("Imprimir Cadastradas");
+        btnImprimirTudo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnImprimirTudo.setPreferredSize(new java.awt.Dimension(77, 25));
+        btnImprimirTudo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImprimirActionPerformed(evt);
+                btnImprimirTudoActionPerformed(evt);
             }
         });
 
@@ -409,7 +408,6 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnImprimirAtivas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_imprimir.gif"))); // NOI18N
         btnImprimirAtivas.setText("Imprimir Ativas");
         btnImprimirAtivas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnImprimirAtivas.setEnabled(false);
         btnImprimirAtivas.setPreferredSize(new java.awt.Dimension(77, 25));
         btnImprimirAtivas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -430,7 +428,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnImprimirTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnImprimirAtivas, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
@@ -565,7 +563,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                         .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(13, 13, 13)
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnImprimirTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnConsultarPorSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -693,7 +691,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
-    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+    private void btnImprimirTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirTudoActionPerformed
         if(clicouInativos){
             //se clicou na aba inativos imprime todas as impressoras inativadas
             GerarRelatorios objRel = new GerarRelatorios();
@@ -731,18 +729,16 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!"+e);                
             }
         }}}
-        filtrou=false;
-        btnImprimir.setEnabled(false);
-        btnLimparPesquisa.setEnabled(true);
-    }//GEN-LAST:event_btnImprimirActionPerformed
+        filtrou=false;        
+    }//GEN-LAST:event_btnImprimirTudoActionPerformed
        
     private void Leitura()
     {
 
         if (umabiblio.tabelaVazia(tabela)) {
-            btnImprimir.setEnabled(false);            
+            btnImprimirTudo.setEnabled(false);            
         } else {
-            btnImprimir.setEnabled(true);
+            btnImprimirTudo.setEnabled(true);
             PreencherTabelaATIVOS(sqlDefaultATIVOS);
         }
         umabiblio.limparTodosCampos(rootPane);  //LIMPA TODOS OS EDITS 
@@ -1039,7 +1035,9 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtCODIGO.setForeground(Color.red);        
         txtCODIGO.requestFocus();
         nomeClienteOLD = txtCLIENTE.getText();
-        btnImprimir.setEnabled(false);
+        btnImprimirAtivas.setEnabled(false);
+        btnConsultarPorSerie.setEnabled(false);
+        btnImprimirTudo.setEnabled(false);
         btnLimparPesquisa.setEnabled(true);
         cmbMODELOS.setEnabled(false);
         cmbSECOES.setEnabled(false);
@@ -1062,7 +1060,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtCODIGO.requestFocus();
         txtCODIGO.setEnabled(false);
         nomeClienteOLD = txtCLIENTE.getText();
-        btnImprimir.setEnabled(true);
+        btnImprimirTudo.setEnabled(true);
         txtIP.setEnabled(true);
         btnLimparPesquisa.setEnabled(true);
         btnPorModelo.setEnabled(false);
@@ -1078,18 +1076,28 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         //se clicou na aba INATIVOS
         if (jTabbedPane4.getSelectedIndex() == 1) {
             umabiblio.limparTodosCampos(rootPane);
-            btnImprimir.setEnabled(true);
-            btnLimparPesquisa.setText("Voltar");
             clicouInativos=true;
             reativando = true;
             txtCODIGO.setEnabled(false);
-        } else {
+            umabiblio.configurarBotoes(btnSair);
+            btnImprimirTudo.setText("Imprimir Inativas");
+            btnImprimirAtivas.setEnabled(false);
+            btnConsultarPorSerie.setEnabled(false);
+            btnLimparPesquisa.setText("Voltar");
+            btnLimparPesquisa.setEnabled(true);
+        }else {
             clicouInativos=false;
-            umabiblio.limparTodosCampos(rootPane);
-            btnLimparPesquisa.setEnabled(false);
+            umabiblio.limparTodosCampos(rootPane);            
             txtCODIGO.setEnabled(false);
+            btnLimparPesquisa.setEnabled(true);
         }
         
+         if (jTabbedPane4.getSelectedIndex() == 2) {
+            btnImprimirTudo.setEnabled(false);
+            btnImprimirAtivas.setEnabled(false);
+            btnConsultarPorSerie.setEnabled(false);
+            btnLimparPesquisa.setEnabled(true);
+        }
         
     }//GEN-LAST:event_jTabbedPane4MouseClicked
     private void limparPesquisa(){
@@ -1104,7 +1112,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnLimparPesquisa.setEnabled(false);         
         jTabbedPane4.setSelectedIndex(0);
         btnLimparPesquisa.setText("Limpar Pesquisa"); 
-        btnImprimir.setEnabled(true);
+        btnImprimirTudo.setText("Imprimir Cadastradas");
         filtrouPorModelo=false;
         filtrouPorSecao=false;  
         btnPorModelo.setEnabled(true);
@@ -1113,7 +1121,9 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtCODIGO.setEnabled(true);
         cmbMODELOS.setSelectedIndex(-1);
         cmbSECOES.setSelectedIndex(-1);
+        btnImprimirTudo.setEnabled(true);
         btnConsultarPorSerie.setEnabled(true);
+        btnImprimirAtivas.setEnabled(true);        
     }
     private void btnLimparPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparPesquisaActionPerformed
        limparPesquisa();        
@@ -1172,7 +1182,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
        }
        
        btnLimparPesquisa.setEnabled(true);
-       btnImprimir.setEnabled(true);
+       btnImprimirTudo.setEnabled(true);
        btnPorSecao.setEnabled(false);
        btnPorModelo.setEnabled(false);
        txtCODIGO.setEnabled(false);
@@ -1239,9 +1249,10 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 }
                 btnPorModelo.setEnabled(false);
                 btnPorSecao.setEnabled(false);
-                btnImprimir.setEnabled(false);
-                btnConsultarPorSerie.setEnabled(false);
                 btnLimparPesquisa.setEnabled(true);
+                btnImprimirTudo.setEnabled(false);
+                btnConsultarPorSerie.setEnabled(false);
+                btnImprimirAtivas.setEnabled(false);
             }            
         }  
        paramPesquisa = null;
@@ -1260,7 +1271,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtCODIGO.requestFocus();
         txtCODIGO.setEnabled(false);
         nomeClienteOLD = txtCLIENTE.getText();
-        btnImprimir.setEnabled(true);
+        btnImprimirTudo.setEnabled(true);
         txtIP.setEnabled(true);
         btnLimparPesquisa.setEnabled(true);
         btnPorModelo.setEnabled(false);
@@ -1476,8 +1487,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultarPorSerie;
     private javax.swing.JButton btnFiltroModeloSecao;
-    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnImprimirAtivas;
+    private javax.swing.JButton btnImprimirTudo;
     private javax.swing.JButton btnLimparPesquisa;
     private javax.swing.JButton btnPorModelo;
     private javax.swing.JButton btnPorSecao;
