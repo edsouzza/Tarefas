@@ -2061,6 +2061,13 @@ private void gravarEdicaoRegistro()
         }                
                   
         if(tipo.equals("IMPRESSORA")){
+            if(!temimpressorasAtivas){
+                System.out.println("NAO temos impressoras ativas");
+                
+            }
+        }
+           
+        if(tipo.equals("IMPRESSORA")){
             isImpressora=true;
             cadastrandoEquipamento = true;
 
