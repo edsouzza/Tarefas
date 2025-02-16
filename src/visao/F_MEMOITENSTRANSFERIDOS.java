@@ -440,9 +440,9 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         /*QDO CLICA NO BOTAO ADICIONAR ABRE-SE A LISTA DE PATRIMONIOS E AO ESCOLHER UM ITEM O MESMO É INCLUIDO NA TBLITENSMEMOTRANSFERIDOS COM STATUS 
           PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/                             
         numMemoTransferido     = txtNUMEMO.getText()+"/"+anoVigente;
-        origemTransferidos     = txtORIGEM.getText();;
-        destinoTransferidos    = txtDESTINO.getText();;            
-        assuntoTransferido     = txtASSUNTO.getText();;            
+        origemTransferidos     = txtORIGEM.getText();
+        destinoTransferidos    = txtDESTINO.getText();           
+        assuntoTransferido     = txtASSUNTO.getText();           
         editandoMemorando      = false;
         
         //ABRE ALISTA DE PATRIMONIOS COM SEUS DEVIDOS MODELOS PARA SELEÇÃO DO PATRIMONIO DESEJADO->NAO SE TRATA DE PATRIDEPTOS

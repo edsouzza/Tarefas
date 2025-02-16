@@ -200,9 +200,7 @@ public class MetodosPublicos {
         } finally {
             conexao.desconectar();
         }
-    }
-    
-    
+    }       
     
     public boolean temDuplicidadeNaEdicao(String tabela, String campoTabela, String campoComparacao, Integer codigo) {
         conn = conexao.conectar();
@@ -531,8 +529,8 @@ public class MetodosPublicos {
         } finally {
             conexao.desconectar();
         }
-    }  
-    
+    }      
+        
     public boolean verificarSePesquisaRetornouDados(String sql){
 
         conexao.conectar();
@@ -647,6 +645,7 @@ public class MetodosPublicos {
             conexao.desconectar();
         }
     }  
+    
     public void atualizarSerieChapaPatrimoniosEditadosETransferidos(String pNovaSeire, String pNovaChapa, String pSerieAtual) 
     {
         conexao.conectar();
@@ -722,6 +721,25 @@ public class MetodosPublicos {
        } finally {
             conexao.desconectar();
        }          
+    }
+    
+    public Integer getCodigoEmpresaContratoImpressoras(){               
+        //Metodo retorna o codigo da empresa atual do contrato de impressoras
+        conn = conexao.conectar();      
+        try
+        {  
+            String sqlEmpresaId = "SELECT codigo FROM tblempresa WHERE codigo=(select max(codigo) from tblempresa) and status = 'ATIVO'";                       
+            conexao.ExecutarPesquisaSQL(sqlEmpresaId); 
+            while(conexao.rs.next()){
+               return conexao.rs.getInt("codigo"); 
+            }                     
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Erro ao pesquisar o codigo da empresa de contrato de impressoras, erro gerado : \n"+e+", o sql passado foi \n"+sql);
+            return 0;
+       } finally {
+            conexao.desconectar();
+       }      
+         return 0;
     }
     
     public void atualizarStatusParaEnviados(int iCodigo) 

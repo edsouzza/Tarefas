@@ -944,9 +944,76 @@ public class DAOPatrimonio {
             //VERIFICA QUAL O DESTINO SE FOR UM DE NOSSOS DEPTOS NAO INATIVA E SOMENTE ENVIA CASO CONTRARIO INATIVA
             gravarUpdateMemos(pCod,pNumemo);
         }        
-    }         
+    }     
     
-      public void ReativarPatrimonioPeloMemorandoDAO(String pNumemo){
+    public void disponibilizarIpsDoContratoFinalizado(String pIp) 
+    {
+        conexao.conectar();
+        try 
+        {
+            sql = "UPDATE TBLIPSDISPONIVEIS SET status=? WHERE ip=?";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, "DISPONIVEL");           
+            pst.setString(2, pIp);
+            pst.executeUpdate(); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de inserção sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+    }  
+    
+    public ArrayList<String> listaDeIpsAdisponibilizar(int pCodEmpresa){
+        ArrayList<String> litaIps = new ArrayList<>();
+     
+        conexao.conectar();
+        String sqlPesquisa = "SELECT ip from tblpatrimonios where tipoid=3 and contrato='S' and status='ATIVO' and empresaid = "+pCodEmpresa+"";            
+        conexao.ExecutarPesquisaSQL(sqlPesquisa); 
+        
+        try 
+        {
+            while(conexao.rs.next()){
+                litaIps.add(conexao.rs.getString("ip")); 
+            }   
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível pesquisar a lista de codigos de ips a disponibilizar sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+      
+        return litaIps;         
+    }
+    
+    public ArrayList<String> listaDeImpressorasContratoFinalizado(int pCodEmpresa){
+        ArrayList<String> litaImpressoras = new ArrayList<>();
+        
+     
+        conexao.conectar();
+        String sqlPesquisa = "SELECT empresaid, modeloid, serie, chapa from tblpatrimonios where tipoid=3 and contrato='S' and status='ATIVO' and empresaid = "+pCodEmpresa+"";            
+        conexao.ExecutarPesquisaSQL(sqlPesquisa); 
+        
+        try 
+        {
+            while(conexao.rs.next()){
+                
+                litaImpressoras.add(conexao.rs.getString("empresaid")); 
+                litaImpressoras.add(conexao.rs.getString("modeloid")); 
+                litaImpressoras.add(conexao.rs.getString("serie")); 
+                litaImpressoras.add(conexao.rs.getString("chapa")); 
+            }   
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível pesquisar a lista de codigos de ips a disponibilizar sql, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+      
+        return litaImpressoras;         
+    }
+    
+    public void ReativarPatrimonioPeloMemorandoDAO(String pNumemo){
         //SE NAO FOR CPU        
         int totalregs = lstListaGenerica.size();
         

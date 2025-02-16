@@ -12,6 +12,7 @@ import conexao.ConnConexao;
 import controle.CtrlPatrimonio;
 import biblioteca.TudoMaiusculas;
 import static biblioteca.VariaveisPublicas.dataDoDia;
+import static biblioteca.VariaveisPublicas.lstListaStrings;
 import controle.CtrlCliente;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.nomeCliente;
@@ -42,18 +43,19 @@ import relatorios.GerarRelatorios;
 public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
     ConnConexao conexao  = new ConnConexao();
-    Biblioteca umabiblio                = new Biblioteca();
-    MetodosPublicos     umMetodo        = new MetodosPublicos();
-    Patrimonio umModPatrimonio          = new Patrimonio();
-    Cliente umModeloCliente             = new Cliente();
-    CtrlCliente umControleCliente       = new CtrlCliente();
-    CtrlPatrimonio umControlePatrimonio = new CtrlPatrimonio();
-    ControleGravarLog umGravarLog       = new ControleGravarLog();
-    DAOPatrimonio patrimonioDAO         = new DAOPatrimonio();
-    Secao umModeloSecao                 = new Secao();
-    CtrlSecoes umControleSecao          = new CtrlSecoes();
-    AbrirURL umaURL                     = new AbrirURL();
-    CopiarParaClipboard umTexto         = new CopiarParaClipboard();
+    Biblioteca umabiblio                    = new Biblioteca();
+    MetodosPublicos     umMetodo            = new MetodosPublicos();
+    Patrimonio umModPatrimonio              = new Patrimonio();
+    Cliente umModeloCliente                 = new Cliente();
+    CtrlCliente umControleCliente           = new CtrlCliente();
+    CtrlPatrimonio umControlePatrimonio     = new CtrlPatrimonio();
+    ControleGravarLog umGravarLog           = new ControleGravarLog();
+    DAOPatrimonio patrimonioDAO             = new DAOPatrimonio();
+    Secao umModeloSecao                     = new Secao();
+    CtrlSecoes umControleSecao              = new CtrlSecoes();
+    AbrirURL umaURL                         = new AbrirURL();
+    CopiarParaClipboard umTexto             = new CopiarParaClipboard();
+    
     String modelo,descricaoDeReativacao,motivoReativacao,patrimonio, situacao, nomeCli, nomeTipo, nomeClienteOLD, motivoInativacao, serie, paramPesquisa, nomeColuna, nomeEstacao, ip, descricaoDeInativacao, tipo  = null; 
     int codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo, codigoSecao, codigoModelo = 0;
     boolean filtrouPorModelo, filtrouPorSecao, reativando,gravando, editando, flag, alterouStatus, bEncontrou, clicouNaTabela, escolheuModelo,filtrou, naoMicro, clicouInativos, filtrouClicou;  //controla no botão gravar entre gravar novo registro e gravar alteração de um registro    
@@ -1202,39 +1204,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
        txtCODIGO.setEnabled(false);
        
     }//GEN-LAST:event_btnPorSecaoActionPerformed
-
-    private void inativarImpressorasDoContratoAtual(){
-        /*ATENÇÃO ESTE METODO NAO ESTA SENDO UTLIZADO ESSA INATIVAÇÃO ESTA SENDO FEITA QDO DA GERAÇÃO 
-        DO MEMORANDO DE DEVOLUÇÃO DOS EQUIPTOS PARA EMPRESA DO CONTRATO FINALIZADO DEIXE AQUI POIS
-        TEM APRENDIZADO NO METODO umMetodo.inativarImpressorasContrato(umModPatrimonio);*/        
         
-        //Inativa todas as impressoras de contrato para cadastro de nova Empresa 
-        //Preciso manter os dados que constam em motivo e obs e quebrar linha somente se tiver dados       
-        
-        Date              dataDia   = dataDoDia; 
-        SimpleDateFormat  sdf       = new SimpleDateFormat("dd.MM.yyyy");              
-        String motivo               = sdf.format(dataDia)+" : Inativado por conta da troca de empresa e do novo contrato de alocacao.";
-        String obs                  = sdf.format(dataDia)+" : Inativado por conta da troca de empresa e do novo contrato de alocacao.";
-        
-        if(umabiblio.permissaoLiberada()){
-            if (umabiblio.ConfirmouOperacao("Confirma Inativação de todas as Impressoras do Contrato Atual?", "Inativação de Impressoras de Contrato Atual")){
-                
-                umModPatrimonio.setMotivo(motivo);
-                umModPatrimonio.setObservacoes(obs);                
-                umMetodo.inativarImpressorasContrato(umModPatrimonio);
-                
-                JOptionPane.showMessageDialog(null, "Todas as impressoras do Contrato Atual foram inativadas com sucesso, cadastre agora a nova Empresa!","Inativação de impressoras!",2);
-                dispose();                
-                                
-                PreencherTabelaATIVOS(sqlDefaultATIVOS);   
-                tabela = "TBLEMPRESA";     
-                F_EMPRESA frm1 = new F_EMPRESA(this,true);
-                frm1.setVisible(true); 
-                
-            }   
-        }       
-    }
-    
     public void Pesquisar()
     {    
         //pesquisa não deverá aceitar valores vazios, nulos ou zero como parâmetro
@@ -1299,17 +1269,81 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
     private void btnImprimirAtivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirAtivasActionPerformed
         GerarRelatorios objRel = new GerarRelatorios();
-            try {
-                objRel.imprimirImpressorasCadastradas("relatorio/relImpressorasativas.jasper");
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!"+e);                
-            }
+        try {
+            objRel.imprimirImpressorasCadastradas("relatorio/relImpressorasativas.jasper");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!"+e);                
+        }
     }//GEN-LAST:event_btnImprimirAtivasActionPerformed
 
+    private void disponibilizarIpContratoFinalizado(){
+             
+        //Preciso da lista de ips da empresa
+        int empresaId = umMetodo.getCodigoEmpresaContratoImpressoras();
+        //System.out.println("Codigo da empresa : "+empresaId);
+        
+        ArrayList<String> lstIpsDisponibilizar = new ArrayList<>();
+        lstIpsDisponibilizar = patrimonioDAO.listaDeIpsAdisponibilizar(empresaId);
+                
+        int totalRegs = lstIpsDisponibilizar.size();
+        //System.out.println("Total de regs encontrados : "+totalRegs);                
+        
+        for(int i=0;i<totalRegs;i++){        
+            patrimonioDAO.disponibilizarIpsDoContratoFinalizado(lstIpsDisponibilizar.get(i));
+        }
+        
+    }
+    
+    private void inativarImpressorasDoContratoAtual(){
+        /*ATENÇÃO ESTE METODO NAO ESTA SENDO UTLIZADO ESSA INATIVAÇÃO ESTA SENDO FEITA QDO DA GERAÇÃO 
+        DO MEMORANDO DE DEVOLUÇÃO DOS EQUIPTOS PARA EMPRESA DO CONTRATO FINALIZADO DEIXE AQUI POIS
+        TEM APRENDIZADO NO METODO umMetodo.inativarImpressorasContrato(umModPatrimonio);*/        
+        
+        //Inativa todas as impressoras de contrato para cadastro de nova Empresa 
+        //Preciso manter os dados que constam em motivo e obs e quebrar linha somente se tiver dados       
+        
+        Date              dataDia   = dataDoDia; 
+        SimpleDateFormat  sdf       = new SimpleDateFormat("dd.MM.yyyy");              
+        String motivo               = sdf.format(dataDia)+" : Inativado por conta da troca de empresa e do novo contrato de alocacao.";
+        String obs                  = sdf.format(dataDia)+" : Inativado por conta da troca de empresa e do novo contrato de alocacao.";
+        
+        if(umabiblio.permissaoLiberada()){
+            if (umabiblio.ConfirmouOperacao("Confirma Inativação de todas as Impressoras do Contrato Atual?", "Inativação de Impressoras de Contrato Atual")){
+                
+                umModPatrimonio.setMotivo(motivo);
+                umModPatrimonio.setObservacoes(obs); 
+                
+                //Inativando impressoras e disponibilizando ip das mesmas
+                //geraMemorandoDevolucaoEquipamentos();
+                /*disponibilizarIpContratoFinalizado();
+                umMetodo.inativarImpressorasContrato(umModPatrimonio);*/
+                int empresaId = umMetodo.getCodigoEmpresaContratoImpressoras();                
+                
+                ArrayList<String> lstImpressoras = new ArrayList<>();
+                lstImpressoras = patrimonioDAO.listaDeImpressorasContratoFinalizado(empresaId);
+                
+                for(Object c : lstImpressoras){
+                    System.out.println(c);   
+                }
+                                
+                
+//                JOptionPane.showMessageDialog(null, "Todas as impressoras do Contrato Atual foram inativadas com sucesso, cadastre agora a nova Empresa!","Inativação de impressoras!",2);
+//                dispose();                
+//                                
+//                PreencherTabelaATIVOS(sqlDefaultATIVOS);  
+//                
+//                tabela = "TBLEMPRESA";     
+//                F_EMPRESA frm1 = new F_EMPRESA(this,true);
+//                frm1.setVisible(true); 
+                
+            }   
+        }       
+    }
+    
     private void btnInativarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarContratoActionPerformed
-        //inativarImpressorasDoContratoAtual();        
-       
+        inativarImpressorasDoContratoAtual();       
+                      
         /* 
            1- Inativar a empresa atual do contrato / ou seja inativar o ultimo registro da TBLEMPRESA-> 
               "UPDATE tblempresa SET status='INATIVO' WHERE codigo=(select max(codigo) from tblempresa)" 
