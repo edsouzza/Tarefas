@@ -1,5 +1,6 @@
 package visao;
 
+import Dao.DAOImpressora;
 import Dao.DAOPatrimonio;
 import biblioteca.AbrirURL;
 import biblioteca.Biblioteca;
@@ -11,14 +12,18 @@ import biblioteca.ModeloTabela;
 import conexao.ConnConexao;
 import controle.CtrlPatrimonio;
 import biblioteca.TudoMaiusculas;
+import static biblioteca.VariaveisPublicas.anoVigente;
 import static biblioteca.VariaveisPublicas.dataDoDia;
-import static biblioteca.VariaveisPublicas.lstListaStrings;
 import controle.CtrlCliente;
 import static biblioteca.VariaveisPublicas.totalRegs;
 import static biblioteca.VariaveisPublicas.nomeCliente;
 import static biblioteca.VariaveisPublicas.sql;
 import static biblioteca.VariaveisPublicas.tabela;
+import static biblioteca.VariaveisPublicas.codigoUsuario;
 import controle.ControleGravarLog;
+import controle.CtrlEmpresa;
+import controle.CtrlPatriItenstransferido;
+import controle.CtrlPatriTransferido;
 import controle.CtrlSecoes;
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
@@ -36,28 +41,37 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import modelo.Cliente;
+import modelo.Impressora;
+import modelo.PatriTensTransferido;
+import modelo.PatriTransferido;
 import modelo.Patrimonio;
 import modelo.Secao;
 import relatorios.GerarRelatorios;
 
 public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
 
-    ConnConexao conexao  = new ConnConexao();
-    Biblioteca umabiblio                    = new Biblioteca();
-    MetodosPublicos     umMetodo            = new MetodosPublicos();
-    Patrimonio umModPatrimonio              = new Patrimonio();
-    Cliente umModeloCliente                 = new Cliente();
-    CtrlCliente umControleCliente           = new CtrlCliente();
-    CtrlPatrimonio umControlePatrimonio     = new CtrlPatrimonio();
-    ControleGravarLog umGravarLog           = new ControleGravarLog();
-    DAOPatrimonio patrimonioDAO             = new DAOPatrimonio();
-    Secao umModeloSecao                     = new Secao();
-    CtrlSecoes umControleSecao              = new CtrlSecoes();
-    AbrirURL umaURL                         = new AbrirURL();
-    CopiarParaClipboard umTexto             = new CopiarParaClipboard();
+    ConnConexao                 conexao                         = new ConnConexao();
+    Biblioteca                  umabiblio                       = new Biblioteca();
+    MetodosPublicos             umMetodo                        = new MetodosPublicos();
+    Patrimonio                  umModPatrimonio                 = new Patrimonio();
+    Cliente                     umModeloCliente                 = new Cliente();
+    CtrlCliente                 umControleCliente               = new CtrlCliente();
+    CtrlPatrimonio              umControlePatrimonio            = new CtrlPatrimonio();
+    ControleGravarLog           umGravarLog                     = new ControleGravarLog();
+    DAOPatrimonio               patrimonioDAO                   = new DAOPatrimonio();
+    DAOImpressora               impressoraDAO                   = new DAOImpressora();
+    Secao                       umModeloSecao                   = new Secao();
+    CtrlSecoes                  umControleSecao                 = new CtrlSecoes();
+    AbrirURL                    umaURL                          = new AbrirURL();
+    CopiarParaClipboard         umTexto                         = new CopiarParaClipboard();
+    PatriTensTransferido        objModPatriTemTransferido       = new PatriTensTransferido();
+    CtrlPatriItenstransferido   ctrlPatriTenstransferido        = new CtrlPatriItenstransferido();
+    PatriTransferido            umModPatriTransferido           = new PatriTransferido();
+    CtrlPatriTransferido        umCtrlPatriTranferido           = new CtrlPatriTransferido();
+    CtrlEmpresa                 umCtrlEmpresa                   = new CtrlEmpresa();
     
-    String modelo,descricaoDeReativacao,motivoReativacao,patrimonio, situacao, nomeCli, nomeTipo, nomeClienteOLD, motivoInativacao, serie, paramPesquisa, nomeColuna, nomeEstacao, ip, descricaoDeInativacao, tipo  = null; 
-    int codigo, idClienteRegSel, ind, idSecao, numeroColuna, idModelo, codigoSecao, codigoModelo = 0;
+    String modelo, numemo, status, chapa, origem, destino, empresa, assunto, observacao, descricaoDeReativacao ,motivoReativacao, patrimonio, situacao, nomeCli, nomeTipo, nomeClienteOLD, motivoInativacao, serie, paramPesquisa, nomeColuna, nomeEstacao, ip, descricaoDeInativacao, tipo  = null; 
+    int codigo, codModelo, codEmpresa, valorItem, idClienteRegSel, ind, idSecao, numeroColuna, idModelo, codigoSecao, codigoModelo = 0;
     boolean filtrouPorModelo, filtrouPorSecao, reativando,gravando, editando, flag, alterouStatus, bEncontrou, clicouNaTabela, escolheuModelo,filtrou, naoMicro, clicouInativos, filtrouClicou;  //controla no botão gravar entre gravar novo registro e gravar alteração de um registro    
     
     String sqlDefaultATIVOS     = "select p.*, c.nome as cliente, s.nome as secao, m.*,t.* from tblpatrimonios p, tblclientes c, tblsecoes s, tbltipos t, "
@@ -792,7 +806,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 
         if(!umMetodo.TemImpressorasDeContratoAtivas()){
             
-            if(umMetodo.ConfirmouOperacao("O contrato da empresa anterior foi finalizado, deseja cadastrar a nova empresa agora?", "Contrato de impressoras finalizado")){              
+            if(umMetodo.ConfirmouOperacao("O contrato  da  empresa anterior foi finalizado, deseja cadastrar a nova empresa\n agora? Se já o fez clique em não, saia e cadastre os equipamentos da mesma!", "Contrato de impressoras finalizado")){              
                   dispose(); 
                   tabela = "TBLEMPRESA";     
                   F_EMPRESA frm = new F_EMPRESA(this,true);
@@ -1280,7 +1294,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
     private void disponibilizarIpContratoFinalizado(){
              
         //Preciso da lista de ips da empresa
-        int empresaId = umMetodo.getCodigoEmpresaContratoImpressoras();
+        int empresaId = umMetodo.getCodigoEmpresaAtualContratoImpressoras();
         //System.out.println("Codigo da empresa : "+empresaId);
         
         ArrayList<String> lstIpsDisponibilizar = new ArrayList<>();
@@ -1295,10 +1309,32 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         
     }
     
+    private void gravarMemorando(){
+        //GRAVA O CABECALHO DO MEMORANDO NA TABELA
+        
+        /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
+          Nao deixar salvar quando clicado mais de uma vez / So gravar a primeira vez que clicar*/            
+        if(!umMetodo.temDuplicidadeDeCadastro("TBLMEMOSTRANSFERIDOS", "numemo", numemo))
+        {
+            umModPatriTransferido.setNumemo(numemo);
+
+            if(!observacao.equals(null) && !observacao.equals(""))
+            {
+                umModPatriTransferido.setObservacao("Obs : "+umMetodo.primeiraLetraMaiuscula(observacao));
+            }else{
+                umModPatriTransferido.setObservacao(" ");
+            }
+
+            umModPatriTransferido.setStatus("TRANSFERIDO");
+            umModPatriTransferido.setIdusuario(codigoUsuario);
+            umModPatriTransferido.setAssunto((assunto).toUpperCase());
+            umCtrlPatriTranferido.salvarPatriTransferido(umModPatriTransferido); 
+            umGravarLog.gravarLog("cadastro do memo de transferencia de patrimonios "+numemo);
+        }        
+        
+    }
+    
     private void inativarImpressorasDoContratoAtual(){
-        /*ATENÇÃO ESTE METODO NAO ESTA SENDO UTLIZADO ESSA INATIVAÇÃO ESTA SENDO FEITA QDO DA GERAÇÃO 
-        DO MEMORANDO DE DEVOLUÇÃO DOS EQUIPTOS PARA EMPRESA DO CONTRATO FINALIZADO DEIXE AQUI POIS
-        TEM APRENDIZADO NO METODO umMetodo.inativarImpressorasContrato(umModPatrimonio);*/        
         
         //Inativa todas as impressoras de contrato para cadastro de nova Empresa 
         //Preciso manter os dados que constam em motivo e obs e quebrar linha somente se tiver dados       
@@ -1314,47 +1350,87 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
                 umModPatrimonio.setMotivo(motivo);
                 umModPatrimonio.setObservacoes(obs); 
                 
-                //Inativando impressoras e disponibilizando ip das mesmas
-                //geraMemorandoDevolucaoEquipamentos();
-                /*disponibilizarIpContratoFinalizado();
-                umMetodo.inativarImpressorasContrato(umModPatrimonio);*/
-                int empresaId = umMetodo.getCodigoEmpresaContratoImpressoras();                
+                //Disponibiliza os ips para uso pos inativação da empresa e seus equiptos
+                disponibilizarIpContratoFinalizado();
                 
-                ArrayList<String> lstImpressoras = new ArrayList<>();
-                lstImpressoras = patrimonioDAO.listaDeImpressorasContratoFinalizado(empresaId);
+                //GERA MEMORANDO DE ENCAMINHAMENTO AUTOMATICAMENTE
+                int empresaId = umMetodo.getCodigoEmpresaAtualContratoImpressoras();   
                 
-                for(Object c : lstImpressoras){
-                    System.out.println(c);   
+                //Inativar a empresa do ultimo contrato
+                umCtrlEmpresa.inativarEmpresaDoContratoImpressoras();
+               
+                
+                numemo     = umMetodo.gerarProximoNumeroMemoTransferir()+"/"+anoVigente;
+                empresa    = umMetodo.retornarNome("tblEmpresa", empresaId);
+                origem     = "CGGM/INFO";
+                destino    = empresa;        
+                assunto    = "Devolucao de equipamentos por motivo de encerramento de contrato.";
+                observacao = "Devolucao de equipamentos por motivo de encerramento de contrato.";
+                status     = "TRANSFERIDO";     
+                
+                valorItem = 1;
+                
+                ArrayList<Impressora> lista = new ArrayList<>();
+                
+                lista = impressoraDAO.listaDeImpressorasContratoFinalizado(empresaId);
+
+                for (Impressora impressora : lista) 
+                {
+                    
+                    //Adicionando os patrimonios ao memorando                    
+                    codModelo      = impressora.getModeloId();
+                    codEmpresa     = impressora.getEmpresaId();
+                    serie          = impressora.getSerie();
+                    chapa          = impressora.getChapa();       
+                    
+                    objModPatriTemTransferido.setItem(valorItem);           
+                    objModPatriTemTransferido.setNumemo(numemo);            
+                    objModPatriTemTransferido.setModeloid(codModelo);	              
+                    objModPatriTemTransferido.setSerie(serie);
+                    objModPatriTemTransferido.setChapa(chapa);      	
+                    objModPatriTemTransferido.setOrigem(origem);     	
+                    objModPatriTemTransferido.setDestino(destino);     	
+                    objModPatriTemTransferido.setStatus(status);		
+
+                    ctrlPatriTenstransferido.salvarPatriItensTransferido(objModPatriTemTransferido);
+                    
+                    umGravarLog.gravarLog("Adicao de itens ao memorando de transferencia "+numemo);    
+                    valorItem++;
+                    
                 }
                                 
+                //Inativa impressoras da empresa
+                umMetodo.inativarImpressorasContrato(umModPatrimonio);
                 
-//                JOptionPane.showMessageDialog(null, "Todas as impressoras do Contrato Atual foram inativadas com sucesso, cadastre agora a nova Empresa!","Inativação de impressoras!",2);
-//                dispose();                
-//                                
-//                PreencherTabelaATIVOS(sqlDefaultATIVOS);  
-//                
-//                tabela = "TBLEMPRESA";     
-//                F_EMPRESA frm1 = new F_EMPRESA(this,true);
-//                frm1.setVisible(true); 
+                //Grava memorando na tabela  
+                gravarMemorando();    
+
+                //Gerando o relatorio mas não abrira na tela
+                GerarRelatorios objRel = new GerarRelatorios();
+                try {
+                    objRel.imprimirPatrimoniosDevolucaoEmpresa("relatorio/relmemotransferidos.jasper", numemo);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao gerar relatório de Patrimônios devolvidos para empresa por motivo do fim de contrato!\n"+e);                
+                }                                   
+                
+                JOptionPane.showMessageDialog(null, "A Empresa do contrato atual de Impressoras foi inativada com sucesso, juntamente com seus\nequipamentos,  observando que foi gerado o memorando de devolução  das  impressoras, se\npossível  cadastre  a  nova  Empresa  para  então  iniciar  o  cadastro de seus equipamentos!!!","Inativação da Empresa e seus equipamentos!",2);
+                dispose();                
+                
+                umGravarLog.gravarLog("Inativacao da empresa atual de contrato de impressoras e seus equipamentos"); 
+                                
+                PreencherTabelaATIVOS(sqlDefaultATIVOS);  
+                
+                tabela = "TBLEMPRESA";     
+                F_EMPRESA frm1 = new F_EMPRESA(this,true);
+                frm1.setVisible(true); 
                 
             }   
         }       
     }
     
     private void btnInativarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarContratoActionPerformed
-        inativarImpressorasDoContratoAtual();       
-                      
-        /* 
-           1- Inativar a empresa atual do contrato / ou seja inativar o ultimo registro da TBLEMPRESA-> 
-              "UPDATE tblempresa SET status='INATIVO' WHERE codigo=(select max(codigo) from tblempresa)" 
-              criado metodo inativarEmpresaDoContratoImpressorasDAO() usar o CtrlEmpresa.inativarEmpresaDoContratoImpressoras
         
-           2- Como criar o metodo para gerar o memorando automaticamente (estudar o form de geração de memo de encaminhamento : F_MEMOITENSTRANSFERIDOS())
-              inativando os regs da empresaid, para inativar os regs temos inativarImpressorasDoContratoAtual() se precisar
-        
-           3- Inativar os regs da empresaid -> Pra isso temos o metodo : inativarImpressorasDoContratoAtual();        
-              OBS: Se conseguir criar o formulario de geração de memorando de encaminhamento automatico nao precisando do metodoa cima : inativarImpressorasDoContratoAtual();                  
-        */
+        inativarImpressorasDoContratoAtual();    
         
     }//GEN-LAST:event_btnInativarContratoActionPerformed
    

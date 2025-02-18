@@ -2,8 +2,6 @@ package Dao;
 
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.sql;
-import static biblioteca.VariaveisPublicas.data;
-import static biblioteca.VariaveisPublicas.hora;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import modelo.Anotacoes;

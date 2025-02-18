@@ -22,29 +22,31 @@ import modelo.Patrimonio;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 
 public class DAOPatrimonio {
 
-    ConnConexao         conexao     = new ConnConexao(); 
+    ConnConexao conexao = new ConnConexao(); 
+    LocalDate dataAtual = LocalDate.now();
     
     public boolean salvarPatrimonioDAO(Patrimonio umPatrimonio) 
     {
         conexao.conectar();
         try 
         {
-            sql = "INSERT INTO tblpatrimonios (tipoid,serie,chapa,ip,secaoid,clienteid,modeloid,deptoid,estacao,status,motivo,datacad,observacoes,contrato) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            sql = "INSERT INTO tblpatrimonios (tipoid,ip,serie,chapa,estacao,secaoid,clienteid,modeloid,deptoid,empresaid,status,motivo,datacad,observacoes,contrato) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
-            pst.setInt(1, umPatrimonio.getTipoid());
-            pst.setString(2, umPatrimonio.getSerie());
-            pst.setString(3, umPatrimonio.getChapa());
-            pst.setString(4, umPatrimonio.getIp());
-            pst.setInt(5, umPatrimonio.getSecaoid());
-            pst.setInt(6, umPatrimonio.getClienteid());
-            pst.setInt(7, umPatrimonio.getModeloid());
-            pst.setInt(8, umPatrimonio.getDeptoid());
-            pst.setInt(9, umPatrimonio.getEmpresaid());
-            pst.setString(10, umPatrimonio.getEstacao());
+            pst.setInt(1,     umPatrimonio.getTipoid());
+            pst.setString(2,  umPatrimonio.getIp());
+            pst.setString(3,  umPatrimonio.getSerie());
+            pst.setString(4,  umPatrimonio.getChapa());
+            pst.setString(5,  umPatrimonio.getEstacao());
+            pst.setInt(6,     umPatrimonio.getSecaoid());
+            pst.setInt(7,     umPatrimonio.getClienteid());
+            pst.setInt(8,     umPatrimonio.getModeloid());
+            pst.setInt(9,     umPatrimonio.getDeptoid());
+            pst.setInt(10,    umPatrimonio.getEmpresaid());
             pst.setString(11, "ATIVO");            
             pst.setString(12, umPatrimonio.getMotivo());       
             pst.setDate(13, new java.sql.Date(dataDoDia.getTime()));    //grava um Timestamp no banco com data e hora para data de cadastro
@@ -68,20 +70,20 @@ public class DAOPatrimonio {
         {
             sql = "UPDATE tblpatrimonios SET tipoid=?, ip=?, serie=?, chapa=?, estacao=?, secaoid=?, clienteid=?, modeloid=?, deptoid=?, status=?, motivo=?, observacoes=?, contrato=? WHERE codigo=?";
             PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
-            pst.setInt(1, umPatrimonio.getTipoid());
-            pst.setString(2, umPatrimonio.getIp());
-            pst.setString(3, umPatrimonio.getSerie());
-            pst.setString(4, umPatrimonio.getChapa());
-            pst.setString(5, umPatrimonio.getEstacao());
-            pst.setInt(6, umPatrimonio.getSecaoid());
-            pst.setInt(7, umPatrimonio.getClienteid());
-            pst.setInt(8, umPatrimonio.getModeloid());
-            pst.setInt(9, umPatrimonio.getDeptoid());            
-            pst.setString(10, umPatrimonio.getStatus());
-            pst.setString(11, umPatrimonio.getMotivo());
-            pst.setString(12, umPatrimonio.getObservacoes());
-            pst.setString(13, umPatrimonio.getContrato());
-            pst.setInt(14, umPatrimonio.getCodigo());            
+            pst.setInt(1,       umPatrimonio.getTipoid());
+            pst.setString(2,    umPatrimonio.getIp());
+            pst.setString(3,    umPatrimonio.getSerie());
+            pst.setString(4,    umPatrimonio.getChapa());
+            pst.setString(5,    umPatrimonio.getEstacao());
+            pst.setInt(6,       umPatrimonio.getSecaoid());
+            pst.setInt(7,       umPatrimonio.getClienteid());
+            pst.setInt(8,       umPatrimonio.getModeloid());
+            pst.setInt(9,       umPatrimonio.getDeptoid());            
+            pst.setString(10,   umPatrimonio.getStatus());
+            pst.setString(11,   umPatrimonio.getMotivo());
+            pst.setString(12,   umPatrimonio.getObservacoes());
+            pst.setString(13,   umPatrimonio.getContrato());
+            pst.setInt(14,      umPatrimonio.getCodigo());            
             pst.executeUpdate();
             pst.close();  
             return true;

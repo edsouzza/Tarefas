@@ -553,7 +553,8 @@ public class MetodosPublicos {
             sql =  "UPDATE tblpatrimonios "+
                     "SET motivo = COALESCE(motivo, '') || ASCII_CHAR(13) || ?, "+
                     "observacoes = COALESCE(observacoes, '') || ASCII_CHAR(13) || ?, "+
-                    "status = 'INATIVO'  "+
+                    "status = 'INATIVO',  "+
+                    "datainativacao = CURRENT_DATE  "+
                     "WHERE empresaid > 0 "+
                     "AND status = 'ATIVO' "+
                     "AND tipoid = 3";
@@ -723,7 +724,7 @@ public class MetodosPublicos {
        }          
     }
     
-    public Integer getCodigoEmpresaContratoImpressoras(){               
+    public Integer getCodigoEmpresaAtualContratoImpressoras(){               
         //Metodo retorna o codigo da empresa atual do contrato de impressoras
         conn = conexao.conectar();      
         try
@@ -2189,7 +2190,7 @@ public class MetodosPublicos {
        
         conn = conexao.conectar();
         try {            
-            sql = "SELECT * from tblpatrimonios where tipoid = 3 and contrato='S'  and status='ATIVO'";
+            sql = "SELECT * from tblpatrimonios where tipoid = 3 and contrato='S' and status='ATIVO'";
             conexao.ExecutarPesquisaSQL(sql);
             if ((conexao.rs.next())) {
                 temimpressorasAtivas = true;
@@ -2572,7 +2573,7 @@ public class MetodosPublicos {
     }
     
     public String retornarNome(String tabela, int codigo) {
-        //retorna o nome da seção atraves do codigo 
+        //retorna o nome atraves do codigo 
         conn = conexao.conectar();
         sql = "SELECT nome FROM "+tabela+" WHERE codigo = '" + codigo + "'";
         conexao.ExecutarPesquisaSQL(sql);

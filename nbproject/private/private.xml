@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="9">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="14">
         <file>
             <url>src/biblioteca/MetodosPublicos.java</url>
             <bookmark id="6">
@@ -15,20 +15,25 @@
             </bookmark>
             <bookmark id="5">
                 <name/>
-                <line>686</line>
+                <line>687</line>
                 <key/>
             </bookmark>
             <bookmark id="7">
                 <name/>
-                <line>2145</line>
+                <line>2146</line>
                 <key/>
             </bookmark>
         </file>
         <file>
             <url>src/visao/F_PATRIMONIOS.java</url>
+            <bookmark id="14">
+                <name/>
+                <line>1023</line>
+                <key/>
+            </bookmark>
             <bookmark id="3">
                 <name/>
-                <line>2048</line>
+                <line>2044</line>
                 <key/>
             </bookmark>
         </file>
@@ -50,9 +55,19 @@
         </file>
         <file>
             <url>src/visao/F_CONSIMPRESSORAS.java</url>
-            <bookmark id="8">
+            <bookmark id="12">
                 <name/>
-                <line>1359</line>
+                <line>61</line>
+                <key/>
+            </bookmark>
+            <bookmark id="13">
+                <name/>
+                <line>72</line>
+                <key/>
+            </bookmark>
+            <bookmark id="11">
+                <name/>
+                <line>1370</line>
                 <key/>
             </bookmark>
         </file>
@@ -60,17 +75,18 @@
             <url>src/Dao/DAOPatrimonio.java</url>
             <bookmark id="9">
                 <name/>
-                <line>965</line>
+                <line>967</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/modelo/ImpressoraContrato.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_CONSIMPRESSORAS.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/biblioteca/MetodosPublicos.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/Dao/DAOPatrimonio.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PATRIMONIOS.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/Dao/DAOImpressora.java</file>
         </group>
     </open-files>
 </project-private>

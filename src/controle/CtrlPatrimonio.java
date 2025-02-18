@@ -19,6 +19,7 @@ public class CtrlPatrimonio
            JOptionPane.showMessageDialog(null,"Patrimonios cadastrados com sucesso!");           
         }
         return new DAOPatrimonio().salvarPatrimonioDAO(umPatrimonio);
+        
     }    
     
     public boolean atualizarPatrimonio(Patrimonio umPatrimonio) 

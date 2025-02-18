@@ -4,7 +4,6 @@
 package controle;
 
 import static biblioteca.VariaveisPublicas.nomeUsuario;
-import static biblioteca.VariaveisPublicas.data;
 import static biblioteca.VariaveisPublicas.hora;
 import java.util.Date;
 import modelo.Log;

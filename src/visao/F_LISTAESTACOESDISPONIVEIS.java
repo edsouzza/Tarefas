@@ -31,6 +31,7 @@ public class F_LISTAESTACOESDISPONIVEIS extends javax.swing.JDialog {
     NomeEstacao     umModeloNomeEstacao    = new NomeEstacao();
     CtrlNomeEstacao umControleNomeEstacao  = new CtrlNomeEstacao();
     String          sqlTrocaNomeRede       = "select nomestacao from tblnomestacao where depto='"+nomeDepartamento+"' AND status='DISPONIVEL' ORDER BY NUMESTACAO";
+    String          sqlBiblioteca          = "select nomestacao from tblnomestacao where depto='CEJUR' AND status='DISPONIVEL' ORDER BY NUMESTACAO";
     String          estacaoEncontrada      = "";
     
     
@@ -93,8 +94,12 @@ public class F_LISTAESTACOESDISPONIVEIS extends javax.swing.JDialog {
 
     private void PopularTabelaComDadosDaSql()
     {             
-        PreencherTabela(sqlTrocaNomeRede);         
-         this.setTitle("Lista de nomes disponíveis "+nomeDepartamento);                  
+        if(nomeDepartamento.equals("BIBLIOTECA")){          
+            PreencherTabela(sqlBiblioteca);          
+        }else{            
+            PreencherTabela(sqlTrocaNomeRede);         
+        }
+        this.setTitle("Lista de nomes disponíveis "+nomeDepartamento);                  
     }
         
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
@@ -111,8 +116,7 @@ public class F_LISTAESTACOESDISPONIVEIS extends javax.swing.JDialog {
            
         if(editandoDisponiveis)
         {
-            //ATUALIZA O STATUS DA NOVA ESTAÇÃO ESCOLHIDA PARA INDISPONIVEL
-            
+            //ATUALIZA O STATUS DA NOVA ESTAÇÃO ESCOLHIDA PARA INDISPONIVEL            
             if(!nomestacao.equals("PGMCGGMC000")){
                 int codigoEst = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomestacao);
                 umModeloNomeEstacao.setCodigo(codigoEst);
