@@ -202,6 +202,9 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
 
         txtDESTINO.setForeground(new java.awt.Color(51, 51, 255));
         txtDESTINO.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDESTINOFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtDESTINOFocusLost(evt);
             }
@@ -357,7 +360,9 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,13 +371,12 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1040, 824));
+        setSize(new java.awt.Dimension(1049, 824));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
             
     private void Leitura() 
-    {        
-                 
+    {                         
         umMetodo.excluirMemorandoSemItens();        
         umCtrlPatrItemTranferido.excluirItensSProcessando();               
 
@@ -382,6 +386,8 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         btnImprimir.setEnabled(false);
         btnExcluirItem.setEnabled(false);
         txtORIGEM.setEditable(true);
+        txtORIGEM.requestFocus();
+        txtORIGEM.selectAll();
         txtDESTINO.setEditable(true);
         txtASSUNTO.setEditable(true);
         txtOBSERVACAO.setEditable(true);        
@@ -644,8 +650,12 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
          txtORIGEM.setText("CGGM/INFO");
-        txtDESTINO.requestFocus();
+         txtORIGEM.selectAll();
     }//GEN-LAST:event_formWindowOpened
+
+    private void txtDESTINOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDESTINOFocusGained
+        btnSair.setEnabled(false);
+    }//GEN-LAST:event_txtDESTINOFocusGained
     
      public void PreencherTabela(String sql)
     {
