@@ -20,6 +20,9 @@ import static biblioteca.VariaveisPublicas.editandoMemorando;
 import static biblioteca.VariaveisPublicas.enviando;
 import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import static biblioteca.VariaveisPublicas.lstListaInteiros;
+import static biblioteca.VariaveisPublicas.tabela_da_lista;
+import static biblioteca.VariaveisPublicas.nomeCampoPesq;
+import static biblioteca.VariaveisPublicas.assuntoSelecionado;;
 import static biblioteca.VariaveisPublicas.valorItem;
 import conexao.ConnConexao;
 import java.awt.AWTKeyStroke;
@@ -143,6 +146,11 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2147483647, 860));
         setPreferredSize(new java.awt.Dimension(1035, 860));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1024, 733));
 
@@ -193,6 +201,11 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         jLabel4.setText("MEMO");
 
         txtDESTINO.setForeground(new java.awt.Color(51, 51, 255));
+        txtDESTINO.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDESTINOFocusLost(evt);
+            }
+        });
         txtDESTINO.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtDESTINOMouseClicked(evt);
@@ -240,11 +253,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                 txtORIGEMMouseClicked(evt);
             }
         });
-        txtORIGEM.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtORIGEMKeyPressed(evt);
-            }
-        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(51, 51, 255));
@@ -255,15 +263,15 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         jLabel8.setText("ORIGEM");
 
         txtASSUNTO.setForeground(new java.awt.Color(51, 51, 255));
-        txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtASSUNTOKeyPressed(evt);
+        txtASSUNTO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtASSUNTOMouseClicked(evt);
             }
         });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel9.setText("ASSUNTO");
+        jLabel9.setText("SELECIONE O ASSUNTO SE PRECISAR CADASTRE UM NOVO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -272,9 +280,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -287,54 +292,56 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOBSERVACAO)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtORIGEM))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtASSUNTO)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtASSUNTO)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(txtOBSERVACAO)))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtNUMEMO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel6)
+                .addGap(6, 6, 6)
                 .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -356,10 +363,10 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1040, 804));
+        setSize(new java.awt.Dimension(1040, 824));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
             
@@ -367,7 +374,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     {        
                  
         umMetodo.excluirMemorandoSemItens();        
-        umCtrlPatrItemTranferido.excluirItensSProcessando();
+        umCtrlPatrItemTranferido.excluirItensSProcessando();               
 
         umabiblio.limparTodosCampos(rootPane);  //LIMPA TODOS OS EDITS 
         btnCancelar.setEnabled(false);
@@ -384,6 +391,8 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         valorItem = 0;
         controlenaveg = 0;
         lstListaInteiros.clear();
+        
+        
                 
         //JOptionPane.showMessageDialog(null, "Próximo numemo = "+String.valueOf(umMetodo.gerarProximoNumeroMemoTransferir()));
         if(!umabiblio.tabelaVazia("TBLMEMOSTRANSFERIDOS")){
@@ -392,7 +401,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             txtNUMEMO.setText("1");            
         } 
         PreencherTabela(sqlVazia);
-        txtORIGEM.requestFocus();
+        
     }
         
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -492,7 +501,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         /*IMPRIMINDO RELATORIO DOS PATRIMONIOS TRANSFERIDOS VERIFICANDO SE O ARQUIVO EXISTE RETORNA TRUE/FALSE
         System.out.println(new File("relatorio/relmemotransferidos.jasper").exists()); */
-        txtDESTINO.requestFocus(); //devolvendo o foco ao txtDESTINO logo apos a emissao do relatorio caso queira fazer outro memorando
+        //txtDESTINO.requestFocus(); //devolvendo o foco ao txtDESTINO logo apos a emissao do relatorio caso queira fazer outro memorando
      
         gravarMemorando();
         
@@ -593,15 +602,6 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnExcluirItemActionPerformed
 
-    private void txtORIGEMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtORIGEMKeyPressed
-        //SE TECLAR ENTER DENTRO DO TXT IR PARA TXTDESTINO
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtDESTINO.requestFocus();            
-        }
-       
-        btnSair.setEnabled(false);   
-    }//GEN-LAST:event_txtORIGEMKeyPressed
-
     private void txtORIGEMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtORIGEMMouseClicked
         txtORIGEM.selectAll();
     }//GEN-LAST:event_txtORIGEMMouseClicked
@@ -616,11 +616,36 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtORIGEMFocusLost
 
-    private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
-        btnAdicionar.setEnabled(true);
-        btnCancelar.setEnabled(true);
-        lstListaGenerica.clear();
-    }//GEN-LAST:event_txtASSUNTOKeyPressed
+    private void abrirListaAssuntos(){
+        tabela_da_lista          = "TBLMEMOSTRANSFERIDOS";
+        nomeCampoPesq            = "ASSUNTO";
+        
+        F_LISTAPADRAOUMCAMPO frm = new F_LISTAPADRAOUMCAMPO(this,true);        
+        frm.setVisible(true); 
+        
+        txtASSUNTO.setText(assuntoSelecionado);
+        btnCancelar.setEnabled(true);   
+        btnAdicionar.setEnabled(true);  
+        txtOBSERVACAO.requestFocus();
+    }
+    
+    private void txtDESTINOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDESTINOFocusLost
+       if(txtDESTINO.getText().isEmpty()){
+           JOptionPane.showMessageDialog(null, "O campo de DESTINO não pode ser vazio","Entre com DESTINO",2);
+           txtDESTINO.requestFocus();
+       }else{
+        abrirListaAssuntos();       
+       }
+    }//GEN-LAST:event_txtDESTINOFocusLost
+
+    private void txtASSUNTOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtASSUNTOMouseClicked
+        txtASSUNTO.selectAll();
+    }//GEN-LAST:event_txtASSUNTOMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+         txtORIGEM.setText("CGGM/INFO");
+        txtDESTINO.requestFocus();
+    }//GEN-LAST:event_formWindowOpened
     
      public void PreencherTabela(String sql)
     {

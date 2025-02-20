@@ -10,80 +10,43 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import static biblioteca.VariaveisPublicas.codigoTipoDocumento;
-import static biblioteca.VariaveisPublicas.codigoDepartamento;
-import static biblioteca.VariaveisPublicas.TipoDocumento;
-import static biblioteca.VariaveisPublicas.nomeDepartamento;
-import static biblioteca.VariaveisPublicas.codigoTipoModelo;
-import static biblioteca.VariaveisPublicas.TipoModelo;
 import static biblioteca.VariaveisPublicas.tabela_da_lista;
 import static biblioteca.VariaveisPublicas.cadastrando;
-import static biblioteca.VariaveisPublicas.cadPatrimovel;
-import static biblioteca.VariaveisPublicas.cadPatriDeptos;
-import static biblioteca.VariaveisPublicas.nomeSecao;
-import static biblioteca.VariaveisPublicas.codigoSecao;
-import static biblioteca.VariaveisPublicas.nomeCliente;
-import static biblioteca.VariaveisPublicas.rfCliente;
 import static biblioteca.VariaveisPublicas.totalRegs;
-import static biblioteca.VariaveisPublicas.codigoNumemo;
-import static biblioteca.VariaveisPublicas.numemoParaImprimir;
-import controle.CtrlCliente;
-import controle.CtrlModelo;
-import controle.CtrlTipoDocumentos;
-import controle.CtrlDepartamento;
+import static biblioteca.VariaveisPublicas.assuntoSelecionado;
 import controle.CtrlPatriTransferido;
-import controle.CtrlSecoes;
-import modelo.Cliente;
-import modelo.TipoDocumento;
-import modelo.Modelo;
-import modelo.Departamento;
+import java.awt.event.KeyEvent;
 import modelo.PatriTransferido;
-import modelo.Secao;
-import relatorios.GerarRelatorios;
 
 
-public class F_LISTAPADRAO extends javax.swing.JDialog {
+public class F_LISTAPADRAOUMCAMPO extends javax.swing.JDialog {
     
     ConnConexao          conexao               = new ConnConexao();
-    MetodosPublicos      umMetodo              = new MetodosPublicos(); 
-    
-    TipoDocumento        objTipoDocumento      = new TipoDocumento();
-    CtrlTipoDocumentos   ctrlTipoDocumento     = new CtrlTipoDocumentos();   
-    
-    Modelo               objTipoModelo         = new Modelo();
-    CtrlModelo           ctrlTipoModelo        = new CtrlModelo();   
-    
-    Departamento         objTipoDepartamento   = new Departamento();
-    CtrlDepartamento     ctrlTipoDepartamento  = new CtrlDepartamento();  
-    
-    Cliente              objCliente            = new Cliente();
-    CtrlCliente          ctrlCliente           = new CtrlCliente(); 
-    
-    Secao                objSecao              = new Secao();
-    CtrlSecoes           ctrlSecoes            = new CtrlSecoes(); 
+    MetodosPublicos      umMetodo              = new MetodosPublicos();     
     
     PatriTransferido     objPatriTransferido   = new PatriTransferido();
     CtrlPatriTransferido ctrlPatriTransferido  = new CtrlPatriTransferido();    
     
-            
-    String               nomeDoCampo           = null;
     int qdeRegs                                = umMetodo.getQdeRegistrosNaTabela(tabela_da_lista);
     int icodigo = 0;
     
-    public F_LISTAPADRAO(java.awt.Frame parent, boolean modal) {
+    public F_LISTAPADRAOUMCAMPO(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.setFocusableWindowState(true); //corrigindo erro quando clico fora da lista
         initComponents();   
+        
         setTitle(tabela_da_lista.substring(3, tabela_da_lista.length()));
-        setResizable(false);   //desabilitando o redimencionamento da tela        
-        jTabela.setForeground(Color.blue);
+        setResizable(false);   //desabilitando o redimencionamento da tela    
+        
         txtPESQUISA.setDocument(new TudoMaiusculas());
         txtPESQUISA.setFont(new Font("Tahoma", Font.BOLD, 12));
         txtPESQUISA.setForeground(Color.red);
+        
+        jTabela.setForeground(Color.blue);
         jTabela.setFont(new Font("Arial", Font.BOLD, 12));
         
-        PreencherLista();
-        
+        this.setTitle("Lista de Assuntos para Cadastro");
+               
         if (cadastrando) {
             setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar            
         }
@@ -114,6 +77,9 @@ public class F_LISTAPADRAO extends javax.swing.JDialog {
             }
         });
         txtPESQUISA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPESQUISAKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPESQUISAKeyReleased(evt);
             }
@@ -193,34 +159,7 @@ public class F_LISTAPADRAO extends javax.swing.JDialog {
         setSize(new java.awt.Dimension(736, 529));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void PreencherLista()
-    {                
-        //DETERMINA QUAL SERÁ O CAMPO A SER EXIBIDO NA LISTA DA TABELA(JTABELA)
-        //JOptionPane.showMessageDialog(null, tabela_da_lista);
-        
-        switch (tabela_da_lista) {
-            case "TBLTIPODOCUMENTOS":
-                nomeDoCampo = "tipo";
-                break;                                 
-            case "TBLMODELOS":
-                nomeDoCampo = "modelo";                
-                break;                                 
-            case "TBLDEPARTAMENTOS":
-                nomeDoCampo = "nome";
-                break;  
-            case "TBLCLIENTES":
-                nomeDoCampo = "nome";                
-                break;                 
-            case "TBLSECOES":
-                nomeDoCampo = "nome";                
-                break;                 
-            case "TBLMEMOSTRANSFERIDOS":
-                nomeDoCampo = "numemo";                
-                break;                 
-        }  
-        
-    }
+ 
 
     private void btnLimparPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparPesquisaActionPerformed
         limparCampos();
@@ -232,108 +171,18 @@ public class F_LISTAPADRAO extends javax.swing.JDialog {
         btnLimparPesquisa.setEnabled(false);
         txtPESQUISA.requestFocus(); 
     }
-    
-    public void ImprimirRelatorioSelecionado(String numemo){
-        GerarRelatorios objRel = new GerarRelatorios();
-        try {
-            objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relimprimirmemodetransferidos.jasper", numemo);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-        }    
-    }
-
+       
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
         //AO CLICAR EM UM REGISTRO DA TABELA PEGAR O NOME E CODIGO DO CLIENTE FECHAR E MOSTRAR O FORMULARIO DE CADASTRO DE TAREFAS COM OS DADOS SETADOS
-        //JOptionPane.showMessageDialog(null, "NOME SELECIONADO...: "+jTabela.getValueAt(jTabela.getSelectedRow(), 0));        
-
-        switch (tabela_da_lista) { 
-            
-            case "TBLTIPODOCUMENTOS":
-                //pegando o nome selecionado e setando no modelo neste caso o nome do tipo de documento e codigo
-                icodigo = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
-                objTipoDocumento.setCodigo(icodigo); 
-                ctrlTipoDocumento.pesquisarTipoDocumento(objTipoDocumento);                
-                codigoTipoDocumento     = objTipoDocumento.getCodigo();
-                TipoDocumento           = objTipoDocumento.getTipo();                
-                break;   
-                
-            case "TBLMODELOS":
-                //pegando o nome selecionado e setando no modelo neste caso o nome do modelo e codigo               
-                icodigo = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
-                objTipoModelo.setCodigo(icodigo); 
-                ctrlTipoModelo.pesquisarModelo(objTipoModelo);                
-                codigoTipoModelo        = objTipoModelo.getCodigo();
-                TipoModelo              = objTipoModelo.getModelo();                                 
-                break;    
-                
-            case "TBLDEPARTAMENTOS":
-                //pegando o nome selecionado e setando no modelo neste caso o nome do departamento e codigo
-                icodigo = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
-                objTipoDepartamento.setCodigo(icodigo); 
-                ctrlTipoDepartamento.pesquisarDepartamento(objTipoDepartamento);                
-                codigoDepartamento      = objTipoDepartamento.getCodigo();
-                nomeDepartamento        = objTipoDepartamento.getNome();                                 
-                break;        
-                
-            case "TBLSECOES":
-                //pegando o nome selecionado e setando no modelo neste caso o nome da secao e codigo
-                icodigo = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
-                objSecao.setCodigo(icodigo); 
-                ctrlSecoes.pesquisarSecao(objSecao);                
-                codigoSecao      = objSecao.getCodigo();
-                nomeSecao        = objSecao.getNome();      
-                codigoDepartamento = umMetodo.retornaIdDepto(codigoSecao);
-                break;        
-                
-            case "TBLCLIENTES":
-                //pegando o nome selecionado e setando no modelo neste caso o nome do cliente e codigo
-                icodigo = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
-                objCliente.setCodigo(icodigo); 
-                ctrlCliente.pesquisarCliente(objCliente);                
-                nomeCliente      = objCliente.getNome();
-                rfCliente        = objCliente.getRf(); 
-                codigoSecao      = objCliente.getSecaoid();
-                nomeSecao        = umMetodo.getStringPassandoCodigo("tblsecoes","nome",codigoSecao);
-                break;      
-                
-            case "TBLMEMOSTRANSFERIDOS":
-                //pegando o nome selecionado e setando no modelo neste caso o nome do cliente e codigo
-                icodigo = (int) jTabela.getValueAt(jTabela.getSelectedRow(), 0);                
-                objPatriTransferido.setCodigo(icodigo); 
-                ctrlPatriTransferido.pesquisarPatriTransferido(objPatriTransferido);  
-                codigoNumemo       = objPatriTransferido.getCodigo();
-                numemoParaImprimir = objPatriTransferido.getNumemo();    
-                ImprimirRelatorioSelecionado(numemoParaImprimir);                
-                break;        
-            
-            default:
-                JOptionPane.showMessageDialog(null, "Nenhuma alternativa válida foi selecionada!");
+        if (jTabela.getSelectedRow() != -1) { // Certifica-se de que uma linha foi realmente selecionada
+            assuntoSelecionado = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 0);
+            dispose(); // Fecha a janela atual
         }
-        cadPatrimovel  =false;
-        cadPatriDeptos =false;
-        cadastrando    =false;
-        dispose();              
-        
     }//GEN-LAST:event_jTabelaMouseClicked
     
     private void filtrarPorDigitacao(String pPesq) 
-    {
-        if(tabela_da_lista.equals("TBLTIPODOCUMENTOS")){
-            PreencherTabelaPadrao("select * from TBLTIPODOCUMENTOS where (tipo like '%" + pPesq + "%') ORDER BY tipo");                      
-        }else if(tabela_da_lista.equals("TBLMODELOS")&&cadPatrimovel){
-            PreencherTabelaPadrao("select * from TBLMODELOS where (modelo like '%" + pPesq + "%') and tipoid=1 and tipoid=2 order by tipoid");         //Cadastro PatriMoveis          
-        }else if(tabela_da_lista.equals("TBLMODELOS")&&cadPatriDeptos){
-            PreencherTabelaPadrao("select * from TBLMODELOS where (modelo like '%" + pPesq + "%') and tipoid= "+codigoTipoModelo+" order by tipoid");  //Cadastro PatriDeptos
-        }else if(tabela_da_lista.equals("TBLMODELOS")){
-            PreencherTabelaPadrao("select * from TBLMODELOS where (modelo like '%" + pPesq + "%') ORDER BY modelo");                      
-        }else if(tabela_da_lista.equals("TBLDEPARTAMENTOS")){
-            PreencherTabelaPadrao("select * from TBLDEPARTAMENTOS where (nome like '%" + pPesq + "%') ORDER BY nome");                      
-        }else if(tabela_da_lista.equals("TBLCLIENTES")){
-            PreencherTabelaPadrao("select * from TBLCLIENTES where tipo='F' and status = 'ATIVO' and (nome like '%" + pPesq + "%') OR (rf like '%" + pPesq + "%') ORDER BY nome,rf");                            
-        }else if(tabela_da_lista.equals("TBLSECOES")){
-            PreencherTabelaPadrao("select * from TBLSECOES where status = 'ATIVO' and (nome like '%" + pPesq + "%') ORDER BY nome");                      
-        }else if(tabela_da_lista.equals("TBLMEMOSTRANSFERIDOS")){
-            PreencherTabelaPadrao("select * from TBLMEMOSTRANSFERIDOS  where status = 'TRANSFERIDO' and (numemo like '%" + pPesq + "%') ORDER BY codigo");   
+    {if(tabela_da_lista.equals("TBLMEMOSTRANSFERIDOS")){
+            PreencherTabelaPadrao("SELECT DISTINCT assunto FROM TBLMEMOSTRANSFERIDOS WHERE (assunto like '%" + pPesq + "%') ORDER BY assunto");                      
         }
         this.setTitle("Total de registros retornados pela pesquisa = "+totalRegs);
     }
@@ -346,25 +195,31 @@ public class F_LISTAPADRAO extends javax.swing.JDialog {
 
     private void txtPESQUISAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPESQUISAFocusGained
         //PARA MOSTRAR A LISTA SOLICITADA LOGO QUE ABRIR O FORMULARIO
-        if(tabela_da_lista.equals("TBLCLIENTES")){
-            PreencherTabelaPadrao("select * from TBLCLIENTES where tipo='F' and status = 'ATIVO' ORDER BY nome");
+        if(tabela_da_lista.equals("TBLMEMOSTRANSFERIDOS")){
+            PreencherTabelaPadrao("SELECT DISTINCT assunto FROM TBLMEMOSTRANSFERIDOS ORDER BY assunto");
         }else{  
          filtrarPorDigitacao("");
         }
     }//GEN-LAST:event_txtPESQUISAFocusGained
+
+    private void txtPESQUISAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtPESQUISA.setText(null);
+            txtPESQUISA.requestFocus();
+        }
+    }//GEN-LAST:event_txtPESQUISAKeyPressed
     
     public void PreencherTabelaPadrao(String sql) {
         conexao.conectar();
         ArrayList dados = new ArrayList();
         //para receber os dados das colunas(exibe os titulos das colunas)
-        String[] Colunas = new String[]{"Código", "Nome"};
+        String[] Colunas = new String[]{"Assunto"};
         conexao.ExecutarPesquisaSQL(sql);
         try {
             conexao.ExecutarPesquisaSQL(sql);
             while (conexao.rs.next()) {
                 dados.add(new Object[]{
-                    conexao.rs.getInt("codigo"),
-                    conexao.rs.getString(nomeDoCampo)
+                    conexao.rs.getString("assunto")
                 });
                 totalRegs = conexao.rs.getRow(); //passando o total de registros para o titulo
             };
@@ -372,10 +227,8 @@ public class F_LISTAPADRAO extends javax.swing.JDialog {
             ModeloTabela modelo = new ModeloTabela(dados, Colunas);
             jTabela.setModel(modelo);
             //define tamanho das colunas
-            jTabela.getColumnModel().getColumn(0).setPreferredWidth(80);  //define o tamanho da coluna
-            jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna 
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(615);
-            jTabela.getColumnModel().getColumn(1).setResizable(false);
+            jTabela.getColumnModel().getColumn(0).setPreferredWidth(700);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(0).setResizable(false); 
 
             //define propriedades da tabela
             jTabela.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada

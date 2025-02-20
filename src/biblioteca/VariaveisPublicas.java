@@ -34,6 +34,6 @@ public class VariaveisPublicas {
     public static String cejur_ou_pgm,tipoEquipamento,nomeBancoSetado,url,nomeBancoRelatorios,rfUsuario,nomeUsuario,tabela,oldRF,tabela_da_lista,nomestacaosubstituida,rangeEstacao,itemSelecionadoCadastro,statusLista,assuntoTransferido,numemoSelecionado,numemoParaEditar,
                          TipoDocumento, TipoModelo, nomeUsuarioLogado, ipServidor, nomeDoBanco,sql,sqlCamposSelecionados,nomeEstacao,novaSenha,novonomestacao,nomestacaoinicial,origemTransferidos,origemMemorando,destinoMemorando,assuntoMemorando,obsMemorando,relDestinoMemo,
                          nomeBanco,nomeCliente,nomeDepartamento,nomePadrao,nomeEstacaoSelecionada,nomeSecao,nomeRelatorio,nomePDF,rfCliente,numemoParaImprimir,numemoParaEditarObs,nomeEstacaoTransferida,anoDoUltimoMemo,serieRetornada,chapaRetornada,relAssuntoMemo,
-                         status,paramPesquisa,serieEquipamento,numMemoTransferido,destinoTransferidos,entidadeInativa,origemPatrTransferido,deptobiblio,origemDevolucao,motivoInicial = null; 
+                         status,paramPesquisa,serieEquipamento,numMemoTransferido,destinoTransferidos,entidadeInativa,origemPatrTransferido,deptobiblio,origemDevolucao,motivoInicial,nomeCampoPesq,assuntoSelecionado = null; 
     
 }
