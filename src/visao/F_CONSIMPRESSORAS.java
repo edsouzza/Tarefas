@@ -1068,6 +1068,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         btnImprimirAtivas.setEnabled(false);
         btnConsultarPorSerie.setEnabled(false);
         btnImprimirTudo.setEnabled(false);
+        btnInativarContrato.setEnabled(false);
         btnLimparPesquisa.setEnabled(true);
         cmbMODELOS.setEnabled(false);
         cmbSECOES.setEnabled(false);
@@ -1128,7 +1129,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             btnConsultarPorSerie.setEnabled(false);
             btnLimparPesquisa.setEnabled(true);
         }
-        
+        btnInativarContrato.setEnabled(false);
     }//GEN-LAST:event_jTabbedPane4MouseClicked
     private void limparPesquisa(){
         umabiblio.limparTodosCampos(rootPane);
@@ -1153,7 +1154,8 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         cmbSECOES.setSelectedIndex(-1);
         btnImprimirTudo.setEnabled(true);
         btnConsultarPorSerie.setEnabled(true);
-        btnImprimirAtivas.setEnabled(true);        
+        btnImprimirAtivas.setEnabled(true);    
+        btnInativarContrato.setEnabled(true);
     }
     private void btnLimparPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparPesquisaActionPerformed
        limparPesquisa();        
@@ -1254,7 +1256,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
             }            
         }  
        paramPesquisa = null;
-       
+       btnInativarContrato.setEnabled(false);
     }
     
     private void btnConsultarPorSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPorSerieActionPerformed
@@ -1270,6 +1272,7 @@ public class F_CONSIMPRESSORAS extends javax.swing.JFrame {
         txtCODIGO.setEnabled(false);
         nomeClienteOLD = txtCLIENTE.getText();
         btnImprimirTudo.setEnabled(true);
+        btnInativarContrato.setEnabled(false);
         txtIP.setEnabled(true);
         btnLimparPesquisa.setEnabled(true);
         btnPorModelo.setEnabled(false);
