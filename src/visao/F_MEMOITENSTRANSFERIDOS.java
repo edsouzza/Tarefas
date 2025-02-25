@@ -371,7 +371,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1049, 824));
+        setSize(new java.awt.Dimension(1050, 824));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
             
