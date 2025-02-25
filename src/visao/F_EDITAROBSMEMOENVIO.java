@@ -162,8 +162,13 @@ public class F_EDITAROBSMEMOENVIO extends javax.swing.JDialog {
     private void gravarAlteracao(){
         novaObs = txtObs.getText();      
         
-        umModeloPatriTrans.setNumemo(numemoParaEditarObs);       
-        umModeloPatriTrans.setObservacao(umMetodo.primeiraLetraMaiuscula(novaObs));        
+        umModeloPatriTrans.setNumemo(numemoParaEditarObs); 
+        
+        if(!txtObs.getText().isEmpty()){
+            umModeloPatriTrans.setObservacao(umMetodo.primeiraLetraMaiuscula(novaObs));                    
+        }else{
+            umModeloPatriTrans.setObservacao("Obs : "+novaObs); 
+        }
         
         if(umControlePatriTrans.editarPatriTransferido(umModeloPatriTrans))
         {            

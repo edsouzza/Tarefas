@@ -386,6 +386,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         btnImprimir.setEnabled(false);
         btnExcluirItem.setEnabled(false);
         txtORIGEM.setEditable(true);
+        txtORIGEM.setText("CGGM/INFO");
         txtORIGEM.requestFocus();
         txtORIGEM.selectAll();
         txtDESTINO.setEditable(true);
@@ -520,20 +521,7 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
         }    
-        
                 
-        /*Preciso passar um array lista de strings com os codigos e transforma-los em integer para passar como parametro do metodo 
-        e asssim atualizar todos os registros incluidos no memorando*/        
-                
-        for(int i=0; i<lstListaInteiros.size();i++){
-            codigoPatri = lstListaInteiros.get(i);     
-            if(enviando){
-                umMetodo.atualizarStatusParaEnviados(codigoPatri);
-            }else{
-                umMetodo.atualizarStatusParaDevolvidos(codigoPatri);
-            }            
-        }   
-        
         /*=============================================================================================================================================
                                                     INATIVAR PATRIMONIOS INSERIDOS NO MEMORANDO
         ===============================================================================================================================================*/

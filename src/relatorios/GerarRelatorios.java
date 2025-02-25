@@ -413,6 +413,8 @@ public class GerarRelatorios
         viewer.setTitle("Relatório de Patrimônios Transferidos e/ou Devolvidos");
         viewer.setZoomRatio(new Float(0.7956));  //ajustando o relatorio na pagina
         viewer.setVisible(true);        
+        viewer.setAlwaysOnTop(true); // nao deixa o relatorio por baixo do formulario
+        viewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
         conexao.close();        
     }       
     public void imprimirPatrimoniosDevolucaoEmpresa(String caminho, String pParam) throws JRException,Exception
