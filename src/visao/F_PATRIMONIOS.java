@@ -1261,7 +1261,7 @@ private void disponibilizarIPImpressoraTransferida(){
           }else{           
                 GerarRelatorios objRel = new GerarRelatorios();
                 try {
-                    objRel.imprimirPatrimoniosFiltradosPorTipoSecao("relatorio/relpatrimoniosportiposecao.jasper", cmbFILTRARPORSECAO.getSelectedItem().toString(),cmbFILTRAPORTIPO.getSelectedItem().toString(),tabela);
+                    objRel.imprimirPatrimoniosFiltradosPorTipoSecao("relatorio/relPatrimoniosPorTipoSecao.jasper", cmbFILTRARPORSECAO.getSelectedItem().toString(),cmbFILTRAPORTIPO.getSelectedItem().toString(),tabela);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
                 } 

@@ -394,7 +394,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 
     private void btnGerarArquivoTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarArquivoTXTActionPerformed
         
-        F_GERARTXTENTRADA frm = new F_GERARTXTENTRADA(new javax.swing.JFrame(), true);
+        F_ESCOLHATIPODEENTRADA frm = new F_ESCOLHATIPODEENTRADA();
         frm.setVisible(true);     
         
     }//GEN-LAST:event_btnGerarArquivoTXTActionPerformed
