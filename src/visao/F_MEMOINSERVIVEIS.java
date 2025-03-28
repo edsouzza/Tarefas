@@ -476,12 +476,12 @@ public class F_MEMOINSERVIVEIS extends javax.swing.JFrame {
         gravarMemorando();
         editandoMemorando = false;
         //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO
-        //umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
-
-        umMetodo.atualizarStatusParaBaixados(numMemoTransferido);        
+        //umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);         
         
         F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
         frm.setVisible(true);
+        
+        umMetodo.atualizarStatusParaBaixados(numMemoTransferido);       
               
         umGravarLog.gravarLog("impressao do memo de patrimonios inservíveis "+numMemoTransferido);
               
