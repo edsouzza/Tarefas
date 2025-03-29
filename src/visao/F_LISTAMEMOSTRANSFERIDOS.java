@@ -286,7 +286,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        setSize(new java.awt.Dimension(852, 703));
+        setSize(new java.awt.Dimension(867, 703));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
                        
@@ -394,9 +394,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
             frm.setVisible(true);
        }             
               
-       umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir);
-       Leitura();
-       btnLimparPesquisaActionPerformed(null);
+       umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir); 
        
     }//GEN-LAST:event_btnImprimirActionPerformed
     

@@ -403,7 +403,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         });
         menuCadastro.add(menuclientesvirtuais);
 
-        mnuEmpresaContratoImpressoras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuEmpresaContratoImpressoras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuEmpresaContratoImpressoras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brick_add.png"))); // NOI18N
         mnuEmpresaContratoImpressoras.setText("EMPRESA CONTRATO IMPRESSORAS");
         mnuEmpresaContratoImpressoras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

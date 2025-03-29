@@ -516,7 +516,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         /*IMPRIMINDO RELATORIO DOS PATRIMONIOS TRANSFERIDOS VERIFICANDO SE O ARQUIVO EXISTE RETORNA TRUE/FALSE
         System.out.println(new File("relatorio/relmemotransferidos.jasper").exists()); */      
         relAssuntoMemo    = txtASSUNTO.getText();
-        if(relAssuntoMemo.equals("DEVOLUCAO DE EQUIPAMENTOSA")){
+        if(relAssuntoMemo.equals("DEVOLUCAO DE EQUIPAMENTOS")){
             relPorAssunto = true;    
         }
         atualizarStatusDosItens(); 
@@ -531,7 +531,7 @@ public class F_EDITARMEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
             if(!destinoMemo.equals("BAIXA") && (!relPorAssunto))
             {
                 objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numemoParaEditar); 
-            }else if(destinoMemo.equals("BAIXA")){
+            }else if(destinoMemo.equals("BAIXA")){                
                 F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
                 frm.setVisible(true); 
             }else if(relAssuntoMemo.equals("DEVOLUCAO DE EQUIPAMENTOS")){

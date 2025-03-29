@@ -437,7 +437,7 @@ public class GerarRelatorios
         //exibindo o relatorio
         HashMap filtro = new HashMap();         
                         
-        ImageIcon gto = new ImageIcon(getClass().getResource("/images/logoinserviveis.png"));
+        ImageIcon gto = new ImageIcon(getClass().getResource("/images/logo_inserviveis.png"));
         filtro.put("CABECALHO", gto.getImage());
         filtro.put("numemo", pParam);
         JasperPrint impressao = JasperFillManager.fillReport( caminho, filtro, conexao );

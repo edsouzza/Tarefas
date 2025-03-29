@@ -12,9 +12,10 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
     String numeroMemorando = numMemoTransferido;  
             
     public F_ESCOLHAIMPRESSAOINSERVIVEIS() {
-        initComponents();
+        initComponents();   
         setResizable(false);  //desabilitando o redimencionamento da tela
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar      
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar                      
+
     }
     
     @SuppressWarnings("unchecked")
@@ -32,7 +33,7 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
         btnImprimirSemChapa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnImprimirSemChapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
         btnImprimirSemChapa.setText("SEM CHAPA");
-        btnImprimirSemChapa.setToolTipText("Imprimir");
+        btnImprimirSemChapa.setToolTipText("");
         btnImprimirSemChapa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnImprimirSemChapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -44,7 +45,7 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
         btnImprimirComChapa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnImprimirComChapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
         btnImprimirComChapa.setText("COM CHAPA");
-        btnImprimirComChapa.setToolTipText("Gerar PDF");
+        btnImprimirComChapa.setToolTipText("");
         btnImprimirComChapa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnImprimirComChapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,9 +57,9 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(379, 141));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+  
     private void btnImprimirSemChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirSemChapaActionPerformed
-                
+  
         GerarRelatorios objRel = new GerarRelatorios();
         try {   
             if(!editandoMemorando){
@@ -67,14 +68,14 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
                  objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numemoParaEditar);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório AMIGO!\n"+e);                
         }    
         dispose();    
         
     }//GEN-LAST:event_btnImprimirSemChapaActionPerformed
 
     private void btnImprimirComChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirComChapaActionPerformed
-                
+      
         GerarRelatorios objRel = new GerarRelatorios();
         try {   
             if(!editandoMemorando){
