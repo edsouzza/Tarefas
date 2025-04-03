@@ -1702,7 +1702,26 @@ public class MetodosPublicos {
             conexao.desconectar();
         }
     }
-
+             
+    public void atualizarChapasPelasSeriesTXT(String sChapa, String sObs, String sSerie) 
+    {
+        conexao.conectar();
+        try 
+        {
+            sql = "UPDATE tblPatrimonios SET chapa=?, observacoes=? WHERE serie=?";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, sChapa);           
+            pst.setString(2, sObs);
+            pst.setString(3, sSerie);
+            pst.executeUpdate(); 
+            pst.close();                         
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de atualização das chapas, \n"+e+", o sql passado foi \n"+sql);              
+        } finally {
+            conexao.desconectar();
+        }
+    }  
+         
     public int getCodigoPassandoString(String tabela, String nomeCampo, String sParam) {
         //pesquisar codigo de um campo passando seu nome
         int id = 0;
@@ -2987,10 +3006,31 @@ public class MetodosPublicos {
         
     }
 
-     public boolean campoTemValores(String tabela, String campo, String valor) {
+    public boolean campoTemValores(String tabela, String campo, String valor) {
         //verifica se determinado campo tem valores na tabela
         conn = conexao.conectar();
         sql = "SELECT "+campo+" FROM " +tabela+ " WHERE "+campo+" = '"+valor+"'";
+        conexao.ExecutarPesquisaSQL(sql);
+        try {
+            if (conexao.rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao executar a pesquisa verificando se campo contem valores na tabela "+tabela+"! " + ex);
+            return false;
+        } finally {
+            conexao.desconectar();
+        }
+    }
+     
+    public boolean campoSelecionadoTemValores(String tabela, String campo, String pCampoChave, String pValorCampoChave) {
+        //verifica se determinado campo tem valores na tabela
+        conn = conexao.conectar();
+        //sql = SELECT DISTINCT codigo, serie, chapa, observacoes FROM tblpatrimonios WHERE observacoes IS NULL OR observacoes = '' AND serie = 'BRJ502P7KD' 
+        sql = "SELECT DISTINCT "+campo+" FROM "+tabela+" WHERE "+campo+" IS NULL OR "+campo+" = '' AND "+pCampoChave+" = '"+pValorCampoChave+"'";
         conexao.ExecutarPesquisaSQL(sql);
         try {
             if (conexao.rs.next()) {

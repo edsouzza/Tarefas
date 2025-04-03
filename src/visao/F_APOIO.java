@@ -7,6 +7,7 @@ import biblioteca.GerarNumerosAleatorios;
 import biblioteca.MetodosPublicos;
 import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
+import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.lstListaStrings;
 import static biblioteca.VariaveisPublicas.lstListaStringsAuxiliar;
 import static biblioteca.VariaveisPublicas.sql;
@@ -24,7 +25,11 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
 import modelo.Cliente;
@@ -43,9 +48,11 @@ public class F_APOIO extends javax.swing.JDialog
     
     Cliente            umModCliente             = new Cliente();
     CtrlCliente        ctrCliente               = new CtrlCliente();
-    DAOCliente         clienteDAO               = new DAOCliente();    
+    DAOCliente         clienteDAO               = new DAOCliente();  
+    DateFormat          sdf                     = new SimpleDateFormat("dd/MM/yyyy");
+    Date dataDia                                = dataDoDia; 
     
-    String caminhoTXT, linha, snomestacao, paramPesqCod;
+    String caminhoTXT, linha, snomestacao, paramPesqCod, sChapa, sObs, sSerie, novaObservacao;
     Boolean bEncontrou;
     int ipesqPorCod;
    
@@ -94,6 +101,7 @@ public class F_APOIO extends javax.swing.JDialog
         btnExclusaoDeRegistros = new javax.swing.JButton();
         btnTransferirParaCGGM = new javax.swing.JButton();
         btnCadastroClientesSemUsuario = new javax.swing.JButton();
+        btnAtualizaChapasGenericasPorVerdadeiras = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblTITULO = new javax.swing.JLabel();
@@ -188,6 +196,16 @@ public class F_APOIO extends javax.swing.JDialog
             }
         });
 
+        btnAtualizaChapasGenericasPorVerdadeiras.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnAtualizaChapasGenericasPorVerdadeiras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/building_add.png"))); // NOI18N
+        btnAtualizaChapasGenericasPorVerdadeiras.setText("ATUALIZAR CHAPAS AUTO LENDO TXT [COM SERIES E NOVAS CHAPAS]");
+        btnAtualizaChapasGenericasPorVerdadeiras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAtualizaChapasGenericasPorVerdadeiras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizaChapasGenericasPorVerdadeirasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -198,14 +216,15 @@ public class F_APOIO extends javax.swing.JDialog
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnCadastroClientesSemUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-                    .addComponent(btnTransferirParaCGGM, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                    .addComponent(btnAtualizaChapasGenericasPorVerdadeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCadastroClientesSemUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnTransferirParaCGGM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnExclusaoDeRegistros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCadastroClientesVirtuais, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                    .addComponent(btnCadastroClientesVirtuais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPopularTblNomestacaoTMP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnImportarTXT, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-                    .addComponent(btnExecutarAtualizacoesViaSQL, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
-                .addContainerGap(502, Short.MAX_VALUE))
+                    .addComponent(btnImportarTXT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnExecutarAtualizacoesViaSQL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(464, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +243,9 @@ public class F_APOIO extends javax.swing.JDialog
                 .addComponent(btnTransferirParaCGGM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCadastroClientesSemUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAtualizaChapasGenericasPorVerdadeiras, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -723,6 +744,63 @@ public class F_APOIO extends javax.swing.JDialog
 //            System.out.println(m);     
 //        }
     }//GEN-LAST:event_btnCadastroClientesSemUsuarioActionPerformed
+
+    private void LexTXT()
+    {
+        //inicializando as variaveis dos campos a serem gravados
+        int totalLinhas = 0;
+        RetornarQdeLinhasDoTxt qdeLinhas = new RetornarQdeLinhasDoTxt();
+
+        //setando o caminho do arquivo TXT no edit do formulario apenas para mostrar o arquivo que esta sendo importado
+        SelecionarArquivoTexto select = new SelecionarArquivoTexto();
+        caminhoTXT = select.ImportarTXT();
+
+        if (caminhoTXT != null) {
+            totalLinhas = qdeLinhas.retornaNumLinhasDoTxt(caminhoTXT);
+             
+                //criando uma variavel arquivo do tipo File e setando o caminho do arquivo TXT nela
+                File arquivo = new File(caminhoTXT);
+                 try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+                    String linha;
+                    while ((linha = br.readLine()) != null) {
+                        
+                        String[] colunas = linha.split("\\s+"); // Divide por espaços em branco
+                        if (colunas.length == 2) {              // Certifica-se de que há duas colunas
+                            sSerie =  colunas[0];               // Primeira coluna como inteiro
+                            sChapa  = colunas[1];               // Segunda coluna como string
+                            
+                            atualizarChapasCorrespondentesASerie();                  // Grava os dados de atualização no banco
+                        }
+                    }
+                } catch (IOException e) {
+                    System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+                }
+        }
+    }
+    
+    private String addObsAdicionalAuto(){       
+        novaObservacao = "A chapa de incorporacao foi atualizada atraves da serie correspondente por meio de leitura de Arquivo TXT.";
+        
+        if(umMetodo.campoSelecionadoTemValores("tblpatrimonios", "observacoes", "serie", sSerie)){
+            novaObservacao = sdf.format(dataDia)+" : Cadastro inicial. \n"+sdf.format(dataDia)+" : "+umMetodo.primeiraLetraMaiuscula(novaObservacao);     
+        }else{
+            //inserir o que já tinha no campo aqui
+            String valorAtualObs = umMetodo.getStringPassandoString("tblpatrimonios", "observacoes", "serie", sSerie);
+            sObs =  valorAtualObs+"\n"+sdf.format(dataDia)+" : "+umMetodo.primeiraLetraMaiuscula(novaObservacao);                     
+        }
+        return sObs;
+    }
+           
+    private void atualizarChapasCorrespondentesASerie()
+    {        
+        sObs = addObsAdicionalAuto();    
+        umMetodo.atualizarChapasPelasSeriesTXT(sChapa, sObs, sSerie);          
+    }        
+    
+    private void btnAtualizaChapasGenericasPorVerdadeirasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaChapasGenericasPorVerdadeirasActionPerformed
+         LexTXT(); 
+         JOptionPane.showMessageDialog(null, "As chapas com séries correspondentes foram atualizadas com sucesso.", "Atualização de chapas!", 2);
+    }//GEN-LAST:event_btnAtualizaChapasGenericasPorVerdadeirasActionPerformed
           
     public void setIcon() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("img_icones_forms/LogonDaPMSP.png")));
@@ -785,6 +863,7 @@ public class F_APOIO extends javax.swing.JDialog
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnAtualizaChapasGenericasPorVerdadeiras;
     public javax.swing.JButton btnCadastroClientesSemUsuario;
     public javax.swing.JButton btnCadastroClientesVirtuais;
     public javax.swing.JButton btnExclusaoDeRegistros;
