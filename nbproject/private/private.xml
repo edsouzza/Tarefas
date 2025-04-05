@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="19">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="20">
         <file>
             <url>src/biblioteca/MetodosPublicos.java</url>
             <bookmark id="6">
@@ -47,14 +47,9 @@
         </file>
         <file>
             <url>src/visao/F_PATRIMONIOS.java</url>
-            <bookmark id="14">
-                <name/>
-                <line>1023</line>
-                <key/>
-            </bookmark>
             <bookmark id="3">
                 <name/>
-                <line>2044</line>
+                <line>2045</line>
                 <key/>
             </bookmark>
         </file>
@@ -102,19 +97,27 @@
         </file>
         <file>
             <url>src/Dao/DAOPatrimonio.java</url>
+            <bookmark id="20">
+                <name/>
+                <line>556</line>
+                <key/>
+            </bookmark>
             <bookmark id="9">
                 <name/>
-                <line>967</line>
+                <line>998</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/ARQS-JAVA/PROJETOS%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-            <file>file:/F:/ARQS-JAVA/PROJETOS%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_CADCHAPASDESERIESVIATXT.java</file>
-            <file>file:/F:/ARQS-JAVA/PROJETOS%20JAVA/SYSTAREFAS/Tarefas/src/biblioteca/MetodosPublicos.java</file>
-            <file>file:/F:/ARQS-JAVA/PROJETOS%20JAVA/SYSTAREFAS/Tarefas/src/visao/F_CADPATRIMONIOSVIATXT.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/conexao/ConnConexao.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/biblioteca/GetIPServidor.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LISTAESTACOESDISPONIVEIS.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_LOGIN.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/Dao/DAOPatrimonio.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PATRIMONIOS.java</file>
         </group>
     </open-files>
 </project-private>

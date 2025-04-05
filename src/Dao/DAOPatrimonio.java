@@ -1,5 +1,6 @@
 package Dao;
 
+import biblioteca.MetodosPublicos;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.cadastrado;
@@ -10,9 +11,11 @@ import static biblioteca.VariaveisPublicas.destinoTransferidos;
 import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import static biblioteca.VariaveisPublicas.codigoCliente;
 import static biblioteca.VariaveisPublicas.lstListaStrings;
+import static biblioteca.VariaveisPublicas.nomestacaosubstituida;
 import static biblioteca.VariaveisPublicas.origemPatrTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
+import controle.CtrlNomeEstacao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,12 +26,15 @@ import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import modelo.NomeEstacao;
 
 
 public class DAOPatrimonio {
 
-    ConnConexao conexao = new ConnConexao(); 
-    LocalDate dataAtual = LocalDate.now();
+    ConnConexao       conexao                = new ConnConexao(); 
+    LocalDate         dataAtual              = LocalDate.now();
+    NomeEstacao       umModeloNomeEstacao    = new NomeEstacao();
+    CtrlNomeEstacao   umControleNomeEstacao  = new CtrlNomeEstacao();    
     
     public boolean salvarPatrimonioDAO(Patrimonio umPatrimonio) 
     {
@@ -529,6 +535,31 @@ public class DAOPatrimonio {
         } 
         return true;
     }  
+    
+    public int getCodigoPassandoString(String tabela, String nomeCampo, String sParam) {
+        //pesquisar codigo de um campo passando seu nome
+        int id = 0;
+        conexao.conectar();      
+        sql = "SELECT codigo FROM "+tabela+" WHERE "+nomeCampo+" = '" +sParam+ "' ";
+        conexao.ExecutarPesquisaSQL(sql);        
+        try {
+            if(conexao.rs.next()){
+                id = conexao.rs.getInt("codigo");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao executar a pesquisa do código! " + ex);
+        }
+        return id;
+    }
+    
+    public void atualizarNomesEstacoesPadrao(String nomeEstacao)
+    {        
+        int codigoEst1 = getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomeEstacao);
+        umModeloNomeEstacao.setCodigo(codigoEst1);
+        umModeloNomeEstacao.setNomestacao(nomeEstacao);
+        umModeloNomeEstacao.setStatus("DISPONIVEL");
+        umControleNomeEstacao.atualizarStatusNomeEstacao(umModeloNomeEstacao);     
+    }
             
     public boolean duplicidadeImpressoraDAO(int paramCodigo, String paramSERIE, String paramIP) 
     {

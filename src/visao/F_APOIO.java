@@ -767,11 +767,12 @@ public class F_APOIO extends javax.swing.JDialog
                         String[] colunas = linha.split("\\s+"); // Divide por espaços em branco
                         if (colunas.length == 2) {              // Certifica-se de que há duas colunas
                             sSerie =  colunas[0];               // Primeira coluna como inteiro
-                            sChapa  = colunas[1];               // Segunda coluna como string
-                            
-                            atualizarChapasCorrespondentesASerie();                  // Grava os dados de atualização no banco
+                            sChapa  = colunas[1];               // Segunda coluna como string                            
                         }
+                        atualizarChapasCorrespondentesASerie();                  // Grava os dados de atualização no banco
                     }
+                    JOptionPane.showMessageDialog(null, "As chapas com séries correspondentes foram atualizadas com sucesso.", "Atualização de chapas!", 2);
+                    
                 } catch (IOException e) {
                     System.err.println("Erro ao ler o arquivo: " + e.getMessage());
                 }
@@ -798,8 +799,7 @@ public class F_APOIO extends javax.swing.JDialog
     }        
     
     private void btnAtualizaChapasGenericasPorVerdadeirasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaChapasGenericasPorVerdadeirasActionPerformed
-         LexTXT(); 
-         JOptionPane.showMessageDialog(null, "As chapas com séries correspondentes foram atualizadas com sucesso.", "Atualização de chapas!", 2);
+         LexTXT();          
     }//GEN-LAST:event_btnAtualizaChapasGenericasPorVerdadeirasActionPerformed
           
     public void setIcon() {

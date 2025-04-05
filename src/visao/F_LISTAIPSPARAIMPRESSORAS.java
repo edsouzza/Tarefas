@@ -107,8 +107,7 @@ public class F_LISTAIPSPARAIMPRESSORAS extends javax.swing.JDialog {
         atualizarListaDeIPs();
     }//GEN-LAST:event_formWindowOpened
 
-     private void atualizarListaDeIPs() {
-        //sql vai encontrar todos os IPs utilizados nas IMPRESSORAS na tabela de PATRIMONIOS que constem como DISPONIVEL na tabela de IPSDISPONIVEIS e vai alterar seus status para INDISPONIVEL
+     private void atualizarListaDeIPs() {        
         sql = "select ip from tblPatrimonios where tipoid=3 and status='ATIVO' and ip IN(select ip from tblipsdisponiveis where status='DISPONIVEL')";
         conexao.conectar();
         conexao.ExecutarPesquisaSQL(sql);

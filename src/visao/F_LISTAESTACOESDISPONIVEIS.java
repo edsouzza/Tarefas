@@ -106,34 +106,32 @@ public class F_LISTAESTACOESDISPONIVEIS extends javax.swing.JDialog {
         //AO CLICAR EM UM REGISTRO DA TABELA PEGAR O NOME E CODIGO DO CLIENTE FECHAR E MOSTRAR O FORMULARIO DE CADASTRO DE TAREFAS COM OS DADOS SETADOS
         //JOptionPane.showMessageDialog(null, "NOME SELECIONADO...: "+jTabela.getValueAt(jTabela.getSelectedRow(), 0));
         setNomeEstacaoSelecionada((String) jTabela.getValueAt(jTabela.getSelectedRow(), 0));
-        estacaoEncontrada = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 0);  
-        atualizarStatusDasEstacaoEditada(estacaoEncontrada);
+        //estacaoEncontrada = (String) jTabela.getValueAt(jTabela.getSelectedRow(), 0);  
+        nomeEstacaoSelecionada = getNomeEstacaoSelecionada();        
+        atualizarStatusDasEstacaoEditada(nomeEstacaoSelecionada);        
         dispose();
 
     }//GEN-LAST:event_jTabelaMouseClicked
+      
     
     private void atualizarStatusDasEstacaoEditada(String nomestacao) {
-           
         if(editandoDisponiveis)
-        {
-            //ATUALIZA O STATUS DA NOVA ESTAÇÃO ESCOLHIDA PARA INDISPONIVEL            
-            if(!nomestacao.equals("PGMCGGMC000")){
-                int codigoEst = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomestacao);
-                umModeloNomeEstacao.setCodigo(codigoEst);
-                umModeloNomeEstacao.setNomestacao(nomestacao);
-                umModeloNomeEstacao.setStatus("INDISPONIVEL");
-                umControleNomeEstacao.atualizarStatusNomeEstacao(umModeloNomeEstacao);   
-                novonomestacao = nomestacao;
-            }
+        {      
+            //ATUALIZA O STATUS DA NOVA ESTAÇÃO ESCOLHIDA PARA INDISPONIVEL     
+            int codigoEst = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomestacao);
+            umModeloNomeEstacao.setCodigo(codigoEst);
+            umModeloNomeEstacao.setNomestacao(nomestacao);
+            umModeloNomeEstacao.setStatus("INDISPONIVEL");
+            umControleNomeEstacao.atualizarStatusNomeEstacao(umModeloNomeEstacao);   
+            novonomestacao = nomestacao;
 
-                //ATUALIZAR O STATUS DA ESTACAO SUBSTITUIDA PARA DISPONIVEL
-                int codigoEst1 = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomestacaosubstituida);
-                umModeloNomeEstacao.setCodigo(codigoEst1);
-                umModeloNomeEstacao.setNomestacao(nomestacao);
-                umModeloNomeEstacao.setStatus("DISPONIVEL");
-                umControleNomeEstacao.atualizarStatusNomeEstacao(umModeloNomeEstacao);  
-        }        
-        
+            //ATUALIZAR O STATUS DE QUALQUER ESTACAO SUBSTITUIDA PARA DISPONIVEL    
+            int codigoEst1 = umMetodo.getCodigoPassandoString("TBLNOMESTACAO", "nomestacao", nomestacaosubstituida);
+            umModeloNomeEstacao.setCodigo(codigoEst1);
+            umModeloNomeEstacao.setNomestacao(nomestacaosubstituida);
+            umModeloNomeEstacao.setStatus("DISPONIVEL");
+            umControleNomeEstacao.atualizarStatusNomeEstacao(umModeloNomeEstacao);                                  
+        }                
     }   
     
     public void PreencherTabela(String sql)

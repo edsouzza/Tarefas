@@ -79,8 +79,8 @@ public class MetodosPublicos {
     DAOPatrimonio     umPatrimonioDAO           = new DAOPatrimonio();
     Cliente           umModCliente              = new Cliente();
     CtrlCliente       ctrCliente                = new CtrlCliente();
-    NomeEstacao       umModeloNomeEstacao    = new NomeEstacao();
-    CtrlNomeEstacao   umControleNomeEstacao  = new CtrlNomeEstacao();
+    NomeEstacao       umModeloNomeEstacao       = new NomeEstacao();
+    CtrlNomeEstacao   umControleNomeEstacao     = new CtrlNomeEstacao();
     DateFormat        sdf                       = new SimpleDateFormat("dd/MM/yyyy");
     Date              dataDia                   = dataDoDia; 
     
@@ -150,7 +150,7 @@ public class MetodosPublicos {
         }
     }
     
-      public void gravarPrimeiroNomeEstacao(String nomestacao, String nomeDepto){
+    public void gravarPrimeiroNomeEstacao(String nomestacao, String nomeDepto){
         
         umModeloNomeEstacao.setNomestacao(nomestacao);
         umModeloNomeEstacao.setNumestacao(0);
@@ -1714,7 +1714,7 @@ public class MetodosPublicos {
             pst.setString(2, sObs);
             pst.setString(3, sSerie);
             pst.executeUpdate(); 
-            pst.close();                         
+            pst.close();               
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Não foi possível executar o comando de atualização das chapas, \n"+e+", o sql passado foi \n"+sql);              
         } finally {

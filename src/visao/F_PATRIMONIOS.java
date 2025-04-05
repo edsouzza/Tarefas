@@ -132,7 +132,7 @@ public class F_PATRIMONIOS extends javax.swing.JFrame {
     String sqlDefaultINATIVOS = "select p.*, c.nome as cliente, s.nome as secao, t.*, m.* from tblpatrimonios p, tblclientes c, tblsecoes s, tblmodelos m, tbltipos t where p.tipoid=t.codigo and p.clienteid=c.codigo and p.modeloid=m.codigo and p.secaoid=s.codigo and p.status = 'INATIVO' ORDER BY p.datainativacao desc";
     String sqlVazia           = "select * from tblpatrimonios where codigo = 0";
     String sqlComboTipo       = "select tipo from tbltipos";
-    
+        
     public F_PATRIMONIOS() {
         initComponents();
         Leitura();
@@ -2000,6 +2000,7 @@ private void gravarEdicaoRegistro()
         isNotebook            = false;
         isGbit                = false;
         cadastrandonomestacao = true;
+        editandoDisponiveis   = false;
                 
         //habilita o combo de modelos 
         cmbMODELOS.setEnabled(true);  
@@ -2138,12 +2139,14 @@ private void gravarEdicaoRegistro()
             umMetodo.gerarNumeroAleatorioParaCampoTexto(txtCHAPA);          
 
             //Abre lista de nomes de estações disponiveis
-            if(tipo.equals("MICRO") || tipo.equals("NOTEBOOK")){            
+            if(tipo.equals("MICRO") || tipo.equals("NOTEBOOK")){   
+               //Sempre mostrar o nome PGMCGGMC000 para opção de cadastro
+               umPatrimonioDAO.atualizarNomesEstacoesPadrao("PGMCGGMC000");    
                definirNomestacao();
                //abrirListaEstacoesDisponiveis();
             }          
             
-        }
+        }      
         //METODO UTILIZADO PARA ATUALIZAÇÃO DA TABELA ENQUANTO TINHA REGS COM VALORES EM BRANCO      
         //umMetodo.atualizarChapasVazias();//gerar numero para campos vazios, usar este metodo apenas pra atualizar uma vez
     }
@@ -2886,18 +2889,17 @@ private void gravarEdicaoRegistro()
             /*Abre o formulario com a lista de nomes de estações disponiveis para uso que devera ser do tipo JDialog e Modal
             (ou seja o programa para ao abrir o form e segue qdo fechado)*/
             editandoDisponiveis   = true;
-            nomestacaosubstituida = txtESTACAO.getText(); 
             
             F_LISTAESTACOESDISPONIVEIS frm = new F_LISTAESTACOESDISPONIVEIS(new JFrame(),true);
             frm.setVisible(true); 
 
+            nomestacaosubstituida = txtESTACAO.getText(); 
             //JOptionPane.showMessageDialog(null, nomeEstacaoAtual);
 
             //recebe o valor da estação selecionada e seta no txtESTACAO
             txtESTACAO.setText(frm.getNomeEstacaoSelecionada());                
             alterouEstacao      = true;
-            alterandonomestacao = true;
-            editandoDisponiveis = false;
+            alterandonomestacao = true;            
             txtCHAPA.requestFocus();               
         }           
               
