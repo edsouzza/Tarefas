@@ -1,7 +1,6 @@
 package visao;
 
 import biblioteca.Biblioteca;
-import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
 import biblioteca.GerarTXT;
 import biblioteca.MetodosPublicos;
 import biblioteca.SelecionarArquivoTexto;
@@ -25,7 +24,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 
 public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
     MetodosPublicos     umMetodo    = new MetodosPublicos();
@@ -329,52 +327,8 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         }
         
         return sChapa;
-    }
-        
-    private void addItensAoTXT()
-    {                 
-        int qtdItens = lstAuxiliar.size();        
-        
-        int i=0;        
-        for(i=0; i<qtdItens; i++){   
-            
-           sChapa   = gerarNumeroChapa();       
-           sSerie   = lstAuxiliar.get(i);       
-           
-           //VERIFICAR SE NÃO FOR MICRO OU NOTEBOOK ENTRAR COM O TIPO 1/19    
-           iTipoid  = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
-
-           if ((iTipoid == 1) || (iTipoid == 19)){
-               sEstacao = "PGMCGGMC000";
-           }else{
-               sEstacao = sTipo;
-           }
-
-           //adicionando item na lista    
-           int iCodigo = umMetodo.getCodigoPassandoString("tblpatrimonios", "serie", sSerie);        
-
-           String obsAtual    = umMetodo.getStringPassandoCodigo("tblPatrimonios", "observacoes", iCodigo);
-           String novaObs     = obsAtual+("\n"+sdf.format(dataDia)+" "+sObs); 
-
-
-           if(reativando){            
-               String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N;"+novaObs;
-               String item  = dados;  
-                model.addElement(item);
-                lstITENS.setModel(model);
-           }else{
-               String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N;";
-               String item  = dados;
-               model.addElement(item);
-               lstITENS.setModel(model);
-           }
-                 
-        }
-
-        this.setTitle("TOTAL DE ÍTENS INSERIDOS : "+String.valueOf(lstAuxiliar.size()));
-   
-    }    
-    
+    }        
+      
     private void btnGerarTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTXTActionPerformed
        //Metodo MANUAL inserido a série inteira
        lstAuxiliar.clear(); //limpando as series adicionadas para verificação de duplicidade e inserindo a string completa com todos os dados
@@ -477,10 +431,54 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         
         //FAZER A LEITURA DO ARQUIVO TXT e adicionar todas as series na lstAuxiliar
         LerTXTSeries(); 
-        addItensAoTXT();
+        addItensAoTXT();       
              
     }//GEN-LAST:event_btnADDAOTXTActionPerformed
 
+    private void addItensAoTXT()
+    {                 
+        int qtdItens = lstAuxiliar.size();        
+        
+        int i=0;        
+        for(i=0; i<qtdItens; i++){   
+            
+           sChapa   = gerarNumeroChapa();       
+           sSerie   = lstAuxiliar.get(i);       
+           
+           //VERIFICAR SE NÃO FOR MICRO OU NOTEBOOK ENTRAR COM O TIPO 1/19    
+           iTipoid  = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
+
+           if ((iTipoid == 1) || (iTipoid == 19)){
+               sEstacao = "PGMCGGMC000";
+           }else{
+               sEstacao = sTipo;
+           }
+
+           //adicionando item na lista    
+           int iCodigo = umMetodo.getCodigoPassandoString("tblpatrimonios", "serie", sSerie);        
+
+           String obsAtual    = umMetodo.getStringPassandoCodigo("tblPatrimonios", "observacoes", iCodigo);
+           String novaObs     = obsAtual+("\n"+sdf.format(dataDia)+" "+sObs); 
+
+
+           if(reativando){            
+               String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N;"+novaObs;
+               String item  = dados;  
+                model.addElement(item);
+                lstITENS.setModel(model);
+           }else{
+               String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N;";
+               String item  = dados;
+               model.addElement(item);
+               lstITENS.setModel(model);
+           }
+                 
+        }
+        btnADDAOTXT.setEnabled(false);
+        this.setTitle("TOTAL DE ÍTENS INSERIDOS : "+String.valueOf(lstAuxiliar.size()));
+   
+    }    
+    
     private void removerItem(){
         model.remove(codItem);       
         btnRemoverItem.setEnabled(false);

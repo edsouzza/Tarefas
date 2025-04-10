@@ -13,6 +13,7 @@ import java.io.FileReader;
 import javax.swing.JOptionPane;
 import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
+import static biblioteca.VariaveisPublicas.caminhoArqTXT;
 import static biblioteca.VariaveisPublicas.salvandoLote;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.reativando;
@@ -21,6 +22,7 @@ import controle.CtrlPatrimonio;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.SwingWorker;
 import modelo.Patrimonio;
 
 
@@ -38,7 +40,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         
     String sChapa, sSerie, sTipoid, sSecaoid, sClienteid, sModeloid, sDeptoid, sNomeEquipamento, sContrato, sObs, caminhoTXT, linha, observacaoCadLote, novaObservacao = "";  
     boolean reativandoTXT;
-    int contador,cont,iCodigo =0;    
+    int contador,cont,iCodigo,totalLinhas =0;    
 
     public F_CADPATRIMONIOSVIATXT() 
     {
@@ -176,107 +178,115 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         cont=0;
     }
     
-    private void LexTXT()
-    {
-        //inicializando as variaveis dos campos a serem gravados
-        int totalLinhas = 0;
+   private void LerTXT() 
+   {
+        SelecionarArquivoTexto select = new SelecionarArquivoTexto();
+        caminhoArqTXT = select.ImportarTXT();
+
+        totalLinhas = 0;
         RetornarQdeLinhasDoTxt qdeLinhas = new RetornarQdeLinhasDoTxt();
 
-        //setando o caminho do arquivo TXT no edit do formulario apenas para mostrar o arquivo que esta sendo importado
-        SelecionarArquivoTexto select = new SelecionarArquivoTexto();
-        caminhoTXT = select.ImportarTXT();
+        if (caminhoArqTXT == null) {
+            JOptionPane.showMessageDialog(null, "Nenhum arquivo selecionado.");
+            return;
+        }
 
-        if (caminhoTXT != null) {
-            totalLinhas = qdeLinhas.retornaNumLinhasDoTxt(caminhoTXT);
-             //JOptionPane.showMessageDialog(null, "Qde de linhas do arquivo...: "+String.valueOf(totalLinhas));
+        F_BARRAPROGRESSOLENDOTXT frm = new F_BARRAPROGRESSOLENDOTXT();
+        frm.setVisible(true);
 
-            //criando uma variavel arquivo do tipo File e setando o caminho do arquivo TXT nela
-            File arquivo = new File(caminhoTXT);
-            try {
-                FileReader ler        = new FileReader(arquivo);
-                BufferedReader lerBuf = new BufferedReader(ler);
-                linha                 = lerBuf.readLine();
-                                                   
-                while (linha != null) 
-                {
-                    sChapa              = linha.split(";")[0]; 
-                    sSerie              = linha.split(";")[1];
-                    sTipoid             = linha.split(";")[2];
-                    sSecaoid            = linha.split(";")[3];
-                    sClienteid          = linha.split(";")[4];
-                    sModeloid           = linha.split(";")[5];
-                    sDeptoid            = linha.split(";")[6];
-                    sNomeEquipamento    = linha.split(";")[7];
-                    sContrato           = linha.split(";")[8];
-                    
-                    // NAO ENTREI COM STATUS POIS O DEFAULT NA TABELA ESTA COMO SE NAO TIVER VALOR ENTRAR COM ATIVO
+        SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
 
-                    //mostrando os valores no console 
-//                    System.out.println(
-//                                           "CHAPA.........: " + sChapa + "\n"
-//                                         + "SERIE.........: " + sSerie + "\n"
-//                                         + "TIPOID........: " + sTipoid + "\n"
-//                                         + "SECAOID.......: " + sSecaoid + "\n"
-//                                         + "CLIENTEID.....: " + sClienteid + "\n"
-//                                         + "MODELOID......: " + sModeloid + "\n"
-//                                         + "DEPTOID.......: " + sDeptoid + "\n"
-//                                         + "EQUIPAMENTO...: " + sNomeEquipamento + "\n"                                                
-//                                         + "CONTRATO......: " + sContrato  + "");     
-//                                       
-//                    System.out.println("====================================================================================================================");
-//                    
-                    if(!reativandoTXT){                        
-                        gravarDados();
-                    }else{
-                        gravarReativacao();
+            @Override
+            protected Void doInBackground() throws Exception 
+            {
+                totalLinhas = qdeLinhas.retornaNumLinhasDoTxt(caminhoArqTXT);
+                File arquivo    = new File(caminhoArqTXT);
+                BufferedReader lerBuf = new BufferedReader(new FileReader(arquivo));
+
+                linha = lerBuf.readLine();
+                int linhaAtual = 0;
+
+                while (linha != null) {
+                    try {
+                        // Processar dados da linha
+                        String[] dados = linha.split(";");
+                        sChapa           = dados[0];
+                        sSerie           = dados[1];
+                        sTipoid          = dados[2];
+                        sSecaoid         = dados[3];
+                        sClienteid       = dados[4];
+                        sModeloid        = dados[5];
+                        sDeptoid         = dados[6];
+                        sNomeEquipamento = dados[7];
+                        sContrato        = dados[8];
+
+                        if (!reativandoTXT) {
+                            gravarDados();
+                        } else {
+                            gravarReativacao();
+                        }
+
+                        // Atualiza JTextArea (opcional)
+                        String sObs = txtDESCRICAO.getText();
+                        txtDESCRICAO.setText(sObs +
+                            "CHAPA.........: " + sChapa + "\n" +
+                            "SERIE.........: " + sSerie + "\n" +
+                            "TIPOID........: " + sTipoid + "\n" +
+                            "SECAOID.......: " + sSecaoid + "\n" +
+                            "CLIENTEID.....: " + sClienteid + "\n" +
+                            "MODELOID......: " + sModeloid + "\n" +
+                            "DEPTOID.......: " + sDeptoid + "\n" +
+                            "EQUIPAMENTO...: " + sNomeEquipamento + "\n" +
+                            "CONTRATO......: " + sContrato + "\n" +
+                            "=================================================================================================================\n");
+
+                    } catch (Exception ex) {
+                        System.err.println("Erro ao processar linha: " + linha);
+                        ex.printStackTrace();
                     }
-                                       
-                    //lendo a proxima linha
-                    linha = lerBuf.readLine();
-                    
-                    //mostrando os valores no JTextArea
-                    sObs = txtDESCRICAO.getText();
-                    txtDESCRICAO.setText(  sObs+ 
-                                           "CHAPA...........................: " + sChapa + "\n"
-                                         + "SERIE.............................: " + sSerie + "\n"
-                                         + "TIPOID...........................: " + sTipoid + "\n"
-                                         + "SECAOID.......................: " + sSecaoid + "\n"
-                                         + "CLIENTEID.....................: " + sClienteid + "\n"
-                                         + "MODELOID....................: " + sModeloid + "\n"
-                                         + "DEPTOID........................: " + sDeptoid + "\n"
-                                         + "EQUIPAMENTO.............: " + sNomeEquipamento + "\n"
-                                         + "CONTRATO....................: " + sContrato + "\n"
-                                         + "=================================================================================================================\n"
-                    );
 
+                    linhaAtual++;
+                    publish(linhaAtual);
+                    linha = lerBuf.readLine();
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao tentar ler o arquivo!");
+
+                lerBuf.close();
+                return null;
             }
-                if(!reativandoTXT){
+
+            @Override
+            protected void process(java.util.List<Integer> chunks) {
+                int ultimaLinha = chunks.get(chunks.size() - 1);
+                frm.atualizarProgresso(ultimaLinha, totalLinhas);
+            }
+
+            @Override
+            protected void done() {
+                frm.label.setText("Importação concluída! Fechando em 3s...");
+
+                // Fechar a janela depois de 10 segundos
+                new javax.swing.Timer(3000, e -> frm.dispose()).start();
+
+                if (!reativandoTXT) {
                     if (contador > 0) {
-                        JOptionPane.showMessageDialog(null, "Todos os patrimônios válidos foram cadastrados com sucesso!", "Cadastrado com Sucesso!", 2);
+                        JOptionPane.showMessageDialog(null, "Todos os patrimônios válidos foram cadastrados com sucesso!", "Cadastrado com Sucesso!", JOptionPane.INFORMATION_MESSAGE);
                         btnLimpar.setEnabled(true);
-                    } else if (contador == 0) {                
-                        JOptionPane.showMessageDialog(null, "ERRO  no  cadastro  de  alguns registros, possíveis  causas :  Problemas  na  leitura do arquivo TXT\nou  duplicidade  em   algum   número  de   série   inserido,  confira  os   dados  do  TXT  selecionado!", "ERRO no cadastro!", 2);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erro no cadastro de alguns registros...", "ERRO no cadastro!", JOptionPane.WARNING_MESSAGE);
                         btnLimpar.setEnabled(true);
                         btnLerTXT.setEnabled(false);
                     }
-                }else{
-                    JOptionPane.showMessageDialog(null, "Todos os patrimônios foram reativados com sucesso!", "Reativados com Sucesso!", 2);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Todos os patrimônios foram reativados com sucesso!", "Reativados com Sucesso!", JOptionPane.INFORMATION_MESSAGE);
                     btnReativar.setEnabled(false);
                     btnGerarArquivoTXT.setEnabled(true);
                     txtDESCRICAO.setText("");
                 }
-        }else{               
-            btnGerarArquivoTXT.setEnabled(false);
-            btnGerarObsAdicional.setEnabled(false);
-            btnLerTXT.setEnabled(false);
-            btnLimpar.setEnabled(true);            
-            btnSair.setEnabled(false);
-        }           
-        
-    }
+            }
+        };
+        worker.execute();
+}
+
            
     private void gravarDados()
     {
@@ -351,7 +361,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 
     private void btnLerTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerTXTActionPerformed
         //faz a leitura do arquivo TXT e cadastra os equipamentos registrados nele
-        LexTXT();  
+        LerTXT();  
         btnGerarArquivoTXT.setEnabled(false);
         btnReativar.setEnabled(false);
         btnLimpar.setText("Voltar");
@@ -403,7 +413,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
         //faz a leitura do arquivo TXT e reativa os equipamentos registrados nele
         reativandoTXT = true;
         reativando = true;
-        LexTXT();  
+        LerTXT();  
         btnGerarArquivoTXT.setEnabled(false);
         btnLimpar.setText("Voltar");
     }//GEN-LAST:event_btnReativarActionPerformed
