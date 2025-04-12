@@ -33,7 +33,7 @@
             <url>src/visao/F_GERARTXTENTRADAAUTO.java</url>
             <bookmark id="18">
                 <name/>
-                <line>340</line>
+                <line>347</line>
                 <key/>
             </bookmark>
         </file>
@@ -50,6 +50,22 @@
             <bookmark id="3">
                 <name/>
                 <line>2045</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_LOGIN.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>393</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/visao/F_EMPRESA.java</url>
+            <bookmark id="2">
+                <name/>
+                <line>477</line>
                 <key/>
             </bookmark>
         </file>
@@ -80,22 +96,6 @@
             </bookmark>
         </file>
         <file>
-            <url>src/visao/F_LOGIN.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>393</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/visao/F_EMPRESA.java</url>
-            <bookmark id="2">
-                <name/>
-                <line>477</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/Dao/DAOPatrimonio.java</url>
             <bookmark id="20">
                 <name/>
@@ -113,6 +113,7 @@
         <group>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_CADPATRIMONIOSVIATXT.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_ESCOLHATIPODEENTRADA.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_GERARTXTENTRADAAUTO.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_BARRAPROGRESSOLENDOTXT.java</file>
         </group>

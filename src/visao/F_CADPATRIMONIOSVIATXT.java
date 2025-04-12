@@ -192,7 +192,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             return;
         }
 
-        F_BARRAPROGRESSOLENDOTXT frm = new F_BARRAPROGRESSOLENDOTXT();
+        F_BARRAPROGRESSOLENDOTXT frm = new F_BARRAPROGRESSOLENDOTXT(null);
         frm.setVisible(true);
 
         SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
@@ -258,15 +258,15 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             @Override
             //Escolha por aqui entre duas opções o tipo de informação que sua barra de progresso deverá ter:
             
-//            protected void process(java.util.List<Integer> chunks) {
-//                int ultimaLinha = chunks.get(chunks.size() - 1);
-//                frm.atualizarProgressoPelaQdeRegs(ultimaLinha, totalLinhas);                
-//            }
-            
-            protected void process(List<Integer> chunks) {
-                int atual = chunks.get(chunks.size() - 1);
-                frm.atualizarProgressoPorPorcentagem(atual);
+            protected void process(java.util.List<Integer> chunks) {
+                int ultimaLinha = chunks.get(chunks.size() - 1);
+                frm.atualizarProgressoPelaQdeRegs(ultimaLinha, totalLinhas);                
             }
+            
+//            protected void process(List<Integer> chunks) {
+//                int atual = chunks.get(chunks.size() - 1);
+//                frm.atualizarProgressoPorPorcentagem(atual);
+//            }
 
             @Override
             protected void done() {

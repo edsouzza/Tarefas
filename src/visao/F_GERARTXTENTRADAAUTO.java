@@ -3,9 +3,11 @@ package visao;
 import biblioteca.Biblioteca;
 import biblioteca.GerarTXT;
 import biblioteca.MetodosPublicos;
+import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
 import static biblioteca.VariaveisPublicas.tabela_da_lista;
 import static biblioteca.VariaveisPublicas.TipoModelo;
+import static biblioteca.VariaveisPublicas.caminhoArqTXT;
 import static biblioteca.VariaveisPublicas.codTipoSelecionado;
 import static biblioteca.VariaveisPublicas.codigoTipoModelo;
 import static biblioteca.VariaveisPublicas.imprimirPorModelo;
@@ -18,12 +20,17 @@ import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
     MetodosPublicos     umMetodo    = new MetodosPublicos();
@@ -34,8 +41,8 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
     Date dataDia                    = dataDoDia; 
    
     
-    String sTipo, sChapa, sSerie, sEstacao, sObs,caminhoTXT  = "";
-    int iTipoid, codItem = 0;
+    String sTipo, sChapa, sSerie, sEstacao, sObs,caminhoTXT, linha  = "";
+    int iTipoid, codItem, totalLinhas = 0;
     Boolean metodoPADRAOINIFIM,inserindo = false;    
     
     public F_GERARTXTENTRADAAUTO(java.awt.Frame parent, boolean modal) {
@@ -406,7 +413,8 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnNovoActionPerformed
     
-   private void LerTXTSeries() {       
+private void LerTXTSeries() 
+{       
     SelecionarArquivoTexto select = new SelecionarArquivoTexto();
     caminhoTXT = select.ImportarTXT();
     
@@ -423,14 +431,125 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         btnGerarTXT.setEnabled(true);
     } catch (IOException e) {
         System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
-    }   
-    
-}     
+    }  
+}  
+
+////private void LerTXTSeries() {
+////    SelecionarArquivoTexto select = new SelecionarArquivoTexto();
+////    caminhoArqTXT = select.ImportarTXT();
+////
+////    if (caminhoArqTXT == null || caminhoArqTXT.isEmpty()) return;
+////
+////    int totalLinhas = contarLinhas(caminhoArqTXT);
+////    if (totalLinhas == 0) return;
+////
+////    // Cria a janela de progresso
+////    F_BARRAPROGRESSOLENDOTXT progresso = new F_BARRAPROGRESSOLENDOTXT(null);
+////    progresso.setVisible(true);
+////
+////    // Assegura que a interface gráfica seja atualizada antes de iniciar o processamento
+////    SwingUtilities.invokeLater(() -> {
+////        progresso.setVisible(true);
+////        progresso.toFront();         // Coloca a janela de progresso na frente das outras
+////        progresso.requestFocus();    // Garante que a janela receba o foco
+////    });
+////
+////    // Cria e executa o SwingWorker para a leitura do arquivo
+////    SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+////        @Override
+////        protected Void doInBackground() throws Exception {
+////            lstAuxiliar.clear();
+////
+////            try (BufferedReader leitor = new BufferedReader(new FileReader(caminhoArqTXT))) {
+////                String linha;
+////                int i = 0;
+////                while ((linha = leitor.readLine()) != null) {
+////                    lstAuxiliar.add(linha);
+////                    i++;
+////                    publish(i); // Atualiza o progresso
+////
+////                    // Simula um pequeno atraso para garantir a visibilidade da barra
+////                    Thread.sleep(1); // O tempo pode ser ajustado para o que achar melhor
+////                }
+////            } catch (IOException e) {
+////                JOptionPane.showMessageDialog(null, "Erro ao ler arquivo: " + e.getMessage());
+////            }
+////
+////            return null;
+////        }
+////
+////        @Override
+////        protected void process(List<Integer> chunks) {
+////            int atual = chunks.get(chunks.size() - 1);
+////            progresso.atualizarProgressoPelaQdeRegs(atual, totalLinhas); // Atualiza a barra
+////        }
+////
+////        @Override
+////        protected void done() {
+////            // Finaliza o processo
+////            progresso.dispose(); // Fecha a janela de progresso
+////            JOptionPane.showMessageDialog(null, "Leitura concluída com sucesso!");
+////            btnGerarTXT.setEnabled(true); // Habilita o botão para gerar TXT
+////        }
+////    };
+////
+////    worker.execute(); // Inicia o processamento em segundo plano
+////}
+//    
+//    private void LerTXTSeries() {
+//    // Simulação de leitura com progresso
+//    F_BARRAPROGRESSOLENDOTXT progresso = new F_BARRAPROGRESSOLENDOTXT(null);
+//    progresso.setVisible(true); // mostra a janela antes de começar
+//
+//    SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+//        @Override
+//        protected Void doInBackground() throws Exception {
+//            int total = 100;
+//            progresso.barraProgresso.setMaximum(total);
+//
+//            for (int i = 1; i <= total; i++) {
+//                Thread.sleep(1); // simula leitura demorada
+//                publish(i);
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void process(List<Integer> chunks) {
+//            int atual = chunks.get(chunks.size() - 1);
+//            progresso.atualizarProgressoPelaQdeRegs(atual, 100);
+//        }
+//
+//        @Override
+//        protected void done() {
+//            progresso.dispose();
+//            //JOptionPane.showMessageDialog(null, "Registros lidos com sucesso!");
+//        }
+//    };
+//
+//    worker.execute();
+//    
+//}
+//
+//
+//private int contarLinhas(String caminho) 
+//{
+//    try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
+//        int linhas = 0;
+//        while (leitor.readLine() != null) linhas++;
+//        return linhas;
+//    } catch (IOException e) {
+//        JOptionPane.showMessageDialog(null, "Erro ao contar linhas: " + e.getMessage());
+//        return 0;
+//    }
+//}
+
     
     private void btnADDAOTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDAOTXTActionPerformed
         
         //FAZER A LEITURA DO ARQUIVO TXT e adicionar todas as series na lstAuxiliar
-        LerTXTSeries(); 
+        LerTXTSeries();                              
         addItensAoTXT();       
              
     }//GEN-LAST:event_btnADDAOTXTActionPerformed
