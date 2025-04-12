@@ -1,4 +1,3 @@
-
 package visao;
 
 import java.awt.BorderLayout;
@@ -28,10 +27,15 @@ public class F_BARRAPROGRESSOLENDOTXT extends JFrame {
         add(label, BorderLayout.SOUTH);
     }
 
-    public void atualizarProgresso(int valorAtual, int valorMaximo) {
+    public void atualizarProgressoPelaQdeRegs(int valorAtual, int valorMaximo) {
         barraProgresso.setMaximum(valorMaximo);  // define o máximo
         barraProgresso.setValue(valorAtual);     // atualiza valor atual
         label.setText("Processando linha " + valorAtual + " de " + valorMaximo);
+    }
+    
+    public void atualizarProgressoPorPorcentagem(int progresso) {
+        barraProgresso.setValue(progresso);
+        label.setText("Carregando... " + progresso + "%");
     }
 
 }

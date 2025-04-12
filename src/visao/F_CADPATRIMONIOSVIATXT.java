@@ -22,6 +22,7 @@ import controle.CtrlPatrimonio;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.swing.SwingWorker;
 import modelo.Patrimonio;
 
@@ -255,9 +256,16 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
 
             @Override
-            protected void process(java.util.List<Integer> chunks) {
-                int ultimaLinha = chunks.get(chunks.size() - 1);
-                frm.atualizarProgresso(ultimaLinha, totalLinhas);
+            //Escolha por aqui entre duas opções o tipo de informação que sua barra de progresso deverá ter:
+            
+//            protected void process(java.util.List<Integer> chunks) {
+//                int ultimaLinha = chunks.get(chunks.size() - 1);
+//                frm.atualizarProgressoPelaQdeRegs(ultimaLinha, totalLinhas);                
+//            }
+            
+            protected void process(List<Integer> chunks) {
+                int atual = chunks.get(chunks.size() - 1);
+                frm.atualizarProgressoPorPorcentagem(atual);
             }
 
             @Override
