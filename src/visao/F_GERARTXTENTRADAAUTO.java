@@ -415,6 +415,8 @@ private void LerSeriesDoTXT()
 
     if (caminhoTXT == null || caminhoTXT.isEmpty()) return;
     
+    //Desabilita os botões
+    cmbSTATUS.setEnabled(false);
     lstITENS.setEnabled(false);
     btnSair.setEnabled(false);
     btnLimpar.setEnabled(false);
