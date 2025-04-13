@@ -5,27 +5,27 @@
             <url>src/biblioteca/MetodosPublicos.java</url>
             <bookmark id="6">
                 <name/>
-                <line>203</line>
+                <line>219</line>
                 <key/>
             </bookmark>
             <bookmark id="4">
                 <name/>
-                <line>547</line>
+                <line>563</line>
                 <key/>
             </bookmark>
             <bookmark id="5">
                 <name/>
-                <line>687</line>
+                <line>703</line>
                 <key/>
             </bookmark>
             <bookmark id="19">
                 <name/>
-                <line>1704</line>
+                <line>1720</line>
                 <key/>
             </bookmark>
             <bookmark id="7">
                 <name/>
-                <line>2166</line>
+                <line>2182</line>
                 <key/>
             </bookmark>
         </file>
@@ -33,7 +33,7 @@
             <url>src/visao/F_GERARTXTENTRADAAUTO.java</url>
             <bookmark id="18">
                 <name/>
-                <line>347</line>
+                <line>341</line>
                 <key/>
             </bookmark>
         </file>
@@ -112,10 +112,6 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_CADPATRIMONIOSVIATXT.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_ESCOLHATIPODEENTRADA.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_GERARTXTENTRADAAUTO.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_BARRAPROGRESSOLENDOTXT.java</file>
         </group>
     </open-files>
 </project-private>

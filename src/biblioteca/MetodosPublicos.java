@@ -38,6 +38,9 @@ import java.awt.Font;
 import java.awt.KeyboardFocusManager;
 import java.awt.List;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.PreparedStatement;
@@ -118,6 +121,19 @@ public class MetodosPublicos {
         botao.setCursor(new Cursor(12));
 
     }
+    
+public int contarLinhasDoArquivoTXT(String caminho) 
+{
+    int linhas = 0;
+    try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+        while (br.readLine() != null) {
+            linhas++;
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return linhas;
+}
 
     public void configurarCamposTextos(JTextField campoTexto) {
         campoTexto.setForeground(Color.blue);

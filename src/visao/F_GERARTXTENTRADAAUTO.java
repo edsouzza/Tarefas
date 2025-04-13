@@ -3,11 +3,9 @@ package visao;
 import biblioteca.Biblioteca;
 import biblioteca.GerarTXT;
 import biblioteca.MetodosPublicos;
-import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
 import static biblioteca.VariaveisPublicas.tabela_da_lista;
 import static biblioteca.VariaveisPublicas.TipoModelo;
-import static biblioteca.VariaveisPublicas.caminhoArqTXT;
 import static biblioteca.VariaveisPublicas.codTipoSelecionado;
 import static biblioteca.VariaveisPublicas.codigoTipoModelo;
 import static biblioteca.VariaveisPublicas.imprimirPorModelo;
@@ -17,18 +15,16 @@ import static biblioteca.VariaveisPublicas.lstListaCampos;
 import static biblioteca.VariaveisPublicas.reativando;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -62,7 +58,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
 
         //configuracoes dos edits      
         umMetodo.configurarBotoes(btnGerarTXT);
-        umMetodo.configurarBotoes(btnADDAOTXT);
+        umMetodo.configurarBotoes(btnLerTxtAdicionarItensNaLista);
         umMetodo.configurarBotoes(btnLimpar);
         umMetodo.configurarBotoes(btnSair);
         umMetodo.configurarBotoes(btnNovo);
@@ -87,18 +83,17 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         txtMODELO = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        cmbSTATUS = new javax.swing.JComboBox<>();
+        cmbSTATUS = new javax.swing.JComboBox<String>();
         btnGerarTXT = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
-        btnADDAOTXT = new javax.swing.JButton();
+        btnLerTxtAdicionarItensNaLista = new javax.swing.JButton();
         btnRemoverItem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstITENS = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GERAR ARQUIVO TXT COM INSERÇÃO DE SÉRIES MANUALMENTE");
         getContentPane().setLayout(null);
 
         jBoxPesquisar1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -126,19 +121,10 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
 
         cmbSTATUS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbSTATUS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NAO", "SIM" }));
+        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NAO", "SIM" }));
         cmbSTATUS.setSelectedIndex(-1);
         cmbSTATUS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbSTATUS.setEnabled(false);
-
-        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
@@ -192,6 +178,14 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
                             .addComponent(txtSECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
+        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -239,15 +233,15 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
             }
         });
 
-        btnADDAOTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnADDAOTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
-        btnADDAOTXT.setText("Ler TXT");
-        btnADDAOTXT.setToolTipText("");
-        btnADDAOTXT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnADDAOTXT.setEnabled(false);
-        btnADDAOTXT.addActionListener(new java.awt.event.ActionListener() {
+        btnLerTxtAdicionarItensNaLista.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnLerTxtAdicionarItensNaLista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
+        btnLerTxtAdicionarItensNaLista.setText("Ler TXT");
+        btnLerTxtAdicionarItensNaLista.setToolTipText("");
+        btnLerTxtAdicionarItensNaLista.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLerTxtAdicionarItensNaLista.setEnabled(false);
+        btnLerTxtAdicionarItensNaLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnADDAOTXTActionPerformed(evt);
+                btnLerTxtAdicionarItensNaListaActionPerformed(evt);
             }
         });
 
@@ -283,7 +277,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnGerarTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnADDAOTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLerTxtAdicionarItensNaLista, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(btnRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -303,7 +297,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
                 .addGroup(jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGerarTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnADDAOTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLerTxtAdicionarItensNaLista, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -351,7 +345,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
        cmbSTATUS.setEnabled(false);
        inserindo=false;
        imprimirPorModelo = false;
-       this.setTitle("GERAR ARQUIVO TXT A PARTIR DE UMA SQL");
+       this.setTitle("Gerar arquivo TXT para cadastro automático a partir da leitura de outro TXT contendo os números de séries");
       
     }//GEN-LAST:event_btnGerarTXTActionPerformed
 
@@ -359,7 +353,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         btnNovo.setEnabled(true);
         btnSair.setEnabled(true);
         btnGerarTXT.setEnabled(false);
-        btnADDAOTXT.setEnabled(false);
+        btnLerTxtAdicionarItensNaLista.setEnabled(false);
         btnLimpar.setEnabled(false);
         btnRemoverItem.setEnabled(false);
         cmbSTATUS.setEnabled(false);
@@ -372,7 +366,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         inserindo=false; 
         imprimirPorModelo = false;
         lstAuxiliar.clear();
-        this.setTitle("GERAR ARQUIVO TXT A PARTIR DE UMA SQL");        
+        this.setTitle("Gerar arquivo TXT para cadastro automático a partir da leitura de outro TXT contendo os números de séries");
         
     }
     
@@ -405,203 +399,158 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         txtSECAO.setText("INFORMATICA");      
         cmbSTATUS.setSelectedIndex(0);    
         btnNovo.setEnabled(false);        
-        btnLimpar.setEnabled(true);
         cmbSTATUS.setEnabled(true);
-        btnADDAOTXT.setEnabled(true);
+        btnLerTxtAdicionarItensNaLista.setEnabled(true);
         lstAuxiliar.clear();
         model.clear();
         
     }//GEN-LAST:event_btnNovoActionPerformed
     
-private void LerTXTSeries() 
-{       
+private void LerSeriesDoTXT() 
+{
     SelecionarArquivoTexto select = new SelecionarArquivoTexto();
     caminhoTXT = select.ImportarTXT();
     
-    try {
-        FileReader arq = new FileReader(caminhoTXT);
-        BufferedReader lerArq = new BufferedReader(arq);
+    int totalLinhasTXT = umMetodo.contarLinhasDoArquivoTXT(caminhoTXT);
 
-        String linha = lerArq.readLine();
-        while (linha != null) {
-            lstAuxiliar.add(linha);     // Adiciona a linha na lista
-            linha = lerArq.readLine();  // Lê a próxima linha
+    if (caminhoTXT == null || caminhoTXT.isEmpty()) return;
+    
+    lstITENS.setEnabled(false);
+    btnSair.setEnabled(false);
+    btnLimpar.setEnabled(false);
+    btnLerTxtAdicionarItensNaLista.setEnabled(false);
+    
+    setTitle("Processando a leitura de "+ totalLinhasTXT +" registros ao final do processamento os botões serão habilitados para prosseguimento favor aguardar..." );
+    
+    // Cria e mostra a barra de progresso
+    F_BARRAPROGRESSOLENDOTXT barra = new F_BARRAPROGRESSOLENDOTXT((Frame) SwingUtilities.getWindowAncestor(this));
+    barra.setAlwaysOnTop(true);
+    barra.setVisible(true);
+
+    // Calcula total de linhas antes do SwingWorker para não bloquear a UI
+    totalLinhas = 0;
+    try (BufferedReader contador = new BufferedReader(new FileReader(caminhoTXT))) {
+        while (contador.readLine() != null) {
+            totalLinhas++;
         }
-        arq.close();
-        btnGerarTXT.setEnabled(true);
     } catch (IOException e) {
-        System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
-    }  
-}  
+        e.printStackTrace();
+        barra.dispose();
+        return;
+    }
 
-////private void LerTXTSeries() {
-////    SelecionarArquivoTexto select = new SelecionarArquivoTexto();
-////    caminhoArqTXT = select.ImportarTXT();
-////
-////    if (caminhoArqTXT == null || caminhoArqTXT.isEmpty()) return;
-////
-////    int totalLinhas = contarLinhas(caminhoArqTXT);
-////    if (totalLinhas == 0) return;
-////
-////    // Cria a janela de progresso
-////    F_BARRAPROGRESSOLENDOTXT progresso = new F_BARRAPROGRESSOLENDOTXT(null);
-////    progresso.setVisible(true);
-////
-////    // Assegura que a interface gráfica seja atualizada antes de iniciar o processamento
-////    SwingUtilities.invokeLater(() -> {
-////        progresso.setVisible(true);
-////        progresso.toFront();         // Coloca a janela de progresso na frente das outras
-////        progresso.requestFocus();    // Garante que a janela receba o foco
-////    });
-////
-////    // Cria e executa o SwingWorker para a leitura do arquivo
-////    SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
-////        @Override
-////        protected Void doInBackground() throws Exception {
-////            lstAuxiliar.clear();
-////
-////            try (BufferedReader leitor = new BufferedReader(new FileReader(caminhoArqTXT))) {
-////                String linha;
-////                int i = 0;
-////                while ((linha = leitor.readLine()) != null) {
-////                    lstAuxiliar.add(linha);
-////                    i++;
-////                    publish(i); // Atualiza o progresso
-////
-////                    // Simula um pequeno atraso para garantir a visibilidade da barra
-////                    Thread.sleep(1); // O tempo pode ser ajustado para o que achar melhor
-////                }
-////            } catch (IOException e) {
-////                JOptionPane.showMessageDialog(null, "Erro ao ler arquivo: " + e.getMessage());
-////            }
-////
-////            return null;
-////        }
-////
-////        @Override
-////        protected void process(List<Integer> chunks) {
-////            int atual = chunks.get(chunks.size() - 1);
-////            progresso.atualizarProgressoPelaQdeRegs(atual, totalLinhas); // Atualiza a barra
-////        }
-////
-////        @Override
-////        protected void done() {
-////            // Finaliza o processo
-////            progresso.dispose(); // Fecha a janela de progresso
-////            JOptionPane.showMessageDialog(null, "Leitura concluída com sucesso!");
-////            btnGerarTXT.setEnabled(true); // Habilita o botão para gerar TXT
-////        }
-////    };
-////
-////    worker.execute(); // Inicia o processamento em segundo plano
-////}
-//    
-//    private void LerTXTSeries() {
-//    // Simulação de leitura com progresso
-//    F_BARRAPROGRESSOLENDOTXT progresso = new F_BARRAPROGRESSOLENDOTXT(null);
-//    progresso.setVisible(true); // mostra a janela antes de começar
-//
-//    SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
-//        @Override
-//        protected Void doInBackground() throws Exception {
-//            int total = 100;
-//            progresso.barraProgresso.setMaximum(total);
-//
-//            for (int i = 1; i <= total; i++) {
-//                Thread.sleep(1); // simula leitura demorada
-//                publish(i);
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void process(List<Integer> chunks) {
-//            int atual = chunks.get(chunks.size() - 1);
-//            progresso.atualizarProgressoPelaQdeRegs(atual, 100);
-//        }
-//
-//        @Override
-//        protected void done() {
-//            progresso.dispose();
-//            //JOptionPane.showMessageDialog(null, "Registros lidos com sucesso!");
-//        }
-//    };
-//
-//    worker.execute();
-//    
-//}
-//
-//
-//private int contarLinhas(String caminho) 
-//{
-//    try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
-//        int linhas = 0;
-//        while (leitor.readLine() != null) linhas++;
-//        return linhas;
-//    } catch (IOException e) {
-//        JOptionPane.showMessageDialog(null, "Erro ao contar linhas: " + e.getMessage());
-//        return 0;
-//    }
-//}
+    // Inicia a leitura real no SwingWorker
+    SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            lstAuxiliar.clear();
+
+            try (BufferedReader lerArq = new BufferedReader(new FileReader(caminhoTXT))) {
+                String linha;
+                int linhaAtual = 0;
+
+                while ((linha = lerArq.readLine()) != null) {
+                    lstAuxiliar.add(linha);
+                    linhaAtual++;
+                    publish(linhaAtual); // atualiza a barra
+                    Thread.sleep(30); // força a UI a respirar, opcional
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void process(java.util.List<Integer> chunks) {
+            int linhaAtual = chunks.get(chunks.size() - 1);
+            barra.atualizarProgressoPelaQdeRegs(linhaAtual, totalLinhas);
+        }
+
+       @Override
+        protected void done() {
+            barra.dispose(); // Fecha a barra assim que a leitura termina
+
+            // Agora, cria um novo SwingWorker só para adicionar os itens ao modelo
+            SwingWorker<Void, Void> adicionaItensWorker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    addItensAoTXT();  // Adiciona todos os itens à lista visual
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    lstITENS.repaint();  // Força atualização da UI  
+                    
+                    // Reabilita os botões em caso de erro
+                    btnGerarTXT.setEnabled(true);
+                    btnLimpar.setEnabled(true);
+                    lstITENS.setEnabled(true);
+                    
+                    setTitle("Total de ítens inseridos : " + lstAuxiliar.size());
+                }
+            };
+
+            adicionaItensWorker.execute(); // Executa o segundo processo
+        }
+    };      
+    worker.execute();
+}
 
     
-    private void btnADDAOTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDAOTXTActionPerformed
+    private void btnLerTxtAdicionarItensNaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerTxtAdicionarItensNaListaActionPerformed
         
-        //FAZER A LEITURA DO ARQUIVO TXT e adicionar todas as series na lstAuxiliar
-        LerTXTSeries();                              
-        addItensAoTXT();       
+        //Fazer a leitura do arquivo TXT
+        LerSeriesDoTXT();   
              
-    }//GEN-LAST:event_btnADDAOTXTActionPerformed
+    }//GEN-LAST:event_btnLerTxtAdicionarItensNaListaActionPerformed
 
-    private void addItensAoTXT()
-    {                 
-        int qtdItens = lstAuxiliar.size();        
-        
-        int i=0;        
-        for(i=0; i<qtdItens; i++){   
-            
-           sChapa   = gerarNumeroChapa();       
-           sSerie   = lstAuxiliar.get(i);       
-           
-           //VERIFICAR SE NÃO FOR MICRO OU NOTEBOOK ENTRAR COM O TIPO 1/19    
-           iTipoid  = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
+private void addItensAoTXT() {
+    int qtdItens = lstAuxiliar.size();
 
-           if ((iTipoid == 1) || (iTipoid == 19)){
-               sEstacao = "PGMCGGMC000";
-           }else{
-               sEstacao = sTipo;
-           }
+    int i = 0;
+    for (i = 0; i < qtdItens; i++) {
 
-           //adicionando item na lista    
-           int iCodigo = umMetodo.getCodigoPassandoString("tblpatrimonios", "serie", sSerie);        
+        sChapa = gerarNumeroChapa();
+        sSerie = lstAuxiliar.get(i);
 
-           String obsAtual    = umMetodo.getStringPassandoCodigo("tblPatrimonios", "observacoes", iCodigo);
-           String novaObs     = obsAtual+("\n"+sdf.format(dataDia)+" "+sObs); 
+        // VERIFICAR SE NÃO FOR MICRO OU NOTEBOOK ENTRAR COM O TIPO 1/19    
+        iTipoid = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
 
+        if ((iTipoid == 1) || (iTipoid == 19)) {
+            sEstacao = "PGMCGGMC000";
+        } else {
+            sEstacao = sTipo;
+        }
 
-           if(reativando){            
-               String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N;"+novaObs;
-               String item  = dados;  
+        // adicionando item na lista    
+        int iCodigo = umMetodo.getCodigoPassandoString("tblpatrimonios", "serie", sSerie);
+
+        String obsAtual = umMetodo.getStringPassandoCodigo("tblPatrimonios", "observacoes", iCodigo);
+        String novaObs = obsAtual + ("\n" + sdf.format(dataDia) + " " + sObs);
+
+        if (reativando) {
+            String dados = sChapa + ";" + sSerie + ";" + iTipoid + ";" + "30;" + "202;" + codigoTipoModelo + ";" + "6;" + sEstacao + ";" + "N;" + novaObs;
+            String item = dados;
+            SwingUtilities.invokeLater(() -> {
                 model.addElement(item);
                 lstITENS.setModel(model);
-           }else{
-               String dados = sChapa+";"+sSerie+";"+iTipoid+";"+"30;"+"202;"+codigoTipoModelo+";"+"6;"+sEstacao+";"+"N;";
-               String item  = dados;
-               model.addElement(item);
-               lstITENS.setModel(model);
-           }
-                 
+            });
+        } else {
+            String dados = sChapa + ";" + sSerie + ";" + iTipoid + ";" + "30;" + "202;" + codigoTipoModelo + ";" + "6;" + sEstacao + ";" + "N;";
+            String item = dados;
+            SwingUtilities.invokeLater(() -> {
+                model.addElement(item);
+                lstITENS.setModel(model);
+            });
         }
-        btnADDAOTXT.setEnabled(false);
-        this.setTitle("TOTAL DE ÍTENS INSERIDOS : "+String.valueOf(lstAuxiliar.size()));
-   
-    }    
+    }
+}    
     
     private void removerItem(){
         model.remove(codItem);       
         btnRemoverItem.setEnabled(false);
-        btnADDAOTXT.setEnabled(false);
+        btnLerTxtAdicionarItensNaLista.setEnabled(false);
         this.setTitle("TOTAL DE ÍTENS INSERIDOS : "+String.valueOf(lstAuxiliar.size()-1));
     }
     
@@ -672,8 +621,8 @@ private void LerTXTSeries()
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnADDAOTXT;
     private javax.swing.JButton btnGerarTXT;
+    private javax.swing.JButton btnLerTxtAdicionarItensNaLista;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnRemoverItem;

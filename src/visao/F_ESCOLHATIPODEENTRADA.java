@@ -51,17 +51,17 @@ public class F_ESCOLHATIPODEENTRADA extends javax.swing.JFrame {
 
     private void btnEntrarDigitandoSeriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarDigitandoSeriesActionPerformed
         
+        dispose();
         F_GERARTXTENTRADAMANUAL frm = new F_GERARTXTENTRADAMANUAL(new javax.swing.JFrame(), true);
         frm.setVisible(true);  
-        dispose();
         
     }//GEN-LAST:event_btnEntrarDigitandoSeriesActionPerformed
 
     private void btnEntrarLendoTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarLendoTXTActionPerformed
-                
+  
+        dispose(); 
         F_GERARTXTENTRADAAUTO frm = new F_GERARTXTENTRADAAUTO(new javax.swing.JFrame(), true);
-        frm.setVisible(true);    
-        dispose();
+        frm.setVisible(true);
         
     }//GEN-LAST:event_btnEntrarLendoTXTActionPerformed
 
