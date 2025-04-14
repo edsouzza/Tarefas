@@ -277,7 +277,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 
                 if (!reativandoTXT) {
                     if (contador > 0) {
-                        JOptionPane.showMessageDialog(null, "Todos os patrimônios válidos foram cadastrados com sucesso!", "Cadastrado com Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Todos os "+totalLinhas+" patrimônios válidos foram cadastrados com sucesso!", "Cadastrado com Sucesso!", JOptionPane.INFORMATION_MESSAGE);
                         btnLimpar.setEnabled(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Erro no cadastro de alguns registros...", "ERRO no cadastro!", JOptionPane.WARNING_MESSAGE);
@@ -285,7 +285,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
                         btnLerTXT.setEnabled(false);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Todos os patrimônios foram reativados com sucesso!", "Reativados com Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Todos os "+totalLinhas+" patrimônios foram reativados com sucesso!", "Reativados com Sucesso!", JOptionPane.INFORMATION_MESSAGE);
                     btnReativar.setEnabled(false);
                     btnGerarArquivoTXT.setEnabled(true);
                     txtDESCRICAO.setText("");
