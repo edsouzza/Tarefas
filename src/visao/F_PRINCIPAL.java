@@ -1222,8 +1222,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
     private void menuSaidaEmLoteTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaidaEmLoteTXTActionPerformed
     if(umabiblio.permissaoLiberada()){  
-        F_GERARTXTENVIO frm = new F_GERARTXTENVIO(this,true);
-        frm.setVisible(true);     
+        
+        F_ESCOLHATIPODESAIDA frm = new F_ESCOLHATIPODESAIDA(null, true);
+        frm.setVisible(true);  
     }
     }//GEN-LAST:event_menuSaidaEmLoteTXTActionPerformed
 

@@ -22,7 +22,6 @@ import controle.CtrlPatrimonio;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.swing.SwingWorker;
 import modelo.Patrimonio;
 
@@ -189,6 +188,8 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 
         if (caminhoArqTXT == null) {
             JOptionPane.showMessageDialog(null, "Nenhum arquivo selecionado.");
+            btnGerarArquivoTXT.setEnabled(true);
+            btnReativar.setEnabled(true);
             return;
         }
 
@@ -412,8 +413,8 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 
     private void btnGerarArquivoTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarArquivoTXTActionPerformed
         
-        F_ESCOLHATIPODEENTRADA frm = new F_ESCOLHATIPODEENTRADA();
-        frm.setVisible(true);     
+        F_ESCOLHATIPODEENTRADA frm = new F_ESCOLHATIPODEENTRADA(null, true);
+        frm.setVisible(true);             
         
     }//GEN-LAST:event_btnGerarArquivoTXTActionPerformed
 

@@ -25,6 +25,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -83,7 +84,8 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         txtMODELO = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        cmbSTATUS = new javax.swing.JComboBox<String>();
+        cmbSTATUS = new javax.swing.JComboBox<>();
+        btnVERCONFIGTXT = new javax.swing.JButton();
         btnGerarTXT = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
@@ -121,10 +123,31 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
 
         cmbSTATUS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbSTATUS.setForeground(new java.awt.Color(51, 51, 255));
-        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NAO", "SIM" }));
+        cmbSTATUS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NAO", "SIM" }));
         cmbSTATUS.setSelectedIndex(-1);
         cmbSTATUS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbSTATUS.setEnabled(false);
+
+        btnVERCONFIGTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnVERCONFIGTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/configs.png"))); // NOI18N
+        btnVERCONFIGTXT.setText("CONFIGURACAO TXT");
+        btnVERCONFIGTXT.setToolTipText("Informações sobre as configurações do TXT");
+        btnVERCONFIGTXT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVERCONFIGTXT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVERCONFIGTXTActionPerformed(evt);
+            }
+        });
+
+        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(btnVERCONFIGTXT, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
@@ -135,24 +158,26 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSECAO)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(txtSECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbSTATUS, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)))
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addComponent(cmbSTATUS, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnVERCONFIGTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel8))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTIPO, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMODELO)
                             .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
-                                .addGap(0, 625, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtMODELO))))
                 .addContainerGap())
         );
         jBoxPesquisar1Layout.setVerticalGroup(
@@ -165,27 +190,24 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMODELO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtTIPO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addComponent(txtMODELO, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTIPO, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
                     .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbSTATUS, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnVERCONFIGTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(cmbSTATUS, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
-        jBoxPesquisar1.setLayer(txtTIPO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtSECAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtMODELO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(cmbSTATUS, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -282,7 +304,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
                         .addComponent(btnRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -292,7 +314,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPANELTOTALLayout.createSequentialGroup()
                 .addComponent(jBoxPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,6 +374,7 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
     private void limpar(){
         btnNovo.setEnabled(true);
         btnSair.setEnabled(true);
+        btnVERCONFIGTXT.setEnabled(true);
         btnGerarTXT.setEnabled(false);
         btnLerTxtAdicionarItensNaLista.setEnabled(false);
         btnLimpar.setEnabled(false);
@@ -398,7 +421,8 @@ public class F_GERARTXTENTRADAAUTO extends javax.swing.JDialog {
         //habilitando edição do txtSerie     
         txtSECAO.setText("INFORMATICA");      
         cmbSTATUS.setSelectedIndex(0);    
-        btnNovo.setEnabled(false);        
+        btnNovo.setEnabled(false); 
+        btnVERCONFIGTXT.setEnabled(false); 
         cmbSTATUS.setEnabled(true);
         btnLerTxtAdicionarItensNaLista.setEnabled(true);
         lstAuxiliar.clear();
@@ -565,6 +589,29 @@ private void addItensAoTXT() {
         btnRemoverItem.setEnabled(true);
     }//GEN-LAST:event_lstITENSMouseClicked
 
+    private void btnVERCONFIGTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVERCONFIGTXTActionPerformed
+        String texto = (""
+               + "=================== INFORMAÇÕES SOBRE O CONTEÚDO DO ARQUIVO TXT ==================\n\n" 
+               + "Um  arquivo  TXT  deverá  conter  as  SÉRIES dos equipamentos onde após  sua  leitura, o Sistema\n"
+               + "irá  gerar  um   novo  TXT  com   as  configurações  iniciais   apontando  para  CGGM-INFORMATICA\n"
+               + "esse  novo  arquivo  deverá  ser  lido  para  cadastrar os equipamentos listados  automaicamente.\n" 
+               + "Segue  um  exemplo  das  linhas  do  arquivo TXT    -   Sem  a  linha   do  título  somente  os  dados.\n\n" 
+               + "005E5WDD\n"
+               + "002E5WDD\n"
+               + "002EESDD\n" 
+               + "002E5WSD\n"
+               + "002E5WEE\n"
+               + "002E5EWD\n"
+               + "002E5WGD\n"
+               + "002SSWDD\n"
+               + "002SE5GD\n"
+               + "002SSDBD\n"
+               + "");             
+        
+        F_CONFIGURACAOTXT frm = new F_CONFIGURACAOTXT(null, true, texto);
+        frm.setVisible(true); 
+    }//GEN-LAST:event_btnVERCONFIGTXTActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -629,6 +676,7 @@ private void addItensAoTXT() {
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnRemoverItem;
     private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnVERCONFIGTXT;
     private javax.swing.JComboBox<String> cmbSTATUS;
     private javax.swing.JLayeredPane jBoxPesquisar1;
     private javax.swing.JLabel jLabel2;

@@ -1,9 +1,10 @@
 package visao;
 
 
-public class F_ESCOLHATIPODEENTRADA extends javax.swing.JFrame {
+public class F_ESCOLHATIPODEENTRADA extends javax.swing.JDialog  {
     
-    public F_ESCOLHATIPODEENTRADA() {
+    public F_ESCOLHATIPODEENTRADA(java.awt.Frame parent, boolean modal) {
+        super(parent, modal); // <- isso é essencial para funcionar como modal
         initComponents();
         setResizable(false);  //desabilitando o redimencionamento da tela
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar      
@@ -16,7 +17,7 @@ public class F_ESCOLHATIPODEENTRADA extends javax.swing.JFrame {
         btnEntrarDigitandoSeries = new javax.swing.JButton();
         btnEntrarLendoTXT = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Formulário de Impressão");
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
