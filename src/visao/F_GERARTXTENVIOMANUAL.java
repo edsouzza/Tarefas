@@ -851,7 +851,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
     private void buscarNumeroChapaSerie(){        
         //recebendo o codigo da chapa ou serie digitada
         codPatr = getCodigoChapaSerie();     
-        getDados = umDaoPatri.getChapaSeriePeloCodigoDAO(codPatr);       
+        getDados = umDaoPatri.getChapaSerieModeloPeloCodigoDAO(codPatr);       
        
        if(valorPesquisaTrue){           
            txtPESQUISA.setText(getDados[0]);
@@ -926,7 +926,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         
     }
     
-    private void LexEncaminharTXT()
+    private void LerEncaminharTXT()
     {
         //inicializando as variaveis dos campos a serem gravados
         int totalLinhas = 0;
@@ -1080,7 +1080,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
     }
     
     private void btnEnviarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarDadosActionPerformed
-        LexEncaminharTXT();   
+        LerEncaminharTXT();   
     }//GEN-LAST:event_btnEnviarDadosActionPerformed
 
     private void txtORIGEMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtORIGEMMouseClicked

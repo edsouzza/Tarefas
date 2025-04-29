@@ -1,26 +1,36 @@
 package visao;
 
+import static biblioteca.VariaveisPublicas.tipoCadastroEntrada;
 
-public class F_ESCOLHATIPODEENTRADA extends javax.swing.JDialog  {
+
+public class F_ESCOLHASTIPODECADASTRO extends javax.swing.JDialog {
     
-    public F_ESCOLHATIPODEENTRADA(java.awt.Frame parent, boolean modal) {
+    public F_ESCOLHASTIPODECADASTRO(java.awt.Frame parent, boolean modal) {
+        
         super(parent, modal); // <- isso é essencial para funcionar como modal
         initComponents();
         setResizable(false);  //desabilitando o redimencionamento da tela
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar      
+                        
     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         btnEntrarDigitandoSeries = new javax.swing.JButton();
         btnEntrarLendoTXT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Formulário de Impressão");
+        setBackground(new java.awt.Color(0, 51, 255));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(null);
 
         btnEntrarDigitandoSeries.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnEntrarDigitandoSeries.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
@@ -32,7 +42,8 @@ public class F_ESCOLHATIPODEENTRADA extends javax.swing.JDialog  {
                 btnEntrarDigitandoSeriesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEntrarDigitandoSeries, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 180, 43));
+        jPanel1.add(btnEntrarDigitandoSeries);
+        btnEntrarDigitandoSeries.setBounds(40, 50, 167, 50);
 
         btnEntrarLendoTXT.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnEntrarLendoTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -44,26 +55,43 @@ public class F_ESCOLHATIPODEENTRADA extends javax.swing.JDialog  {
                 btnEntrarLendoTXTActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEntrarLendoTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 180, 43));
+        jPanel1.add(btnEntrarLendoTXT);
+        btnEntrarLendoTXT.setBounds(250, 50, 155, 50);
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 140));
 
         setSize(new java.awt.Dimension(446, 141));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarDigitandoSeriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarDigitandoSeriesActionPerformed
-        
-        dispose();
-        F_GERARTXTENTRADAMANUAL frm = new F_GERARTXTENTRADAMANUAL(new javax.swing.JFrame(), true);
-        frm.setVisible(true);  
-        
+        //ENTRADA MANUAL
+        if(tipoCadastroEntrada){
+            dispose();
+            F_GERARTXTENTRADAMANUAL frm = new F_GERARTXTENTRADAMANUAL(new javax.swing.JFrame(), true);
+            frm.setVisible(true);  
+        }else{            
+        //SAÍDA MANUAL    
+            dispose();
+            F_GERARTXTENVIOMANUAL frm = new F_GERARTXTENVIOMANUAL(null,true);
+            frm.setVisible(true);  
+        }
+        tipoCadastroEntrada = false;
     }//GEN-LAST:event_btnEntrarDigitandoSeriesActionPerformed
 
     private void btnEntrarLendoTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarLendoTXTActionPerformed
-  
-        dispose(); 
-        F_GERARTXTENTRADAAUTO frm = new F_GERARTXTENTRADAAUTO(new javax.swing.JFrame(), true);
-        frm.setVisible(true);
-        
+        //ENTRADA AUTOMATICA VIA TXT
+        if(tipoCadastroEntrada){
+            dispose(); 
+            F_GERARTXTENTRADAAUTO frm = new F_GERARTXTENTRADAAUTO(new javax.swing.JFrame(), true);
+            frm.setVisible(true);
+        }else{
+        //SAÍDA AUTOMATICA  
+            dispose(); 
+            F_GERARTXTENVIOAUTO frm = new F_GERARTXTENVIOAUTO(null,true);
+            frm.setVisible(true); 
+        }
+        tipoCadastroEntrada = false;
     }//GEN-LAST:event_btnEntrarLendoTXTActionPerformed
 
     /**
@@ -104,5 +132,6 @@ public class F_ESCOLHATIPODEENTRADA extends javax.swing.JDialog  {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrarDigitandoSeries;
     private javax.swing.JButton btnEntrarLendoTXT;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

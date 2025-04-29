@@ -17,6 +17,7 @@ import static biblioteca.VariaveisPublicas.caminhoArqTXT;
 import static biblioteca.VariaveisPublicas.salvandoLote;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.reativando;
+import static biblioteca.VariaveisPublicas.tipoCadastroEntrada;
 import controle.ControleGravarLog;
 import controle.CtrlPatrimonio;
 import java.text.DateFormat;
@@ -96,14 +97,14 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnSair);
-        btnSair.setBounds(910, 580, 110, 45);
+        btnSair.setBounds(910, 590, 110, 45);
 
         txtDESCRICAO.setColumns(20);
         txtDESCRICAO.setRows(5);
         jScrollPane1.setViewportView(txtDESCRICAO);
 
         panelPrincipal.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 10, 1010, 550);
+        jScrollPane1.setBounds(10, 10, 1010, 560);
 
         btnLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_limpar.gif"))); // NOI18N
@@ -116,7 +117,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnLimpar);
-        btnLimpar.setBounds(230, 580, 170, 45);
+        btnLimpar.setBounds(230, 590, 170, 45);
 
         btnGerarObsAdicional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnGerarObsAdicional.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calculator_add.png"))); // NOI18N
@@ -128,7 +129,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnGerarObsAdicional);
-        btnGerarObsAdicional.setBounds(400, 580, 170, 45);
+        btnGerarObsAdicional.setBounds(400, 590, 170, 45);
 
         btnGerarArquivoTXT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnGerarArquivoTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -140,7 +141,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnGerarArquivoTXT);
-        btnGerarArquivoTXT.setBounds(10, 580, 220, 45);
+        btnGerarArquivoTXT.setBounds(10, 590, 220, 45);
 
         btnLerTXT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnLerTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_blocoNotas.gif"))); // NOI18N
@@ -152,7 +153,7 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnLerTXT);
-        btnLerTXT.setBounds(740, 580, 170, 45);
+        btnLerTXT.setBounds(740, 590, 170, 45);
 
         btnReativar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnReativar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_reverter.gif"))); // NOI18N
@@ -165,11 +166,11 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
             }
         });
         panelPrincipal.add(btnReativar);
-        btnReativar.setBounds(570, 580, 170, 45);
+        btnReativar.setBounds(570, 590, 170, 45);
 
         getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 650));
 
-        setSize(new java.awt.Dimension(1045, 683));
+        setSize(new java.awt.Dimension(1045, 693));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
       
@@ -413,8 +414,10 @@ public class F_CADPATRIMONIOSVIATXT extends javax.swing.JDialog  {
 
     private void btnGerarArquivoTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarArquivoTXTActionPerformed
         
-        F_ESCOLHATIPODEENTRADA frm = new F_ESCOLHATIPODEENTRADA(null, true);
-        frm.setVisible(true);             
+        //F_ESCOLHASTIPODECADASTRO -> ENTRADA
+        tipoCadastroEntrada = true;
+        F_ESCOLHASTIPODECADASTRO frm = new F_ESCOLHASTIPODECADASTRO(null, true);
+        frm.setVisible(true);      
         
     }//GEN-LAST:event_btnGerarArquivoTXTActionPerformed
 

@@ -100,4 +100,24 @@ public class DAOPatriTransferido {
         }        
     }  
     
+    public String getMemoComStatusProcessandoDAO()
+    {
+        try
+        {            
+            conexao.conectar();            
+            sql = "SELECT m.numemo, i.numemo FROM TBLMEMOSTRANSFERIDOS m, TBLITENSMEMOTRANSFERIDOS i WHERE m.numemo = i.numemo";            
+            conexao.ExecutarPesquisaSQL(sql);  
+            while (conexao.rs.next()) {
+               return conexao.rs.getString("numemo");
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o registro, \n"+e+", o sql passado foi \n"+sql);            
+        } finally {
+            conexao.desconectar();
+        }  
+        return "";
+    }  
+    
+    
+    
 }

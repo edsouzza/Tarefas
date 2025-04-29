@@ -43,7 +43,7 @@ public class F_CONFIGURACAOTXT extends javax.swing.JDialog {
         txtCONFIGTXT.setColumns(20);
         txtCONFIGTXT.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         txtCONFIGTXT.setRows(5);
-        txtCONFIGTXT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txtCONFIGTXT.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane4.setViewportView(txtCONFIGTXT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

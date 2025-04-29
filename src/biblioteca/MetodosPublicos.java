@@ -4,7 +4,6 @@ import Dao.DAOPatrimonio;
 import static biblioteca.VariaveisPublicas.codigoDeptoSelecionado;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.lstListaCampos;
-import static biblioteca.VariaveisPublicas.lstListaStrings;
 import static biblioteca.VariaveisPublicas.nomeEstacao;
 import static biblioteca.VariaveisPublicas.qdeColunas;
 import static biblioteca.VariaveisPublicas.sql;
@@ -21,6 +20,7 @@ import static biblioteca.VariaveisPublicas.contador;
 import static biblioteca.VariaveisPublicas.lstListaStringsAuxiliar;
 import static biblioteca.VariaveisPublicas.controlaNumemo;
 import static biblioteca.VariaveisPublicas.isUsuario;
+import static biblioteca.VariaveisPublicas.lstListaStrings;
 import conexao.ConnConexao;
 import java.awt.Component;
 import java.awt.Container;
@@ -116,11 +116,31 @@ public class MetodosPublicos {
         }
     }      
             
-    public void configurarBotoes(JButton botao) {
-        botao.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        botao.setCursor(new Cursor(12));
+public void configurarBotoes(JButton botao) {
+    botao.setFont(new Font("TimesRoman", Font.BOLD, 12));
+    botao.setCursor(new Cursor(12));
 
+}
+
+public void desabilitarContainer(Container container, boolean enabled) {
+    for (Component comp : container.getComponents()) {
+        comp.setEnabled(enabled);
+        if (comp instanceof Container) {
+            desabilitarContainer((Container) comp, enabled);
+        }
     }
+}
+
+public void desabilitarEdicaoJTextFields(Container container) {
+    for (Component comp : container.getComponents()) {
+        if (comp instanceof JTextField) {
+            ((JTextField) comp).setEditable(false);
+        } else if (comp instanceof Container) {
+            desabilitarEdicaoJTextFields((Container) comp); // faz isso recursivamente
+        }
+    }
+}
+
     
 public int contarLinhasDoArquivoTXT(String caminho) 
 {
@@ -1609,7 +1629,7 @@ public int contarLinhasDoArquivoTXT(String caminho)
         String numemo = getMemorandoSemItens();
         deletarMemorandoSemItens(numemo);    
         //JOptionPane.showMessageDialog(null, "O Memorando sem ítens cadastrados foi excluído com sucesso!"); 
-    }
+    }       
     
     public String getMemorandoSemItens() 
     {
@@ -1673,6 +1693,64 @@ public int contarLinhasDoArquivoTXT(String caminho)
             conexao.desconectar();
         }
     }
+    
+/**
+ * Retorna todos os dados inseridos em uma lista de strings convertidos para arrays de String.
+ * Pode preencher automaticamente campos faltantes ou descartar linhas inválidas, conforme configuração.
+ * Se achar que os dados gerados no txt contem linhas diferentes uma das outras use o metodo assim : umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false); 
+ * Nesse caso o metodo vai igualar a qde de campos com um campo vazio caso contrario use umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, true); 
+ * Nesse caso nada será feito
+ * @param nomeLista A lista de strings a ser processada.
+ * @param preencherCamposFaltantes Se true, preenche campos faltantes com ""; se false, descarta linhas inválidas.
+ * @return Uma lista contendo arrays de String com os dados separados.
+ */
+public java.util.List<String[]> retornarTodosDadosInseridosNaListaDeStrings(java.util.List<String> nomeLista, boolean preencherCamposFaltantes) {
+    java.util.List<String[]> listaDeDados = new ArrayList<>();
+    int qdeCampos = -1; // ainda desconhecido
+    int linhasCorrigidas = 0;
+    int linhasDescartadas = 0;
+
+    for (String linha : nomeLista) {
+        if (linha != null && !linha.trim().isEmpty()) {
+            linha = linha.trim();
+            String[] dadosOriginais = linha.split(";");
+
+            if (qdeCampos == -1) {
+                // Descobre a quantidade de campos pela primeira linha válida
+                qdeCampos = dadosOriginais.length;
+            }
+
+            if (dadosOriginais.length == qdeCampos) {
+                // Linha perfeita
+                listaDeDados.add(dadosOriginais);
+            } else {
+                if (preencherCamposFaltantes) {
+                    String[] dadosCorrigidos = new String[qdeCampos];
+                    for (int i = 0; i < qdeCampos; i++) {
+                        if (i < dadosOriginais.length) {
+                            dadosCorrigidos[i] = dadosOriginais[i];
+                        } else {
+                            dadosCorrigidos[i] = ""; // Preenche faltantes
+                        }
+                    }
+                    listaDeDados.add(dadosCorrigidos);
+                    linhasCorrigidas++;
+                    System.out.println("Linha corrigida: " + linha);
+                } else {
+                    linhasDescartadas++;
+                    System.err.println("Linha descartada (quantidade errada de campos): " + linha);
+                }
+            }
+        }
+    }
+
+//    System.out.println("Processamento finalizado:");
+//    System.out.println("Linhas válidas adicionadas: " + listaDeDados.size());
+//    System.out.println("Linhas corrigidas: " + linhasCorrigidas);
+//    System.out.println("Linhas descartadas: " + linhasDescartadas);
+
+    return listaDeDados;
+}     
     
     public boolean excluirItemDoMemoAtualPeloCodigo(int pCod)
     {

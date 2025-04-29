@@ -21,6 +21,7 @@ public class F_ESCOLHAIMPRESSAODEVOLUCAO extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         btnImprimirSemChapa = new javax.swing.JButton();
         btnImprimirComChapa = new javax.swing.JButton();
 
@@ -28,6 +29,11 @@ public class F_ESCOLHAIMPRESSAODEVOLUCAO extends javax.swing.JFrame {
         setTitle("Formulário de Impressão");
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(null);
 
         btnImprimirSemChapa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnImprimirSemChapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
@@ -39,7 +45,8 @@ public class F_ESCOLHAIMPRESSAODEVOLUCAO extends javax.swing.JFrame {
                 btnImprimirSemChapaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnImprimirSemChapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 150, 43));
+        jPanel1.add(btnImprimirSemChapa);
+        btnImprimirSemChapa.setBounds(210, 50, 130, 40);
 
         btnImprimirComChapa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnImprimirComChapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -51,7 +58,10 @@ public class F_ESCOLHAIMPRESSAODEVOLUCAO extends javax.swing.JFrame {
                 btnImprimirComChapaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnImprimirComChapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 150, 43));
+        jPanel1.add(btnImprimirComChapa);
+        btnImprimirComChapa.setBounds(40, 50, 140, 40);
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 140));
 
         setSize(new java.awt.Dimension(379, 141));
         setLocationRelativeTo(null);
@@ -127,5 +137,6 @@ public class F_ESCOLHAIMPRESSAODEVOLUCAO extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImprimirComChapa;
     private javax.swing.JButton btnImprimirSemChapa;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -166,7 +166,7 @@ public class DAOPatrimonio {
         }  
     }
     
-    public String[]getChapaSeriePeloCodigoDAO(int pCodigo) 
+    public String[]getChapaSerieModeloPeloCodigoDAO(int pCodigo) 
     {
         String[]dados = new String[3];
         conexao.conectar();

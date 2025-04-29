@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import static biblioteca.VariaveisPublicas.status;
 import static biblioteca.VariaveisPublicas.nomeUsuario;
 import static biblioteca.VariaveisPublicas.rfUsuario;
+import static biblioteca.VariaveisPublicas.tipoCadastroEntrada;
 import controle.ControleGravarLog;
 import java.awt.Font;
 import java.sql.Date;
@@ -1222,8 +1223,9 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
 
     private void menuSaidaEmLoteTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaidaEmLoteTXTActionPerformed
     if(umabiblio.permissaoLiberada()){  
-        
-        F_ESCOLHATIPODESAIDA frm = new F_ESCOLHATIPODESAIDA(null, true);
+        //F_ESCOLHASTIPODECADASTRO -> SAIDA
+        tipoCadastroEntrada = false;
+        F_ESCOLHASTIPODECADASTRO frm = new F_ESCOLHASTIPODECADASTRO(null, true);
         frm.setVisible(true);  
     }
     }//GEN-LAST:event_menuSaidaEmLoteTXTActionPerformed

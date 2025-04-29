@@ -168,7 +168,7 @@ public class F_APOIO extends javax.swing.JDialog
 
         btnExclusaoDeRegistros.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnExclusaoDeRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_sairPrograma.gif"))); // NOI18N
-        btnExclusaoDeRegistros.setText("EXCLUSÃO DEFINITIVA DE REGISTROS PELO CODIGO");
+        btnExclusaoDeRegistros.setText("EXCLUSÃO DEFINITIVA DE PATRIMONIOS PELO CODIGO");
         btnExclusaoDeRegistros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExclusaoDeRegistros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

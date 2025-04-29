@@ -53,6 +53,7 @@ public class DAOPatriTensTransferido {
             conexao.desconectar();
         }        
     } 
+    
     public ArrayList<Integer> ListaItemsAposExclusao() 
     {    
         ArrayList listarItens = new ArrayList();

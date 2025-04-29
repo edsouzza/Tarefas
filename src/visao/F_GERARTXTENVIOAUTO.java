@@ -1,43 +1,50 @@
 package visao;
 
 import Dao.DAOPatriTensTransferido;
+import Dao.DAOPatriTransferido;
 import Dao.DAOPatrimonio;
 import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteres;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
 import biblioteca.GerarTXT;
+import biblioteca.LeitorArquivoTXTEnviarDadosParaUmaLista;
 import biblioteca.MetodosPublicos;
-import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
 import static biblioteca.VariaveisPublicas.anoVigente;
 import static biblioteca.VariaveisPublicas.codigoUsuario;
-import static biblioteca.VariaveisPublicas.lstAuxiliar;
 import static biblioteca.VariaveisPublicas.lstListaCampos;
+import static biblioteca.VariaveisPublicas.lstListaStrings;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.destinoTransferidos;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorItem;
-import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
 import static biblioteca.VariaveisPublicas.gerouNumo;
+import static biblioteca.VariaveisPublicas.lstAuxiliar;
 import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
 import controle.CtrlPatrimonio;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import modelo.PatriTensTransferido;
 import modelo.PatriTransferido;
 import modelo.Patrimonio;
@@ -58,14 +65,16 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     PatriTensTransferido           objModPatriTemTransferido    = new PatriTensTransferido();
     CtrlPatriItenstransferido      ctrlPatriTenstransferido     = new CtrlPatriItenstransferido();
     DAOPatriTensTransferido        umDAOPatriItens              = new DAOPatriTensTransferido();
+    DAOPatriTransferido            umDAOPatriTransferido        = new DAOPatriTransferido();
     DAOPatrimonio                  umDaoPatri                   = new DAOPatrimonio();
     DateFormat                     sdf                          = new SimpleDateFormat("dd/MM/yyyy");
     Date dataDia                                                = dataDoDia; 
     
     String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo  = "";
-    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem = 0;
-    Boolean metodoPADRAOINIFIM,inserindo,inseriuItem = false;   
+    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem, totalLinhas, totalLinhasTXT = 0;
+    Boolean metodoPADRAOINIFIM,inserindo,inseriuItem, gerouTXT = false;   
     String[] getDados;
+    List<String[]> dadosLidos = null;
     
     public F_GERARTXTENVIOAUTO(java.awt.Frame parent, boolean modal) {       
         initComponents();
@@ -82,7 +91,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         });//fim addComponentListener
 
         //configuracoes dos edits      
-        umMetodo.configurarBotoes(btnGerarTXT);
+        umMetodo.configurarBotoes(btnGerarTXTDeEnvio);
         umMetodo.configurarBotoes(btnLerTXTAddItensNaLista);
         umMetodo.configurarBotoes(btnLimpar);
         umMetodo.configurarBotoes(btnSair);
@@ -90,8 +99,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         umMetodo.configurarBotoes(btnRemoverItem);
         
         lstITENS.setForeground(Color.blue);        
-        lstITENS.setFont(new Font("TimesRoman", Font.BOLD, 14));
-        txtPESQUISA.setDocument(new CampoTxtLimitadoPorQdeCaracteresUpperCase(20));  
+        lstITENS.setFont(new Font("TimesRoman", Font.BOLD, 14));  
         umaBiblio.configurarCamposTextos(txtDESTINO);
         txtOBSERVACAO.setDocument(new CampoTxtLimitadoPorQdeCaracteres(80));  
         txtOBSERVACAO.setFont(new Font("TimesRoman", Font.BOLD, 14));
@@ -109,11 +117,9 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     private void initComponents() {
 
         jPANELTOTAL = new javax.swing.JPanel();
-        jBoxPesquisar1 = new javax.swing.JLayeredPane();
+        jBoxCabecalho = new javax.swing.JLayeredPane();
         txtMEMORANDO = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtCHAPA = new javax.swing.JTextField();
-        txtPESQUISA = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtORIGEM = new javax.swing.JTextField();
@@ -121,11 +127,9 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtDESTINO = new javax.swing.JTextField();
         txtOBSERVACAO = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         txtASSUNTO = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        btnGerarTXT = new javax.swing.JButton();
+        btnGerarTXTDeEnvio = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
@@ -133,62 +137,21 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         btnRemoverItem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstITENS = new javax.swing.JList();
-        btnEnviarDados = new javax.swing.JButton();
+        btnLerEnviarDados = new javax.swing.JButton();
         txtMENSAGEM = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GERAR AUTO ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
         getContentPane().setLayout(null);
 
-        jBoxPesquisar1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jBoxPesquisar1.setName("panelDados"); // NOI18N
+        jBoxCabecalho.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jBoxCabecalho.setName("panelDados"); // NOI18N
 
         txtMEMORANDO.setEditable(false);
         txtMEMORANDO.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMEMORANDO.setForeground(new java.awt.Color(51, 51, 255));
 
         jLabel6.setText("MEMORANDO");
-
-        txtCHAPA.setEditable(false);
-        txtCHAPA.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCHAPA.setForeground(new java.awt.Color(51, 51, 255));
-        txtCHAPA.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtCHAPAFocusGained(evt);
-            }
-        });
-        txtCHAPA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtCHAPAMouseClicked(evt);
-            }
-        });
-        txtCHAPA.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCHAPAKeyPressed(evt);
-            }
-        });
-
-        txtPESQUISA.setEditable(false);
-        txtPESQUISA.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtPESQUISA.setForeground(new java.awt.Color(51, 51, 255));
-        txtPESQUISA.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtPESQUISAFocusGained(evt);
-            }
-        });
-        txtPESQUISA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtPESQUISAMouseClicked(evt);
-            }
-        });
-        txtPESQUISA.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtPESQUISAKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtPESQUISAKeyReleased(evt);
-            }
-        });
 
         jLabel4.setText("OBSERVAÇÃO");
 
@@ -245,10 +208,16 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("SERIE / CHAPA");
-
         txtASSUNTO.setEditable(false);
         txtASSUNTO.setForeground(new java.awt.Color(51, 51, 255));
+        txtASSUNTO.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtASSUNTOFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtASSUNTOFocusLost(evt);
+            }
+        });
         txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtASSUNTOKeyPressed(evt);
@@ -257,118 +226,95 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
 
         jLabel8.setText("ASSUNTO");
 
-        jLabel10.setText(" CHAPA");
-
-        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
-        jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
-        jBoxPesquisar1Layout.setHorizontalGroup(
-            jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jBoxCabecalhoLayout = new javax.swing.GroupLayout(jBoxCabecalho);
+        jBoxCabecalho.setLayout(jBoxCabecalhoLayout);
+        jBoxCabecalhoLayout.setHorizontalGroup(
+            jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addGap(904, 904, 904)
-                                .addComponent(jLabel2))
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(410, 410, 410)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
+                        .addGap(904, 904, 904)
+                        .addComponent(jLabel2)
                         .addGap(0, 84, Short.MAX_VALUE))
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtPESQUISA, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtASSUNTO, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                    .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
+                        .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtASSUNTO, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtOBSERVACAO)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                            .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtCHAPA)))
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
+                        .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                        .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel7))
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                            .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(10, 10, 10)
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDESTINO)
-                            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                            .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
-        jBoxPesquisar1Layout.setVerticalGroup(
-            jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+        jBoxCabecalhoLayout.setVerticalGroup(
+            jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
-                        .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
+                        .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDESTINO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtMEMORANDO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jBoxPesquisar1Layout.createSequentialGroup()
+                    .addGroup(jBoxCabecalhoLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtORIGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jBoxCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtOBSERVACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtASSUNTO, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jBoxPesquisar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPESQUISA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+                .addGap(127, 127, 127))
         );
+        jBoxCabecalho.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxCabecalho.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        btnGerarTXT.setText("Gerar TXT");
-        btnGerarTXT.setToolTipText("");
-        btnGerarTXT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnGerarTXT.setEnabled(false);
-        btnGerarTXT.addActionListener(new java.awt.event.ActionListener() {
+        btnGerarTXTDeEnvio.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnGerarTXTDeEnvio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
+        btnGerarTXTDeEnvio.setText("Gerar TXT Envio");
+        btnGerarTXTDeEnvio.setToolTipText("");
+        btnGerarTXTDeEnvio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGerarTXTDeEnvio.setEnabled(false);
+        btnGerarTXTDeEnvio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarTXTActionPerformed(evt);
+                btnGerarTXTDeEnvioActionPerformed(evt);
             }
         });
 
@@ -408,7 +354,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
 
         btnLerTXTAddItensNaLista.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnLerTXTAddItensNaLista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
-        btnLerTXTAddItensNaLista.setText("LER TXT");
+        btnLerTXTAddItensNaLista.setText("Ler TXT Series");
         btnLerTXTAddItensNaLista.setToolTipText("");
         btnLerTXTAddItensNaLista.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLerTXTAddItensNaLista.setEnabled(false);
@@ -438,14 +384,14 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(lstITENS);
 
-        btnEnviarDados.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnEnviarDados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok.gif"))); // NOI18N
-        btnEnviarDados.setText("Ler TXT Enviar");
-        btnEnviarDados.setToolTipText("");
-        btnEnviarDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEnviarDados.addActionListener(new java.awt.event.ActionListener() {
+        btnLerEnviarDados.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnLerEnviarDados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok.gif"))); // NOI18N
+        btnLerEnviarDados.setText("Ler TXT Enviar");
+        btnLerEnviarDados.setToolTipText("");
+        btnLerEnviarDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLerEnviarDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarDadosActionPerformed(evt);
+                btnLerEnviarDadosActionPerformed(evt);
             }
         });
 
@@ -458,22 +404,22 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPANELTOTALLayout.createSequentialGroup()
                 .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnGerarTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(btnGerarTXTDeEnvio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLerTXTAddItensNaLista, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(btnLerTXTAddItensNaLista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnEnviarDados, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLerEnviarDados, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPANELTOTALLayout.createSequentialGroup()
                 .addGroup(jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBoxPesquisar1)
+                    .addComponent(jBoxCabecalho)
                     .addComponent(jScrollPane1)
                     .addComponent(txtMENSAGEM))
                 .addGap(10, 10, 10))
@@ -481,19 +427,19 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         jPANELTOTALLayout.setVerticalGroup(
             jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPANELTOTALLayout.createSequentialGroup()
-                .addComponent(jBoxPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBoxCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtMENSAGEM, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGerarTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGerarTXTDeEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLerTXTAddItensNaLista, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnviarDados, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLerEnviarDados, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -510,103 +456,105 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         limpar();      
     }        
         
-    private void addItensAoTXT()
-    {  
-        sChapa     = txtCHAPA.getText();
-        sSerie     = txtPESQUISA.getText();
-        sDestino   = txtDESTINO.getText();
-        sOrigem    = txtORIGEM.getText();            
-        sMemorando = txtMEMORANDO.getText();
-        sAssunto   = txtASSUNTO.getText();        
-        iTipoid    = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
-        sCodigo    = String.valueOf(codPatr);
-                
-        if(umMetodo.Emicro(codPatr)){            
-                       
-            switch (sDestino) {
-                case "CEJUR":                    
-                    sStatus     = "ATIVO";
-                    sSecaoid    = "3";
-                    sClienteid  = "196";  
-                    codSecao    = 3;
-                    codCliente  = 196;   
-                    sEstacao    = "PGMCEJURC00";
-                    break;
-                case "CEJUSC":                    
-                    sStatus     = "ATIVO";
-                    sSecaoid    = "21";
-                    sClienteid  = "197";  
-                    codSecao    = 21;
-                    codCliente  = 197;   
-                    sEstacao    = "PGMCEJUSCC0";
-                    break;
-                case "PFM":                       
-                    sStatus     = "ATIVO";
-                    sSecaoid    = "17";
-                    sClienteid  = "227";  
-                    codSecao    = 17;
-                    codCliente  = 227;   
-                    sEstacao    = "PGMPFMC000";
-                    break;
-                case "BIBLIOTECA":                    
-                    sStatus     = "ATIVO";
-                    sSecaoid    = "3";
-                    sClienteid  = "196";  
-                    codSecao    = 22;
-                    codCliente  = 195;   
-                    sEstacao    = "PGMCEJURC00";
-                    break;
-                default:                    
-                    sStatus     = "INATIVO";
-                    sSecaoid    = "30";
-                    sClienteid  = "202";
-                    codSecao    = 30;
-                    codCliente  = 202;
-                    sEstacao    = "PGMCGGMC000";
-            }             
-        }else{
-            sEstacao = umMetodo.getStringPassandoCodigo("tblpatrimonios", "estacao", codPatr);
-            sStatus     = "INATIVO";
-            sSecaoid    = "30";
-            sClienteid  = "202";
-            codSecao    = 30;
-            codCliente  = 202;
+    private void addItensNaTela()
+    {          
+        for(int i=0; i<lstAuxiliar.size(); i++)
+        {
+           sSerie  = (String) lstAuxiliar.get(i);            
+           int codPatr = umMetodo.retornaCodigo("tblpatrimonios", "serie", sSerie);
+      
+            sDestino   = txtDESTINO.getText();
+            sOrigem    = txtORIGEM.getText();            
+            sMemorando = txtMEMORANDO.getText();
+            sAssunto   = txtASSUNTO.getText();        
+            sObsMemo   = txtOBSERVACAO.getText();        
+            iTipoid    = umMetodo.getCodigoPassandoString("tbltipos", "tipo", sTipo);
+            sCodigo    = String.valueOf(codPatr);
+
+            if(umMetodo.Emicro(codPatr)){            
+
+                switch (sDestino) {
+                    case "CEJUR":                    
+                        sStatus     = "ATIVO";
+                        sSecaoid    = "3";
+                        sClienteid  = "196";  
+                        codSecao    = 3;
+                        codCliente  = 196;   
+                        sEstacao    = "PGMCEJURC00";
+                        break;
+                    case "CEJUSC":                    
+                        sStatus     = "ATIVO";
+                        sSecaoid    = "21";
+                        sClienteid  = "197";  
+                        codSecao    = 21;
+                        codCliente  = 197;   
+                        sEstacao    = "PGMCEJUSCC0";
+                        break;
+                    case "PFM":                       
+                        sStatus     = "ATIVO";
+                        sSecaoid    = "17";
+                        sClienteid  = "227";  
+                        codSecao    = 17;
+                        codCliente  = 227;   
+                        sEstacao    = "PGMPFMC000";
+                        break;
+                    case "BIBLIOTECA":                    
+                        sStatus     = "ATIVO";
+                        sSecaoid    = "3";
+                        sClienteid  = "196";  
+                        codSecao    = 22;
+                        codCliente  = 195;   
+                        sEstacao    = "PGMCEJURC00";
+                        break;
+                    default:                    
+                        sStatus     = "INATIVO";
+                        sSecaoid    = "30";
+                        sClienteid  = "202";
+                        codSecao    = 30;
+                        codCliente  = 202;
+                        sEstacao    = "PGMCGGMC000";
+                }             
+            }else{
+                sEstacao = umMetodo.getStringPassandoCodigo("tblpatrimonios", "estacao", codPatr);
+                sStatus     = "INATIVO";
+                sSecaoid    = "30";
+                sClienteid  = "202";
+                codSecao    = 30;
+                codCliente  = 202;
+            }
+
+            sMotivo      = dataDoDia+" : Transferido de "+sOrigem+" para "+sDestino+" através do Memorando "+sMemorando+"";
+            sObservacoes = dataDoDia+" : Transferido de "+sOrigem+" para "+sDestino+" através do Memorando "+sMemorando+"";
+
+            //adicionando item na lista   sMemorando  sObsMemo
+            String dados = sCodigo+";"+sEstacao+";"+sSecaoid+";"+sClienteid+";"+sMemorando+";"+sOrigem+";"+sDestino+";"+sSerie+";"+sStatus+";"+sAssunto+";"+sObsMemo; 
+            String tela  = sCodigo+";"+sEstacao+";"+sSecaoid+";"+sClienteid+";"+sMemorando+";"+sOrigem+";"+sDestino+";"+sSerie+";"+sStatus; 
+            String item  = tela;    
+            
+            lstListaStrings.add(dados);
+            model.addElement(tela);
+            lstITENS.setModel(model); 
+            
         }
-        
-        sMotivo      = dataDoDia+" : Transferido de "+sOrigem+" para "+sDestino+" através do Memorando "+sMemorando+"";
-        sObservacoes = dataDoDia+" : Transferido de "+sOrigem+" para "+sDestino+" através do Memorando "+sMemorando+"";
-        
-        //adicionando item na lista   sMemorando  
-        String dados = sCodigo+";"+sEstacao+";"+sSecaoid+";"+sClienteid+";"+sMemorando+";"+sOrigem+";"+sDestino+";"+sSerie+";"+sStatus; 
-        String item  = dados;           
-        model.addElement(item);
-        lstITENS.setModel(model);
-        
-        txtPESQUISA.setText("");
-        txtPESQUISA.requestFocus();    
-                      
-    }    
-    
-    private void btnGerarTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTXTActionPerformed
-       //Metodo MANUAL inserido a série inteira
-       for(int i = 0; i < model.size(); i++)
-       {
-            lstAuxiliar.add(model.get(i).toString());
-       }
        
-       objGerarTXT.gerarTXTDELISTA(lstAuxiliar); 
-       gerarMemorandoDeEnvio();  
+    }            
+    
+    private void btnGerarTXTDeEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTXTDeEnvioActionPerformed
+       
+       objGerarTXT.gerarTXTDELISTA(lstListaStrings);        
+       umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false);    
        
        limpar();      
-       btnEnviarDados.setEnabled(true);
-       btnGerarTXT.setEnabled(false);
+       btnLerEnviarDados.setEnabled(true);
+       btnGerarTXTDeEnvio.setEnabled(false);
        btnSair.setEnabled(true);
        inserindo=false;                   
        gerouNumo=true; 
+       gerouTXT=true;
        contReg = 0;
        this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
                                        
-    }//GEN-LAST:event_btnGerarTXTActionPerformed
+    }//GEN-LAST:event_btnGerarTXTDeEnvioActionPerformed
 
     private void exclusaoDeItensDoMemoCancelado()
     {
@@ -620,9 +568,8 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     private void limpar(){
         btnNovo.setEnabled(true);
         btnSair.setEnabled(true);
-        btnGerarTXT.setEnabled(false);
+        btnGerarTXTDeEnvio.setEnabled(false);
         btnLerTXTAddItensNaLista.setEnabled(false);
-        txtPESQUISA.setEditable(false);
         txtORIGEM.setEditable(false);
         txtASSUNTO.setEditable(false);
         txtDESTINO.setEditable(false);
@@ -631,27 +578,27 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         txtORIGEM.setText("");
         txtMEMORANDO.setText("");
         txtMENSAGEM.setText("");
-        txtDESTINO.setText("");
-        txtCHAPA.setText("");
-        txtPESQUISA.setText("");      
+        txtDESTINO.setText("");     
         txtOBSERVACAO.setText("");      
         txtASSUNTO.setText("");      
         lstListaCampos.clear();
         model.clear();
         inserindo=false;    
-        qdeItens=0;        
+        qdeItens=0;   
+        contReg = 0;
     }
     
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         //Este é o botão de cancelamento da operação
-        exclusaoDeItensDoMemoCancelado();
-        txtMENSAGEM.setText("");
-        btnSair.setEnabled(true); 
-        contReg = 0;
-        this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
+        limpar();        
+        JOptionPane.showMessageDialog(null, "Processo cancelado pelo usuário!","Cancelado",2);      
+        this.setTitle("GERAR AUTOMATICAMENTE ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        umDAOPatriItens.excluirItensProcessandoDAO();
+        String numeroMemorandoExcluir =  umDAOPatriTransferido.getMemoComStatusProcessandoDAO();
+        umMetodo.deletarMemorando(numeroMemorandoExcluir);
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
     
@@ -670,114 +617,134 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         txtOBSERVACAO.setEditable(true);        
         txtASSUNTO.setEditable(true);        
         txtORIGEM.setEditable(true);        
-        txtDESTINO.setEditable(true);        
-        txtPESQUISA.setEditable(true);    
+        txtDESTINO.setEditable(true);     
         btnNovo.setEnabled(false);        
         btnSair.setEnabled(false);        
         btnLimpar.setEnabled(true);
-        btnGerarTXT.setEnabled(false);
-        btnEnviarDados.setEnabled(false);
+        btnGerarTXTDeEnvio.setEnabled(false);
+        btnLerEnviarDados.setEnabled(false);
         valorItem=0;
         lstAuxiliar.clear();
         model.clear();
                 
     }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void AdicionarItemAoTXT(){
-        
-        if(!txtOBSERVACAO.getText().equals(""))
-        {
-            sObsMemo = umMetodo.primeiraLetraMaiuscula(txtOBSERVACAO.getText());
-        }
-                           
-        if(txtPESQUISA.getText().equals("") || txtDESTINO.getText().equals("")|| txtCHAPA.getText().equals(""))
-        {
-            JOptionPane.showMessageDialog(null, "OS campos [Destino] e [Série] são de preenchimento obrigatório!", "Campo obrigatório vazio!", 2);
-            txtDESTINO.requestFocus();
-        }else{       
-            addItensAoTXT();     
-            txtCHAPA.setText("");   
-            btnSair.setEnabled(false);  
-            qdeItens++;
-        }
-        inseriuItem = true;   
-        
-        //Grava itens no banco com status PROCESSANDO
-        gravarItensNoBanco();
-        btnLerTXTAddItensNaLista.setEnabled(false);
-        contReg++;
-        btnSair.setEnabled(false);   
-        this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE - QUANTIDADE DE REGISTROS NESTE MEMORANDO : "+contReg);
-        txtMENSAGEM.setText("Digite a chapa ou série do equipamento e tecle <ENTER>");         
-        
+    
+private void LerSeriesDoTXT() 
+{
+    SelecionarArquivoTexto select = new SelecionarArquivoTexto();
+    caminhoTXT = select.ImportarTXT();
+    
+    // Verifica se o usuário cancelou a seleção
+    if (caminhoTXT == null || caminhoTXT.isEmpty()) {        
+        return;
     }
+
+    totalLinhasTXT = umMetodo.contarLinhasDoArquivoTXT(caminhoTXT);
+    
+    // Desabilita os botões
+    lstITENS.setEnabled(false);
+    btnSair.setEnabled(false);
+    btnLimpar.setEnabled(false);
+    umMetodo.desabilitarEdicaoJTextFields(jBoxCabecalho); // Desabilita a edição de todos os JTextFields dentro do container(JBoxCabecalho)
+    btnLerTXTAddItensNaLista.setEnabled(false);
+    
+    setTitle("Processando a leitura de "+ totalLinhasTXT +" registros ao final do processamento os botões serão habilitados para prosseguimento, favor aguardar...");
+    
+    // Cria e mostra a barra de progresso
+    F_BARRAPROGRESSOLENDOTXT barra = new F_BARRAPROGRESSOLENDOTXT((Frame) SwingUtilities.getWindowAncestor(this));
+    barra.setAlwaysOnTop(true);
+    barra.setVisible(true);
+
+    // Calcula total de linhas antes do SwingWorker para não bloquear a UI
+    totalLinhas = 0;
+    try (BufferedReader contador = new BufferedReader(new FileReader(caminhoTXT))) {
+        while (contador.readLine() != null) {
+            totalLinhas++;
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        barra.dispose();
+        return;
+    }
+
+    // Inicia a leitura real no SwingWorker
+    SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            lstAuxiliar.clear();
+
+            try (BufferedReader lerArq = new BufferedReader(new FileReader(caminhoTXT))) {
+                String linha;
+                int linhaAtual = 0;
+
+                while ((linha = lerArq.readLine()) != null) {
+                    // Ignora as linhas em branco do txt
+                    if (!linha.trim().isEmpty()) {
+                        lstAuxiliar.add(linha);
+                    }
+                    linhaAtual++;
+                    publish(linhaAtual); // Atualiza a barra
+                    Thread.sleep(30);    // Força a UI a respirar, opcional
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void process(java.util.List<Integer> chunks) {
+            int linhaAtual = chunks.get(chunks.size() - 1);
+            barra.atualizarProgressoPelaQdeRegs(linhaAtual, totalLinhas);
+        }
+
+        @Override
+        protected void done() {
+            barra.dispose(); // Fecha a barra assim que a leitura termina
+
+            // Agora, cria um novo SwingWorker só para adicionar os itens ao modelo
+            SwingWorker<Void, Void> adicionaItensWorker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    // Mostra os itens na tela
+                    addItensNaTela();  
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    lstITENS.repaint();  // Força atualização da UI  
+                    setTitle("Total de ítens inseridos: " + lstAuxiliar.size());
+
+                    // Chama o método finalizarLeitura após a inserção dos itens
+                    finalizarLeitura();
+                }
+            };
+
+            adicionaItensWorker.execute(); // Executa o segundo processo     
+        }
+    };      
+    worker.execute();
+}
+
+private void finalizarLeitura() {
+    // Reabilita os botões em caso de erro
+    btnGerarTXTDeEnvio.setEnabled(true);
+    btnLimpar.setEnabled(true);
+    lstITENS.setEnabled(true);
+    txtMENSAGEM.setText("Clique em Gerar TXT para prosseguir...");  
+}
     
     private void btnLerTXTAddItensNaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerTXTAddItensNaListaActionPerformed
+        LerSeriesDoTXT();
+        txtMENSAGEM.setText("Aguarde o final do processamento, o botão Gerar TXT Envio será liberado em breve...");
           
         if(umMetodo.itemEnviadoAtravesDeOutroMemorando(sSerie)){
             //identificar o numero do memorando atraves da serie
             String numeroDoMemorando = umMetodo.getStringPassandoString("TBLITENSMEMOTRANSFERIDOS", "numemo", "serie", sSerie);            
-            JOptionPane.showMessageDialog(null, "A série "+sSerie+" esta inserida no memorando "+numeroDoMemorando+" e aguarda seu envio através do mesmo!", "Série utilizada no Memorando "+numeroDoMemorando, 2);          
-            
-            txtPESQUISA.setText(null);
-            txtCHAPA.setText(null);
-            txtPESQUISA.requestFocus();
+            JOptionPane.showMessageDialog(null, "A série "+sSerie+" esta inserida no memorando "+numeroDoMemorando+" e aguarda seu envio através do mesmo!", "Série utilizada no Memorando "+numeroDoMemorando, 2);                      
             btnSair.setEnabled(false);
-        }else{
-             AdicionarItemAoTXT();
-             destinoMemo = txtDESTINO.getText();
-        }             
+        }           
     }//GEN-LAST:event_btnLerTXTAddItensNaListaActionPerformed
-
-    private void txtPESQUISAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtASSUNTO.requestFocus();
-            
-            buscarNumeroChapaSerie();
-
-            txtMENSAGEM.setText("Clique no botão ADD ao TXT para adicionar este equipamento ao memorando");
-            String numSerie = txtPESQUISA.getText();
-            
-            int codItem = umMetodo.retornaCodigo("TBLPATRIMONIOS", "serie", txtPESQUISA.getText());
-            if(!umMetodo.statusRegistroInativo(codItem, "TBLPATRIMONIOS"))
-            {
-                
-                if(umMetodo.temDuplicidadeDeCadastroNoMemorando("TBLITENSMEMOTRANSFERIDOS", "serie", txtPESQUISA.getText(),"numemo",txtMEMORANDO.getText() ))               
-                {
-                    JOptionPane.showMessageDialog(null, "Ops o equipamento com série "+numSerie+" já foi incluído nesse Memorando!", "Duplicidade de entrada!", 2); 
-                    btnLerTXTAddItensNaLista.setEnabled(false);
-                    txtCHAPA.setText("");
-                    txtPESQUISA.setText("");
-                    txtPESQUISA.requestFocus();
-                    btnGerarTXT.setEnabled(false);
-                    
-                   //somente se a lista tiver pelo menos uma entrada senao => false
-                   if(qdeItens == 0){
-                        btnGerarTXT.setEnabled(false);    
-                    }else{
-                        btnGerarTXT.setEnabled(true);    
-                   }            
-                }else{
-                    btnGerarTXT.setEnabled(true);
-                }
-             }else{
-                    JOptionPane.showMessageDialog(null, "Ops o equipamento com série "+numSerie+" encontra-se INATIVADO no momento!", "Equipamento Inativo!", 2); 
-                    btnLerTXTAddItensNaLista.setEnabled(false);
-                    txtCHAPA.setText("");
-                    txtPESQUISA.setText("");
-                    txtPESQUISA.requestFocus();
-                    btnGerarTXT.setEnabled(false);
-                     //somente se a lista tiver pelo menos uma entrada senao => false
-                   if(qdeItens == 0){
-                       btnGerarTXT.setEnabled(false);
-                   }else{
-                       btnGerarTXT.setEnabled(true);    
-                   }                        
-            }
-           
-        }        
-        
-    }//GEN-LAST:event_txtPESQUISAKeyPressed
 
     private void removerItemDaTabela(){
          //EXCLUINDO ITEM DO MEMO ATUAL
@@ -826,46 +793,10 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         model.remove(codItem);       
         btnRemoverItem.setEnabled(false);
         btnLerTXTAddItensNaLista.setEnabled(false);
-        txtPESQUISA.requestFocus();
         //valorItem--;
         removerItemDaTabela();
         
-    }    
-    
-    private int getCodigoChapaSerie()
-    {
-        //metodo retorna o código da chapa ou serie digitada
-        sSerie  = txtPESQUISA.getText();
-        sChapa  = txtPESQUISA.getText();
-        
-        int Result = umMetodo.getCodigoPassandoString("tblpatrimonios", "serie", sSerie);  
-        //JOptionPane.showMessageDialog(null, Result);
-        
-        if(Result == 0)
-        {
-            Result = umMetodo.getCodigoPassandoString("tblpatrimonios", "chapa", sChapa);  
-        }
-        return Result;
-    }
-       
-    private void buscarNumeroChapaSerie(){        
-        //recebendo o codigo da chapa ou serie digitada
-        codPatr = getCodigoChapaSerie();     
-        getDados = umDaoPatri.getChapaSeriePeloCodigoDAO(codPatr);       
-       
-       if(valorPesquisaTrue){           
-           txtPESQUISA.setText(getDados[0]);
-           txtCHAPA.setText(getDados[1]);           
-           btnLerTXTAddItensNaLista.setEnabled(true);
-       }else{
-           btnLerTXTAddItensNaLista.setEnabled(false);
-           JOptionPane.showMessageDialog(null, "Atenção série/chapa não encontrada, verifique!","Série não encontrada!",2); 
-           txtPESQUISA.setText("");
-           txtCHAPA.setText("");
-           txtPESQUISA.requestFocus();           
-       }              
-       
-    }
+    }        
     
     private void btnRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverItemActionPerformed
         removerItemDoLstItens();
@@ -922,22 +853,13 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             contador = 1;            
             umGravarLog.gravarLog("envio de equipamentos para "+sDestino+" atraves do Memorando n. "+sMemorando);
         }
-        btnEnviarDados.setEnabled(false);
+        btnLerEnviarDados.setEnabled(false);
         
     }
     
-    private void LexEncaminharTXT()
-    {
-        //inicializando as variaveis dos campos a serem gravados
-        int totalLinhas = 0;
-        RetornarQdeLinhasDoTxt qdeLinhas = new RetornarQdeLinhasDoTxt();
-
-        //setando o caminho do arquivo TXT no edit do formulario apenas para mostrar o arquivo que esta sendo importado
-        SelecionarArquivoTexto select = new SelecionarArquivoTexto();
-        caminhoTXT = select.ImportarTXT();
-
-        if (caminhoTXT != null) {
-            totalLinhas = qdeLinhas.retornaNumLinhasDoTxt(caminhoTXT);
+    private void LerEncaminharTXT()
+    {  
+        if (caminhoTXT != null) {            
              //JOptionPane.showMessageDialog(null, "Qde de linhas do arquivo...: "+String.valueOf(totalLinhas));
 
             //criando uma variavel arquivo do tipo File e setando o caminho do arquivo TXT nela
@@ -946,25 +868,42 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
                 FileReader ler        = new FileReader(arquivo);
                 BufferedReader lerBuf = new BufferedReader(ler);
                 linha                 = lerBuf.readLine();
-                                                   
+                
+                //Ler o destino para msg de confirmação
                 while (linha != null) 
                 {
-                    sCodigo             = linha.split(";")[0]; 
-                    sEstacao            = linha.split(";")[1];
-                    sSecaoid            = linha.split(";")[2];
-                    sClienteid          = linha.split(";")[3];
-                    sMemorando          = linha.split(";")[4];
-                    sOrigem             = linha.split(";")[5];
                     sDestino            = linha.split(";")[6];
-                    sSerie              = linha.split(";")[7];
-                    sStatus             = linha.split(";")[8];
-                  
-                    //Grava as alterações dos equipamentos a respeito do encaminhamento
-                    atualizarStatusEquipamentos();
-                                       
-                    //lendo a proxima linha
-                    linha = lerBuf.readLine();
+                    break;
                 }
+                
+                if(umMetodo.ConfirmouOperacao("Confirma o envio dos equipamentos para "+sDestino+"?", "Envio de Equipamentos para "+sDestino))
+                {                                             
+                        while (linha != null) 
+                        {
+                            sCodigo             = linha.split(";")[0]; 
+                            sEstacao            = linha.split(";")[1];
+                            sSecaoid            = linha.split(";")[2];
+                            sClienteid          = linha.split(";")[3];
+                            sMemorando          = linha.split(";")[4];
+                            sOrigem             = linha.split(";")[5];
+                            sDestino            = linha.split(";")[6];
+                            sSerie              = linha.split(";")[7];
+                            sStatus             = linha.split(";")[8];
+                            sAssunto            = linha.split(";")[9];
+                            sObsMemo            = linha.split(";")[10];
+                            
+                            atualizarStatusEquipamentos();                       
+                          
+                            //lendo a proxima linha
+                            linha = lerBuf.readLine();
+                        }
+                }else{
+                    //Excluir os ítens deste sMemorando pois nessa etapa já estarão excluídos
+                    umMetodo.deletarItensDoMemorando(sMemorando);
+                    umMetodo.deletarMemorando(sMemorando);
+                    return;
+                }
+                                                   
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao tentar ler o arquivo!");
             }
@@ -979,54 +918,83 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO            
             umMetodo.atualizarStatusParaTransferidos(sMemorando); 
             umMetodo.atualizarStatusDosMemosParaTransferidos(sMemorando); 
-            btnEnviarDados.setEnabled(true);  
             
         }else{             
             btnNovo.setEnabled(true);
-            btnSair.setEnabled(true);
-            btnEnviarDados.setEnabled(true);  
+            btnSair.setEnabled(true); 
             gerouNumo = false;
         }   
-        
-    }
+        btnLerEnviarDados.setEnabled(false);  
+    }              
     
-    private void gravarItensNoBanco() 
-    {        
+private void gravarItensNoBanco() 
+{     
+    dadosLidos = umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false);
+    valorItem=0;
+    
+    for (String[] dados : dadosLidos) 
+    {
+        codPatr           = Integer.parseInt(dados[0]);
+        String estacao    = dados[1];
+        String secaoid    = dados[2];
+        String clienteid  = dados[3];
+        sMemorando        = dados[4];
+        sOrigem           = dados[5];
+        sDestino          = dados[6];
+        sSerie            = dados[7];
+        sstatusItem       = dados[8];
+        
         //GRAVA O REGISTRO SELECIONADO NA TABELA TBLITENSMEMOTRANSFERIDOS PARA POSTERIOR IMPRESSAO  
         sstatusItem            = "PROCESSANDO";        
-                       
-        //SETANDO OS VALORES NO MODELO PARA GRAVAR
+        
+        //SETANDO OS VALORES NO MODELO PARA GRAVAR  
         valorItem++;
         objModPatriTemTransferido.setItem(valorItem);
         objModPatriTemTransferido.setNumemo(sMemorando);
-        
-        //Preciso entrar com o codigo do modelo
-        //getDados = umDaoPatri.getChapaSeriePeloCodigoDAO(codPatr);  
-        codMOdelo =  Integer.valueOf(getDados[2]);  
-        objModPatriTemTransferido.setModeloid(codMOdelo);    
+
+        //Preciso entrar com o codigo do modelo         
+        getDados  = umDaoPatri.getChapaSerieModeloPeloCodigoDAO(codPatr);   
+        codMOdelo = Integer.valueOf(getDados[2]);  
+
+        sChapa = umMetodo.getStringPassandoCodigo("tblpatrimonios", "chapa", codPatr);
+
+        objModPatriTemTransferido.setModeloid(codMOdelo);            
         objModPatriTemTransferido.setSerie(sSerie);
         objModPatriTemTransferido.setChapa(sChapa);      
         objModPatriTemTransferido.setOrigem(sOrigem);     
         objModPatriTemTransferido.setDestino(sDestino);     
         objModPatriTemTransferido.setStatus(sstatusItem);
-        
-        ctrlPatriTenstransferido.salvarPatriItensTransferido(objModPatriTemTransferido);        
-              
+
+        ctrlPatriTenstransferido.salvarPatriItensTransferido(objModPatriTemTransferido);     
     }
+      
+}    
     
-    private void gerarMemorandoDeEnvio(){                  
+    private void gerarMemorandoDeEnvioComLeituraDiretaDoTXT(){                  
         
-        /*QDO CLICA NO BOTAO ADICIONAR ABRE-SE A LISTA DE PATRIMONIOS E AO ESCOLHER UM ITEM O MESMO É INCLUIDO NA TBLITENSMEMOTRANSFERIDOS COM STATUS 
-          PROCESSANDO MAS SÓ SERÁ GRAVADO SE GERAR O RELATORIO ATRAVES DO BOTAO IMPRIMIR, SE SAIR SEM GERAR O RELATORIO O MEMO E ÍTENS SERÃO EXCLUIDOS*/
-                
-        //SE O NUMERO DO MEMORANDO ESTIVER PREENCHIDO - NOSSO CABEÇALHO
-        if(!txtMEMORANDO.getText().isEmpty() || !txtORIGEM.getText().isEmpty() || !txtDESTINO.getText().isEmpty()){
+            /*QDO O ENVIO DOS EQUIPAMENTOS SE DA APENAS COM A LEITURA DO ARQUIVO TXT JA CRIADO E NÃO PASSA PELA SUA CRIAÇÃO*/                
+            dadosLidos = umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false); 
+
+            for (String[] dados : dadosLidos) {
+                codPatr           = Integer.parseInt(dados[0]);
+                String estacao    = dados[1];
+                String secaoid    = dados[2];
+                String clienteid  = dados[3];
+                sMemorando        = dados[4];
+                sOrigem           = dados[5];
+                sDestino          = dados[6];
+                sSerie            = dados[7];
+                sstatusItem       = dados[8];
+                sAssunto          = dados[9];
+                sObsMemo          = dados[10];
+            }
+       
             
             //GERANDO NUMERO DO MEMO COM O ANO VIGENTE
-            numMemoTransferido     = txtMEMORANDO.getText();
-            origemTransferidos     = txtORIGEM.getText();
-            destinoTransferidos    = txtDESTINO.getText();
-            sMemoobservacao        = txtOBSERVACAO.getText();
+            numMemoTransferido     = sMemorando;
+            origemTransferidos     = sOrigem;
+            destinoTransferidos    = sDestino;
+            sMemoobservacao        = sObsMemo;
             
             /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
               Nao deixar salvar quando clicado mais de uma vez / So gravar a primeira vez que clicar*/            
@@ -1048,7 +1016,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
                     umGravarLog.gravarLog("cadastro do memo de transferencia de patrimonios "+numMemoTransferido);
                
             }
-        }
+       
     }
     
     private void imprimirRelatorio(){
@@ -1073,16 +1041,41 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
                 }         
 
-                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+numMemoTransferido);            
+                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+numMemoTransferido);           
 
         }          
 
     }
     
-    private void btnEnviarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarDadosActionPerformed
-        LexEncaminharTXT();   
-    }//GEN-LAST:event_btnEnviarDadosActionPerformed
+    private void btnLerEnviarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerEnviarDadosActionPerformed
+        //Limpa a lista lstListaStrings
+        lstListaStrings.clear();
+                
+        //Faz a leitura do arquivoTXT
+        SelecionarArquivoTexto select = new SelecionarArquivoTexto();
+        caminhoTXT = select.ImportarTXT();
 
+        // Verifica se o usuário cancelou a seleção
+        if (caminhoTXT == null || caminhoTXT.isEmpty()) {        
+            return;
+        }
+        totalLinhasTXT = umMetodo.contarLinhasDoArquivoTXT(caminhoTXT);                       
+
+        //Envia os dados do arquivoTXT para uma lista denominada lstListaStrings
+        LeitorArquivoTXTEnviarDadosParaUmaLista.LeitorArquivoTXTEnviarDadosParaUmaLista(caminhoTXT, lstListaStrings);
+
+        // Mostrar o conteúdo da lista
+//        for (String item : lstListaStrings) {
+//            System.out.println(item);
+//        }
+          
+        gravarItensNoBanco();    
+        gerarMemorandoDeEnvioComLeituraDiretaDoTXT();      
+        
+        LerEncaminharTXT();    
+    }//GEN-LAST:event_btnLerEnviarDadosActionPerformed
+
+    
     private void txtORIGEMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtORIGEMMouseClicked
         txtORIGEM.selectAll();
     }//GEN-LAST:event_txtORIGEMMouseClicked
@@ -1107,47 +1100,19 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         txtMENSAGEM.setText("Digite o destino dos equipamentos...");
     }//GEN-LAST:event_txtDESTINOFocusGained
 
-    private void txtPESQUISAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPESQUISAMouseClicked
-        txtPESQUISA.selectAll();
-    }//GEN-LAST:event_txtPESQUISAMouseClicked
-
-    private void txtPESQUISAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPESQUISAFocusGained
-        txtPESQUISA.selectAll();
-        txtMENSAGEM.setText("Digite a chapa ou série do equipamento e tecle <ENTER>");
-    }//GEN-LAST:event_txtPESQUISAFocusGained
-
-    private void txtCHAPAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCHAPAFocusGained
-        txtCHAPA.selectAll();
-    }//GEN-LAST:event_txtCHAPAFocusGained
-
-    private void txtCHAPAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCHAPAMouseClicked
-        txtCHAPA.selectAll();
-    }//GEN-LAST:event_txtCHAPAMouseClicked
-
-    private void txtPESQUISAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyReleased
-        btnGerarTXT.setEnabled(false);
-        btnEnviarDados.setEnabled(false);
-    }//GEN-LAST:event_txtPESQUISAKeyReleased
-
-    private void txtCHAPAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCHAPAKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtASSUNTO.requestFocus();
-        }        
-    }//GEN-LAST:event_txtCHAPAKeyPressed
-
     private void txtOBSERVACAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusGained
        txtMENSAGEM.setText("Digite uma observação que constará no memorando...");
     }//GEN-LAST:event_txtOBSERVACAOFocusGained
 
     private void txtOBSERVACAOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOBSERVACAOKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtPESQUISA.requestFocus();
+            txtMENSAGEM.requestFocus();
         }     
     }//GEN-LAST:event_txtOBSERVACAOKeyPressed
 
     private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtOBSERVACAO.requestFocus();
+            txtOBSERVACAO.requestFocus();            
         }    
     }//GEN-LAST:event_txtASSUNTOKeyPressed
 
@@ -1155,9 +1120,17 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         if(txtDESTINO.getText().equals("BAIXA")){
             txtASSUNTO.setText("BAIXA DE EQUIPAMENTOS INSERVIVEIS");
             txtOBSERVACAO.setText("Todos os equipamentos foram dados como inserviveis.");
-            txtPESQUISA.requestFocus();
+//            txtPESQUISA.requestFocus();
         }
     }//GEN-LAST:event_txtDESTINOFocusLost
+
+    private void txtASSUNTOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtASSUNTOFocusLost
+        btnLerTXTAddItensNaLista.setEnabled(true);
+    }//GEN-LAST:event_txtASSUNTOFocusLost
+
+    private void txtASSUNTOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtASSUNTOFocusGained
+        txtMENSAGEM.setText("Digite o assunto a que se refere o envio e tecle <Enter>...");
+    }//GEN-LAST:event_txtASSUNTOFocusGained
 
     /**
      * @param args the command line arguments
@@ -1233,18 +1206,16 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEnviarDados;
-    private javax.swing.JButton btnGerarTXT;
+    private javax.swing.JButton btnGerarTXTDeEnvio;
+    private javax.swing.JButton btnLerEnviarDados;
     private javax.swing.JButton btnLerTXTAddItensNaLista;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnRemoverItem;
     private javax.swing.JButton btnSair;
-    private javax.swing.JLayeredPane jBoxPesquisar1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLayeredPane jBoxCabecalho;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1253,12 +1224,10 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList lstITENS;
     private javax.swing.JTextField txtASSUNTO;
-    private javax.swing.JTextField txtCHAPA;
     private javax.swing.JTextField txtDESTINO;
     private javax.swing.JTextField txtMEMORANDO;
     private javax.swing.JTextField txtMENSAGEM;
     private javax.swing.JTextField txtOBSERVACAO;
     private javax.swing.JTextField txtORIGEM;
-    private javax.swing.JTextField txtPESQUISA;
     // End of variables declaration//GEN-END:variables
 }
