@@ -2869,6 +2869,22 @@ public java.util.List<String[]> retornarTodosDadosInseridosNaListaDeStrings(java
         }
     }
     
+    public boolean atualizaNomesDeEstacoesParaMonitor() 
+    {
+        //Verifica todos os equipamentos com tipoid = 2 e atualiza o nome de estação para MONITOR
+        conn = conexao.conectar();       
+        try {            
+            sql = "update tblpatrimonios set estacao = 'MONITOR' WHERE tipoid = 2";
+            conexao.ExecutarAtualizacaoSQL(sql);       
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar atualizar o nome da estação para MONITOR, \n" + e + ", o sql passado foi \n" + sql);
+            return false;
+        } finally {
+            conexao.desconectar();
+        }          
+    }   
+    
     public boolean temNomesEstacoesDisponiveis(String depto) {
         //confirma se tem algum registro disponivel para determinado depto
         conn = conexao.conectar();

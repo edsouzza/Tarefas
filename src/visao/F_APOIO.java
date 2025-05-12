@@ -102,6 +102,7 @@ public class F_APOIO extends javax.swing.JDialog
         btnTransferirParaCGGM = new javax.swing.JButton();
         btnCadastroClientesSemUsuario = new javax.swing.JButton();
         btnAtualizaChapasGenericasPorVerdadeiras = new javax.swing.JButton();
+        btnAtualizaNomeEstacaoParaMonitor = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblTITULO = new javax.swing.JLabel();
@@ -206,6 +207,16 @@ public class F_APOIO extends javax.swing.JDialog
             }
         });
 
+        btnAtualizaNomeEstacaoParaMonitor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnAtualizaNomeEstacaoParaMonitor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
+        btnAtualizaNomeEstacaoParaMonitor.setText("ACERTO  DE CADASTRO  ATUALIZA ESTACAO PARA MONITOR");
+        btnAtualizaNomeEstacaoParaMonitor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAtualizaNomeEstacaoParaMonitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizaNomeEstacaoParaMonitorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -216,6 +227,7 @@ public class F_APOIO extends javax.swing.JDialog
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnAtualizaNomeEstacaoParaMonitor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAtualizaChapasGenericasPorVerdadeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCadastroClientesSemUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnTransferirParaCGGM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -241,11 +253,13 @@ public class F_APOIO extends javax.swing.JDialog
                 .addComponent(btnExclusaoDeRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnTransferirParaCGGM, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCadastroClientesSemUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAtualizaChapasGenericasPorVerdadeiras, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCadastroClientesSemUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAtualizaNomeEstacaoParaMonitor, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -408,6 +422,22 @@ public class F_APOIO extends javax.swing.JDialog
             conexao.desconectar();
         }        
     }       
+    
+//    public boolean atualizaNomesDeEstacoesParaMonitor() 
+//    {
+//        //Verifica todos os equipamentos com tipoid = 2 e atualiza o nome de estação para MONITOR
+//        conexao.conectar();        
+//        sql = "update tblpatrimonios set estacao = 'MONITOR' WHERE tipoid = 2";
+//        try {            
+//            conexao.ExecutarAtualizacaoSQL(sql);       
+//            return true;
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Erro ao tentar atualizar o nome da estação para MONITOR, \n" + e + ", o sql passado foi \n" + sql);
+//        } finally {
+//            conexao.desconectar();
+//            return false;
+//        }          
+//    }   
     
     private void cadastrarClientesVirtuaisAindaNaoIncluidos()
     {
@@ -801,6 +831,14 @@ public class F_APOIO extends javax.swing.JDialog
     private void btnAtualizaChapasGenericasPorVerdadeirasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaChapasGenericasPorVerdadeirasActionPerformed
          LexTXT();          
     }//GEN-LAST:event_btnAtualizaChapasGenericasPorVerdadeirasActionPerformed
+
+    private void btnAtualizaNomeEstacaoParaMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaNomeEstacaoParaMonitorActionPerformed
+        if(umMetodo.atualizaNomesDeEstacoesParaMonitor()){
+            JOptionPane.showMessageDialog(null, "Todos os registros com TipoId = 2 tiveram seus campos ESTAÇÃO atualizados para MONITOR com sucesso!");
+        }else{
+            JOptionPane.showMessageDialog(null, "Erro ao tentar atualizar os registros com TipoId = 2 e não tiveram seus campos ESTAÇÃO atualizados para MONITOR","Erro ao tentar atualizar",2);
+        }
+    }//GEN-LAST:event_btnAtualizaNomeEstacaoParaMonitorActionPerformed
           
     public void setIcon() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("img_icones_forms/LogonDaPMSP.png")));
@@ -864,6 +902,7 @@ public class F_APOIO extends javax.swing.JDialog
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnAtualizaChapasGenericasPorVerdadeiras;
+    public javax.swing.JButton btnAtualizaNomeEstacaoParaMonitor;
     public javax.swing.JButton btnCadastroClientesSemUsuario;
     public javax.swing.JButton btnCadastroClientesVirtuais;
     public javax.swing.JButton btnExclusaoDeRegistros;
