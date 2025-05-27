@@ -322,7 +322,7 @@ public class F_RELMEMOSTRANSFERIDOSPORTIPO extends javax.swing.JFrame {
             jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna   
             jTabela.getColumnModel().getColumn(2).setPreferredWidth(250); //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna               
-            jTabela.getColumnModel().getColumn(3).setPreferredWidth(470); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(3).setPreferredWidth(450); //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna         
                
             //define propriedades da tabela
