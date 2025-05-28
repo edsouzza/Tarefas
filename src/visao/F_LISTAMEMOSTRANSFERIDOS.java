@@ -457,13 +457,13 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
             //define tamanho das colunas   
             jTabela.getColumnModel().getColumn(0).setPreferredWidth(60);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(0).setResizable(false);    //nao será possivel redimencionar a coluna      
-            jTabela.getColumnModel().getColumn(1).setPreferredWidth(100); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(1).setPreferredWidth(80); //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(1).setResizable(false);    //nao será possivel redimencionar a coluna        
-            jTabela.getColumnModel().getColumn(2).setPreferredWidth(200); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(2).setPreferredWidth(150); //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(2).setResizable(false);    //nao será possivel redimencionar a coluna         
-            jTabela.getColumnModel().getColumn(3).setPreferredWidth(200); //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(3).setPreferredWidth(270); //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(3).setResizable(false);    //nao será possivel redimencionar a coluna     
-            jTabela.getColumnModel().getColumn(4).setPreferredWidth(240);  //define o tamanho da coluna
+            jTabela.getColumnModel().getColumn(4).setPreferredWidth(260);  //define o tamanho da coluna
             jTabela.getColumnModel().getColumn(4).setResizable(false);    //nao será possivel redimencionar a coluna      
             //define propriedades da tabela
             jTabela.getTableHeader().setReorderingAllowed(false);        //nao podera ser reorganizada
