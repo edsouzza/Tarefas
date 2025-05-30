@@ -102,9 +102,9 @@ public class F_LOGS extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
         btnPesquisar = new javax.swing.JButton();
-        jDataInicial = new com.toedter.calendar.JDateChooser();
-        jDataFinal = new com.toedter.calendar.JDateChooser();
         btnLimparPesquisa = new javax.swing.JButton();
+        jDataFinal = new com.toedter.calendar.JDateChooser();
+        jDataInicial = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -153,14 +153,6 @@ public class F_LOGS extends javax.swing.JFrame {
             }
         });
 
-        jDataInicial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jDataInicial.setForeground(java.awt.Color.blue);
-        jDataInicial.setToolTipText("Entre com a data inicial");
-
-        jDataFinal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jDataFinal.setForeground(java.awt.Color.blue);
-        jDataFinal.setToolTipText("Entre com a data final");
-
         btnLimparPesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_limpar.gif"))); // NOI18N
         btnLimparPesquisa.setText("Limpar");
         btnLimparPesquisa.setToolTipText("Limpar pesquisa");
@@ -173,16 +165,19 @@ public class F_LOGS extends javax.swing.JFrame {
             }
         });
 
+        jDataFinal.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+
+        jDataInicial.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+
         javax.swing.GroupLayout jBoxBotoesLayout = new javax.swing.GroupLayout(jBoxBotoes);
         jBoxBotoes.setLayout(jBoxBotoesLayout);
         jBoxBotoesLayout.setHorizontalGroup(
             jBoxBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jBoxBotoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDataFinal, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,23 +191,22 @@ public class F_LOGS extends javax.swing.JFrame {
             jBoxBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jBoxBotoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jBoxBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jBoxBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jBoxBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jBoxBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDataInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDataFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jBoxBotoes.setLayer(btnSair, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jBoxBotoes.setLayer(btnImprimir, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jBoxBotoes.setLayer(btnPesquisar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxBotoes.setLayer(jDataInicial, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxBotoes.setLayer(jDataFinal, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jBoxBotoes.setLayer(btnLimparPesquisa, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxBotoes.setLayer(jDataFinal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxBotoes.setLayer(jDataInicial, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
