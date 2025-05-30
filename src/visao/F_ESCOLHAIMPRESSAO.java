@@ -69,9 +69,9 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
         GerarRelatorios objRel = new GerarRelatorios();
         try {
             if(!editandoMemorando){
-                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemodevolucaosemchapa.jasper", numemoParaImprimir);
+                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidosemchapa.jasper", numemoParaImprimir);
             }else{
-                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemodevolucaosemchapa.jasper", numemoParaImprimir);
+                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidosemchapa.jasper", numemoParaImprimir);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);
@@ -85,9 +85,9 @@ public class F_ESCOLHAIMPRESSAO extends javax.swing.JFrame {
         GerarRelatorios objRel = new GerarRelatorios();
         try {
             if(!editandoMemorando){
-                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemodevolucaocomchapa.jasper", numemoParaImprimir);
+                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidocomchapa.jasper", numemoParaImprimir);
             }else{
-                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemodevolucaocomchapa.jasper", numemoParaImprimir);
+                objRel.imprimirRelatorioPatrimoniosTransferidos("relatorio/relmemotransferidocomchapa.jasper", numemoParaImprimir);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);

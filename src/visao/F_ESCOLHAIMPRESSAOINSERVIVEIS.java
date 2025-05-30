@@ -9,7 +9,7 @@ import relatorios.GerarRelatorios;
 
 public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
     
-    String numeroMemorando = numMemoTransferido;  
+    String numeroMemorandoInservivel = numMemoTransferido;  
             
     public F_ESCOLHAIMPRESSAOINSERVIVEIS() {
         initComponents();   
@@ -71,7 +71,7 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
         GerarRelatorios objRel = new GerarRelatorios();
         try {   
             if(!editandoMemorando){
-                objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numeroMemorando);                             
+                objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numeroMemorandoInservivel);                             
             }else{
                  objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveissemchapa.jasper", numemoParaEditar);
             }
@@ -87,7 +87,7 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
         GerarRelatorios objRel = new GerarRelatorios();
         try {   
             if(!editandoMemorando){
-                objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numeroMemorando);   
+                objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numeroMemorandoInservivel);   
             }else{
                  objRel.imprimirPatrimoniosInserviveis("relatorio/relmemoinserviveiscomchapa.jasper", numemoParaEditar);  
             }
