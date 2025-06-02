@@ -45,7 +45,7 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnImprimirSemChapa);
-        btnImprimirSemChapa.setBounds(30, 50, 150, 43);
+        btnImprimirSemChapa.setBounds(210, 50, 140, 40);
 
         btnImprimirComChapa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnImprimirComChapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -58,7 +58,7 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnImprimirComChapa);
-        btnImprimirComChapa.setBounds(200, 50, 150, 43);
+        btnImprimirComChapa.setBounds(30, 50, 140, 40);
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 140));
 

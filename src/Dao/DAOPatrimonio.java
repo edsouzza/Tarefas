@@ -1,6 +1,5 @@
 package Dao;
 
-import biblioteca.MetodosPublicos;
 import conexao.ConnConexao;
 import static biblioteca.VariaveisPublicas.dataDoDia;
 import static biblioteca.VariaveisPublicas.cadastrado;
@@ -11,7 +10,6 @@ import static biblioteca.VariaveisPublicas.destinoTransferidos;
 import static biblioteca.VariaveisPublicas.lstListaGenerica;
 import static biblioteca.VariaveisPublicas.codigoCliente;
 import static biblioteca.VariaveisPublicas.lstListaStrings;
-import static biblioteca.VariaveisPublicas.nomestacaosubstituida;
 import static biblioteca.VariaveisPublicas.origemPatrTransferido;
 import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
