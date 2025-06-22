@@ -34,8 +34,9 @@ public class F_ESCOLHASTIPODECADASTRO extends javax.swing.JDialog {
 
         btnEntrarDigitandoSeries.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnEntrarDigitandoSeries.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok1.gif"))); // NOI18N
-        btnEntrarDigitandoSeries.setText("DIGITAÇÃO MANUAL");
+        btnEntrarDigitandoSeries.setText("POR DIGITAÇÃO MANUAL");
         btnEntrarDigitandoSeries.setToolTipText("");
+        btnEntrarDigitandoSeries.setActionCommand("POR DIGITAÇÃO MANUAL");
         btnEntrarDigitandoSeries.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEntrarDigitandoSeries.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -43,11 +44,11 @@ public class F_ESCOLHASTIPODECADASTRO extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnEntrarDigitandoSeries);
-        btnEntrarDigitandoSeries.setBounds(40, 50, 167, 50);
+        btnEntrarDigitandoSeries.setBounds(20, 50, 230, 50);
 
         btnEntrarLendoTXT.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnEntrarLendoTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
-        btnEntrarLendoTXT.setText("LER ARQUIVO TXT");
+        btnEntrarLendoTXT.setText("POR LEITURA ARQUIVO TXT ");
         btnEntrarLendoTXT.setToolTipText("");
         btnEntrarLendoTXT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEntrarLendoTXT.addActionListener(new java.awt.event.ActionListener() {
@@ -56,11 +57,11 @@ public class F_ESCOLHASTIPODECADASTRO extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnEntrarLendoTXT);
-        btnEntrarLendoTXT.setBounds(250, 50, 155, 50);
+        btnEntrarLendoTXT.setBounds(270, 50, 230, 50);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 140));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 140));
 
-        setSize(new java.awt.Dimension(446, 141));
+        setSize(new java.awt.Dimension(514, 141));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

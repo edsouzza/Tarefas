@@ -12,6 +12,7 @@ import static biblioteca.VariaveisPublicas.numemoParaEditarObs;
 import static biblioteca.VariaveisPublicas.numemoParaImprimir;
 import static biblioteca.VariaveisPublicas.relAssuntoMemo;
 import static biblioteca.VariaveisPublicas.relDestinoMemo;
+import static biblioteca.VariaveisPublicas.imprimindoDaLista;
 import static biblioteca.VariaveisPublicas.tabela;
 import conexao.ConnConexao;
 import java.awt.Color;
@@ -386,7 +387,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
     }    
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
- 
+       imprimindoDaLista = true;
        if(relAssuntoMemo.equals("DEVOLUCAO DE EQUIPAMENTOS")){
             F_ESCOLHAIMPRESSAODEVOLUCAO frm = new F_ESCOLHAIMPRESSAODEVOLUCAO();
             frm.setVisible(true);         
@@ -403,7 +404,7 @@ public class F_LISTAMEMOSTRANSFERIDOS extends javax.swing.JFrame {
        btnEditarObservacao.setEnabled(false);
        btnEditarMemorando.setEnabled(false);
        umGravarLog.gravarLog("impressao do memo de transferencia de patrimonios "+numemoParaImprimir); 
-       
+       imprimindoDaLista = false;
     }//GEN-LAST:event_btnImprimirActionPerformed
     
     public void limparCampos() {

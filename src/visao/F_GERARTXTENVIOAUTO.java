@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -70,8 +69,8 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     DateFormat                     sdf                          = new SimpleDateFormat("dd/MM/yyyy");
     Date dataDia                                                = dataDoDia; 
     
-    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo  = "";
-    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem, totalLinhas, totalLinhasTXT = 0;
+    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo, proxMemo  = "";
+    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem, totalLinhas, totalLinhasTXT, contvez, numeroMemo = 0;
     Boolean metodoPADRAOINIFIM,inserindo,inseriuItem, gerouTXT = false;   
     String[] getDados;
     List<String[]> dadosLidos = null;
@@ -460,7 +459,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     {          
         for(int i=0; i<lstAuxiliar.size(); i++)
         {
-           sSerie  = (String) lstAuxiliar.get(i);            
+           sSerie      = (String) lstAuxiliar.get(i);            
            int codPatr = umMetodo.retornaCodigo("tblpatrimonios", "serie", sSerie);
       
             sDestino   = txtDESTINO.getText();
@@ -543,7 +542,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
        
        objGerarTXT.gerarTXTDELISTA(lstListaStrings);        
        umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false);    
-       
+       contvez++;
        limpar();      
        btnLerEnviarDados.setEnabled(true);
        btnGerarTXTDeEnvio.setEnabled(false);
@@ -552,6 +551,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
        gerouNumo=true; 
        gerouTXT=true;
        contReg = 0;
+       
        this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
                                        
     }//GEN-LAST:event_btnGerarTXTDeEnvioActionPerformed
@@ -604,10 +604,17 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         //abrir lista de tipos de equipamentos para cadastrar
-        inserindo=true;
+        inserindo=true;                
+        numeroMemo = umMetodo.gerarProximoNumeroMemoTransferir();               
         
-        String proxMemo  = String.valueOf(umMetodo.gerarProximoNumeroMemoTransferir()+"/"+anoVigente);          
-        txtMEMORANDO.setText(proxMemo);
+        if (contvez == 0){
+            proxMemo = String.valueOf(numeroMemo+"/"+anoVigente);          
+            txtMEMORANDO.setText(proxMemo);            
+        }
+        if (contvez > 0){
+            proxMemo = String.valueOf(numeroMemo+contvez+"/"+anoVigente);
+            txtMEMORANDO.setText(proxMemo);   
+        }
         
         txtMENSAGEM.setText("Digite o destino dos equipamentos...");
         txtORIGEM.setText("CGGM/INFO");
@@ -625,6 +632,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         btnLerEnviarDados.setEnabled(false);
         valorItem=0;
         lstAuxiliar.clear();
+        lstListaStrings.clear();
         model.clear();
                 
     }//GEN-LAST:event_btnNovoActionPerformed

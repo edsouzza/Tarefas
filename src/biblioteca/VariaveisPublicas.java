@@ -24,7 +24,7 @@ public class VariaveisPublicas {
     public static String            mesVigente              = new SimpleDateFormat("MM").format(new Date(System.currentTimeMillis())); 
     public static String            anoVigente              = new SimpleDateFormat("yyyy").format(new Date(System.currentTimeMillis()));
      
-    public static boolean cadastrado,consultandoInativos,editando,clicouNaTabela,consultando,cadastrando,consultou,editandoRegistro,isDeContrato,alterouBanco,editandoNomeEstacaoReativada,alterouNomeRede,visualizandoInativos,enviando,acessoInicial,valorPesquisaTrue,gerarTxt,relPorDestino,temimpressorasAtivas,
+    public static boolean cadastrado,consultandoInativos,editando,clicouNaTabela,consultando,cadastrando,consultou,editandoRegistro,isDeContrato,alterouBanco,editandoNomeEstacaoReativada,alterouNomeRede,visualizandoInativos,enviando,acessoInicial,valorPesquisaTrue,gerarTxt,relPorDestino,temimpressorasAtivas,imprimindoDaLista,
                           deConLicencaConsecutivas,result, selecionouCliente,regEncontrado,isUsuario,isImpressora,isMicro,isMonitor,isSwitch,isScanner,isNotebook,isGbit,reativando,alterouStatus,salvandoreativado,editandoNomeRede,patriDeptos,salvandoLote,cadPatriDeptos,imprimirPorModelo,relPorAssunto,temContratoImpressoraAtivo,
                           reativou, alterandonomestacao, editandoDisponiveis, cadastrandonomestacao,cadPatrimovel,cadastrandoEquipamento, reativandoEquipamento, cadastrandoEstacaoForaRede,confIni,naoTemModelo,userInformatica,naoTemEncerrado,gerouNumo,patriDevolucao, editandoMemorando, tipoCadastroEntrada = false;
     
@@ -34,6 +34,6 @@ public class VariaveisPublicas {
     public static String cejur_ou_pgm,tipoEquipamento,nomeBancoSetado,url,nomeBancoRelatorios,rfUsuario,nomeUsuario,tabela,oldRF,tabela_da_lista,nomestacaosubstituida,rangeEstacao,itemSelecionadoCadastro,statusLista,assuntoTransferido,numemoSelecionado,numemoParaEditar,
                          TipoDocumento, TipoModelo, nomeUsuarioLogado, ipServidor, nomeDoBanco,sql,sqlCamposSelecionados,nomeEstacao,novaSenha,novonomestacao,nomestacaoinicial,origemTransferidos,origemMemorando,destinoMemorando,assuntoMemorando,obsMemorando,relDestinoMemo,
                          nomeBanco,nomeCliente,nomeDepartamento,nomePadrao,nomeEstacaoSelecionada,nomeSecao,nomeRelatorio,nomePDF,rfCliente,numemoParaImprimir,numemoParaEditarObs,nomeEstacaoTransferida,anoDoUltimoMemo,serieRetornada,chapaRetornada,relAssuntoMemo,
-                         status,paramPesquisa,serieEquipamento,numMemoTransferido,destinoTransferidos,entidadeInativa,origemPatrTransferido,deptobiblio,origemDevolucao,motivoInicial,nomeCampoPesq,assuntoSelecionado, caminhoArqTXT = null; 
+                         status,paramPesquisa,serieEquipamento,numMemoTransferido,destinoTransferidos,entidadeInativa,origemPatrTransferido,deptobiblio,origemDevolucao,motivoInicial,nomeCampoPesq,assuntoSelecionado, caminhoArqTXT, sNumemoTXT = null; 
     
 }

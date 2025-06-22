@@ -20,6 +20,10 @@ import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorItem;
 import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
 import static biblioteca.VariaveisPublicas.gerouNumo;
+import static biblioteca.VariaveisPublicas.numMemoTransferido;
+import static biblioteca.VariaveisPublicas.numemoParaImprimir;
+import static biblioteca.VariaveisPublicas.relAssuntoMemo;
+import static biblioteca.VariaveisPublicas.sNumemoTXT;
 import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
@@ -589,6 +593,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
     
     private void btnGerarTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTXTActionPerformed
        //Metodo MANUAL inserido a série inteira
+       lstAuxiliar.clear();
        for(int i = 0; i < model.size(); i++)
        {
             lstAuxiliar.add(model.get(i).toString());
@@ -1051,7 +1056,10 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         }
     }
     
+       
+    
     private void imprimirRelatorio(){
+        
         
         if (umMetodo.ConfirmouOperacao("Confirma a impressão do Relatório?", "Impressão do Relatório"))
         {
@@ -1063,8 +1071,10 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
                         
                 if(!destinoMemo.equals("BAIXA"))
                 {
-                     objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numMemoTransferido); 
+                     //objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numMemoTransferido); 
+                     objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", sMemorando); 
                 }else if(destinoMemo.equals("BAIXA")){
+                    sNumemoTXT = sMemorando;
                     F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
                     frm.setVisible(true);   
                 }

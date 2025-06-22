@@ -1,18 +1,20 @@
 package visao;
 
 import static biblioteca.VariaveisPublicas.editandoMemorando;
+import static biblioteca.VariaveisPublicas.imprimindoDaLista;
 import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import static biblioteca.VariaveisPublicas.numemoParaEditar;
+import static biblioteca.VariaveisPublicas.sNumemoTXT;
 import javax.swing.JOptionPane;
 import relatorios.GerarRelatorios;
 
 
 public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
+    String numeroMemorandoInservivel = null;
     
-    String numeroMemorandoInservivel = numMemoTransferido;  
-            
     public F_ESCOLHAIMPRESSAOINSERVIVEIS() {
-        initComponents();   
+        initComponents(); 
+        Leitura();
         setResizable(false);  //desabilitando o redimencionamento da tela
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar                      
 
@@ -66,6 +68,15 @@ public class F_ESCOLHAIMPRESSAOINSERVIVEIS extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
   
+    private void Leitura(){
+        if(imprimindoDaLista)
+        {
+            numeroMemorandoInservivel = numMemoTransferido;      
+        }else{
+            numeroMemorandoInservivel = sNumemoTXT; 
+        }
+    }
+    
     private void btnImprimirSemChapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirSemChapaActionPerformed
   
         GerarRelatorios objRel = new GerarRelatorios();
