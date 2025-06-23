@@ -107,7 +107,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         txtMENSAGEM.setForeground(Color.red);
         txtMEMORANDO.setForeground(Color.red);
         
-        //Se o usuario apagar o texto N/C vai desabilitar o botao btnLerTXTAddItensNaLista automaticamente
+        //Se o usuario apagar o texto N/C vai desabilitar o botao btnLerTXTAddItensNaLista automaticamenteF
         txtOBSERVACAO.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 verificarTexto();

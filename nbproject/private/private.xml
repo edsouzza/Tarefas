@@ -115,17 +115,17 @@
             <url>src/visao/F_GERARTXTENVIOAUTO.java</url>
             <bookmark id="23">
                 <name/>
-                <line>467</line>
+                <line>479</line>
                 <key/>
             </bookmark>
             <bookmark id="21">
                 <name/>
-                <line>918</line>
+                <line>919</line>
                 <key/>
             </bookmark>
             <bookmark id="22">
                 <name/>
-                <line>1171</line>
+                <line>1174</line>
                 <key/>
             </bookmark>
         </file>
@@ -147,7 +147,6 @@
         <group>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_GERARTXTENVIOMANUAL.java</file>
-            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_GERARTXTENVIOAUTO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import modelo.PatriTensTransferido;
 import modelo.PatriTransferido;
 import modelo.Patrimonio;
@@ -100,6 +102,33 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         txtMENSAGEM.setFont(new Font("TimesRoman", Font.BOLD, 14));
         txtMENSAGEM.setForeground(Color.red);
         txtMEMORANDO.setForeground(Color.red);
+        
+        txtOBSERVACAO.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            verificarObservacao();
+        }
+
+        public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            verificarObservacao();
+        }
+
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            verificarObservacao();
+        }
+
+        private void verificarObservacao() {
+            // Usa SwingUtilities.invokeLater para evitar conflito de eventos durante a digitação
+            SwingUtilities.invokeLater(() -> {
+                String texto = txtOBSERVACAO.getText().trim();
+
+                if (texto.isEmpty()) {
+                    txtOBSERVACAO.setText("N/C");
+                    txtOBSERVACAO.setCaretPosition(txtOBSERVACAO.getText().length()); // coloca o cursor no final
+                }
+            });
+        }
+    });
+
         
     }
 
@@ -259,22 +288,6 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
 
         jLabel10.setText(" CHAPA");
 
-        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jBoxPesquisar1.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout jBoxPesquisar1Layout = new javax.swing.GroupLayout(jBoxPesquisar1);
         jBoxPesquisar1.setLayout(jBoxPesquisar1Layout);
         jBoxPesquisar1Layout.setHorizontalGroup(
@@ -359,6 +372,21 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
                     .addComponent(txtCHAPA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54))
         );
+        jBoxPesquisar1.setLayer(txtMEMORANDO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtCHAPA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtPESQUISA, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtORIGEM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtDESTINO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtOBSERVACAO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(txtASSUNTO, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jBoxPesquisar1.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         btnGerarTXT.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnGerarTXT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TICK.PNG"))); // NOI18N
@@ -431,6 +459,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         });
 
         lstITENS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lstITENS.setEnabled(false);
         lstITENS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstITENSMouseClicked(evt);
@@ -667,7 +696,8 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         txtDESTINO.requestFocus();        
                
         //habilitando edição do txtSerie         
-        txtOBSERVACAO.setEditable(true);        
+        txtOBSERVACAO.setEditable(true); 
+        txtOBSERVACAO.setText("n/c");
         txtASSUNTO.setEditable(true);        
         txtORIGEM.setEditable(true);        
         txtDESTINO.setEditable(true);        
@@ -710,11 +740,10 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE - QUANTIDADE DE REGISTROS NESTE MEMORANDO : "+contReg);
         txtMENSAGEM.setText("Digite a chapa ou série do equipamento e tecle <ENTER>");         
         
-    }
+    }      
     
-    private void btnADDAOTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDAOTXTActionPerformed
-          
-        if(umMetodo.itemEnviadoAtravesDeOutroMemorando(sSerie)){
+    private void liberarBotaoAdicionarAoTXT(){
+         if(umMetodo.itemEnviadoAtravesDeOutroMemorando(sSerie)){
             //identificar o numero do memorando atraves da serie
             String numeroDoMemorando = umMetodo.getStringPassandoString("TBLITENSMEMOTRANSFERIDOS", "numemo", "serie", sSerie);            
             JOptionPane.showMessageDialog(null, "A série "+sSerie+" esta inserida no memorando "+numeroDoMemorando+" e aguarda seu envio através do mesmo!", "Série utilizada no Memorando "+numeroDoMemorando, 2);          
@@ -726,7 +755,54 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         }else{
              AdicionarItemAoTXT();
              destinoMemo = txtDESTINO.getText();
-        }             
+             btnGerarTXT.setEnabled(true);
+             lstITENS.setEnabled(true);
+        }            
+    }
+    
+    private boolean todosCamposPreenchidos(){
+        if ( 
+                (!txtDESTINO.getText().trim().isEmpty()) && 
+                (!txtASSUNTO.getText().trim().isEmpty()) && 
+                (!txtOBSERVACAO.getText().trim().isEmpty()) && 
+                (!txtPESQUISA.getText().trim().isEmpty()) && 
+                (!txtCHAPA.getText().trim().isEmpty())
+            )
+        {
+            btnADDAOTXT.setEnabled(true);
+            return true;
+        }
+        return false;
+    }
+    
+    private void btnADDAOTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDAOTXTActionPerformed
+         
+        if(todosCamposPreenchidos()){
+            liberarBotaoAdicionarAoTXT();
+        }else{
+            
+            Object[][] camposComRotulo = {
+                {txtDESTINO, "Destino"},
+                {txtASSUNTO, "Assunto"},
+                {txtOBSERVACAO, "Observação"},
+                {txtPESQUISA, "Pesquisa"},
+                {txtCHAPA, "Chapa"}
+            };
+
+            for (Object[] campoERotulo : camposComRotulo) {
+                JTextField campo = (JTextField) campoERotulo[0];
+                String nome      = (String) campoERotulo[1];
+
+                if (campo.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "O campo " + nome + " está vazio!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    campo.requestFocus();
+                    btnGerarTXT.setEnabled(false);
+                    break;
+                }else{
+                    btnGerarTXT.setEnabled(true);
+                }
+            }            
+        }                
     }//GEN-LAST:event_btnADDAOTXTActionPerformed
 
     private void txtPESQUISAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPESQUISAKeyPressed
@@ -758,7 +834,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
                         btnGerarTXT.setEnabled(true);    
                    }            
                 }else{
-                    btnGerarTXT.setEnabled(true);
+                    btnGerarTXT.setEnabled(false);
                 }
              }else{
                     JOptionPane.showMessageDialog(null, "Ops o equipamento com série "+numSerie+" encontra-se INATIVADO no momento!", "Equipamento Inativo!", 2); 
@@ -771,7 +847,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
                    if(qdeItens == 0){
                        btnGerarTXT.setEnabled(false);
                    }else{
-                       btnGerarTXT.setEnabled(true);    
+                       btnGerarTXT.setEnabled(false);    
                    }                        
             }
            
@@ -1137,6 +1213,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
 
     private void txtOBSERVACAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusGained
        txtMENSAGEM.setText("Digite uma observação que constará no memorando...");
+       txtOBSERVACAO.selectAll();
     }//GEN-LAST:event_txtOBSERVACAOFocusGained
 
     private void txtOBSERVACAOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOBSERVACAOKeyPressed
