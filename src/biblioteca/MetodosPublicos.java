@@ -573,11 +573,11 @@ public int contarLinhasDoArquivoTXT(String caminho)
         boolean temDados = conexao.ExecutarPesquisaSQLComRetorno(sql);
 
         if (temDados) {
-            System.out.println("A pesquisa retornou resultados.");
+            //System.out.println("A pesquisa retornou resultados.");
             return true;
         } else {
-            System.out.println("Nenhum dado encontrado.");
-            return true;
+            //System.out.println("Nenhum dado encontrado.");
+            return false;
         }
     }       
               

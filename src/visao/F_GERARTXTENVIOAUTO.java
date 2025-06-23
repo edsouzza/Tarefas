@@ -69,7 +69,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     DateFormat                     sdf                          = new SimpleDateFormat("dd/MM/yyyy");
     Date dataDia                                                = dataDoDia; 
     
-    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo, proxMemo  = "";
+    String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao, sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo, proxMemo  = "";
     int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem, totalLinhas, totalLinhasTXT, contvez, numeroMemo = 0;
     Boolean metodoPADRAOINIFIM,inserindo,inseriuItem, gerouTXT = false;   
     String[] getDados;
@@ -78,7 +78,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
     public F_GERARTXTENVIOAUTO(java.awt.Frame parent, boolean modal) {       
         initComponents();
         Leitura();
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); //desabilitando o botao fechar         
 
         //Impede que formulario seja arrastado na tela
         this.addComponentListener(new ComponentAdapter() {
@@ -95,7 +95,6 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         umMetodo.configurarBotoes(btnLimpar);
         umMetodo.configurarBotoes(btnSair);
         umMetodo.configurarBotoes(btnNovo);
-        umMetodo.configurarBotoes(btnRemoverItem);
         
         lstITENS.setForeground(Color.blue);        
         lstITENS.setFont(new Font("TimesRoman", Font.BOLD, 14));  
@@ -108,6 +107,26 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         txtMENSAGEM.setForeground(Color.red);
         txtMEMORANDO.setForeground(Color.red);
         
+        //Se o usuario apagar o texto N/C vai desabilitar o botao btnLerTXTAddItensNaLista automaticamente
+        txtOBSERVACAO.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                verificarTexto();
+            }
+
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                verificarTexto();
+            }
+
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                verificarTexto();
+            }
+
+            private void verificarTexto() {
+                String texto = txtOBSERVACAO.getText().trim();
+                btnLerTXTAddItensNaLista.setEnabled(!texto.isEmpty());
+            }
+        });        
+                
     }
 
  
@@ -133,7 +152,6 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         btnLerTXTAddItensNaLista = new javax.swing.JButton();
-        btnRemoverItem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstITENS = new javax.swing.JList();
         btnLerEnviarDados = new javax.swing.JButton();
@@ -200,6 +218,9 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtOBSERVACAOFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtOBSERVACAOFocusLost(evt);
+            }
         });
         txtOBSERVACAO.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -215,6 +236,11 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtASSUNTOFocusLost(evt);
+            }
+        });
+        txtASSUNTO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtASSUNTOMouseClicked(evt);
             }
         });
         txtASSUNTO.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -363,19 +389,8 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             }
         });
 
-        btnRemoverItem.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        btnRemoverItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Cancelar.gif"))); // NOI18N
-        btnRemoverItem.setText("Remover Item");
-        btnRemoverItem.setToolTipText("");
-        btnRemoverItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRemoverItem.setEnabled(false);
-        btnRemoverItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoverItemActionPerformed(evt);
-            }
-        });
-
         lstITENS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lstITENS.setEnabled(false);
         lstITENS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstITENSMouseClicked(evt);
@@ -402,19 +417,17 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         jPANELTOTALLayout.setHorizontalGroup(
             jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPANELTOTALLayout.createSequentialGroup()
-                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(btnGerarTXTDeEnvio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLerTXTAddItensNaLista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGerarTXTDeEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(btnLerTXTAddItensNaLista, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnLerEnviarDados, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLerEnviarDados, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPANELTOTALLayout.createSequentialGroup()
                 .addGroup(jPANELTOTALLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,7 +449,6 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGerarTXTDeEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLerTXTAddItensNaLista, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLerEnviarDados, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -572,9 +584,9 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         btnLerTXTAddItensNaLista.setEnabled(false);
         txtORIGEM.setEditable(false);
         txtASSUNTO.setEditable(false);
+        txtOBSERVACAO.setEditable(false);
         txtDESTINO.setEditable(false);
         btnLimpar.setEnabled(false);
-        btnRemoverItem.setEnabled(false);
         txtORIGEM.setText("");
         txtMEMORANDO.setText("");
         txtMENSAGEM.setText("");
@@ -593,6 +605,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         limpar();        
         JOptionPane.showMessageDialog(null, "Processo cancelado pelo usuário!","Cancelado",2);      
         this.setTitle("GERAR AUTOMATICAMENTE ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
+        txtMENSAGEM.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -633,7 +646,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         valorItem=0;
         lstAuxiliar.clear();
         lstListaStrings.clear();
-        model.clear();
+        model.clear();        
                 
     }//GEN-LAST:event_btnNovoActionPerformed
     
@@ -744,8 +757,8 @@ private void finalizarLeitura() {
     
     private void btnLerTXTAddItensNaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerTXTAddItensNaListaActionPerformed
         LerSeriesDoTXT();
-        txtMENSAGEM.setText("Aguarde o final do processamento, o botão Gerar TXT Envio será liberado em breve...");
-          
+        txtMENSAGEM.setText("Aguarde o final do processamento, o botão Gerar TXT Envio será liberado em breve...");        
+        
         if(umMetodo.itemEnviadoAtravesDeOutroMemorando(sSerie)){
             //identificar o numero do memorando atraves da serie
             String numeroDoMemorando = umMetodo.getStringPassandoString("TBLITENSMEMOTRANSFERIDOS", "numemo", "serie", sSerie);            
@@ -795,22 +808,14 @@ private void finalizarLeitura() {
             btnLerTXTAddItensNaLista.setEnabled(true);
         }      
         
-    }        
+    }       
     
-    private void removerItemDoLstItens(){
-        model.remove(codItem);       
-        btnRemoverItem.setEnabled(false);
-        btnLerTXTAddItensNaLista.setEnabled(false);
-        //valorItem--;
-        removerItemDaTabela();
-        
-    }        
-    
-    private void btnRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverItemActionPerformed
-        removerItemDoLstItens();
-    }//GEN-LAST:event_btnRemoverItemActionPerformed
-
     private void lstITENSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstITENSMouseClicked
+        // Se a lista estiver desabilitada, ignora o clique
+        if (!lstITENS.isEnabled()) {
+            return;
+        }
+        
         codItem = lstITENS.getSelectedIndex();  
         
         if (lstITENS.getSelectedValue() != null) {
@@ -829,13 +834,9 @@ private void finalizarLeitura() {
             //System.out.println(chapa[7]);
             String chapaSelecionada = chapa[7];
             //Agora com a chapa em maos pesquise o codigo do item na tabela TBLITENSMEMOTRANSFERIDOS para exclusao
-            codigoDoItem = umMetodo.getCodigoPassandoMaisDeUmParametroString("TBLITENSMEMOTRANSFERIDOS", "serie", chapaSelecionada, "numemo", sMemorando);
+            codigoDoItem = umMetodo.getCodigoPassandoMaisDeUmParametroString("TBLITENSMEMOTRANSFERIDOS", "serie", chapaSelecionada, "numemo", sMemorando);            
+        }             
             
-        }     
-        
-        if(inseriuItem){
-           btnRemoverItem.setEnabled(true);
-        }       
     }//GEN-LAST:event_lstITENSMouseClicked
 
     private void atualizarStatusEquipamentos()
@@ -901,7 +902,7 @@ private void finalizarLeitura() {
                             sObsMemo            = linha.split(";")[10];
                             
                             atualizarStatusEquipamentos();                       
-                          
+                            
                             //lendo a proxima linha
                             linha = lerBuf.readLine();
                         }
@@ -932,14 +933,15 @@ private void finalizarLeitura() {
             btnSair.setEnabled(true); 
             gerouNumo = false;
         }   
-        btnLerEnviarDados.setEnabled(false);  
+        btnLerEnviarDados.setEnabled(true);  
     }              
     
 private void gravarItensNoBanco() 
 {     
-    dadosLidos = umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false);
+    dadosLidos = umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false);    
+
     valorItem=0;
-    
+
     for (String[] dados : dadosLidos) 
     {
         codPatr           = Integer.parseInt(dados[0]);
@@ -951,10 +953,13 @@ private void gravarItensNoBanco()
         sDestino          = dados[6];
         sSerie            = dados[7];
         sstatusItem       = dados[8];
+        sAssunto          = dados[9];
+        sObsMemo          = dados[10];
         
+
         //GRAVA O REGISTRO SELECIONADO NA TABELA TBLITENSMEMOTRANSFERIDOS PARA POSTERIOR IMPRESSAO  
         sstatusItem            = "PROCESSANDO";        
-        
+
         //SETANDO OS VALORES NO MODELO PARA GRAVAR  
         valorItem++;
         objModPatriTemTransferido.setItem(valorItem);
@@ -975,7 +980,7 @@ private void gravarItensNoBanco()
 
         ctrlPatriTenstransferido.salvarPatriItensTransferido(objModPatriTemTransferido);     
     }
-      
+
 }    
     
     private void gerarMemorandoDeEnvioComLeituraDiretaDoTXT(){                  
@@ -995,11 +1000,10 @@ private void gravarItensNoBanco()
                 sstatusItem       = dados[8];
                 sAssunto          = dados[9];
                 sObsMemo          = dados[10];
-            }
-       
-            
+            }       
+
             //GERANDO NUMERO DO MEMO COM O ANO VIGENTE
-            numMemoTransferido     = sMemorando;
+            numMemoTransferido     = sMemorando;            
             origemTransferidos     = sOrigem;
             destinoTransferidos    = sDestino;
             sMemoobservacao        = sObsMemo;
@@ -1010,7 +1014,7 @@ private void gravarItensNoBanco()
             {
                 umModPatriTransferido.setNumemo(numMemoTransferido);
                 
-                if(!sMemoobservacao.equals(null) && !sMemoobservacao.equals(""))
+                if (sMemoobservacao != null && !sMemoobservacao.isEmpty())
                 {
                     umModPatriTransferido.setObservacao("Obs : "+umMetodo.primeiraLetraMaiuscula(sMemoobservacao));
                 }else{
@@ -1029,7 +1033,7 @@ private void gravarItensNoBanco()
     
     private void imprimirRelatorio(){
         
-        if (umMetodo.ConfirmouOperacao("Confirma a impressão do Relatório?", "Impressão do Relatório"))
+        if (umMetodo.ConfirmouOperacao("Confirma a impressão do Memorando "+sMemorando+"?", "Impressão do Relatório"))
         {
             GerarRelatorios objRel = new GerarRelatorios();
            
@@ -1037,10 +1041,10 @@ private void gravarItensNoBanco()
                 //Se for normal ou de baixa            
                 //JOptionPane.showMessageDialog(rootPane, "DESTINO : " + destinoMemo);
                         
-                if(!destinoMemo.equals("BAIXA"))
+                if(!sDestino.equals("BAIXA"))
                 {
-                     objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numMemoTransferido); 
-                }else if(destinoMemo.equals("BAIXA")){
+                    objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", sMemorando); 
+                }else if(sDestino.equals("BAIXA")){
                     F_ESCOLHAIMPRESSAOINSERVIVEIS frm = new F_ESCOLHAIMPRESSAOINSERVIVEIS();
                     frm.setVisible(true);   
                 }
@@ -1049,13 +1053,13 @@ private void gravarItensNoBanco()
                     JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
                 }         
 
-                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+numMemoTransferido);           
-
+                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+sMemorando);     
         }          
 
     }
-    
-    private void btnLerEnviarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerEnviarDadosActionPerformed
+            
+    private boolean memorandoDuplicadoNoBanco(){
+        
         //Limpa a lista lstListaStrings
         lstListaStrings.clear();
                 
@@ -1065,22 +1069,61 @@ private void gravarItensNoBanco()
 
         // Verifica se o usuário cancelou a seleção
         if (caminhoTXT == null || caminhoTXT.isEmpty()) {        
-            return;
+            //System.err.println("Nenhum arquivo selecionado.");
+            return true;
         }
+        
         totalLinhasTXT = umMetodo.contarLinhasDoArquivoTXT(caminhoTXT);                       
 
         //Envia os dados do arquivoTXT para uma lista denominada lstListaStrings
         LeitorArquivoTXTEnviarDadosParaUmaLista.LeitorArquivoTXTEnviarDadosParaUmaLista(caminhoTXT, lstListaStrings);
-
-        // Mostrar o conteúdo da lista
+        
+        dadosLidos = umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false);    
+           
+        for (String[] dados : dadosLidos) 
+        {
+            codPatr           = Integer.parseInt(dados[0]);
+            String estacao    = dados[1];
+            String secaoid    = dados[2];
+            String clienteid  = dados[3];
+            sMemorando        = dados[4];
+            sOrigem           = dados[5];
+            sDestino          = dados[6];
+            sSerie            = dados[7];
+            sstatusItem       = dados[8];
+            sAssunto          = dados[9];
+            sObsMemo          = dados[10];
+        }
+        
 //        for (String item : lstListaStrings) {
 //            System.out.println(item);
 //        }
-          
-        gravarItensNoBanco();    
-        gerarMemorandoDeEnvioComLeituraDiretaDoTXT();      
+
+        if(umMetodo.verificarSePesquisaRetornouDados("select numemo from TBLMEMOSTRANSFERIDOS where numemo = '"+sMemorando+"'"))
+        { 
+           return true;
+        }else{
+           return false; 
+        }        
+    }
+    
+    private void LerEnviarDados()
+    {    
+        gravarItensNoBanco();  
+        
+        gerarMemorandoDeEnvioComLeituraDiretaDoTXT();                
         
         LerEncaminharTXT();    
+    }
+    
+    private void btnLerEnviarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerEnviarDadosActionPerformed
+        //antes de ler e enviar dados verificar se o memorando já foi processado pra evitar duplicidade
+        if(!memorandoDuplicadoNoBanco()){            
+            LerEnviarDados();
+        }else{
+            JOptionPane.showMessageDialog(null, "Atenção o memorando "+sMemorando+" já foi processado, verifique e selecione um memorando válido!", "Duplicidade memorando processado..!",2);
+            return;
+        }                
     }//GEN-LAST:event_btnLerEnviarDadosActionPerformed
 
     
@@ -1105,40 +1148,58 @@ private void gravarItensNoBanco()
 
     private void txtDESTINOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDESTINOFocusGained
         txtDESTINO.selectAll();
-        txtMENSAGEM.setText("Digite o destino dos equipamentos...");
+        txtMENSAGEM.setText("Digite o destino dos equipamentos e tecle <Enter> todos os campos são obrigatórios...");
     }//GEN-LAST:event_txtDESTINOFocusGained
 
     private void txtOBSERVACAOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusGained
        txtMENSAGEM.setText("Digite uma observação que constará no memorando...");
+       txtOBSERVACAO.selectAll();
     }//GEN-LAST:event_txtOBSERVACAOFocusGained
 
     private void txtOBSERVACAOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOBSERVACAOKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtMENSAGEM.requestFocus();
-        }     
+        }         
     }//GEN-LAST:event_txtOBSERVACAOKeyPressed
 
     private void txtASSUNTOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtASSUNTOKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtOBSERVACAO.requestFocus();            
         }    
+        txtOBSERVACAO.setText("n/c");
     }//GEN-LAST:event_txtASSUNTOKeyPressed
 
     private void txtDESTINOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDESTINOFocusLost
         if(txtDESTINO.getText().equals("BAIXA")){
             txtASSUNTO.setText("BAIXA DE EQUIPAMENTOS INSERVIVEIS");
             txtOBSERVACAO.setText("Todos os equipamentos foram dados como inserviveis.");
-//            txtPESQUISA.requestFocus();
         }
     }//GEN-LAST:event_txtDESTINOFocusLost
 
     private void txtASSUNTOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtASSUNTOFocusLost
-        btnLerTXTAddItensNaLista.setEnabled(true);
+        
+        if ((!txtDESTINO.getText().trim().isEmpty()) && (!txtASSUNTO.getText().trim().isEmpty()) && (!txtOBSERVACAO.getText().trim().isEmpty())) {
+            btnLerTXTAddItensNaLista.setEnabled(true);
+        }
+
     }//GEN-LAST:event_txtASSUNTOFocusLost
 
     private void txtASSUNTOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtASSUNTOFocusGained
-        txtMENSAGEM.setText("Digite o assunto a que se refere o envio e tecle <Enter>...");
+        txtMENSAGEM.setText("Digite o assunto a que se refere o envio e tecle <Enter> todos os campos são obrigatórios...");
+        //txtOBSERVACAO.setText("n/c");
     }//GEN-LAST:event_txtASSUNTOFocusGained
+
+    private void txtASSUNTOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtASSUNTOMouseClicked
+        txtASSUNTO.selectAll();
+    }//GEN-LAST:event_txtASSUNTOMouseClicked
+
+    private void txtOBSERVACAOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusLost
+        
+//        if (!txtOBSERVACAO.getText().trim().isEmpty()){
+//            btnLerTXTAddItensNaLista.setEnabled(false);
+//        }
+        
+    }//GEN-LAST:event_txtOBSERVACAOFocusLost
 
     /**
      * @param args the command line arguments
@@ -1219,7 +1280,6 @@ private void gravarItensNoBanco()
     private javax.swing.JButton btnLerTXTAddItensNaLista;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnNovo;
-    private javax.swing.JButton btnRemoverItem;
     private javax.swing.JButton btnSair;
     private javax.swing.JLayeredPane jBoxCabecalho;
     private javax.swing.JLabel jLabel2;
