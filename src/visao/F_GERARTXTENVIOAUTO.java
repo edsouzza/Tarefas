@@ -37,11 +37,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import modelo.PatriTensTransferido;
@@ -107,7 +107,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         txtMENSAGEM.setForeground(Color.red);
         txtMEMORANDO.setForeground(Color.red);
         
-        //Se o usuario apagar o texto N/C vai desabilitar o botao btnLerTXTAddItensNaLista automaticamenteF
+        //Se o usuario apagar o texto N/C vai desabilitar o botao btnLerTXTAddItensNaLista automaticamente
         txtOBSERVACAO.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 verificarTexto();
@@ -122,8 +122,15 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
             }
 
             private void verificarTexto() {
-                String texto = txtOBSERVACAO.getText().trim();
-                btnLerTXTAddItensNaLista.setEnabled(!texto.isEmpty());
+                // Usa SwingUtilities.invokeLater para evitar conflito de eventos durante a digitação
+                SwingUtilities.invokeLater(() -> {
+                    String texto = txtOBSERVACAO.getText().trim();
+
+                    if (texto.isEmpty()) {
+                        txtOBSERVACAO.setText("N/C");
+                        txtOBSERVACAO.setCaretPosition(txtOBSERVACAO.getText().length()); // coloca o cursor no final
+                    }
+                });
             }
         });        
                 
@@ -158,7 +165,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         txtMENSAGEM = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GERAR AUTO ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
+        setTitle("GERAR ARQUIVO TXT AUTOMATICAMENTE PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
         getContentPane().setLayout(null);
 
         jBoxCabecalho.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -558,13 +565,14 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
        limpar();      
        btnLerEnviarDados.setEnabled(true);
        btnGerarTXTDeEnvio.setEnabled(false);
+       lstITENS.setEnabled(false);
        btnSair.setEnabled(true);
        inserindo=false;                   
        gerouNumo=true; 
        gerouTXT=true;
        contReg = 0;
        
-       this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
+       this.setTitle("GERAR ARQUIVO TXT AUTOMATICAMENTE PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
                                        
     }//GEN-LAST:event_btnGerarTXTDeEnvioActionPerformed
 
@@ -604,7 +612,7 @@ public class F_GERARTXTENVIOAUTO extends javax.swing.JFrame {
         //Este é o botão de cancelamento da operação
         limpar();        
         JOptionPane.showMessageDialog(null, "Processo cancelado pelo usuário!","Cancelado",2);      
-        this.setTitle("GERAR AUTOMATICAMENTE ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
+        this.setTitle("GERAR ARQUIVO TXT AUTOMATICAMENTE PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
         txtMENSAGEM.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
 
@@ -756,59 +764,41 @@ private void finalizarLeitura() {
 }
     
     private void btnLerTXTAddItensNaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerTXTAddItensNaListaActionPerformed
-        LerSeriesDoTXT();
-        txtMENSAGEM.setText("Aguarde o final do processamento, o botão Gerar TXT Envio será liberado em breve...");        
-        
-        if(umMetodo.itemEnviadoAtravesDeOutroMemorando(sSerie)){
-            //identificar o numero do memorando atraves da serie
-            String numeroDoMemorando = umMetodo.getStringPassandoString("TBLITENSMEMOTRANSFERIDOS", "numemo", "serie", sSerie);            
-            JOptionPane.showMessageDialog(null, "A série "+sSerie+" esta inserida no memorando "+numeroDoMemorando+" e aguarda seu envio através do mesmo!", "Série utilizada no Memorando "+numeroDoMemorando, 2);                      
-            btnSair.setEnabled(false);
-        }           
-    }//GEN-LAST:event_btnLerTXTAddItensNaListaActionPerformed
+         if(todosCamposPreenchidos()){
+            LerSeriesDoTXT();
+            txtMENSAGEM.setText("Aguarde o final do processamento, o botão Gerar TXT Envio será liberado em breve...");        
 
-    private void removerItemDaTabela(){
-         //EXCLUINDO ITEM DO MEMO ATUAL
-        ArrayList<Integer> lstListaItens = new ArrayList<>();
-        
-        String message = "Confirma a exclusão do ítem com código "+codigoDoItem+" do memorando em curso?";
-        String title   = "Confirmação de Exclusão";
-        //Exibe caixa de dialogo (veja figura) solicitando confirmação ou não. 
-        //Se o usuário clicar em "Sim" retorna 0 pra variavel reply, se informado não retorna 1
-        int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION) 
-        {            
-            if(umCtrlPatrItemTranferido.excluirItemDoMemoAtual(codigoDoItem))
-            {
-                JOptionPane.showMessageDialog(null, "Ítem com código "+codigoDoItem+" foi excluído com sucesso do memorando atual!");
-                
-                //Reorganizar os numeros dos ítens e depois mostrar com PreencherTabela(sqlDinamica)
-                valorItem--;
-                //umMetodo.reorganizarListaDeItensDoMemorandoAposExclusao(codigoDoItem);
-                
-                //Verificando se o memo atual ainda tem ítens apos a exclusao
-                lstListaItens = umDAOPatriItens.ListaItemsAposExclusao();
-                
-                //Se ainda restarem ítens no memo em curso
-                if(lstListaItens.size()>0)
-                {
-                    //JOptionPane.showMessageDialog(null,"Sim este memorando ainda tem ítens cadastrados após a exclusão");
-                    //JOptionPane.showMessageDialog(null, "O total atual de itens após a exclusão é : "+lstListaItens.size());
-                                       
-                    //atualizar o valor do item
-                    umCtrlPatrItemTranferido.atualizarValorDosItensAposExclusao(codItem, sMemorando);                    
-                                        
-                }else{
-                    //JOptionPane.showMessageDialog(null,"Não existem ítens cadastrados neste memorando após a exclusão");
-                    //Tudo Ok por aqui...
-                    btnLerTXTAddItensNaLista.setEnabled(true);
-                }      
-            }
+            if(umMetodo.itemEnviadoAtravesDeOutroMemorando(sSerie)){
+                //identificar o numero do memorando atraves da serie
+                String numeroDoMemorando = umMetodo.getStringPassandoString("TBLITENSMEMOTRANSFERIDOS", "numemo", "serie", sSerie);            
+                JOptionPane.showMessageDialog(null, "A série "+sSerie+" esta inserida no memorando "+numeroDoMemorando+" e aguarda seu envio através do mesmo!", "Série utilizada no Memorando "+numeroDoMemorando, 2);                      
+                btnSair.setEnabled(false);
+            }        
         }else{
-            btnLerTXTAddItensNaLista.setEnabled(true);
-        }      
-        
-    }       
+            
+            Object[][] camposComRotulo = {
+                {txtDESTINO, "Destino"},
+                {txtASSUNTO, "Assunto"},
+                {txtOBSERVACAO, "Observação"}
+            };
+
+            for (Object[] campoERotulo : camposComRotulo) {
+                JTextField campo = (JTextField) campoERotulo[0];
+                String nome      = (String) campoERotulo[1];
+
+                if (campo.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "O campo " + nome + " está vazio!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    campo.requestFocus(); 
+                    btnGerarTXTDeEnvio.setEnabled(false);
+                    break;
+                }else{
+                    btnGerarTXTDeEnvio.setEnabled(true);
+                }
+            }            
+        }         
+           
+    }//GEN-LAST:event_btnLerTXTAddItensNaListaActionPerformed
+   
     
     private void lstITENSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstITENSMouseClicked
         // Se a lista estiver desabilitada, ignora o clique
@@ -934,7 +924,20 @@ private void finalizarLeitura() {
             gerouNumo = false;
         }   
         btnLerEnviarDados.setEnabled(true);  
-    }              
+    }  
+    
+ private boolean todosCamposPreenchidos(){
+    if ( 
+            (!txtDESTINO.getText().trim().isEmpty()) && 
+            (!txtASSUNTO.getText().trim().isEmpty()) && 
+            (!txtOBSERVACAO.getText().trim().isEmpty()) 
+        )
+    {
+        btnGerarTXTDeEnvio.setEnabled(true);
+        return true;
+    }
+    return false;
+}
     
 private void gravarItensNoBanco() 
 {     
@@ -1007,6 +1010,10 @@ private void gravarItensNoBanco()
             origemTransferidos     = sOrigem;
             destinoTransferidos    = sDestino;
             sMemoobservacao        = sObsMemo;
+            
+            if(sMemoobservacao.equals("n/c")){
+                sMemoobservacao = " ";
+            }
             
             /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
               Nao deixar salvar quando clicado mais de uma vez / So gravar a primeira vez que clicar*/            
@@ -1178,9 +1185,7 @@ private void gravarItensNoBanco()
 
     private void txtASSUNTOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtASSUNTOFocusLost
         
-        if ((!txtDESTINO.getText().trim().isEmpty()) && (!txtASSUNTO.getText().trim().isEmpty()) && (!txtOBSERVACAO.getText().trim().isEmpty())) {
-            btnLerTXTAddItensNaLista.setEnabled(true);
-        }
+       btnLerTXTAddItensNaLista.setEnabled(true);     
 
     }//GEN-LAST:event_txtASSUNTOFocusLost
 
@@ -1195,9 +1200,7 @@ private void gravarItensNoBanco()
 
     private void txtOBSERVACAOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOBSERVACAOFocusLost
         
-//        if (!txtOBSERVACAO.getText().trim().isEmpty()){
-//            btnLerTXTAddItensNaLista.setEnabled(false);
-//        }
+        btnLerTXTAddItensNaLista.setEnabled(true);
         
     }//GEN-LAST:event_txtOBSERVACAOFocusLost
 

@@ -1666,6 +1666,19 @@ public int contarLinhasDoArquivoTXT(String caminho)
         }
     }
     
+    public void deletarMemorandoProcessando()
+    {
+        conn = conexao.conectar();
+        sql = "DELETE FROM TBLMEMOSTRANSFERIDOS WHERE status = 'PROCESSANDO' ";
+        conexao.ExecutarAtualizacaoSQL(sql);
+        try {                      
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o memorando!\nErro:" + e + ", o sql passado foi \n" + sql);
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
     public void deletarMemorandoSemItens(String sNumemo)
     {
         conn = conexao.conectar();
@@ -1687,6 +1700,19 @@ public int contarLinhasDoArquivoTXT(String caminho)
         conexao.ExecutarAtualizacaoSQL(sql);
         try {
             //JOptionPane.showMessageDialog(null, "Memorando excluído com sucesso!");            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o memorando!\nErro:" + e + ", o sql passado foi \n" + sql);
+        } finally {
+            conexao.desconectar();
+        }
+    }
+    
+    public void deletarItensDoMemorandoProcessando()
+    {
+        conn = conexao.conectar();
+        sql = "DELETE FROM TBLITENSMEMOTRANSFERIDOS WHERE status = 'PROCESSANDO' ";
+        conexao.ExecutarAtualizacaoSQL(sql);
+        try {         
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não foi possível excluir o memorando!\nErro:" + e + ", o sql passado foi \n" + sql);
         } finally {

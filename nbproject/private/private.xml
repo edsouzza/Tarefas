@@ -28,12 +28,12 @@
             </bookmark>
             <bookmark id="19">
                 <name/>
-                <line>1740</line>
+                <line>1766</line>
                 <key/>
             </bookmark>
             <bookmark id="7">
                 <name/>
-                <line>2202</line>
+                <line>2228</line>
                 <key/>
             </bookmark>
         </file>
@@ -147,6 +147,8 @@
         <group>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_PRINCIPAL.java</file>
             <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_GERARTXTENVIOMANUAL.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/biblioteca/MetodosPublicos.java</file>
+            <file>file:/F:/Arqs-Java/Projetos/NetBeans/SYSTAREFAS/Tarefas/src/visao/F_GERARTXTENVIOAUTO.java</file>
         </group>
     </open-files>
 </project-private>

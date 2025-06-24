@@ -6,8 +6,8 @@ import biblioteca.Biblioteca;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteres;
 import biblioteca.CampoTxtLimitadoPorQdeCaracteresUpperCase;
 import biblioteca.GerarTXT;
+import biblioteca.LeitorArquivoTXTEnviarDadosParaUmaLista;
 import biblioteca.MetodosPublicos;
-import biblioteca.RetornarQdeLinhasDoTxt;
 import biblioteca.SelecionarArquivoTexto;
 import static biblioteca.VariaveisPublicas.anoVigente;
 import static biblioteca.VariaveisPublicas.codigoUsuario;
@@ -20,6 +20,7 @@ import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorItem;
 import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
 import static biblioteca.VariaveisPublicas.gerouNumo;
+import static biblioteca.VariaveisPublicas.lstListaStrings;
 import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
@@ -29,13 +30,11 @@ import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -65,9 +64,11 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
     Date dataDia                                                = dataDoDia; 
     
     String sTipo, sChapa, sSerie, sEstacao, sCodigo, sStatus, sMotivo, sObs, sOrigem, sDestino, sMemorando, sObservacoes, sObsMemo, sAssunto, sMemoobservacao,sSecaoid, sClienteid, caminhoTXT, linha, sstatusItem, destinoMemo  = "";
-    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem = 0;
+    int iTipoid, codItem, codMOdelo, codPatr, contador, codSecao, codCliente, cont, qdeItens, contReg, codigoDoItem, totalLinhasTXT = 0;
     Boolean metodoPADRAOINIFIM,inserindo,inseriuItem = false;   
     String[] getDados;
+    List<String[]> dadosLidos = null;
+    
     
     public F_GERARTXTENVIOMANUAL(java.awt.Frame parent, boolean modal) {       
         initComponents();
@@ -103,32 +104,32 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         txtMENSAGEM.setForeground(Color.red);
         txtMEMORANDO.setForeground(Color.red);
         
+        //Evitando o usuário de apagar o texto contido no campo pois é obrigatório um texto nele
         txtOBSERVACAO.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-        public void insertUpdate(javax.swing.event.DocumentEvent e) {
-            verificarObservacao();
-        }
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                verificarObservacao();
+            }
 
-        public void removeUpdate(javax.swing.event.DocumentEvent e) {
-            verificarObservacao();
-        }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                verificarObservacao();
+            }
 
-        public void changedUpdate(javax.swing.event.DocumentEvent e) {
-            verificarObservacao();
-        }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                verificarObservacao();
+            }
 
-        private void verificarObservacao() {
-            // Usa SwingUtilities.invokeLater para evitar conflito de eventos durante a digitação
-            SwingUtilities.invokeLater(() -> {
-                String texto = txtOBSERVACAO.getText().trim();
+            private void verificarObservacao() {
+                // Usa SwingUtilities.invokeLater para evitar conflito de eventos durante a digitação
+                SwingUtilities.invokeLater(() -> {
+                    String texto = txtOBSERVACAO.getText().trim();
 
-                if (texto.isEmpty()) {
-                    txtOBSERVACAO.setText("N/C");
-                    txtOBSERVACAO.setCaretPosition(txtOBSERVACAO.getText().length()); // coloca o cursor no final
-                }
-            });
-        }
-    });
-
+                    if (texto.isEmpty()) {
+                        txtOBSERVACAO.setText("N/C");
+                        txtOBSERVACAO.setCaretPosition(txtOBSERVACAO.getText().length()); // coloca o cursor no final
+                    }
+                });
+            }
+        });
         
     }
 
@@ -472,6 +473,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         btnEnviarDados.setText("Ler TXT Enviar");
         btnEnviarDados.setToolTipText("");
         btnEnviarDados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEnviarDados.setEnabled(false);
         btnEnviarDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarDadosActionPerformed(evt);
@@ -629,11 +631,13 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
        limpar();      
        btnEnviarDados.setEnabled(true);
        btnGerarTXT.setEnabled(false);
+       btnNovo.setEnabled(false);
        btnSair.setEnabled(true);
+       lstITENS.setEnabled(false);
        inserindo=false;                   
        gerouNumo=true; 
        contReg = 0;
-       this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
+       this.setTitle("GERAR MANUALMENTE ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
                                        
     }//GEN-LAST:event_btnGerarTXTActionPerformed
 
@@ -651,19 +655,20 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         btnSair.setEnabled(true);
         btnGerarTXT.setEnabled(false);
         btnADDAOTXT.setEnabled(false);
+        btnLimpar.setEnabled(false);
+        btnRemoverItem.setEnabled(false);
         txtPESQUISA.setEditable(false);
         txtORIGEM.setEditable(false);
         txtASSUNTO.setEditable(false);
         txtDESTINO.setEditable(false);
-        btnLimpar.setEnabled(false);
-        btnRemoverItem.setEnabled(false);
         txtORIGEM.setText("");
         txtMEMORANDO.setText("");
         txtMENSAGEM.setText("");
         txtDESTINO.setText("");
         txtCHAPA.setText("");
         txtPESQUISA.setText("");      
-        txtOBSERVACAO.setText("");      
+        txtOBSERVACAO.setText("");   
+        txtOBSERVACAO.setEditable(false);
         txtASSUNTO.setText("");      
         lstListaCampos.clear();
         model.clear();
@@ -677,11 +682,23 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         txtMENSAGEM.setText("");
         btnSair.setEnabled(true); 
         contReg = 0;
-        this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
+        this.setTitle("GERAR MANUALMENTE ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE");
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        dispose();
+
+        if(umMetodo.verificarSePesquisaRetornouDados("select codigo from TBLITENSMEMOTRANSFERIDOS where status = 'PROCESSANDO'"))
+        { 
+           if(umMetodo.ConfirmouOperacao("Você já enviou o memorando criado? Tenha em mente que \nse sair sem enviar, os dados serão perdidos!  Deseja sair?", "Confirmação de envio de Memorando!")){           
+            umMetodo.deletarMemorandoProcessando();
+            umMetodo.deletarItensDoMemorandoProcessando();
+            dispose();            
+            }else{
+                return;
+            }
+        }else{
+           dispose();     
+        }   
     }//GEN-LAST:event_btnSairActionPerformed
     
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
@@ -737,7 +754,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         btnADDAOTXT.setEnabled(false);
         contReg++;
         btnSair.setEnabled(false);   
-        this.setTitle("GERAR ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE - QUANTIDADE DE REGISTROS NESTE MEMORANDO : "+contReg);
+        this.setTitle("GERAR MANUALMENTE ARQUIVO TXT PARA ENVIO DE PATRIMONIOS PARA OUTRA UNIDADE - QUANTIDADE DE REGISTROS NESTE MEMORANDO : "+contReg);
         txtMENSAGEM.setText("Digite a chapa ou série do equipamento e tecle <ENTER>");         
         
     }      
@@ -948,6 +965,11 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoverItemActionPerformed
 
     private void lstITENSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstITENSMouseClicked
+        // Se a lista estiver desabilitada, ignora o clique
+        if (!lstITENS.isEnabled()) {
+            return;
+        }
+        
         codItem = lstITENS.getSelectedIndex();  
         
         if (lstITENS.getSelectedValue() != null) {
@@ -966,8 +988,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
             //System.out.println(chapa[7]);
             String chapaSelecionada = chapa[7];
             //Agora com a chapa em maos pesquise o codigo do item na tabela TBLITENSMEMOTRANSFERIDOS para exclusao
-            codigoDoItem = umMetodo.getCodigoPassandoMaisDeUmParametroString("TBLITENSMEMOTRANSFERIDOS", "serie", chapaSelecionada, "numemo", sMemorando);
-            
+            codigoDoItem = umMetodo.getCodigoPassandoMaisDeUmParametroString("TBLITENSMEMOTRANSFERIDOS", "serie", chapaSelecionada, "numemo", sMemorando);            
         }     
         
         if(inseriuItem){
@@ -998,74 +1019,9 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
             contador = 1;            
             umGravarLog.gravarLog("envio de equipamentos para "+sDestino+" atraves do Memorando n. "+sMemorando);
         }
-        btnEnviarDados.setEnabled(false);
-        
+        btnEnviarDados.setEnabled(false);        
     }
-    
-    private void LerEncaminharTXT()
-    {
-        //inicializando as variaveis dos campos a serem gravados
-        int totalLinhas = 0;
-        RetornarQdeLinhasDoTxt qdeLinhas = new RetornarQdeLinhasDoTxt();
-
-        //setando o caminho do arquivo TXT no edit do formulario apenas para mostrar o arquivo que esta sendo importado
-        SelecionarArquivoTexto select = new SelecionarArquivoTexto();
-        caminhoTXT = select.ImportarTXT();
-
-        if (caminhoTXT != null) {
-            totalLinhas = qdeLinhas.retornaNumLinhasDoTxt(caminhoTXT);
-             //JOptionPane.showMessageDialog(null, "Qde de linhas do arquivo...: "+String.valueOf(totalLinhas));
-
-            //criando uma variavel arquivo do tipo File e setando o caminho do arquivo TXT nela
-            File arquivo = new File(caminhoTXT);
-            try {
-                FileReader ler        = new FileReader(arquivo);
-                BufferedReader lerBuf = new BufferedReader(ler);
-                linha                 = lerBuf.readLine();
-                                                   
-                while (linha != null) 
-                {
-                    sCodigo             = linha.split(";")[0]; 
-                    sEstacao            = linha.split(";")[1];
-                    sSecaoid            = linha.split(";")[2];
-                    sClienteid          = linha.split(";")[3];
-                    sMemorando          = linha.split(";")[4];
-                    sOrigem             = linha.split(";")[5];
-                    sDestino            = linha.split(";")[6];
-                    sSerie              = linha.split(";")[7];
-                    sStatus             = linha.split(";")[8];
-                  
-                    //Grava as alterações dos equipamentos a respeito do encaminhamento
-                    atualizarStatusEquipamentos();
-                                       
-                    //lendo a proxima linha
-                    linha = lerBuf.readLine();
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao tentar ler o arquivo!");
-            }
-            if (contador > 0) {
-                JOptionPane.showMessageDialog(null, "Todos os patrimônios foram encaminhados com sucesso para "+sDestino+"!", "Encaminhados com sucesso para "+sDestino+"!", 2);                
-            } else if (contador == 0) {                
-                JOptionPane.showMessageDialog(null, "ERRO  no  cadastro  de  alguns registros, possíveis  causas :  Problemas  na  leitura do arquivo TXT\nou  duplicidade  em   algum   número  de   série   inserido,  confira  os   dados  do  TXT  selecionado!", "ERRO no cadastro!", 2);                                
-            }
             
-            imprimirRelatorio();        
-            
-            //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO            
-            umMetodo.atualizarStatusParaTransferidos(sMemorando); 
-            umMetodo.atualizarStatusDosMemosParaTransferidos(sMemorando); 
-            btnEnviarDados.setEnabled(true);  
-            
-        }else{             
-            btnNovo.setEnabled(true);
-            btnSair.setEnabled(true);
-            btnEnviarDados.setEnabled(true);  
-            gerouNumo = false;
-        }   
-        
-    }
-    
     private void gravarItensNoBanco() 
     {        
         //GRAVA O REGISTRO SELECIONADO NA TABELA TBLITENSMEMOTRANSFERIDOS PARA POSTERIOR IMPRESSAO  
@@ -1086,8 +1042,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
         objModPatriTemTransferido.setDestino(sDestino);     
         objModPatriTemTransferido.setStatus(sstatusItem);
         
-        ctrlPatriTenstransferido.salvarPatriItensTransferido(objModPatriTemTransferido);        
-              
+        ctrlPatriTenstransferido.salvarPatriItensTransferido(objModPatriTemTransferido);                      
     }
     
     private void gerarMemorandoDeEnvio(){                  
@@ -1103,6 +1058,10 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
             origemTransferidos     = txtORIGEM.getText();
             destinoTransferidos    = txtDESTINO.getText();
             sMemoobservacao        = txtOBSERVACAO.getText();
+            
+            if(sMemoobservacao.equals("n/c")){
+                sMemoobservacao = " ";
+            }
             
             /*salvando memorando em definitivo ( TBLMEMOSTRANSFERIDOS ) apos gerar o relatorio  
               Nao deixar salvar quando clicado mais de uma vez / So gravar a primeira vez que clicar*/            
@@ -1129,7 +1088,7 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
     
     private void imprimirRelatorio(){
         
-        if (umMetodo.ConfirmouOperacao("Confirma a impressão do Relatório?", "Impressão do Relatório"))
+        if (umMetodo.ConfirmouOperacao("Confirma a impressão do Memorando "+sMemorando+"?", "Impressão do Relatório"))
         {
             GerarRelatorios objRel = new GerarRelatorios();
            
@@ -1149,14 +1108,84 @@ public class F_GERARTXTENVIOMANUAL extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
                 }         
 
-                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+numMemoTransferido);            
-
+                umGravarLog.gravarLog("Impressao do Memo de Transferencia "+numMemoTransferido);          
         }          
 
     }
     
+    private boolean memorandoDuplicadoNoBanco(){
+        
+        //Limpa a lista lstListaStrings
+        lstListaStrings.clear();
+                
+        //Faz a leitura do arquivoTXT
+        SelecionarArquivoTexto select = new SelecionarArquivoTexto();
+        caminhoTXT = select.ImportarTXT();
+
+        // Verifica se o usuário cancelou a seleção
+        if (caminhoTXT == null || caminhoTXT.isEmpty()) {        
+            //System.err.println("Nenhum arquivo selecionado.");
+            return true;
+        }
+        
+        totalLinhasTXT = umMetodo.contarLinhasDoArquivoTXT(caminhoTXT);                       
+
+        //Envia os dados do arquivoTXT para uma lista denominada lstListaStrings
+        LeitorArquivoTXTEnviarDadosParaUmaLista.LeitorArquivoTXTEnviarDadosParaUmaLista(caminhoTXT, lstListaStrings);
+        
+        dadosLidos = umMetodo.retornarTodosDadosInseridosNaListaDeStrings(lstListaStrings, false);    
+           
+        for (String[] dados : dadosLidos) 
+        {
+            codPatr           = Integer.parseInt(dados[0]);
+            String estacao    = dados[1];
+            String secaoid    = dados[2];
+            String clienteid  = dados[3];
+            sMemorando        = dados[4];
+            sOrigem           = dados[5];
+            sDestino          = dados[6];
+            sSerie            = dados[7];
+            sstatusItem       = dados[8];
+        }
+        
+//        for (String item : lstListaStrings) {
+//            System.out.println(item);
+//        }
+
+        if(umMetodo.verificarSePesquisaRetornouDados("select numemo from TBLMEMOSTRANSFERIDOS where numemo = '"+sMemorando+"' and status= 'TRANSFERIDO'"))
+        { 
+           return true;
+        }else{
+           return false; 
+        }        
+    }
+    
+    private void LerEncaminharTXT()
+    {
+            
+            JOptionPane.showMessageDialog(null, "Todos os patrimônios foram encaminhados com sucesso para "+sDestino+"!", "Encaminhados com sucesso para "+sDestino+"!", 2);                          
+            
+            atualizarStatusEquipamentos();
+            imprimirRelatorio();        
+            
+            //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROSSESANDO para TRANSFERIDO            
+            umMetodo.atualizarStatusParaTransferidos(sMemorando); 
+            umMetodo.atualizarStatusDosMemosParaTransferidos(sMemorando); 
+
+    }
+    
     private void btnEnviarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarDadosActionPerformed
-        LerEncaminharTXT();   
+         //antes de ler e enviar dados verificar se o memorando já foi processado pra evitar duplicidade
+        if(!memorandoDuplicadoNoBanco()){            
+            LerEncaminharTXT();            
+        }else{
+            JOptionPane.showMessageDialog(null, "Atenção o memorando "+sMemorando+" já foi processado, verifique e selecione um memorando válido!", "Duplicidade memorando processado..!",2);
+            return;
+        }   
+        btnNovo.setEnabled(true);
+        btnEnviarDados.setEnabled(false);         
+        lstITENS.setEnabled(false);        
+      
     }//GEN-LAST:event_btnEnviarDadosActionPerformed
 
     private void txtORIGEMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtORIGEMMouseClicked
