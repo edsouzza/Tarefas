@@ -1309,7 +1309,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private void mnuConsultarPorModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarPorModeloActionPerformed
          if(!umabiblio.tabelaVazia("TBLMODELOS"))
         {                   
-            F_RELCONSULTARPORMODELO frm = new F_RELCONSULTARPORMODELO(); 
+            F_RELCONSULTARPORMODELOS frm = new F_RELCONSULTARPORMODELOS(); 
             frm.setVisible(true); 
          }else{
             JOptionPane.showMessageDialog(null, "A tabela de memorandos esta vazia acesse o menu (Impressões->Gerar Memo Transferência) e cadastre o primerio memorando para continuar!","Tabela vazia",2);  

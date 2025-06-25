@@ -464,14 +464,28 @@ public class GerarRelatorios
         conexao.close();      
     }     
     
-    public void imprimirPatrimoniosDoModeloSelecionado(String caminho, int codigo) throws JRException,Exception
+    public void imprimirPatrimoniosDoModeloSelecionadoAtivoOuInativo(String caminho, String status, int codigo) throws JRException,Exception
+    {
+        //exibindo o relatorio
+        HashMap filtro = new HashMap();
+        filtro.put("codigo", codigo);
+        filtro.put("status", status);
+        JasperPrint impressao = JasperFillManager.fillReport( caminho, filtro, conexao );
+        JasperViewer viewer   = new JasperViewer( impressao , false );
+        viewer.setTitle("Equipamentos do modelo selecionado "+status); //titulo a ser mostrado no formulario de relatorio
+        viewer.setZoomRatio(new Float(0.7956));      //ajustando o relatorio na pagina
+        viewer.setVisible(true);        
+        conexao.close();        
+    }         
+    
+    public void imprimirTodosPatrimoniosDoModeloSelecionado(String caminho, int codigo) throws JRException,Exception
     {
         //exibindo o relatorio
         HashMap filtro = new HashMap();
         filtro.put("codigo", codigo);
         JasperPrint impressao = JasperFillManager.fillReport( caminho, filtro, conexao );
         JasperViewer viewer   = new JasperViewer( impressao , false );
-        viewer.setTitle("Equipamentos do modelo selecionado"); //titulo a ser mostrado no formulario de relatorio
+        viewer.setTitle("Todos os Equipamentos do modelo selecionado"); //titulo a ser mostrado no formulario de relatorio
         viewer.setZoomRatio(new Float(0.7956));      //ajustando o relatorio na pagina
         viewer.setVisible(true);        
         conexao.close();        
