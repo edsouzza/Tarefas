@@ -1983,6 +1983,7 @@ private void gravarEdicaoRegistro()
         estacaoRecebeuDisponivel   = false;
         controleMostraDescricao    = 0;     
         txtOBSERVACOES.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        this.setTitle(this.mostrarTituloDoFormulario());
         
     }//GEN-LAST:event_btnGravarActionPerformed
         

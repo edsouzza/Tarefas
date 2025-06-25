@@ -132,6 +132,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         mnuConsInformacoes = new javax.swing.JMenuItem();
         mnuCONSIPSIMPRESSORAS = new javax.swing.JMenuItem();
         mnuCONSMICROS = new javax.swing.JMenuItem();
+        mnuConsultarPorModelo = new javax.swing.JMenuItem();
         mnuConsultarEstacoesDisponiveis = new javax.swing.JMenuItem();
         mnuImprimirMemosTransferenciaPorTipo = new javax.swing.JMenuItem();
         menuEDICOES = new javax.swing.JMenu();
@@ -218,9 +219,6 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(lblNOMESERVIDOR, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
@@ -240,6 +238,8 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+        jLayeredPane1.setLayer(lblImagemPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_gravar.jpg"))); // NOI18N
         menuCadastro.setText("Cadastros");
@@ -487,6 +487,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
             }
         });
         menuConsultas.add(mnuCONSMICROS);
+
+        mnuConsultarPorModelo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuConsultarPorModelo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btn_Ok.gif"))); // NOI18N
+        mnuConsultarPorModelo.setText("CONSULTA EQUIPAMENTOS ATIVOS POR MODELO");
+        mnuConsultarPorModelo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mnuConsultarPorModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuConsultarPorModeloActionPerformed(evt);
+            }
+        });
+        menuConsultas.add(mnuConsultarPorModelo);
 
         mnuConsultarEstacoesDisponiveis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.CTRL_MASK));
         mnuConsultarEstacoesDisponiveis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/patrimonios.png"))); // NOI18N
@@ -1295,6 +1306,17 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuAnotacoesActionPerformed
 
+    private void mnuConsultarPorModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarPorModeloActionPerformed
+         if(!umabiblio.tabelaVazia("TBLMODELOS"))
+        {                   
+            F_RELCONSULTARPORMODELO frm = new F_RELCONSULTARPORMODELO(); 
+            frm.setVisible(true); 
+         }else{
+            JOptionPane.showMessageDialog(null, "A tabela de memorandos esta vazia acesse o menu (Impressões->Gerar Memo Transferência) e cadastre o primerio memorando para continuar!","Tabela vazia",2);  
+            
+         }  
+    }//GEN-LAST:event_mnuConsultarPorModeloActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1379,6 +1401,7 @@ public class F_PRINCIPAL extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuCONSMONITORES;
     private javax.swing.JMenuItem mnuConsInformacoes;
     private javax.swing.JMenuItem mnuConsultarEstacoesDisponiveis;
+    private javax.swing.JMenuItem mnuConsultarPorModelo;
     private javax.swing.JMenuItem mnuDocumentacao;
     private javax.swing.JMenuItem mnuEmpresaContratoImpressoras;
     private javax.swing.JMenuItem mnuEtiquetasColetivas;
