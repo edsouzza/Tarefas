@@ -287,7 +287,9 @@ public class F_RELCONSULTARPORMODELO extends javax.swing.JFrame {
         this.setTitle(sTitle);
         btnListarModelos.setEnabled(false);
         btnLimparPesquisa.setEnabled(true);
-        btnImprimir.setEnabled(true);
+        
+        if(totalRegs > 0)
+            btnImprimir.setEnabled(true);
         
     }//GEN-LAST:event_btnListarModelosActionPerformed
     

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2025-06-24T23:50:49 -->
+<!-- 2025-06-25T07:31:10 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relMicrosEMonitores" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
@@ -125,14 +125,6 @@ ORDER BY p.codigo]]>
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="797" height="18" uuid="34a2ae4b-4055-476b-8676-d499f6af510b"/>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="0" y="0" width="50" height="18" uuid="7dcdc183-0f41-44e5-af06-3e6a97d69a3e"/>
-					<box padding="2"/>
-					<textElement textAlignment="Center">
-						<font size="14"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{CODIGO}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
 					<reportElement style="Detail" positionType="Float" x="63" y="0" width="167" height="18" uuid="4bae0817-08dd-4a76-b06b-af991e04cc22"/>
 					<textElement>
 						<font size="14"/>
@@ -161,6 +153,13 @@ ORDER BY p.codigo]]>
 						<font size="14"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{DEPARTAMENTO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="4" y="0" width="56" height="18" uuid="d70c09a5-54bd-416c-be69-9a7e43e093e8"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CODIGO}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
