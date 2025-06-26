@@ -41,6 +41,7 @@ import javax.swing.ListSelectionModel;
 import controle.ControleGravarLog;
 import controle.CtrlPatriItenstransferido;
 import controle.CtrlPatriTransferido;
+import javax.swing.SwingWorker;
 import modelo.PatriTensTransferido;
 import modelo.PatriTransferido;
 
@@ -504,31 +505,32 @@ public class F_MEMOITENSTRANSFERIDOS extends javax.swing.JFrame {
         patriDeptos=false;      
         
     }//GEN-LAST:event_txtDESTINOKeyPressed
-        
+             
+    
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        /*IMPRIMINDO RELATORIO DOS PATRIMONIOS TRANSFERIDOS VERIFICANDO SE O ARQUIVO EXISTE RETORNA TRUE/FALSE
-        System.out.println(new File("relatorio/relmemotransferidos.jasper").exists()); */
-        //txtDESTINO.requestFocus(); //devolvendo o foco ao txtDESTINO logo apos a emissao do relatorio caso queira fazer outro memorando
-     
+        // Salva e atualiza status
         gravarMemorando();
-        
-        //atualizando tabela de ÍTENS ( TBLITENSMEMOTRANSFERIDOS ) do memorando de PROCESSANDO para TRANSFERIDO
         umMetodo.atualizarStatusParaTransferidos(numMemoTransferido);
-                
-        GerarRelatorios objRel = new GerarRelatorios();
-        try {
-            objRel.imprimirPatrimoniosTransferidos("relatorio/relmemotransferidos.jasper", numMemoTransferido);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
-        }    
-                
-        /*=============================================================================================================================================
-                                                    INATIVAR PATRIMONIOS INSERIDOS NO MEMORANDO
-        ===============================================================================================================================================*/
-                    
-        umPatrimonioDAO.InativarPatrimonioPeloMemorandoDAO(numMemoTransferido);  
-            
-        Leitura();        
+        umPatrimonioDAO.InativarPatrimonioPeloMemorandoDAO(numMemoTransferido); 
+        
+        // Executa o relatório em segundo plano
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                GerarRelatorios objRel = new GerarRelatorios();
+                try {
+                objRel.imprimirPatrimoniosEncaminhados("relatorio/relmemotransferidos.jasper", numMemoTransferido);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n"+e);                
+                }    
+                    return null;
+                }
+            @Override
+            protected void done() {
+                // (Opcional) qualquer ação após o relatório ser gerado
+                Leitura(); // atualiza a interface, limpa campos, etc
+            }
+        }.execute();
         
     }//GEN-LAST:event_btnImprimirActionPerformed
 

@@ -15,6 +15,7 @@ import static biblioteca.VariaveisPublicas.origemTransferidos;
 import static biblioteca.VariaveisPublicas.valorPesquisaTrue;
 import controle.CtrlNomeEstacao;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +25,7 @@ import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.List;
 import modelo.NomeEstacao;
 
 
@@ -963,20 +965,72 @@ public class DAOPatrimonio {
                 //return false;
             }           
     }             
-         
-    public void InativarPatrimonioPeloMemorandoDAO(String pNumemo){
-        //SE NAO FOR CPU        
-        int totalregs = lstListaGenerica.size();
-        
-        for(int i=0; i<totalregs;i++)
-        {
-            int pCod = Integer.valueOf(lstListaGenerica.get(i));  
+     
+    public ArrayList<String> getSeriesPatrimoniosDoMemorando(String sNumemo) 
+    {
+        ArrayList<String> lista = new ArrayList<>();
+        String sql = "SELECT serie FROM TBLITENSMEMOTRANSFERIDOS WHERE numemo = ?";
+
+        try {
+            conexao.conectar();
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, sNumemo);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                lista.add(rs.getString("serie"));
+            }
             
-            //VERIFICA QUAL O DESTINO SE FOR UM DE NOSSOS DEPTOS NAO INATIVA E SOMENTE ENVIA CASO CONTRARIO INATIVA
-            gravarUpdateMemos(pCod,pNumemo);
-        }        
-    }     
+            rs.close();
+            pst.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar patrimônios do memorando:\n" + e);
+        } finally {
+            conexao.desconectar();
+        }
+
+        return lista;
+}
     
+     public int obterCodigoPatrimonioPelaChapa(String serie) {
+        int codigo = -1; // valor inválido padrão
+        try {
+            conexao.conectar();
+            String sql = "SELECT codigo FROM tblpatrimonios WHERE serie = ?";
+            PreparedStatement pst = conexao.getConnection().prepareStatement(sql);
+            pst.setString(1, serie);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                codigo = rs.getInt("codigo");
+            }
+            rs.close();
+            pst.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar código pelo chapa: " + e.getMessage());
+        } finally {
+            conexao.desconectar();
+        }
+        return codigo;
+    }
+    
+    public void InativarPatrimonioPeloMemorandoDAO(String pNumemo) {
+        //limpa a lista generica para receber as series do memorando
+        lstListaGenerica.clear();
+        //carregando a lista com as series do memorando
+        lstListaGenerica = getSeriesPatrimoniosDoMemorando(pNumemo);
+        
+        int totalregs = lstListaGenerica.size();
+
+        for (int i = 0; i < totalregs; i++) 
+        {
+            String serie = lstListaGenerica.get(i);  // ← Para cada serie da lista busca seu respectivo codigo na tblpatrimonios para atualizar cada patrimonio
+            int pCod = obterCodigoPatrimonioPelaChapa(serie);
+            
+            //grava as atualizacos de cada um
+            gravarUpdateMemos(pCod, pNumemo);
+        }
+}
+        
     public void disponibilizarIpsDoContratoFinalizado(String pIp) 
     {
         conexao.conectar();
@@ -1237,10 +1291,12 @@ public boolean verificarSePesquisaRetornouDados(String sql){
     }
 }
 
-public void gravarUpdateMemos(int pCod, String numemo){
-        //Grava atualizacao do equipamento transferido pelo codigo
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataDia  = dataDoDia;
+public void gravarUpdateMemos(int pCod, String numemo)
+{
+        //Grava atualizacao do equipamento transferido pelo codigo    
+            
+        DateFormat df           = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataDia            = dataDoDia;
         String status, motivo, obs, ip, destino, estacao ="";
         origemPatrTransferido   = getSecaoEquipamento(pCod);
         int codigoSecao         = 0;   
@@ -1253,7 +1309,7 @@ public void gravarUpdateMemos(int pCod, String numemo){
         
         if(Emicro(pCod))
         {
-            //PARA MICROS  
+            //PARA MICROS             
             destino = destinoTransferidos;
             
             if(destinoTransferidos.equals("PFM"))
@@ -1312,8 +1368,8 @@ public void gravarUpdateMemos(int pCod, String numemo){
                 pst.setString(6, motivo);   
                 pst.setString(7, obs);               
                 pst.setDate(8, new java.sql.Date(dataDoDia.getTime())); 
-                pst.setInt(9, pCod);               
-                pst.executeUpdate();
+                pst.setInt(9, pCod);          
+                pst.executeUpdate();       
                 pst.close(); 
 
                 //return true;
@@ -1323,47 +1379,49 @@ public void gravarUpdateMemos(int pCod, String numemo){
                 conexao.desconectar();
                 //return false;
             }              
-        }else{   //PARA NÃO MICROS TIPO SCANNER / MONITOR / IMPRESSORA                     
-            
+        }else{   //PARA NÃO MICROS TIPO SCANNER / MONITOR / IMPRESSORA     
             codTipoEquipto  = getCodTipo(pCod); //retorna o codigo do tipo de equipamento  ex : 1
+            
             nomeTipoEquipto = getNomeTipoEquipto(codTipoEquipto); //retorna o nome do tipo de equipamento ex : MICRO
-            
             destino = destinoTransferidos;
-            
-            if(destinoTransferidos.equals("PFM"))
-            {                 
-                codigoSecao    = 17;
-                codigoCliente  = 227;
-                status         = "ATIVO"; 
-            }else
-            if(destinoTransferidos.equals("CEJUSC"))
-            {               
-                codigoSecao    = 21;
-                codigoCliente  = 197; 
-                status         = "ATIVO"; 
-            }else
-            if(destinoTransferidos.equals("CEJUR"))
-            {                
-                codigoSecao    = 3;
-                codigoCliente  = 196; 
-                status         = "ATIVO"; 
-            }else
-            if(destinoTransferidos.equals("BIBLIOTECA"))
-            {                
-                codigoSecao    = 22;
-                codigoCliente  = 195; 
-                status         = "ATIVO"; 
-            }else{                
-                codigoSecao    = 30;
-                codigoCliente  = 202; 
-                status         = "INATIVO"; 
-            }                        
-                   
-            //status           = "INATIVO";    
+           
+            switch(destinoTransferidos.toUpperCase()) {
+                case "PFM":
+                    codigoSecao = 17;
+                    codigoCliente = 227;
+                    status = "ATIVO";
+                    break;
+                case "CEJUSC":
+                    codigoSecao = 21;
+                    codigoCliente = 197;
+                    status = "ATIVO";
+                    break;
+                case "CEJUR":
+                    codigoSecao = 3;
+                    codigoCliente = 196;
+                    status = "ATIVO";
+                    break;
+                case "BIBLIOTECA":
+                    codigoSecao = 22;
+                    codigoCliente = 195;
+                    status = "ATIVO";
+                    break;
+                case "LINAO":               // Adicione aqui o destino que você mencionou
+                    codigoSecao = 30;       // Ajuste conforme o valor correto para LINAO
+                    codigoCliente = 202;    // Ajuste conforme necessário
+                    status = "INATIVO";     // Ou "ATIVO", conforme sua regra
+                    break;
+                default:
+                    codigoSecao = 30;
+                    codigoCliente = 202;
+                    status = "INATIVO";
+                    break;
+            }                       
+               
             estacao            = nomeTipoEquipto;
-            ip             = "0";    
-            motivo = getMotivos(pCod)+"\n"+df.format(dataDia)+" : Inativado por motivo de Transferencia de "+origemPatrTransferido+" para "+destino+" atraves do memorando "+numemo+"."; 
-            obs    = getObs(pCod)+"\n"+df.format(dataDia)+" : Transferido de "+origemPatrTransferido+" para "+destino+" atraves do memorando "+numemo+".";           
+            ip                 = "0";    
+            motivo             = getMotivos(pCod)+"\n"+df.format(dataDia)+" : Inativado por motivo de Transferencia de "+origemPatrTransferido+" para "+destino+" atraves do memorando "+numemo+"."; 
+            obs                = getObs(pCod)+"\n"+df.format(dataDia)+" : Transferido de "+origemPatrTransferido+" para "+destino+" atraves do memorando "+numemo+".";           
 
             try
             {

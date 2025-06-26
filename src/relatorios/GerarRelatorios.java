@@ -4,10 +4,12 @@ package relatorios;
 import conexao.ConnConexao;
 import biblioteca.Biblioteca;
 import static biblioteca.VariaveisPublicas.indiceItemSelecionado;
+import static biblioteca.VariaveisPublicas.numMemoTransferido;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -400,7 +402,8 @@ public class GerarRelatorios
         viewer.setVisible(true);        
         conexao.close();        
     } 
-    public void imprimirPatrimoniosTransferidos(String caminho, String pParam) throws JRException,Exception
+    
+     public void imprimirPatrimoniosTransferidos(String caminho, String pParam) throws JRException,Exception
     {                    
         //exibindo o relatorio
         HashMap filtro = new HashMap();         
@@ -415,8 +418,61 @@ public class GerarRelatorios
         viewer.setVisible(true);        
         viewer.setAlwaysOnTop(true); // nao deixa o relatorio por baixo do formulario
         viewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
-        conexao.close();        
-    }       
+        conexao.close();   
+        
+    }
+    public void imprimirPatrimoniosEncaminhados(String caminho, String pParam) throws JRException,Exception
+    {          
+        try {        
+            // Parâmetros do relatório
+            HashMap<String, Object> filtro = new HashMap<>();
+            ImageIcon gto = new ImageIcon(getClass().getResource("/images/cabecalho.png"));
+            filtro.put("CABECALHO", gto.getImage());
+            filtro.put("numemo", numMemoTransferido);
+
+            // Preenche o relatório
+            JasperPrint impressao = JasperFillManager.fillReport(caminho, filtro, conexao);
+
+            // Cria o visualizador
+            JasperViewer viewer = new JasperViewer(impressao, false);
+            viewer.setTitle("Relatório de Patrimônios Transferidos");
+            viewer.setZoomRatio(0.7956f);
+            viewer.setAlwaysOnTop(true);
+            viewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
+
+            // Fecha a conexão apenas quando o relatório for fechado para nao haver travamento
+            Connection finalConexao = conexao;
+            viewer.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
+                    try {
+                        if (finalConexao != null && !finalConexao.isClosed()) {
+                            finalConexao.close();
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+            viewer.setVisible(true);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório:\n" + e.getMessage(),
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+
+                // Fecha a conexão caso ocorra erro antes de mostrar o relatório
+                if (conexao != null) {
+                    try {
+                        conexao.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+    }    
+    
     public void imprimirPatrimoniosDevolucaoEmpresa(String caminho, String pParam) throws JRException,Exception
     {                    
         //exibindo o relatorio
